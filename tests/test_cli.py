@@ -2,7 +2,9 @@
 テスト — CLIコマンド解析 & エントリポイント
 """
 import pytest
+import json
 import argparse
+from pathlib import Path
 from unittest.mock import patch, MagicMock
 
 
@@ -81,6 +83,7 @@ class TestCommandRegistry:
             "generate", "post", "curate", "curate-post",
             "collect", "notify-test", "metrics", "weekly-pdca",
             "import-urls", "setup-sheets", "sync-queue", "sync-settings",
+            "export-dashboard",
         ]
         for cmd in expected_commands:
             assert f'"{cmd}"' in source, f"Command '{cmd}' not found in main()"
@@ -93,6 +96,53 @@ class TestCommandRegistry:
             "cmd_generate", "cmd_post", "cmd_curate", "cmd_curate_post",
             "cmd_collect", "cmd_notify_test", "cmd_metrics", "cmd_weekly_pdca",
             "cmd_import_urls", "cmd_setup_sheets", "cmd_sync_queue", "cmd_sync_settings",
+            "cmd_export_dashboard",
         ]
         for func_name in expected_funcs:
             assert hasattr(main_module, func_name), f"Function '{func_name}' not found in main.py"
+
+
+class TestExportDashboard:
+    """export-dashboard コマンドのテスト"""
+
+    def test_export_creates_json(self, tmp_path):
+        """export-dashboardがJSONファイルを生成する"""
+        from src.main import cmd_export_dashboard
+
+        pending = [
+            {"tweet_id": "123", "status": "pending", "added_at": "2025-01-20T06:00:00+09:00",
+             "original_text": "test", "generated_text": "", "score": None},
+            {"tweet_id": "456", "status": "approved", "added_at": "2025-01-20T06:00:00+09:00",
+             "original_text": "test2", "generated_text": "生成済み", "score": {"total": 80}},
+        ]
+        processed = [
+            {"tweet_id": "789", "status": "posted", "posted_at": "2025-01-20T08:00:00+09:00",
+             "generated_text": "投稿済みテスト"},
+        ]
+
+        mock_queue = MagicMock()
+        mock_queue.get_all_pending.return_value = pending
+        mock_queue._load.return_value = processed
+        mock_queue._processed_file = "dummy"
+        mock_queue.stats.return_value = {
+            "pending": 1, "approved": 1, "skipped": 0,
+            "posted_total": 1, "posted_today": 0,
+        }
+
+        with patch("src.main.PROJECT_ROOT", tmp_path), \
+             patch("src.collect.queue_manager.QueueManager", return_value=mock_queue):
+            args = MagicMock(account=1)
+            cmd_export_dashboard(args)
+
+        output = tmp_path / "public" / "dashboard-data.json"
+        assert output.exists()
+
+        data = json.loads(output.read_text())
+        assert "updated_at" in data
+        assert "stats" in data
+        assert "queue" in data
+        assert "recent_posted" in data
+        assert data["stats"]["pending"] == 1
+        assert data["stats"]["approved"] == 1
+        assert len(data["queue"]) == 2
+        assert len(data["recent_posted"]) == 1

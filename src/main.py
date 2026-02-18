@@ -14,6 +14,7 @@ usage:
     python -m src.main weekly-pdca --account 1
     python -m src.main sync-queue --direction full --account 1
     python -m src.main sync-settings --account 1
+    python -m src.main export-dashboard --account 1
 """
 import argparse
 import sys
@@ -699,6 +700,51 @@ def cmd_sync_settings(args):
     print(f"{'='*40}")
 
 
+def cmd_export_dashboard(args):
+    """ダッシュボード用JSONデータをエクスポート"""
+    from src.collect.queue_manager import QueueManager
+
+    queue = QueueManager()
+    all_pending = queue.get_all_pending()
+    processed = queue._load(queue._processed_file)
+    stats = queue.stats()
+
+    # メトリクスファイル読み込み
+    metrics_dir = PROJECT_ROOT / "data" / "metrics"
+    recent_metrics = []
+    if metrics_dir.exists():
+        metric_files = sorted(metrics_dir.glob("*.json"), reverse=True)[:7]
+        for mf in metric_files:
+            try:
+                with open(mf, encoding="utf-8") as f:
+                    recent_metrics.append(json.load(f))
+            except Exception:
+                pass
+
+    # 直近の投稿履歴（processed から最新30件）
+    recent_posted = sorted(
+        [p for p in processed if p.get("posted_at")],
+        key=lambda x: x.get("posted_at", ""),
+        reverse=True,
+    )[:30]
+
+    dashboard_data = {
+        "updated_at": datetime.now().isoformat(),
+        "stats": stats,
+        "queue": all_pending,
+        "recent_posted": recent_posted,
+        "metrics": recent_metrics,
+    }
+
+    output_path = PROJECT_ROOT / "public" / "dashboard-data.json"
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    with open(output_path, "w", encoding="utf-8") as f:
+        json.dump(dashboard_data, f, ensure_ascii=False, indent=2)
+
+    print(f"📊 ダッシュボードデータをエクスポート: {output_path}")
+    print(f"   キュー: {len(all_pending)}件 / 投稿済み: {len(recent_posted)}件")
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="X Auto Post System",
@@ -781,6 +827,11 @@ def main():
         subparsers.add_parser("sync-settings", help="スプレッドシートから設定を読み込み")
     )
 
+    # export-dashboard (パターンB: ダッシュボードデータ出力)
+    add_account_arg(
+        subparsers.add_parser("export-dashboard", help="ダッシュボード用JSONデータをエクスポート")
+    )
+
     args = parser.parse_args()
 
     if not args.command:
@@ -800,6 +851,7 @@ def main():
         "setup-sheets": cmd_setup_sheets,
         "sync-queue": cmd_sync_queue,
         "sync-settings": cmd_sync_settings,
+        "export-dashboard": cmd_export_dashboard,
     }
 
     commands[args.command](args)

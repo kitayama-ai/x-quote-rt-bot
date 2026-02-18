@@ -69,11 +69,16 @@ jobs:
         run: python -m src.main sync-queue --direction to_sheet --quiet
         continue-on-error: true
 
+      - name: Export dashboard data
+        if: ${{ inputs.dry_run != 'true' }}
+        run: python -m src.main export-dashboard --account 1
+        continue-on-error: true
+
       - name: Commit queue changes
         if: ${{ inputs.dry_run != 'true' }}
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add data/queue/
+          git add data/queue/ public/dashboard-data.json
           git diff --staged --quiet || git commit -m "chore: auto-collect buzz tweets $(date +'%Y-%m-%d')"
           git push
