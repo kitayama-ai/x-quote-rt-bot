@@ -45,7 +45,7 @@ jobs:
           X_ACCOUNT_1_ACCESS_TOKEN: ${{ secrets.X_ACCOUNT_1_ACCESS_TOKEN }}
           X_ACCOUNT_1_ACCESS_SECRET: ${{ secrets.X_ACCOUNT_1_ACCESS_SECRET }}
           DISCORD_WEBHOOK_GENERAL: ${{ secrets.DISCORD_WEBHOOK_GENERAL }}
-          DISCORD_WEBHOOK_X_ACCOUNT_1: ${{ secrets.DISCORD_WEBHOOK_X_ACCOUNT_1 }}
+          DISCORD_WEBHOOK_ACCOUNT_1: ${{ secrets.DISCORD_WEBHOOK_ACCOUNT_1 }}
           MODE: ${{ vars.MODE || 'manual_approval' }}
           AUTO_POST_MIN_SCORE: ${{ vars.AUTO_POST_MIN_SCORE || '8' }}
         run: python -m src.main curate-post --account 1

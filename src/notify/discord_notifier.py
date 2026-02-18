@@ -6,7 +6,7 @@ DESIGN.md §7-2 のフォーマットを実装。
 """
 import json
 import requests
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 class DiscordNotifier:
@@ -142,7 +142,7 @@ class DiscordNotifier:
                 }
             ],
             "color": self.COLOR_SUCCESS,
-            "timestamp": datetime.utcnow().isoformat()
+            "timestamp": datetime.now(tz=timezone.utc).isoformat()
         }
         return self.send(embeds=[embed])
 
@@ -163,7 +163,7 @@ class DiscordNotifier:
                 }
             ],
             "color": self.COLOR_DANGER,
-            "timestamp": datetime.utcnow().isoformat()
+            "timestamp": datetime.now(tz=timezone.utc).isoformat()
         }
         return self.send(embeds=[embed])
 
@@ -198,7 +198,7 @@ class DiscordNotifier:
                 }
             ],
             "color": self.COLOR_INFO,
-            "timestamp": datetime.utcnow().isoformat()
+            "timestamp": datetime.now(tz=timezone.utc).isoformat()
         }
         return self.send(embeds=[embed])
 
@@ -208,7 +208,7 @@ class DiscordNotifier:
             "title": f"⚠️ エラー: {title}",
             "description": f"```\n{error_message[:1000]}\n```",
             "color": self.COLOR_DANGER,
-            "timestamp": datetime.utcnow().isoformat()
+            "timestamp": datetime.now(tz=timezone.utc).isoformat()
         }
         return self.send(embeds=[embed])
 
@@ -222,7 +222,7 @@ class DiscordNotifier:
             "title": f"📈 週次レポート — {account_name}",
             "description": report_text[:4000],
             "color": self.COLOR_PURPLE,
-            "timestamp": datetime.utcnow().isoformat()
+            "timestamp": datetime.now(tz=timezone.utc).isoformat()
         }
         return self.send(embeds=[embed])
 
@@ -294,3 +294,62 @@ class DiscordNotifier:
         })
 
         return self.send(embeds=embeds)
+
+    def notify_collect_results(
+        self,
+        result: dict,
+        tweets: list | None = None,
+    ) -> bool:
+        """バズツイート自動収集結果を通知"""
+        color = self.COLOR_SUCCESS if result.get("added", 0) > 0 else self.COLOR_WARNING
+
+        fields = [
+            {"name": "API取得", "value": str(result.get("fetched", 0)), "inline": True},
+            {"name": "フィルタ後", "value": str(result.get("filtered", 0)), "inline": True},
+            {"name": "キュー追加", "value": str(result.get("added", 0)), "inline": True},
+            {"name": "重複スキップ", "value": str(result.get("skipped_dup", 0)), "inline": True},
+        ]
+
+        description = ""
+        if tweets:
+            lines = []
+            for t in tweets[:5]:
+                username = getattr(t, "author_username", "?")
+                likes = getattr(t, "likes", 0)
+                text = getattr(t, "text", "")[:50]
+                lines.append(f"• @{username} ({likes:,}❤) {text}...")
+            description = "**追加ツイート（上位5件）:**\n" + "\n".join(lines)
+
+        embed = {
+            "title": "📥 バズツイート自動収集完了",
+            "description": description,
+            "fields": fields,
+            "color": color,
+            "timestamp": datetime.now(tz=timezone.utc).isoformat()
+        }
+        return self.send(embeds=[embed])
+
+    def notify_queue_warning(self, queue_stats: dict) -> bool:
+        """キュー残量警告"""
+        pending = queue_stats.get("pending", 0)
+        approved = queue_stats.get("approved", 0)
+
+        if pending + approved > 0:
+            return True  # 問題なし
+
+        embed = {
+            "title": "⚠️ キュー枯渇警告",
+            "description": (
+                "引用RT用のキューが空です。\n"
+                "バズツイートを収集するか、手動でURLを追加してください。\n\n"
+                "`python -m src.main collect --auto-approve`"
+            ),
+            "fields": [
+                {"name": "未処理", "value": str(pending), "inline": True},
+                {"name": "承認済み", "value": str(approved), "inline": True},
+                {"name": "本日投稿済み", "value": str(queue_stats.get("posted_today", 0)), "inline": True},
+            ],
+            "color": self.COLOR_WARNING,
+            "timestamp": datetime.now(tz=timezone.utc).isoformat()
+        }
+        return self.send(embeds=[embed])

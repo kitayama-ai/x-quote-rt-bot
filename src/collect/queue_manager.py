@@ -41,13 +41,13 @@ class QueueManager:
 
     @staticmethod
     def _load(path: Path) -> list[dict]:
-        with open(path, "r", encoding="utf-8") as f:
-            return json.load(f)
+        from src.utils import safe_json_load
+        return safe_json_load(path)
 
     @staticmethod
     def _save(path: Path, data: list[dict]):
-        with open(path, "w", encoding="utf-8") as f:
-            json.dump(data, f, ensure_ascii=False, indent=2)
+        from src.utils import atomic_json_save
+        atomic_json_save(path, data)
 
     # === 追加 ===
 

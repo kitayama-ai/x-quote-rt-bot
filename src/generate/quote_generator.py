@@ -250,19 +250,23 @@ class QuoteGenerator:
 ツイート本文だけを出力しろ。余計な説明は一切不要。250字以内。
 """
 
-        try:
+        from src.utils import retry_with_backoff
+
+        def _call_gemini():
             response = self.client.models.generate_content(
                 model=self.model_name,
                 contents=prompt
             )
             text = response.text.strip()
-            # コードブロックや引用符を除去
             text = re.sub(r'^```.*?\n', '', text)
             text = re.sub(r'\n```$', '', text)
             text = text.strip('"\'`')
             return text
+
+        try:
+            return retry_with_backoff(_call_gemini, max_retries=3, label="QuoteRT生成 ")
         except Exception as e:
-            print(f"[QuoteGenerator] Gemini APIエラー: {e}")
+            print(f"[QuoteGenerator] Gemini APIエラー（リトライ全失敗）: {e}")
             return None
 
     def _generate_demo(self, original_text: str, template_id: str) -> str:

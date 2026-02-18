@@ -43,38 +43,10 @@ jobs:
           X_ACCOUNT_1_ACCESS_TOKEN: ${{ secrets.X_ACCOUNT_1_ACCESS_TOKEN }}
           X_ACCOUNT_1_ACCESS_SECRET: ${{ secrets.X_ACCOUNT_1_ACCESS_SECRET }}
           DISCORD_WEBHOOK_GENERAL: ${{ secrets.DISCORD_WEBHOOK_GENERAL }}
-          DISCORD_WEBHOOK_METRICS: ${{ secrets.DISCORD_WEBHOOK_METRICS }}
+          DISCORD_WEBHOOK_ACCOUNT_1: ${{ secrets.DISCORD_WEBHOOK_ACCOUNT_1 }}
         run: |
           ACCOUNT="${{ github.event.inputs.account || '1' }}"
-          python -c "
-          from src.config import Config
-          from src.analyze.metrics_collector import MetricsCollector
-          from src.pdca.weekly_report import WeeklyReporter
-          from src.pdca.master_updater import MasterUpdater
-          from src.notify.discord_notifier import DiscordNotifier
-
-          config = Config(f'account_${ACCOUNT}')
-
-          # 1. メトリクス収集
-          collector = MetricsCollector(config)
-          metrics = collector.collect_recent(days=7)
-          collector.save_metrics(metrics)
-
-          # 2. 週次レポート生成
-          reporter = WeeklyReporter(config)
-          report = reporter.generate_report(metrics)
-          reporter.save_report(report)
-
-          # 3. マスターデータ更新
-          updater = MasterUpdater(config)
-          updater.update_from_metrics(metrics)
-
-          # 4. Discord通知
-          notifier = DiscordNotifier(config.discord_webhook_general)
-          notifier.notify_weekly_report(config.account_name, report)
-
-          print('✅ 週次PDCA完了')
-          "
+          python -m src.main weekly-pdca --account "$ACCOUNT"
 
       - name: Commit PDCA results
         run: |

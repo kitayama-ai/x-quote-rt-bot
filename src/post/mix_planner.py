@@ -48,26 +48,79 @@ class MixPlanner:
 
         self.mix_rules = self.rules.get("mix_rules", {})
 
-    def plan_daily(self, available_quotes: int = 10) -> list[dict]:
+    def get_warmup_limits(self, account_start_date: str = "") -> dict:
+        """
+        ウォームアップスケジュールに基づく本日の投稿制限を取得
+
+        Args:
+            account_start_date: アカウント運用開始日（YYYY-MM-DD）。空なら制限なし。
+
+        Returns:
+            {"daily_quotes": int, "daily_originals": int, "phase": str}
+        """
+        if not account_start_date:
+            return {"daily_quotes": 99, "daily_originals": 99, "phase": "フル稼働"}
+
+        warmup = self.rules.get("warmup_schedule", {})
+        if not warmup:
+            return {"daily_quotes": 99, "daily_originals": 99, "phase": "フル稼働"}
+
+        try:
+            start = datetime.strptime(account_start_date, "%Y-%m-%d").date()
+            elapsed_days = (datetime.now(JST).date() - start).days
+        except (ValueError, TypeError):
+            return {"daily_quotes": 99, "daily_originals": 99, "phase": "フル稼働"}
+
+        if elapsed_days < 4:
+            phase = warmup.get("week_0", {})
+            return {"daily_quotes": phase.get("daily_quotes", 0), "daily_originals": phase.get("daily_originals", 3), "phase": "week_0"}
+        elif elapsed_days < 8:
+            phase = warmup.get("week_1", {})
+            return {"daily_quotes": phase.get("daily_quotes", 1), "daily_originals": phase.get("daily_originals", 3), "phase": "week_1"}
+        elif elapsed_days < 15:
+            phase = warmup.get("week_2", {})
+            return {"daily_quotes": phase.get("daily_quotes", 2), "daily_originals": phase.get("daily_originals", 5), "phase": "week_2"}
+        elif elapsed_days < 22:
+            phase = warmup.get("week_3", {})
+            return {"daily_quotes": phase.get("daily_quotes", 4), "daily_originals": phase.get("daily_originals", 4), "phase": "week_3"}
+        else:
+            phase = warmup.get("week_4_plus", {})
+            return {"daily_quotes": phase.get("daily_quotes", 7), "daily_originals": phase.get("daily_originals", 3), "phase": "week_4+"}
+
+    def plan_daily(self, available_quotes: int = 10, account_start_date: str = "") -> list[dict]:
         """
         1日分の投稿スケジュールを計画
 
         Args:
             available_quotes: 利用可能な引用RTの候補数
+            account_start_date: アカウント運用開始日（ウォームアップ制御用）
 
         Returns:
             [{"slot_id", "time", "type", "base_hour", ...}]
         """
-        # 今日の投稿数をランダムに決定（7-10件）
+        # ウォームアップ制限を取得
+        warmup = self.get_warmup_limits(account_start_date)
+        max_quotes_warmup = warmup["daily_quotes"]
+        max_originals_warmup = warmup["daily_originals"]
+
+        if warmup["phase"] != "フル稼働":
+            print(f"  🌱 ウォームアップ中 [{warmup['phase']}]: 引用RT最大{max_quotes_warmup}件 / オリジナル最大{max_originals_warmup}件")
+
+        # 今日の投稿数をランダムに決定
         daily_min = self.mix_rules.get("daily_total_min", 7)
         daily_max = self.mix_rules.get("daily_total_max", 10)
-        daily_count = self._random_daily_count(daily_min, daily_max)
+
+        # ウォームアップ制限で上限を調整
+        effective_max = min(daily_max, max_quotes_warmup + max_originals_warmup)
+        effective_min = min(daily_min, effective_max)
+        daily_count = self._random_daily_count(effective_min, effective_max)
 
         # 使用するスロットを選択
         slots = self._select_slots(daily_count)
 
-        # 各スロットの投稿タイプを決定
-        plan = self._assign_types(slots, available_quotes)
+        # 各スロットの投稿タイプを決定（ウォームアップ制限を反映）
+        effective_quotes = min(available_quotes, max_quotes_warmup)
+        plan = self._assign_types(slots, effective_quotes)
 
         # 投稿時間をランダム化
         plan = self._randomize_times(plan)
@@ -124,10 +177,9 @@ class MixPlanner:
                 post_type = "original"
             elif "quote_rt" in pool and quote_count < max_quotes:
                 post_type = "quote_rt"
-            elif "original" in pool:
-                post_type = "original"
             else:
-                post_type = pool[0]
+                # 引用RT枠を使い切った or poolにquote_rtがない → オリジナル
+                post_type = "original"
 
             if post_type == "quote_rt":
                 quote_count += 1
