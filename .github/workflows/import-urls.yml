@@ -1,0 +1,64 @@
+name: 📥 スプシURL一括インポート
+
+# GASからのwebhookトリガー or 手動実行
+on:
+  workflow_dispatch:
+    inputs:
+      account:
+        description: "アカウント番号"
+        required: true
+        default: "1"
+      auto_approve:
+        description: "自動承認（true/false）"
+        required: false
+        default: "false"
+
+env:
+  PYTHON_VERSION: "3.11"
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Pull latest
+        run: git pull origin main || true
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: "pip"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Import URLs from Spreadsheet
+        env:
+          SPREADSHEET_ID: ${{ secrets.SPREADSHEET_ID }}
+          GOOGLE_CREDENTIALS_BASE64: ${{ secrets.GOOGLE_CREDENTIALS_BASE64 }}
+          DISCORD_WEBHOOK_GENERAL: ${{ secrets.DISCORD_WEBHOOK_GENERAL }}
+          DISCORD_WEBHOOK_ACCOUNT_1: ${{ secrets.DISCORD_WEBHOOK_ACCOUNT_1 }}
+        run: |
+          ACCOUNT="${{ github.event.inputs.account || '1' }}"
+          AUTO_APPROVE="${{ github.event.inputs.auto_approve || 'false' }}"
+
+          if [ "$AUTO_APPROVE" = "true" ]; then
+            python -m src.main import-urls --account "$ACCOUNT" --auto-approve
+          else
+            python -m src.main import-urls --account "$ACCOUNT"
+          fi
+
+      - name: Commit queue updates
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add data/queue/
+          git diff --staged --quiet || git commit -m "📥 Import URLs from spreadsheet $(date +'%Y-%m-%d %H:%M')"
+          git push

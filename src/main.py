@@ -7,6 +7,8 @@ usage:
     python -m src.main curate --account 1 [--dry-run]
     python -m src.main curate-post --account 1
     python -m src.main collect [--dry-run] [--auto-approve] [--min-likes 500]
+    python -m src.main import-urls --account 1 [--auto-approve]
+    python -m src.main setup-sheets --account 1
     python -m src.main notify-test
     python -m src.main metrics --account 1 [--days 7]
     python -m src.main weekly-pdca --account 1
@@ -525,6 +527,66 @@ def cmd_weekly_pdca(args):
     print(f"\n✅ 週次PDCA完了")
 
 
+def cmd_import_urls(args):
+    """スプレッドシートからURLを一括インポート（パターンA）"""
+    from src.sheets.sheets_client import SheetsClient
+    from src.sheets.url_importer import URLImporter
+    from src.notify.discord_notifier import DiscordNotifier
+
+    config = Config(f"account_{args.account}")
+    print(f"📥 スプレッドシートからURL一括インポート — {config.account_name}")
+
+    try:
+        sheets = SheetsClient(config)
+    except ValueError as e:
+        print(f"❌ {e}")
+        print("💡 .env に SPREADSHEET_ID と GOOGLE_CREDENTIALS_BASE64 を追加してください")
+        return
+
+    importer = URLImporter(sheets)
+    result = importer.import_urls(auto_approve=args.auto_approve)
+
+    print(f"\n{'='*50}")
+    print(importer.format_result(result))
+    print(f"{'='*50}")
+
+    # Discord通知
+    if result["added"] > 0:
+        webhook = config.discord_webhook_account or config.discord_webhook_general
+        if webhook:
+            notifier = DiscordNotifier(webhook)
+            notifier.send(content=(
+                f"📥 **スプシからURL一括インポート完了**\n"
+                f"追加: {result['added']}件 / 重複: {result['skipped_dup']}件 / 無効: {result['invalid']}件"
+            ))
+            print("\n📨 Discord通知を送信しました")
+
+    if result["added"] > 0:
+        if args.auto_approve:
+            print(f"\n✅ {result['added']}件を自動承認しました")
+        print("💡 次のステップ: python -m src.main curate --account 1")
+
+
+def cmd_setup_sheets(args):
+    """スプレッドシートの初期セットアップ"""
+    from src.sheets.sheets_client import SheetsClient
+
+    config = Config(f"account_{args.account}")
+    print(f"🔧 スプレッドシート初期セットアップ — {config.account_name}")
+
+    try:
+        sheets = SheetsClient(config)
+    except ValueError as e:
+        print(f"❌ {e}")
+        return
+
+    created = sheets.setup_sheets()
+    if created:
+        print(f"✅ 作成したシート: {', '.join(created)}")
+    else:
+        print("✅ 全シート作成済みです（変更なし）")
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="X Auto Post System",
@@ -579,6 +641,13 @@ def main():
     pdca_parser = add_account_arg(subparsers.add_parser("weekly-pdca", help="週次PDCAレポート生成 & Discord通知"))
     pdca_parser.add_argument("--days", type=int, default=7, help="集計期間（日数、デフォルト: 7）")
 
+    # import-urls (パターンA: スプシ→キュー)
+    import_parser = add_account_arg(subparsers.add_parser("import-urls", help="スプレッドシートからURL一括インポート"))
+    import_parser.add_argument("--auto-approve", action="store_true", help="インポートと同時に承認")
+
+    # setup-sheets (初回セットアップ)
+    add_account_arg(subparsers.add_parser("setup-sheets", help="スプレッドシートの初期セットアップ"))
+
     args = parser.parse_args()
 
     if not args.command:
@@ -594,6 +663,8 @@ def main():
         "notify-test": cmd_notify_test,
         "metrics": cmd_metrics,
         "weekly-pdca": cmd_weekly_pdca,
+        "import-urls": cmd_import_urls,
+        "setup-sheets": cmd_setup_sheets,
     }
 
     commands[args.command](args)
