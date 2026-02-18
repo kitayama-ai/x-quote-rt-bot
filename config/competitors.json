@@ -1,0 +1,37 @@
+[
+  {
+    "handle": "@shota_it_life",
+    "name": "ショウタ",
+    "theme": "AI×副業",
+    "strength": "実績公開が具体的（月収推移のスクショ）",
+    "weakness": "情報量は多いが体系化されていない"
+  },
+  {
+    "handle": "@ai_money_hack",
+    "name": "AI副業ハック",
+    "theme": "AI副業全般",
+    "strength": "ツール紹介が幅広い",
+    "weakness": "深い実践情報が少ない"
+  },
+  {
+    "handle": "@prompt_master_jp",
+    "name": "プロンプトマスター",
+    "theme": "プロンプトエンジニアリング",
+    "strength": "プロンプトのテクニックが具体的",
+    "weakness": "マネタイズ方法への言及が少ない"
+  },
+  {
+    "handle": "@gas_automation",
+    "name": "GAS自動化",
+    "theme": "GAS活用",
+    "strength": "コード付きの実践Tips",
+    "weakness": "AI活用の視点が弱い"
+  },
+  {
+    "handle": "@side_biz_ai",
+    "name": "AI副業ラボ",
+    "theme": "AI×スモールビジネス",
+    "strength": "ケーススタディが豊富",
+    "weakness": "更新頻度が低い"
+  }
+]

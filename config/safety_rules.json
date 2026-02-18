@@ -1,0 +1,45 @@
+{
+  "ng_words": {
+    "info_scam": [
+      "不労所得", "月100万", "誰でもすぐ", "裏ワザ",
+      "知らないと損", "限定公開", "今すぐDM",
+      "これを知らないと", "簡単に稼げる"
+    ],
+    "company": [
+      "cyan", "シアン", "ISAI", "異彩",
+      "cyan-inc", "cyan-inc.net"
+    ],
+    "personal": [
+      "北田", "kitada", "yamato"
+    ],
+    "ai_smell": [
+      "素晴らしい", "革新的", "画期的",
+      "いかがでしたか", "ぜひ活用してみてください",
+      "重要です", "解説します", "しましょう"
+    ]
+  },
+  "content_rules": {
+    "max_hashtags": 3,
+    "max_links": 1,
+    "min_length": 40,
+    "max_length": 280,
+    "max_emoji": 3
+  },
+  "quality_rules": {
+    "min_human_score": 7,
+    "duplicate_threshold": 0.8
+  },
+  "posting_rules": {
+    "posting_interval_min_minutes": 60,
+    "daily_limit_per_account": 10,
+    "daily_quote_rt_limit": 7,
+    "max_same_source_daily": 1,
+    "max_consecutive_quotes": 2,
+    "cross_promo_weekly_max": 2
+  },
+  "warmup": {
+    "enabled": true,
+    "manual_days": 5,
+    "description": "新規アカウント作成後、3-5日は手動投稿で暖機運転"
+  }
+}

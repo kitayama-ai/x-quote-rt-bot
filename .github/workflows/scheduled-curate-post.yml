@@ -1,0 +1,59 @@
+name: Scheduled Curate Post (引用RT投稿)
+
+# 1日10回のスケジュールで引用RT投稿を実行
+# ※GitHub Actions cronの最小間隔は5分。実際の投稿はScheduler/MixPlannerが制御
+on:
+  schedule:
+    # 朝〜夜の投稿スロットに対応（UTC）
+    - cron: '50 21 * * *'   # JST 06:50 → slot_01 (07:00 original)
+    - cron: '20 23 * * *'   # JST 08:20 → slot_02 (08:30 quote_rt)
+    - cron: '0 1 * * *'     # JST 10:00 → slot_03 (10:15 quote_rt)
+    - cron: '50 2 * * *'    # JST 11:50 → slot_04 (12:00 original)
+    - cron: '0 5 * * *'     # JST 14:00 → slot_05 (14:15 quote_rt)
+    - cron: '50 6 * * *'    # JST 15:50 → slot_06 (16:00 quote_rt)
+    - cron: '50 8 * * *'    # JST 17:50 → slot_07 (18:00 quote_rt)
+    - cron: '30 10 * * *'   # JST 19:30 → slot_08 (19:45 original)
+    - cron: '50 11 * * *'   # JST 20:50 → slot_09 (21:00 quote_rt)
+    - cron: '20 13 * * *'   # JST 22:20 → slot_10 (22:30 flexible)
+  workflow_dispatch:  # 手動実行可能
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Pull latest
+        run: git pull --rebase
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Execute curate post
+        env:
+          X_API_KEY: ${{ secrets.X_API_KEY }}
+          X_API_SECRET: ${{ secrets.X_API_SECRET }}
+          X_ACCOUNT_1_ACCESS_TOKEN: ${{ secrets.X_ACCOUNT_1_ACCESS_TOKEN }}
+          X_ACCOUNT_1_ACCESS_SECRET: ${{ secrets.X_ACCOUNT_1_ACCESS_SECRET }}
+          DISCORD_WEBHOOK_GENERAL: ${{ secrets.DISCORD_WEBHOOK_GENERAL }}
+          DISCORD_WEBHOOK_X_ACCOUNT_1: ${{ secrets.DISCORD_WEBHOOK_X_ACCOUNT_1 }}
+          MODE: ${{ vars.MODE || 'manual_approval' }}
+          AUTO_POST_MIN_SCORE: ${{ vars.AUTO_POST_MIN_SCORE || '8' }}
+        run: python -m src.main curate-post --account 1
+
+      - name: Commit post status
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add data/queue/
+          git diff --staged --quiet || git commit -m "chore: update post status $(date +'%Y-%m-%d %H:%M')"
+          git push

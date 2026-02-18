@@ -1,0 +1,151 @@
+{
+  "description": "監視対象の海外AIアカウント。バズツイート収集のソース。",
+  "updated_at": "2026-02-18",
+  "accounts": [
+    {
+      "username": "sama",
+      "name": "Sam Altman",
+      "category": "AI Leaders",
+      "priority": "high",
+      "note": "OpenAI CEO"
+    },
+    {
+      "username": "ylecun",
+      "name": "Yann LeCun",
+      "category": "AI Leaders",
+      "priority": "high",
+      "note": "Meta Chief AI Scientist"
+    },
+    {
+      "username": "AndrewYNg",
+      "name": "Andrew Ng",
+      "category": "AI Leaders",
+      "priority": "high",
+      "note": "AI教育・DeepLearning.AI"
+    },
+    {
+      "username": "DrJimFan",
+      "name": "Jim Fan",
+      "category": "AI Researchers",
+      "priority": "high",
+      "note": "NVIDIA Senior Research Scientist"
+    },
+    {
+      "username": "kaboroges",
+      "name": "Kabo",
+      "category": "AI Builders",
+      "priority": "medium",
+      "note": "AI builder / creator"
+    },
+    {
+      "username": "svpino",
+      "name": "Santiago",
+      "category": "AI Builders",
+      "priority": "high",
+      "note": "MLエンジニア・AI教育者"
+    },
+    {
+      "username": "bindureddy",
+      "name": "Bindu Reddy",
+      "category": "AI Founders",
+      "priority": "medium",
+      "note": "Abacus.AI CEO"
+    },
+    {
+      "username": "_jasonwei",
+      "name": "Jason Wei",
+      "category": "AI Researchers",
+      "priority": "high",
+      "note": "OpenAI researcher, chain-of-thought"
+    },
+    {
+      "username": "MatthewBerman",
+      "name": "Matthew Berman",
+      "category": "AI Media",
+      "priority": "medium",
+      "note": "AI YouTuber / reviewer"
+    },
+    {
+      "username": "TheAIGRID",
+      "name": "TheAIGRID",
+      "category": "AI Media",
+      "priority": "medium",
+      "note": "AI news aggregator"
+    },
+    {
+      "username": "OpenAI",
+      "name": "OpenAI",
+      "category": "AI Companies",
+      "priority": "high",
+      "note": "公式アカウント"
+    },
+    {
+      "username": "AnthropicAI",
+      "name": "Anthropic",
+      "category": "AI Companies",
+      "priority": "high",
+      "note": "公式アカウント"
+    },
+    {
+      "username": "GoogleDeepMind",
+      "name": "Google DeepMind",
+      "category": "AI Companies",
+      "priority": "high",
+      "note": "公式アカウント"
+    },
+    {
+      "username": "xaborai",
+      "name": "xAI",
+      "category": "AI Companies",
+      "priority": "medium",
+      "note": "Elon Musk's AI company"
+    },
+    {
+      "username": "AIatMeta",
+      "name": "AI at Meta",
+      "category": "AI Companies",
+      "priority": "high",
+      "note": "Meta AI公式"
+    },
+    {
+      "username": "emaboremachine",
+      "name": "Ethan Mollick",
+      "category": "AI Educators",
+      "priority": "high",
+      "note": "Wharton教授、AI×ビジネス"
+    },
+    {
+      "username": "alexjc",
+      "name": "Alex J. Champandard",
+      "category": "AI Builders",
+      "priority": "medium",
+      "note": "AI creative tools"
+    },
+    {
+      "username": "rohanpaul_ai",
+      "name": "Rohan Paul",
+      "category": "AI Educators",
+      "priority": "medium",
+      "note": "AI tips / tutorials"
+    },
+    {
+      "username": "aabordes_ai",
+      "name": "AI Explained",
+      "category": "AI Media",
+      "priority": "medium",
+      "note": "AI解説YouTuber"
+    },
+    {
+      "username": "chilorevs",
+      "name": "Elvis Saravia",
+      "category": "AI Educators",
+      "priority": "medium",
+      "note": "Prompt Engineering Guide作者"
+    }
+  ],
+  "keywords": [
+    "AI agent", "GPT-5", "Claude", "Gemini",
+    "AI automation", "LLM", "machine learning",
+    "prompt engineering", "AI coding", "AI tools"
+  ]
+}

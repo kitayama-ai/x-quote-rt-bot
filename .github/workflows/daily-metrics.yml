@@ -1,0 +1,51 @@
+name: 📊 日次メトリクス収集
+
+on:
+  schedule:
+    # 毎晩 23:00 JST (14:00 UTC)
+    - cron: "0 14 * * *"
+  workflow_dispatch:
+    inputs:
+      account:
+        description: "アカウント番号"
+        required: true
+        default: "1"
+
+env:
+  PYTHON_VERSION: "3.11"
+
+jobs:
+  metrics:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: "pip"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Collect metrics
+        env:
+          X_API_KEY: ${{ secrets.X_API_KEY }}
+          X_API_SECRET: ${{ secrets.X_API_SECRET }}
+          X_ACCOUNT_1_ACCESS_TOKEN: ${{ secrets.X_ACCOUNT_1_ACCESS_TOKEN }}
+          X_ACCOUNT_1_ACCESS_SECRET: ${{ secrets.X_ACCOUNT_1_ACCESS_SECRET }}
+          DISCORD_WEBHOOK_METRICS: ${{ secrets.DISCORD_WEBHOOK_METRICS }}
+          DISCORD_WEBHOOK_GENERAL: ${{ secrets.DISCORD_WEBHOOK_GENERAL }}
+        run: |
+          ACCOUNT="${{ github.event.inputs.account || '1' }}"
+          python -m src.main metrics --account "$ACCOUNT"
+
+      - name: Commit metrics
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/output/analysis/
+          git diff --staged --quiet || git commit -m "📊 Metrics collected [$(date +%Y-%m-%d)]"
+          git push || echo "Nothing to push"

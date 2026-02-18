@@ -1,0 +1,70 @@
+name: 📝 日次投稿生成
+
+on:
+  schedule:
+    # 毎朝 6:30 JST (21:30 UTC)
+    - cron: "30 21 * * *"
+  workflow_dispatch:
+    inputs:
+      account:
+        description: "アカウント番号"
+        required: true
+        default: "1"
+      dry_run:
+        description: "ドライラン（true/false）"
+        required: false
+        default: "false"
+
+env:
+  PYTHON_VERSION: "3.11"
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: "pip"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Generate daily posts
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          X_API_KEY: ${{ secrets.X_API_KEY }}
+          X_API_SECRET: ${{ secrets.X_API_SECRET }}
+          X_ACCOUNT_1_ACCESS_TOKEN: ${{ secrets.X_ACCOUNT_1_ACCESS_TOKEN }}
+          X_ACCOUNT_1_ACCESS_SECRET: ${{ secrets.X_ACCOUNT_1_ACCESS_SECRET }}
+          DISCORD_WEBHOOK_GENERAL: ${{ secrets.DISCORD_WEBHOOK_GENERAL }}
+          DISCORD_WEBHOOK_ACCOUNT_1: ${{ secrets.DISCORD_WEBHOOK_ACCOUNT_1 }}
+          MODE: ${{ secrets.MODE || 'manual_approval' }}
+        run: |
+          ACCOUNT="${{ github.event.inputs.account || '1' }}"
+          DRY_RUN="${{ github.event.inputs.dry_run || 'false' }}"
+
+          if [ "$DRY_RUN" = "true" ]; then
+            python -m src.main generate --account "$ACCOUNT" --dry-run
+          else
+            python -m src.main generate --account "$ACCOUNT"
+          fi
+
+      - name: Save generated posts
+        uses: actions/upload-artifact@v4
+        with:
+          name: daily-posts-${{ github.run_id }}
+          path: data/output/daily/
+          retention-days: 30
+
+      - name: Commit output files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/output/daily/
+          git diff --staged --quiet || git commit -m "📝 Daily posts generated [$(date +%Y-%m-%d)]"
+          git push || echo "Nothing to push"

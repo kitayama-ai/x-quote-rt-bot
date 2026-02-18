@@ -1,0 +1,45 @@
+name: Daily Curate (引用RT生成)
+
+# 毎朝 6:30 JST (21:30 UTC) にキューの引用RT投稿文を生成
+on:
+  schedule:
+    - cron: '30 21 * * *'  # 6:30 JST
+  workflow_dispatch:  # 手動実行可能
+
+jobs:
+  curate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Generate quote RT comments
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          X_API_KEY: ${{ secrets.X_API_KEY }}
+          X_API_SECRET: ${{ secrets.X_API_SECRET }}
+          X_ACCOUNT_1_ACCESS_TOKEN: ${{ secrets.X_ACCOUNT_1_ACCESS_TOKEN }}
+          X_ACCOUNT_1_ACCESS_SECRET: ${{ secrets.X_ACCOUNT_1_ACCESS_SECRET }}
+          DISCORD_WEBHOOK_GENERAL: ${{ secrets.DISCORD_WEBHOOK_GENERAL }}
+          DISCORD_WEBHOOK_X_ACCOUNT_1: ${{ secrets.DISCORD_WEBHOOK_X_ACCOUNT_1 }}
+          MODE: ${{ vars.MODE || 'manual_approval' }}
+        run: python -m src.main curate --account 1
+
+      - name: Commit queue changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add data/queue/
+          git diff --staged --quiet || git commit -m "chore: update curate queue $(date +'%Y-%m-%d')"
+          git push

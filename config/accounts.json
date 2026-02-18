@@ -1,0 +1,35 @@
+{
+  "accounts": [
+    {
+      "id": "account_1",
+      "name": "レン",
+      "handle": "@ren_aiautomation",
+      "theme": "AIエージェント・自動化",
+      "target": "中〜上級者（AIで自動化したい人）",
+      "tone": "カジュアル＋専門的、仲間感",
+      "master_data": "data/master/account_1_master.md",
+      "prompt_template": "src/generate/templates/account_1.md",
+      "env_prefix": "X_ACCOUNT_1",
+      "schedule": {
+        "morning": { "base_hour": 7, "base_minute": 0, "jitter_minutes": 15 },
+        "noon": { "base_hour": 12, "base_minute": 0, "jitter_minutes": 15 },
+        "evening": { "base_hour": 21, "base_minute": 0, "jitter_minutes": 15 }
+      },
+      "posting_rules": {
+        "daily_posts": 10,
+        "daily_original_posts": 3,
+        "daily_quote_rt_posts": 7,
+        "promo_max_ratio": 0.2,
+        "min_interval_hours": 1,
+        "quote_rt_ratio_max": 0.7
+      },
+      "active": true
+    }
+  ],
+  "global": {
+    "mode": "manual_approval",
+    "auto_post_min_score": 8,
+    "gemini_model": "gemini-2.5-flash",
+    "timezone": "Asia/Tokyo"
+  }
+}

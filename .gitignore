@@ -1,0 +1,42 @@
+# Environment
+.env
+.env.local
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Output data (generated content)
+data/output/daily/
+data/output/analysis/
+data/output/logs/
+
+# Credentials
+credentials.json
+token.json
+*.pem
+*.key
+
+# Test
+.pytest_cache/
+htmlcov/
+.coverage
