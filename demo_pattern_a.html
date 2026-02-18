@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>パターンA デモ — 完全無料プラン</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=JetBrains+Mono:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0e17;
+            --bg2: #0f1520;
+            --bg-card: #141c2b;
+            --bg-card-hover: #1a2538;
+            --border: rgba(29,161,242,0.15);
+            --border-active: rgba(29,161,242,0.5);
+            --accent: #1DA1F2;
+            --accent-dim: rgba(29,161,242,0.12);
+            --green: #00e676;
+            --green-dim: rgba(0,230,118,0.1);
+            --orange: #ffab40;
+            --orange-dim: rgba(255,171,64,0.1);
+            --text: #e8edf3;
+            --text2: #8ba4be;
+            --text3: #4d6a84;
+            --mono: 'JetBrains Mono', monospace;
+            --sans: 'Noto Sans JP', 'Space Grotesk', sans-serif;
+            --display: 'Space Grotesk', 'Noto Sans JP', sans-serif;
+        }
+
+        * { margin:0; padding:0; box-sizing:border-box; }
+
+        body {
+            font-family: var(--sans);
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(10,14,23,0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 0.8rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .logo {
+            font-family: var(--display);
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--accent);
+            letter-spacing: 0.05em;
+        }
+
+        .logo-tag {
+            font-size: 0.65rem;
+            padding: 0.2em 0.6em;
+            border-radius: 100px;
+            background: var(--accent-dim);
+            color: var(--accent);
+            border: 1px solid rgba(29,161,242,0.3);
+            font-weight: 600;
+            letter-spacing: 0.08em;
+        }
+
+        .step-indicators {
+            display: flex;
+            gap: 4px;
+        }
+
+        .step-ind {
+            width: 28px;
+            height: 4px;
+            border-radius: 2px;
+            background: rgba(255,255,255,0.08);
+            transition: all 0.5s cubic-bezier(0.16,1,0.3,1);
+            cursor: pointer;
+        }
+
+        .step-ind.done { background: var(--accent); }
+        .step-ind.active { background: var(--accent); width: 48px; }
+
+        /* Main container */
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+
+        /* Step panel */
+        .step-panel {
+            display: none;
+            animation: fadeUp 0.5s cubic-bezier(0.16,1,0.3,1) forwards;
+        }
+
+        .step-panel.active { display: block; }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Step header */
+        .step-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .step-label {
+            font-family: var(--display);
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .step-title {
+            font-family: var(--display);
+            font-size: clamp(1.3rem, 3vw, 1.8rem);
+            font-weight: 700;
+            color: var(--text);
+            line-height: 1.2;
+        }
+
+        .step-desc {
+            font-size: 0.85rem;
+            color: var(--text2);
+            line-height: 1.6;
+            margin-top: 0.5rem;
+        }
+
+        /* Tweet cards */
+        .tweet-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1rem 1.2rem;
+            margin-bottom: 0.75rem;
+            transition: all 0.3s;
+            cursor: default;
+        }
+
+        .tweet-card:hover { border-color: var(--border-active); background: var(--bg-card-hover); }
+
+        .tweet-top {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            margin-bottom: 0.6rem;
+        }
+
+        .avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-dim), rgba(0,229,160,0.15));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--accent);
+            flex-shrink: 0;
+        }
+
+        .tweet-author strong {
+            font-size: 0.85rem;
+            color: var(--text);
+            display: block;
+        }
+
+        .tweet-author span {
+            font-size: 0.72rem;
+            color: var(--text3);
+        }
+
+        .tweet-text {
+            font-size: 0.82rem;
+            color: var(--text2);
+            line-height: 1.55;
+            margin-bottom: 0.6rem;
+        }
+
+        .tweet-stats {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.72rem;
+            color: var(--text3);
+        }
+
+        .tweet-stats span { display: flex; align-items: center; gap: 0.3em; }
+
+        /* Generated text box */
+        .gen-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .gen-box-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.8rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .gen-template {
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            padding: 0.25em 0.7em;
+            border-radius: 100px;
+            background: var(--accent-dim);
+            color: var(--accent);
+            border: 1px solid rgba(29,161,242,0.25);
+        }
+
+        .gen-badges { display: flex; gap: 0.4rem; }
+
+        .badge-pass {
+            font-size: 0.68rem;
+            padding: 0.2em 0.6em;
+            border-radius: 100px;
+            background: var(--green-dim);
+            color: var(--green);
+            border: 1px solid rgba(0,230,118,0.25);
+            font-weight: 600;
+        }
+
+        .badge-score {
+            font-size: 0.68rem;
+            padding: 0.2em 0.6em;
+            border-radius: 100px;
+            background: var(--orange-dim);
+            color: var(--orange);
+            border: 1px solid rgba(255,171,64,0.25);
+            font-weight: 600;
+            font-family: var(--mono);
+        }
+
+        .gen-text {
+            font-size: 0.88rem;
+            color: var(--text);
+            line-height: 1.7;
+            white-space: pre-line;
+            padding: 0.8rem;
+            background: rgba(255,255,255,0.02);
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.04);
+        }
+
+        .gen-source {
+            font-size: 0.72rem;
+            color: var(--text3);
+            margin-top: 0.6rem;
+        }
+
+        /* Schedule */
+        .schedule-row {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.6rem 0.8rem;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            font-size: 0.82rem;
+            transition: background 0.2s;
+        }
+
+        .schedule-row:hover { background: rgba(255,255,255,0.02); }
+
+        .sched-time {
+            font-family: var(--mono);
+            font-weight: 600;
+            color: var(--accent);
+            min-width: 50px;
+        }
+
+        .sched-type {
+            font-size: 0.7rem;
+            padding: 0.2em 0.7em;
+            border-radius: 100px;
+            font-weight: 600;
+            min-width: 70px;
+            text-align: center;
+        }
+
+        .sched-type.qt { background: var(--accent-dim); color: var(--accent); }
+        .sched-type.og { background: var(--green-dim); color: var(--green); }
+
+        .sched-note { color: var(--text2); flex: 1; }
+
+        /* BAN check row */
+        .ban-checks {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.6rem;
+            margin-top: 1.2rem;
+        }
+
+        .ban-check {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+            color: var(--text2);
+        }
+
+        .ban-check .check { color: var(--green); font-weight: 700; }
+
+        /* Discord preview */
+        .discord-box {
+            background: #2b2d31;
+            border-radius: 8px;
+            padding: 1rem;
+            font-size: 0.82rem;
+            color: #dbdee1;
+            line-height: 1.6;
+            border-left: 4px solid var(--accent);
+        }
+
+        .discord-title {
+            font-weight: 700;
+            color: #f2f3f5;
+            margin-bottom: 0.5rem;
+        }
+
+        .discord-line { margin-bottom: 0.3rem; }
+        .discord-muted { color: #80848e; font-size: 0.75rem; }
+
+        /* Summary */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .summary-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1rem;
+        }
+
+        .summary-card h4 {
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--text3);
+            margin-bottom: 0.4rem;
+        }
+
+        .summary-card .val {
+            font-family: var(--display);
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .summary-card p {
+            font-size: 0.75rem;
+            color: var(--text2);
+            margin-top: 0.3rem;
+        }
+
+        /* Navigation */
+        .nav-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .btn {
+            font-family: var(--display);
+            font-size: 0.82rem;
+            font-weight: 600;
+            padding: 0.6em 1.5em;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.4em;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        .btn-primary:hover { background: #1a91da; transform: translateY(-1px); }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--text2);
+            border: 1px solid var(--border);
+        }
+
+        .btn-ghost:hover { border-color: var(--border-active); color: var(--text); }
+
+        .btn:disabled {
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        /* Typing effect for timeline items */
+        @keyframes typeIn {
+            from { opacity: 0; transform: translateX(-10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .animate-in {
+            animation: typeIn 0.4s cubic-bezier(0.16,1,0.3,1) forwards;
+            opacity: 0;
+        }
+
+        @media (max-width: 640px) {
+            .ban-checks { grid-template-columns: 1fr; }
+            .summary-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <div class="header-left">
+        <span class="logo">𝕏 引用RT デモ</span>
+        <span class="logo-tag">PATTERN A</span>
+    </div>
+    <div class="step-indicators" id="stepIndicators"></div>
+</header>
+
+<div class="container">
+    <!-- STEP 1 -->
+    <div class="step-panel active" id="step-1">
+        <div class="step-header">
+            <div class="step-label">Step 1 / 5</div>
+            <div class="step-title">バズツイートURLを手動収集</div>
+            <div class="step-desc">毎朝、海外AIアカウントからバズっているツイートを選んでURLを追加します。実運用ではコマンドで1件ずつ追加。</div>
+        </div>
+
+        <div id="tweets-list">
+            <div class="tweet-card animate-in" style="animation-delay:0.1s">
+                <div class="tweet-top">
+                    <div class="avatar">SA</div>
+                    <div class="tweet-author">
+                        <strong>Sam Altman</strong>
+                        <span>@sama</span>
+                    </div>
+                </div>
+                <div class="tweet-text">o3 is out. I think this is one of the biggest leaps in AI capability we've ever seen. Coding, math, and reasoning are all dramatically better.</div>
+                <div class="tweet-stats">
+                    <span>❤ 82,400</span>
+                    <span>🔁 14,300</span>
+                </div>
+            </div>
+
+            <div class="tweet-card animate-in" style="animation-delay:0.3s">
+                <div class="tweet-top">
+                    <div class="avatar">AN</div>
+                    <div class="tweet-author">
+                        <strong>Andrew Ng</strong>
+                        <span>@AndrewYNg</span>
+                    </div>
+                </div>
+                <div class="tweet-text">AI Agents are becoming mainstream. The shift from single-step to multi-step agentic workflows is the most important trend in AI right now. Teams that learn to build agents will have a massive advantage.</div>
+                <div class="tweet-stats">
+                    <span>❤ 38,700</span>
+                    <span>🔁 8,100</span>
+                </div>
+            </div>
+
+            <div class="tweet-card animate-in" style="animation-delay:0.5s">
+                <div class="tweet-top">
+                    <div class="avatar">AK</div>
+                    <div class="tweet-author">
+                        <strong>Andrej Karpathy</strong>
+                        <span>@karpathy</span>
+                    </div>
+                </div>
+                <div class="tweet-text">Vibe coding is a thing now. You tell the AI what you want, it writes the code, you barely look at it. It's a fundamentally different way to build software.</div>
+                <div class="tweet-stats">
+                    <span>❤ 57,200</span>
+                    <span>🔁 11,600</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-bar">
+            <button class="btn btn-ghost" disabled>← 前へ</button>
+            <button class="btn btn-primary" onclick="goStep(2)">キューに追加して承認 →</button>
+        </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="step-panel" id="step-2">
+        <div class="step-header">
+            <div class="step-label">Step 2 / 5</div>
+            <div class="step-title">Gemini AIで引用RTコメントを自動生成</div>
+            <div class="step-desc">承認済みツイートに対して、5種類のテンプレートから引用RTコメントを生成。安全チェック＋品質スコアリングを自動実行。</div>
+        </div>
+
+        <div class="gen-box animate-in" style="animation-delay:0.1s">
+            <div class="gen-box-header">
+                <div style="display:flex; align-items:center; gap:0.5rem;">
+                    <span class="gen-template">breaking_news</span>
+                    <span style="font-size:0.75rem; color:var(--text3)">元: @sama (82,400❤)</span>
+                </div>
+                <div class="gen-badges">
+                    <span class="badge-pass">✓ 安全チェック PASS</span>
+                    <span class="badge-score">7/8 [A]</span>
+                </div>
+            </div>
+            <div class="gen-text">これはデカい。
+
+OpenAIのo3、コーディング・数学・推論が
+一気に跳ね上がった。
+
+「今まで最大の能力ジャンプ」って言葉、
+sam altmanが使うのは珍しい。
+
+本物だと思う。</div>
+        </div>
+
+        <div class="gen-box animate-in" style="animation-delay:0.3s">
+            <div class="gen-box-header">
+                <div style="display:flex; align-items:center; gap:0.5rem;">
+                    <span class="gen-template">translate_comment</span>
+                    <span style="font-size:0.75rem; color:var(--text3)">元: @AndrewYNg (38,700❤)</span>
+                </div>
+                <div class="gen-badges">
+                    <span class="badge-pass">✓ 安全チェック PASS</span>
+                    <span class="badge-score">8/8 [S]</span>
+                </div>
+            </div>
+            <div class="gen-text">AIエージェント、もう「最先端」じゃなくて「主流」になってきた。
+
+Andrew Ngが言う「マルチステップのエージェント設計」を
+今覚えてる人と覚えてない人で
+1年後に差がつく。
+
+ガチでそう思う。</div>
+        </div>
+
+        <div class="gen-box animate-in" style="animation-delay:0.5s">
+            <div class="gen-box-header">
+                <div style="display:flex; align-items:center; gap:0.5rem;">
+                    <span class="gen-template">question_prompt</span>
+                    <span style="font-size:0.75rem; color:var(--text3)">元: @karpathy (57,200❤)</span>
+                </div>
+                <div class="gen-badges">
+                    <span class="badge-pass">✓ 安全チェック PASS</span>
+                    <span class="badge-score">6/8 [A]</span>
+                </div>
+            </div>
+            <div class="gen-text">「コードをほぼ見ないで作る」時代。
+
+Karpathyが言う Vibe Coding、
+日本語にすると「ノリでコーディング」。
+
+AIに話しかけて、出てきたコードをそのまま動かす。
+これ、エンジニアの仕事どう変わる？</div>
+        </div>
+
+        <div class="nav-bar">
+            <button class="btn btn-ghost" onclick="goStep(1)">← 前へ</button>
+            <button class="btn btn-primary" onclick="goStep(3)">投稿スケジュールを確認 →</button>
+        </div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="step-panel" id="step-3">
+        <div class="step-header">
+            <div class="step-label">Step 3 / 5</div>
+            <div class="step-title">投稿スケジュール（BAN対策ミックス）</div>
+            <div class="step-desc">引用RTとオリジナル投稿をバランスよく配置。連続引用RTは最大2件まで、投稿間隔60分以上を自動確保。</div>
+        </div>
+
+        <div id="schedule-list">
+            <div class="schedule-row animate-in" style="animation-delay:0.05s">
+                <span class="sched-time">07:12</span>
+                <span class="sched-type og">オリジナル</span>
+                <span class="sched-note">朝一のオリジナル投稿</span>
+            </div>
+            <div class="schedule-row animate-in" style="animation-delay:0.1s">
+                <span class="sched-time">08:47</span>
+                <span class="sched-type qt">引用RT</span>
+                <span class="sched-note">@sama o3速報</span>
+            </div>
+            <div class="schedule-row animate-in" style="animation-delay:0.15s">
+                <span class="sched-time">10:08</span>
+                <span class="sched-type qt">引用RT</span>
+                <span class="sched-note">@AndrewYNg AIエージェント</span>
+            </div>
+            <div class="schedule-row animate-in" style="animation-delay:0.2s">
+                <span class="sched-time">12:03</span>
+                <span class="sched-type og">オリジナル</span>
+                <span class="sched-note">昼帯オリジナル投稿</span>
+            </div>
+            <div class="schedule-row animate-in" style="animation-delay:0.25s">
+                <span class="sched-time">14:31</span>
+                <span class="sched-type qt">引用RT</span>
+                <span class="sched-note">@karpathy Vibe Coding</span>
+            </div>
+            <div class="schedule-row animate-in" style="animation-delay:0.3s">
+                <span class="sched-time">16:22</span>
+                <span class="sched-type og">オリジナル</span>
+                <span class="sched-note">夕方オリジナル投稿</span>
+            </div>
+            <div class="schedule-row animate-in" style="animation-delay:0.35s">
+                <span class="sched-time">18:09</span>
+                <span class="sched-type qt">引用RT</span>
+                <span class="sched-note">海外AI最新ニュース</span>
+            </div>
+            <div class="schedule-row animate-in" style="animation-delay:0.4s">
+                <span class="sched-time">19:58</span>
+                <span class="sched-type qt">引用RT</span>
+                <span class="sched-note">ツール紹介系</span>
+            </div>
+            <div class="schedule-row animate-in" style="animation-delay:0.45s">
+                <span class="sched-time">21:14</span>
+                <span class="sched-type og">オリジナル</span>
+                <span class="sched-note">夜帯まとめ投稿</span>
+            </div>
+        </div>
+
+        <div class="ban-checks">
+            <div class="ban-check"><span class="check">✓</span> 引用RT比率: 56%（上限70%以内）</div>
+            <div class="ban-check"><span class="check">✓</span> 連続引用RT: 最大2件</div>
+            <div class="ban-check"><span class="check">✓</span> 最小投稿間隔: 60分以上確保</div>
+            <div class="ban-check"><span class="check">✓</span> 投稿時間帯: 7:00〜22:00</div>
+        </div>
+
+        <div class="nav-bar">
+            <button class="btn btn-ghost" onclick="goStep(2)">← 前へ</button>
+            <button class="btn btn-primary" onclick="goStep(4)">Discord通知を確認 →</button>
+        </div>
+    </div>
+
+    <!-- STEP 4 -->
+    <div class="step-panel" id="step-4">
+        <div class="step-header">
+            <div class="step-label">Step 4 / 5</div>
+            <div class="step-title">Discord通知で承認</div>
+            <div class="step-desc">生成が完了すると、Discordに通知が届きます。内容を確認して承認すれば、スケジュール通りに自動投稿されます。</div>
+        </div>
+
+        <div class="discord-box animate-in" style="animation-delay:0.1s">
+            <div class="discord-title">🤖 引用RT生成完了 — @ren_aiautomation</div>
+            <div class="discord-line"></div>
+            <div class="discord-line">📝 <strong>投稿① [breaking_news]</strong>  スコア: 7/8 [A]</div>
+            <div class="discord-line" style="padding-left:1.5em; color:#b5bac1;">これはデカい。OpenAIのo3、コーディング・数学・推論が一気に跳ね上がった...</div>
+            <div class="discord-line" style="margin-top:0.5rem;">📝 <strong>投稿② [translate_comment]</strong>  スコア: 8/8 [S]</div>
+            <div class="discord-line" style="padding-left:1.5em; color:#b5bac1;">AIエージェント、もう「最先端」じゃなくて「主流」になってきた...</div>
+            <div class="discord-line" style="margin-top:0.5rem;">📝 <strong>投稿③ [question_prompt]</strong>  スコア: 6/8 [A]</div>
+            <div class="discord-line" style="padding-left:1.5em; color:#b5bac1;">「コードをほぼ見ないで作る」時代。Karpathyが言う Vibe Coding...</div>
+            <div class="discord-line" style="margin-top:0.8rem;"></div>
+            <div class="discord-line">⏰ <strong>投稿スケジュール:</strong> 9件 / 本日</div>
+            <div class="discord-line">🛡️ <strong>安全チェック:</strong> 3/3 PASS</div>
+            <div class="discord-muted" style="margin-top:0.6rem;">手動承認モード: 確認後に curate-post コマンドで投稿実行</div>
+        </div>
+
+        <div class="nav-bar">
+            <button class="btn btn-ghost" onclick="goStep(3)">← 前へ</button>
+            <button class="btn btn-primary" onclick="goStep(5)">まとめを見る →</button>
+        </div>
+    </div>
+
+    <!-- STEP 5 -->
+    <div class="step-panel" id="step-5">
+        <div class="step-header">
+            <div class="step-label">Step 5 / 5</div>
+            <div class="step-title">パターンA まとめ</div>
+            <div class="step-desc">完全無料プランの日次運用フローと月間コスト。</div>
+        </div>
+
+        <div class="summary-grid animate-in" style="animation-delay:0.1s">
+            <div class="summary-card">
+                <h4>日次投稿数</h4>
+                <div class="val">7〜10件</div>
+                <p>引用RT 5〜7 + オリジナル 2〜3</p>
+            </div>
+            <div class="summary-card">
+                <h4>月間コスト</h4>
+                <div class="val">¥0〜300</div>
+                <p>Gemini / X API 無料枠 + GitHub Actions</p>
+            </div>
+            <div class="summary-card">
+                <h4>日次作業時間</h4>
+                <div class="val">30〜60分</div>
+                <p>バズツイートURLの手動収集</p>
+            </div>
+            <div class="summary-card">
+                <h4>テスト結果</h4>
+                <div class="val">53/53</div>
+                <p>全テストケースパス済み</p>
+            </div>
+        </div>
+
+        <div style="margin-top:1.5rem; background:var(--bg-card); border:1px solid var(--border); border-radius:10px; padding:1rem 1.2rem; font-size:0.82rem; line-height:1.8; color:var(--text2);" class="animate-in" style="animation-delay:0.3s">
+            <div style="font-weight:700; color:var(--text); margin-bottom:0.5rem;">▌ 毎日の流れ</div>
+            <strong style="color:var(--accent);">朝</strong> — バズツイートURLを5〜10件収集・キューに追加<br>
+            <strong style="color:var(--accent);">朝6:30</strong> — GitHub Actions が自動実行 → Gemini生成 → Discord通知<br>
+            <strong style="color:var(--accent);">確認</strong> — Discordで投稿内容をチェック・承認<br>
+            <strong style="color:var(--accent);">自動</strong> — 1日9〜10件、60分以上の間隔で分散投稿
+        </div>
+
+        <div class="nav-bar">
+            <button class="btn btn-ghost" onclick="goStep(4)">← 前へ</button>
+            <button class="btn btn-primary" onclick="window.open('demo_pattern_b.html','_self')">パターンBのデモへ →</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const totalSteps = 5;
+    let currentStep = 1;
+
+    // Build step indicators
+    const indicators = document.getElementById('stepIndicators');
+    for (let i = 1; i <= totalSteps; i++) {
+        const el = document.createElement('div');
+        el.className = 'step-ind' + (i === 1 ? ' active' : '');
+        el.onclick = () => goStep(i);
+        el.id = 'ind-' + i;
+        indicators.appendChild(el);
+    }
+
+    function goStep(n) {
+        if (n < 1 || n > totalSteps) return;
+        document.getElementById('step-' + currentStep).classList.remove('active');
+        document.getElementById('step-' + n).classList.add('active');
+
+        for (let i = 1; i <= totalSteps; i++) {
+            const ind = document.getElementById('ind-' + i);
+            ind.className = 'step-ind';
+            if (i < n) ind.classList.add('done');
+            if (i === n) ind.classList.add('active');
+        }
+
+        currentStep = n;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+</script>
+</body>
+</html>
