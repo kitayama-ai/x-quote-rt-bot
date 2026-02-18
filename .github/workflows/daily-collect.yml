@@ -61,6 +61,14 @@ jobs:
           fi
           python -m src.main collect $ARGS
 
+      - name: Sync queue to sheet
+        if: ${{ inputs.dry_run != 'true' }}
+        env:
+          SPREADSHEET_ID: ${{ secrets.SPREADSHEET_ID }}
+          GOOGLE_CREDENTIALS_BASE64: ${{ secrets.GOOGLE_CREDENTIALS_BASE64 }}
+        run: python -m src.main sync-queue --direction to_sheet --quiet
+        continue-on-error: true
+
       - name: Commit queue changes
         if: ${{ inputs.dry_run != 'true' }}
         run: |

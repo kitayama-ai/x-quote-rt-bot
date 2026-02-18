@@ -80,6 +80,7 @@ class TestCommandRegistry:
         expected_commands = [
             "generate", "post", "curate", "curate-post",
             "collect", "notify-test", "metrics", "weekly-pdca",
+            "import-urls", "setup-sheets", "sync-queue", "sync-settings",
         ]
         for cmd in expected_commands:
             assert f'"{cmd}"' in source, f"Command '{cmd}' not found in main()"
@@ -91,6 +92,7 @@ class TestCommandRegistry:
         expected_funcs = [
             "cmd_generate", "cmd_post", "cmd_curate", "cmd_curate_post",
             "cmd_collect", "cmd_notify_test", "cmd_metrics", "cmd_weekly_pdca",
+            "cmd_import_urls", "cmd_setup_sheets", "cmd_sync_queue", "cmd_sync_settings",
         ]
         for func_name in expected_funcs:
             assert hasattr(main_module, func_name), f"Function '{func_name}' not found in main.py"

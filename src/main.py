@@ -12,6 +12,8 @@ usage:
     python -m src.main notify-test
     python -m src.main metrics --account 1 [--days 7]
     python -m src.main weekly-pdca --account 1
+    python -m src.main sync-queue --direction full --account 1
+    python -m src.main sync-settings --account 1
 """
 import argparse
 import sys
@@ -370,6 +372,27 @@ def cmd_collect(args):
 
     print("🔍 バズツイート自動収集開始（SocialData API）")
 
+    # スプシから設定を読み込み（環境変数が設定されていれば）
+    sheet_settings = {}
+    sync = None
+    try:
+        from src.sheets.sheets_client import SheetsClient
+        from src.sheets.queue_sync import QueueSync
+        config_for_sheets = Config(f"account_{args.account}")
+        if config_for_sheets.spreadsheet_id:
+            sheets = SheetsClient(config_for_sheets)
+            sync = QueueSync(sheets)
+            sheet_settings = sync.read_settings()
+            if sheet_settings:
+                print(f"📋 シート設定を読み込み: {sheet_settings}")
+    except Exception as e:
+        print(f"⚠️ シート設定の読み込みスキップ: {e}")
+
+    # CLI引数がなければシート設定を使用
+    effective_min_likes = args.min_likes or sheet_settings.get("min_likes")
+    effective_auto_approve = args.auto_approve or sheet_settings.get("auto_approve", False)
+    effective_max_tweets = args.max_tweets if args.max_tweets != 50 else sheet_settings.get("max_tweets", 50)
+
     try:
         collector = AutoCollector()
     except ValueError as e:
@@ -378,9 +401,9 @@ def cmd_collect(args):
         return
 
     result = collector.collect(
-        min_likes=args.min_likes,
-        max_tweets=args.max_tweets,
-        auto_approve=args.auto_approve,
+        min_likes=effective_min_likes,
+        max_tweets=effective_max_tweets,
+        auto_approve=effective_auto_approve,
         dry_run=args.dry_run,
     )
 
@@ -392,6 +415,16 @@ def cmd_collect(args):
     if args.dry_run:
         print("\n🔒 ドライランモード: キューへの追加はスキップ")
         return
+
+    # 収集結果をスプシに同期
+    if sync:
+        try:
+            sync.sync_collection_log(result)
+            sync.sync_to_sheet()
+            sync.sync_dashboard(collection_result=result)
+            print("📊 スプレッドシートに同期しました")
+        except Exception as e:
+            print(f"⚠️ スプシ同期エラー: {e}")
 
     # Discord通知
     if result["added"] > 0:
@@ -416,7 +449,7 @@ def cmd_collect(args):
         except Exception as e:
             print(f"⚠️ Discord通知送信エラー: {e}")
 
-    if args.auto_approve and result["added"] > 0:
+    if effective_auto_approve and result["added"] > 0:
         print(f"\n✅ {result['added']}件を自動承認しました")
         print("💡 次のステップ: python -m src.main curate --account 1")
     elif result["added"] > 0:
@@ -587,6 +620,85 @@ def cmd_setup_sheets(args):
         print("✅ 全シート作成済みです（変更なし）")
 
 
+def cmd_sync_queue(args):
+    """キュー <-> スプレッドシート双方向同期（パターンB管理用）"""
+    from src.sheets.sheets_client import SheetsClient
+    from src.sheets.queue_sync import QueueSync
+
+    config = Config(f"account_{args.account}")
+    print(f"🔄 キュー同期開始 — 方向: {args.direction}")
+
+    try:
+        sheets = SheetsClient(config)
+    except ValueError as e:
+        print(f"❌ {e}")
+        print("💡 .env に SPREADSHEET_ID と GOOGLE_CREDENTIALS_BASE64 を追加してください")
+        return
+
+    sync = QueueSync(sheets)
+
+    if args.direction == "to_sheet":
+        result = sync.sync_to_sheet()
+        sync.sync_dashboard()
+        print(f"✅ キュー→スプシ同期完了: {result['synced']}件")
+        print(f"   ステータス内訳: {result['statuses']}")
+
+    elif args.direction == "from_sheet":
+        result = sync.sync_from_sheet()
+        if result["approved"] + result["skipped"] > 0:
+            sync.sync_to_sheet()
+        sync.sync_dashboard()
+        print(f"✅ スプシ→キュー同期完了:")
+        print(f"   承認: {result['approved']}件")
+        print(f"   スキップ: {result['skipped']}件")
+        print(f"   変更なし: {result['unchanged']}件")
+        if result["errors"]:
+            print(f"   エラー: {result['errors']}")
+
+    elif args.direction == "full":
+        result = sync.full_sync()
+        print(f"✅ 完全同期完了:")
+        print(f"   スプシ→キュー: 承認{result['from_sheet']['approved']}件, スキップ{result['from_sheet']['skipped']}件")
+        print(f"   キュー→スプシ: {result['to_sheet']['synced']}件同期")
+        print(f"   ダッシュボード: 更新済み")
+
+    # Discord通知
+    if not args.quiet:
+        try:
+            from src.notify.discord_notifier import DiscordNotifier
+            webhook = config.discord_webhook_account or config.discord_webhook_general
+            if webhook:
+                notifier = DiscordNotifier(webhook)
+                notifier.send(content=f"🔄 キュー同期完了（{args.direction}）")
+        except Exception:
+            pass
+
+
+def cmd_sync_settings(args):
+    """スプレッドシート設定シートから設定を読み込み表示"""
+    from src.sheets.sheets_client import SheetsClient
+    from src.sheets.queue_sync import QueueSync
+
+    config = Config(f"account_{args.account}")
+    print("⚙️ 設定読み込み中...")
+
+    try:
+        sheets = SheetsClient(config)
+    except ValueError as e:
+        print(f"❌ {e}")
+        return
+
+    sync = QueueSync(sheets)
+    settings = sync.read_settings()
+
+    print(f"\n{'='*40}")
+    print("📋 スプレッドシート設定:")
+    print(f"{'='*40}")
+    for key, value in settings.items():
+        print(f"  {key}: {value}")
+    print(f"{'='*40}")
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="X Auto Post System",
@@ -648,6 +760,27 @@ def main():
     # setup-sheets (初回セットアップ)
     add_account_arg(subparsers.add_parser("setup-sheets", help="スプレッドシートの初期セットアップ"))
 
+    # sync-queue (パターンB: キュー同期)
+    sync_parser = add_account_arg(
+        subparsers.add_parser("sync-queue", help="キュー <-> スプレッドシート同期")
+    )
+    sync_parser.add_argument(
+        "--direction", "-d",
+        choices=["to_sheet", "from_sheet", "full"],
+        default="full",
+        help="同期方向（default: full）"
+    )
+    sync_parser.add_argument(
+        "--quiet", "-q",
+        action="store_true",
+        help="Discord通知を抑制"
+    )
+
+    # sync-settings
+    add_account_arg(
+        subparsers.add_parser("sync-settings", help="スプレッドシートから設定を読み込み")
+    )
+
     args = parser.parse_args()
 
     if not args.command:
@@ -665,6 +798,8 @@ def main():
         "weekly-pdca": cmd_weekly_pdca,
         "import-urls": cmd_import_urls,
         "setup-sheets": cmd_setup_sheets,
+        "sync-queue": cmd_sync_queue,
+        "sync-settings": cmd_sync_settings,
     }
 
     commands[args.command](args)

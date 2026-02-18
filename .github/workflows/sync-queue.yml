@@ -1,0 +1,63 @@
+name: 🔄 キュー同期（スプシ↔キュー）
+
+# GASからのトリガー or 手動実行 or 他ワークフローからの呼び出し
+on:
+  workflow_dispatch:
+    inputs:
+      direction:
+        description: "同期方向 (to_sheet / from_sheet / full)"
+        type: choice
+        options:
+          - full
+          - to_sheet
+          - from_sheet
+        default: "full"
+  workflow_call:
+    inputs:
+      direction:
+        type: string
+        default: "to_sheet"
+
+env:
+  PYTHON_VERSION: "3.11"
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Pull latest
+        run: git pull origin main || true
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: "pip"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Sync queue
+        env:
+          SPREADSHEET_ID: ${{ secrets.SPREADSHEET_ID }}
+          GOOGLE_CREDENTIALS_BASE64: ${{ secrets.GOOGLE_CREDENTIALS_BASE64 }}
+          DISCORD_WEBHOOK_GENERAL: ${{ secrets.DISCORD_WEBHOOK_GENERAL }}
+          DISCORD_WEBHOOK_ACCOUNT_1: ${{ secrets.DISCORD_WEBHOOK_ACCOUNT_1 }}
+        run: |
+          DIRECTION="${{ inputs.direction || 'full' }}"
+          python -m src.main sync-queue --direction "$DIRECTION" --quiet
+
+      - name: Commit queue changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add data/queue/
+          git diff --staged --quiet || git commit -m "🔄 Sync queue from sheet $(date +'%Y-%m-%d %H:%M')"
+          git push

@@ -29,6 +29,13 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      - name: Sync approvals from sheet
+        env:
+          SPREADSHEET_ID: ${{ secrets.SPREADSHEET_ID }}
+          GOOGLE_CREDENTIALS_BASE64: ${{ secrets.GOOGLE_CREDENTIALS_BASE64 }}
+        run: python -m src.main sync-queue --direction from_sheet --quiet
+        continue-on-error: true
+
       - name: Generate quote RT comments
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
@@ -40,6 +47,13 @@ jobs:
           DISCORD_WEBHOOK_ACCOUNT_1: ${{ secrets.DISCORD_WEBHOOK_ACCOUNT_1 }}
           MODE: ${{ vars.MODE || 'manual_approval' }}
         run: python -m src.main curate --account 1
+
+      - name: Sync queue to sheet
+        env:
+          SPREADSHEET_ID: ${{ secrets.SPREADSHEET_ID }}
+          GOOGLE_CREDENTIALS_BASE64: ${{ secrets.GOOGLE_CREDENTIALS_BASE64 }}
+        run: python -m src.main sync-queue --direction to_sheet --quiet
+        continue-on-error: true
 
       - name: Commit queue changes
         run: |

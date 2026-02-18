@@ -2,7 +2,7 @@
 X Auto Post System — Google Sheets クライアント
 
 スプレッドシートからURL収集シートの読み書きを行う。
-パターンAの手動収集で使用。
+パターンA（手動収集）とパターンB（自動収集キュー管理）の両方で使用。
 """
 import base64
 import json
@@ -22,10 +22,16 @@ SCOPES = [
     "https://www.googleapis.com/auth/spreadsheets",
 ]
 
-# シート名
+# シート名（パターンA）
 SHEET_COLLECT = "URL収集"
 SHEET_POSTED = "投稿履歴"
 SHEET_METRICS = "メトリクス"
+
+# シート名（パターンB）
+SHEET_QUEUE = "キュー管理"
+SHEET_COLLECTION_LOG = "収集ログ"
+SHEET_DASHBOARD = "ダッシュボード"
+SHEET_SETTINGS = "設定"
 
 
 class SheetsClient:
@@ -195,6 +201,117 @@ class SheetsClient:
             metrics.get("posted_count", 0),
         ])
 
+    # === キュー管理シート（パターンB） ===
+
+    def _get_or_create_sheet(self, name: str, creator_fn):
+        """シートを取得、なければ作成"""
+        try:
+            return self._spreadsheet.worksheet(name)
+        except gspread.exceptions.WorksheetNotFound:
+            return creator_fn()
+
+    def write_queue_items(self, items: list[dict]):
+        """キュー管理シートにアイテムを書き込み（全件上書き）"""
+        ws = self._get_or_create_sheet(SHEET_QUEUE, self._create_queue_sheet)
+
+        # ヘッダー以外をクリア
+        if ws.row_count > 1:
+            ws.batch_clear([f"A2:J{ws.row_count}"])
+
+        if not items:
+            return
+
+        rows = []
+        for item in items:
+            score = item.get("score")
+            score_val = score.get("total", "") if isinstance(score, dict) else ""
+            rows.append([
+                item.get("status", "pending"),
+                item.get("tweet_id", ""),
+                f"@{item.get('author_username', '')}",
+                (item.get("text", "") or "")[:100],
+                item.get("likes", 0),
+                item.get("added_at", ""),
+                (item.get("generated_text", "") or "")[:100],
+                score_val,
+                item.get("source", ""),
+                item.get("url", ""),
+            ])
+
+        ws.update(f"A2:J{1 + len(rows)}", rows)
+
+    def read_queue_decisions(self) -> list[dict]:
+        """キュー管理シートからクライアントの承認/拒否を読み取り"""
+        ws = self._get_or_create_sheet(SHEET_QUEUE, self._create_queue_sheet)
+        all_rows = ws.get_all_values()
+
+        decisions = []
+        for i, row in enumerate(all_rows):
+            if i == 0:
+                continue
+            if len(row) < 2 or not row[1].strip():
+                continue
+            decisions.append({
+                "row": i + 1,
+                "status": row[0].strip(),
+                "tweet_id": row[1].strip(),
+            })
+        return decisions
+
+    # === 収集ログシート（パターンB） ===
+
+    def append_collection_log(self, log: dict):
+        """収集ログを追記"""
+        ws = self._get_or_create_sheet(
+            SHEET_COLLECTION_LOG, self._create_collection_log_sheet
+        )
+        now = datetime.now(JST).strftime("%Y/%m/%d %H:%M")
+        ws.append_row([
+            now,
+            log.get("fetched", 0),
+            log.get("filtered", 0),
+            log.get("added", 0),
+            log.get("skipped_dup", 0),
+            log.get("error", ""),
+        ])
+
+    # === ダッシュボードシート（パターンB） ===
+
+    def update_dashboard(self, stats: dict):
+        """ダッシュボード統計を更新"""
+        ws = self._get_or_create_sheet(
+            SHEET_DASHBOARD, self._create_dashboard_sheet
+        )
+        now = datetime.now(JST).strftime("%Y/%m/%d %H:%M")
+        ws.update("B2:B8", [
+            [stats.get("last_collection", "—")],
+            [stats.get("collected_today", 0)],
+            [stats.get("pending", 0)],
+            [stats.get("approved", 0)],
+            [stats.get("posted_today", 0)],
+            [stats.get("api_status", "OK")],
+            [now],
+        ])
+
+    # === 設定シート（パターンB） ===
+
+    def get_settings(self) -> dict:
+        """設定シートから全設定を読み取り"""
+        ws = self._get_or_create_sheet(SHEET_SETTINGS, self._create_settings_sheet)
+        all_rows = ws.get_all_values()
+
+        settings = {}
+        for i, row in enumerate(all_rows):
+            if i == 0:
+                continue
+            if len(row) < 2:
+                continue
+            key = row[0].strip()
+            value = row[1].strip()
+            if key:
+                settings[key] = value
+        return settings
+
     # === シート初期化 ===
 
     def _create_collect_sheet(self):
@@ -218,19 +335,75 @@ class SheetsClient:
         ws.format("A1:F1", {"textFormat": {"bold": True}})
         return ws
 
+    def _create_queue_sheet(self):
+        """キュー管理シートを作成"""
+        ws = self._spreadsheet.add_worksheet(title=SHEET_QUEUE, rows=200, cols=10)
+        ws.update("A1:J1", [[
+            "ステータス", "ツイートID", "著者", "ツイート本文",
+            "いいね数", "収集日時", "生成テキスト", "スコア", "ソース", "URL"
+        ]])
+        ws.format("A1:J1", {"textFormat": {"bold": True}})
+        return ws
+
+    def _create_collection_log_sheet(self):
+        """収集ログシートを作成"""
+        ws = self._spreadsheet.add_worksheet(title=SHEET_COLLECTION_LOG, rows=500, cols=6)
+        ws.update("A1:F1", [[
+            "日時", "API取得件数", "フィルタ後", "キュー追加", "重複スキップ", "エラー"
+        ]])
+        ws.format("A1:F1", {"textFormat": {"bold": True}})
+        return ws
+
+    def _create_dashboard_sheet(self):
+        """ダッシュボードシートを作成"""
+        ws = self._spreadsheet.add_worksheet(title=SHEET_DASHBOARD, rows=20, cols=4)
+        ws.update("A1:B8", [
+            ["項目", "値"],
+            ["最終収集日時", "—"],
+            ["今日の収集件数", "0"],
+            ["キュー（承認待ち）", "0"],
+            ["キュー（承認済み・未投稿）", "0"],
+            ["今日の投稿済み", "0"],
+            ["API状態", "—"],
+            ["最終更新", "—"],
+        ])
+        ws.format("A1:B1", {"textFormat": {"bold": True}})
+        return ws
+
+    def _create_settings_sheet(self):
+        """設定シートを作成（クライアント編集可能）"""
+        ws = self._spreadsheet.add_worksheet(title=SHEET_SETTINGS, rows=30, cols=3)
+        ws.update("A1:C1", [["設定キー", "値", "説明"]])
+        ws.update("A2:C8", [
+            ["min_likes", "500", "バズツイート最低いいね数"],
+            ["auto_approve", "false", "収集時の自動承認（true/false）"],
+            ["max_tweets", "50", "1回の収集最大件数"],
+            ["max_age_hours", "48", "ツイート最大経過時間"],
+            ["daily_post_limit", "10", "1日の投稿上限"],
+            ["mode", "manual_approval", "動作モード（manual_approval/semi_auto/auto）"],
+            ["auto_post_min_score", "8", "自動投稿の最低スコア"],
+        ])
+        ws.format("A1:C1", {"textFormat": {"bold": True}})
+        return ws
+
     def setup_sheets(self):
         """全シートを初期化（初回セットアップ用）"""
         existing = [ws.title for ws in self._spreadsheet.worksheets()]
 
+        sheet_map = {
+            SHEET_COLLECT: self._create_collect_sheet,
+            SHEET_POSTED: self._create_posted_sheet,
+            SHEET_METRICS: self._create_metrics_sheet,
+            SHEET_QUEUE: self._create_queue_sheet,
+            SHEET_COLLECTION_LOG: self._create_collection_log_sheet,
+            SHEET_DASHBOARD: self._create_dashboard_sheet,
+            SHEET_SETTINGS: self._create_settings_sheet,
+        }
+
         created = []
-        if SHEET_COLLECT not in existing:
-            self._create_collect_sheet()
-            created.append(SHEET_COLLECT)
-        if SHEET_POSTED not in existing:
-            self._create_posted_sheet()
-            created.append(SHEET_POSTED)
-        if SHEET_METRICS not in existing:
-            self._create_metrics_sheet()
-            created.append(SHEET_METRICS)
+        for name, creator in sheet_map.items():
+            if name not in existing:
+                creator()
+                created.append(name)
 
         return created
