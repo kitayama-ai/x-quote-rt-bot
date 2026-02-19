@@ -1,0 +1,33 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ============================
+    // Users collection
+    // ============================
+    // ユーザーは自分のドキュメントのみ読み書き可能
+    match /users/{userId} {
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow create: if request.auth != null && request.auth.uid == userId;
+      allow update: if request.auth != null && request.auth.uid == userId;
+      // 削除は不可
+      allow delete: if false;
+    }
+
+    // ============================
+    // API Keys collection
+    // ============================
+    // ユーザーは自分のAPIキーのみ読み書き可能
+    match /api_keys/{userId} {
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow write: if request.auth != null && request.auth.uid == userId;
+      // 削除は不可
+      allow delete: if false;
+    }
+
+    // デフォルト: 全て拒否
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

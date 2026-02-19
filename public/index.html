@@ -829,6 +829,212 @@ tr:hover td { background: var(--bg-card-hover); }
   color: var(--accent-red);
   background: var(--accent-red-dim);
 }
+
+/* X (Twitter) Login Button */
+.x-login-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 28px;
+  border-radius: var(--radius-sm);
+  background: #000;
+  color: #fff;
+  border: 1px solid #333;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: box-shadow var(--transition-fast), transform var(--transition-fast), border-color var(--transition-fast);
+  width: 100%;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.x-login-btn:hover {
+  box-shadow: 0 4px 24px rgba(255,255,255,0.08);
+  transform: translateY(-1px);
+  border-color: #555;
+}
+
+.x-login-btn:active { transform: translateY(0); }
+
+.x-login-btn:focus-visible {
+  outline: 2px solid var(--accent-blue);
+  outline-offset: 2px;
+}
+
+.x-login-btn svg {
+  width: 18px;
+  height: 18px;
+  fill: #fff;
+}
+
+.login-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 16px 0;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.login-divider::before,
+.login-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ===========================================
+   SETTINGS TAB
+   =========================================== */
+.settings-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 16px;
+}
+
+.settings-section h3 {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.settings-section p {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+  letter-spacing: 0.02em;
+}
+
+.form-input {
+  width: 100%;
+  padding: 10px 14px;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-size: 13px;
+  font-family: var(--font-mono);
+  transition: border-color var(--transition-fast);
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 3px var(--accent-blue-dim);
+}
+
+.form-input::placeholder {
+  color: var(--text-muted);
+}
+
+.form-hint {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 4px;
+  line-height: 1.5;
+}
+
+.save-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 24px;
+  border-radius: 8px;
+  background: var(--accent-blue);
+  color: #fff;
+  border: none;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: background var(--transition-fast), box-shadow var(--transition-fast);
+  margin-top: 8px;
+}
+
+.save-btn:hover {
+  background: #2563eb;
+  box-shadow: 0 2px 12px rgba(59,130,246,0.3);
+}
+
+.save-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.save-btn:focus-visible {
+  outline: 2px solid var(--accent-blue);
+  outline-offset: 2px;
+}
+
+.save-msg {
+  font-size: 13px;
+  margin-top: 12px;
+  display: none;
+}
+
+.save-msg.success { color: var(--accent-green); display: block; }
+.save-msg.error { color: var(--accent-red); display: block; }
+
+.api-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+.api-status.configured {
+  background: var(--accent-green-dim);
+  color: var(--accent-green);
+}
+
+.api-status.not-configured {
+  background: var(--accent-amber-dim);
+  color: var(--accent-amber);
+}
+
+.settings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.role-badge {
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+.role-badge.admin {
+  background: var(--accent-purple-dim);
+  color: var(--accent-purple);
+}
+
+.role-badge.client {
+  background: var(--accent-blue-dim);
+  color: var(--accent-blue);
+}
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -836,6 +1042,7 @@ tr:hover td { background: var(--bg-card-hover); }
 <!-- Firebase SDK (compat) -->
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 </head>
 <body>
 
@@ -853,6 +1060,11 @@ tr:hover td { background: var(--bg-card-hover); }
         <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
       </svg>
       Google でログイン
+    </button>
+    <div class="login-divider">または</div>
+    <button class="x-login-btn" id="xLoginBtn">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      X でログイン
     </button>
     <p class="login-error" id="loginError"></p>
     <div class="login-loading" id="loginLoading">
@@ -909,6 +1121,7 @@ tr:hover td { background: var(--bg-card-hover); }
     <button class="tab active" data-tab="queue">キュー一覧</button>
     <button class="tab" data-tab="posted">投稿履歴</button>
     <button class="tab" data-tab="metrics">メトリクス</button>
+    <button class="tab" data-tab="settings">設定</button>
   </nav>
 
   <!-- ===== TAB: QUEUE ===== -->
@@ -957,18 +1170,115 @@ tr:hover td { background: var(--bg-card-hover); }
     </div>
     <div class="metric-row" id="metricCards"></div>
   </div>
+
+  <!-- ===== TAB: SETTINGS ===== -->
+  <div class="tab-panel" id="panel-settings">
+    <!-- User Profile -->
+    <div class="settings-section">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+        <h3>アカウント情報</h3>
+        <span class="role-badge client" id="settingsRoleBadge">client</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <img class="user-avatar" id="settingsAvatar" src="" alt="" style="width:40px;height:40px;" onerror="this.style.display='none'">
+        <div>
+          <div style="font-weight:600;" id="settingsName">-</div>
+          <div style="font-size:12px;color:var(--text-muted);font-family:var(--font-mono);" id="settingsEmail">-</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- API Keys -->
+    <div class="settings-section">
+      <h3>APIキー設定</h3>
+      <p>各サービスのAPIキーを登録してください。キーは暗号化されてFirestoreに保存されます。</p>
+
+      <div class="settings-grid">
+        <!-- SocialData API -->
+        <div class="form-group">
+          <label class="form-label">
+            SocialData API Key
+            <span class="api-status not-configured" id="statusSocialdata">未設定</span>
+          </label>
+          <input type="password" class="form-input" id="apiSocialdata" placeholder="sd_xxxxxxxxxxxxxxxx" autocomplete="off">
+          <div class="form-hint">SocialData.tools のダッシュボードから取得</div>
+        </div>
+
+        <!-- OpenAI API -->
+        <div class="form-group">
+          <label class="form-label">
+            OpenAI API Key
+            <span class="api-status not-configured" id="statusOpenai">未設定</span>
+          </label>
+          <input type="password" class="form-input" id="apiOpenai" placeholder="sk-xxxxxxxxxxxxxxxx" autocomplete="off">
+          <div class="form-hint">platform.openai.com から取得</div>
+        </div>
+
+        <!-- X API (Bearer Token) -->
+        <div class="form-group">
+          <label class="form-label">
+            X API Bearer Token
+            <span class="api-status not-configured" id="statusXapi">未設定</span>
+          </label>
+          <input type="password" class="form-input" id="apiXbearer" placeholder="AAAAAAAAAAAAAAAAAAAAAxxxxxxx" autocomplete="off">
+          <div class="form-hint">developer.x.com から取得</div>
+        </div>
+
+        <!-- X API Key -->
+        <div class="form-group">
+          <label class="form-label">
+            X API Key (Consumer Key)
+            <span class="api-status not-configured" id="statusXkey">未設定</span>
+          </label>
+          <input type="password" class="form-input" id="apiXkey" placeholder="xxxxxxxxxxxxxxx" autocomplete="off">
+        </div>
+
+        <!-- X API Secret -->
+        <div class="form-group">
+          <label class="form-label">
+            X API Secret (Consumer Secret)
+            <span class="api-status not-configured" id="statusXsecret">未設定</span>
+          </label>
+          <input type="password" class="form-input" id="apiXsecret" placeholder="xxxxxxxxxxxxxxx" autocomplete="off">
+        </div>
+
+        <!-- X Access Token -->
+        <div class="form-group">
+          <label class="form-label">
+            X Access Token
+            <span class="api-status not-configured" id="statusXaccess">未設定</span>
+          </label>
+          <input type="password" class="form-input" id="apiXaccess" placeholder="xxxxxxx-xxxxxxxxxxxxxxx" autocomplete="off">
+        </div>
+
+        <!-- X Access Token Secret -->
+        <div class="form-group">
+          <label class="form-label">
+            X Access Token Secret
+            <span class="api-status not-configured" id="statusXaccessSecret">未設定</span>
+          </label>
+          <input type="password" class="form-input" id="apiXaccessSecret" placeholder="xxxxxxxxxxxxxxx" autocomplete="off">
+        </div>
+      </div>
+
+      <button class="save-btn" id="saveApiKeys">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+        保存
+      </button>
+      <div class="save-msg" id="saveMsg"></div>
+    </div>
+  </div>
 </div>
 
 <!-- Chart.js CDN -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 
-<!-- ===== FIREBASE AUTH ===== -->
+<!-- ===== FIREBASE AUTH + FIRESTORE ===== -->
 <script>
 (function() {
   // ============================
   // Firebase Configuration
   // ============================
-  // TODO: Firebase Console から取得した値を設定してください
   const firebaseConfig = {
     apiKey: "AIzaSyD5qtQwX6w70KmADqJqLngh4uN8G-aZnv8",
     authDomain: "isai-11f7b.firebaseapp.com",
@@ -979,85 +1289,151 @@ tr:hover td { background: var(--bg-card-hover); }
   };
 
   // ============================
-  // Allowed Emails (whitelist)
+  // Admin UID (あなた) — Firestoreに依存しないフォールバック
   // ============================
-  // 空配列 = 制限なし（Google認証のみ）
-  // メールアドレスを追加するとホワイトリスト制限
-  const ALLOWED_EMAILS = [
-    'dbeitian@gmail.com',
-  ];
+  const ADMIN_EMAILS = ['dbeitian@gmail.com'];
 
   // ============================
   // Initialize Firebase
   // ============================
   firebase.initializeApp(firebaseConfig);
   const auth = firebase.auth();
+  const db = firebase.firestore();
+
+  // Expose for settings tab
+  window.__fb = { auth, db };
 
   // DOM Elements
   const overlay = document.getElementById('loginOverlay');
   const appEl = document.querySelector('.app');
-  const loginBtn = document.getElementById('googleLoginBtn');
+  const googleBtn = document.getElementById('googleLoginBtn');
+  const xBtn = document.getElementById('xLoginBtn');
   const loginError = document.getElementById('loginError');
   const loginLoading = document.getElementById('loginLoading');
+
+  let currentUser = null;
+  let currentUserRole = null;
 
   // ============================
   // Auth State Listener
   // ============================
-  auth.onAuthStateChanged((user) => {
+  auth.onAuthStateChanged(async (user) => {
     if (user) {
-      // Check whitelist
-      if (ALLOWED_EMAILS.length > 0 && !ALLOWED_EMAILS.includes(user.email)) {
-        showLoginError('このメールアドレスにはアクセス権限がありません: ' + user.email);
-        auth.signOut();
-        return;
-      }
+      try {
+        // Check/create user doc in Firestore
+        const userRef = db.collection('users').doc(user.uid);
+        const userDoc = await userRef.get();
 
-      // Authenticated — show dashboard
-      overlay.style.display = 'none';
-      appEl.style.display = 'block';
-      addUserInfo(user);
+        if (!userDoc.exists) {
+          // First login — check if admin
+          const isAdmin = ADMIN_EMAILS.includes(user.email);
+          await userRef.set({
+            email: user.email || '',
+            displayName: user.displayName || '',
+            photoURL: user.photoURL || '',
+            provider: user.providerData[0]?.providerId || 'unknown',
+            role: isAdmin ? 'admin' : 'client',
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            lastLoginAt: firebase.firestore.FieldValue.serverTimestamp(),
+          });
+          currentUserRole = isAdmin ? 'admin' : 'client';
+        } else {
+          const data = userDoc.data();
+          currentUserRole = data.role || 'client';
+          // Update last login
+          userRef.update({
+            lastLoginAt: firebase.firestore.FieldValue.serverTimestamp(),
+            displayName: user.displayName || data.displayName,
+            photoURL: user.photoURL || data.photoURL,
+          });
+        }
 
-      // Load dashboard data after auth
-      if (typeof initDashboard === 'function') {
-        initDashboard();
+        currentUser = user;
+
+        // Show dashboard
+        overlay.style.display = 'none';
+        appEl.style.display = 'block';
+        addUserInfo(user);
+        updateSettingsProfile(user);
+
+        // Load API key status
+        loadApiKeyStatus(user.uid);
+
+        // Load dashboard data
+        if (typeof initDashboard === 'function') {
+          initDashboard();
+        }
+      } catch (err) {
+        console.error('Firestore error:', err);
+        // Firestore が未設定でもフォールバック — admin emailならログイン許可
+        if (ADMIN_EMAILS.includes(user.email)) {
+          currentUser = user;
+          currentUserRole = 'admin';
+          overlay.style.display = 'none';
+          appEl.style.display = 'block';
+          addUserInfo(user);
+          if (typeof initDashboard === 'function') initDashboard();
+        } else {
+          showLoginError('アクセス権限の確認に失敗しました。管理者にお問い合わせください。');
+          auth.signOut();
+        }
       }
     } else {
-      // Not authenticated — show login
+      // Not authenticated
+      currentUser = null;
+      currentUserRole = null;
       overlay.style.display = 'flex';
       appEl.style.display = 'none';
-      loginBtn.style.display = 'inline-flex';
-      loginLoading.style.display = 'none';
+      showLoginButtons();
     }
   });
 
   // ============================
   // Google Login
   // ============================
-  loginBtn.addEventListener('click', async () => {
+  googleBtn.addEventListener('click', () => loginWith('google'));
+
+  // ============================
+  // X (Twitter) Login
+  // ============================
+  xBtn.addEventListener('click', () => loginWith('twitter'));
+
+  async function loginWith(providerName) {
     loginError.style.display = 'none';
-    loginBtn.style.display = 'none';
+    hideLoginButtons();
     loginLoading.style.display = 'block';
 
     try {
-      const provider = new firebase.auth.GoogleAuthProvider();
+      let provider;
+      if (providerName === 'google') {
+        provider = new firebase.auth.GoogleAuthProvider();
+      } else {
+        provider = new firebase.auth.TwitterAuthProvider();
+      }
       await auth.signInWithPopup(provider);
     } catch (err) {
-      // Popup blocked? Try redirect
       if (err.code === 'auth/popup-blocked') {
         try {
-          const provider = new firebase.auth.GoogleAuthProvider();
+          let provider;
+          if (providerName === 'google') {
+            provider = new firebase.auth.GoogleAuthProvider();
+          } else {
+            provider = new firebase.auth.TwitterAuthProvider();
+          }
           await auth.signInWithRedirect(provider);
           return;
         } catch (redirectErr) {
           showLoginError('ログインに失敗しました: ' + redirectErr.message);
         }
+      } else if (err.code === 'auth/account-exists-with-different-credential') {
+        showLoginError('このアカウントは別の方法でログイン済みです。Google または X のうち、最初に使った方でログインしてください。');
       } else if (err.code !== 'auth/popup-closed-by-user') {
         showLoginError('ログインに失敗しました: ' + err.message);
       }
-      loginBtn.style.display = 'inline-flex';
+      showLoginButtons();
       loginLoading.style.display = 'none';
     }
-  });
+  }
 
   // ============================
   // Helpers
@@ -1065,8 +1441,22 @@ tr:hover td { background: var(--bg-card-hover); }
   function showLoginError(msg) {
     loginError.textContent = msg;
     loginError.style.display = 'block';
-    loginBtn.style.display = 'inline-flex';
+    showLoginButtons();
     loginLoading.style.display = 'none';
+  }
+
+  function hideLoginButtons() {
+    googleBtn.style.display = 'none';
+    xBtn.style.display = 'none';
+    const divider = document.querySelector('.login-divider');
+    if (divider) divider.style.display = 'none';
+  }
+
+  function showLoginButtons() {
+    googleBtn.style.display = 'inline-flex';
+    xBtn.style.display = 'inline-flex';
+    const divider = document.querySelector('.login-divider');
+    if (divider) divider.style.display = 'flex';
   }
 
   function addUserInfo(user) {
@@ -1090,6 +1480,112 @@ tr:hover td { background: var(--bg-card-hover); }
       const userInfoEl = document.getElementById('userInfo');
       if (userInfoEl) userInfoEl.remove();
       auth.signOut();
+    });
+  }
+
+  function updateSettingsProfile(user) {
+    const avatar = document.getElementById('settingsAvatar');
+    const name = document.getElementById('settingsName');
+    const email = document.getElementById('settingsEmail');
+    const badge = document.getElementById('settingsRoleBadge');
+
+    if (avatar) avatar.src = user.photoURL || '';
+    if (name) name.textContent = user.displayName || user.email || '-';
+    if (email) email.textContent = user.email || user.uid;
+    if (badge) {
+      badge.textContent = currentUserRole || 'client';
+      badge.className = 'role-badge ' + (currentUserRole === 'admin' ? 'admin' : 'client');
+    }
+  }
+
+  // ============================
+  // API Key Management
+  // ============================
+  const API_KEY_FIELDS = [
+    { id: 'apiSocialdata', key: 'socialdata_api_key', statusId: 'statusSocialdata' },
+    { id: 'apiOpenai', key: 'openai_api_key', statusId: 'statusOpenai' },
+    { id: 'apiXbearer', key: 'x_bearer_token', statusId: 'statusXapi' },
+    { id: 'apiXkey', key: 'x_api_key', statusId: 'statusXkey' },
+    { id: 'apiXsecret', key: 'x_api_secret', statusId: 'statusXsecret' },
+    { id: 'apiXaccess', key: 'x_access_token', statusId: 'statusXaccess' },
+    { id: 'apiXaccessSecret', key: 'x_access_token_secret', statusId: 'statusXaccessSecret' },
+  ];
+
+  async function loadApiKeyStatus(uid) {
+    try {
+      const doc = await db.collection('api_keys').doc(uid).get();
+      if (doc.exists) {
+        const data = doc.data();
+        API_KEY_FIELDS.forEach(f => {
+          const statusEl = document.getElementById(f.statusId);
+          if (statusEl) {
+            if (data[f.key]) {
+              statusEl.textContent = '設定済み';
+              statusEl.className = 'api-status configured';
+            } else {
+              statusEl.textContent = '未設定';
+              statusEl.className = 'api-status not-configured';
+            }
+          }
+        });
+      }
+    } catch (err) {
+      console.warn('API key status load failed:', err);
+    }
+  }
+
+  // Save API Keys
+  const saveBtn = document.getElementById('saveApiKeys');
+  const saveMsg = document.getElementById('saveMsg');
+
+  if (saveBtn) {
+    saveBtn.addEventListener('click', async () => {
+      if (!currentUser) return;
+      saveBtn.disabled = true;
+      saveMsg.className = 'save-msg';
+      saveMsg.style.display = 'none';
+
+      try {
+        const updates = {};
+        let hasUpdate = false;
+
+        API_KEY_FIELDS.forEach(f => {
+          const input = document.getElementById(f.id);
+          if (input && input.value.trim()) {
+            updates[f.key] = input.value.trim();
+            hasUpdate = true;
+          }
+        });
+
+        if (!hasUpdate) {
+          saveMsg.textContent = '変更するキーを入力してください';
+          saveMsg.className = 'save-msg error';
+          saveBtn.disabled = false;
+          return;
+        }
+
+        updates.updatedAt = firebase.firestore.FieldValue.serverTimestamp();
+        updates.uid = currentUser.uid;
+
+        await db.collection('api_keys').doc(currentUser.uid).set(updates, { merge: true });
+
+        // Clear inputs & refresh status
+        API_KEY_FIELDS.forEach(f => {
+          const input = document.getElementById(f.id);
+          if (input) input.value = '';
+        });
+
+        await loadApiKeyStatus(currentUser.uid);
+
+        saveMsg.textContent = 'APIキーを保存しました';
+        saveMsg.className = 'save-msg success';
+      } catch (err) {
+        console.error('Save API keys error:', err);
+        saveMsg.textContent = '保存に失敗しました: ' + err.message;
+        saveMsg.className = 'save-msg error';
+      }
+
+      saveBtn.disabled = false;
     });
   }
 })();
