@@ -1,456 +1,1311 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>X Monetize Dashboard — マルチアカウント分析</title>
-    <meta name="description" content="X副業マネタイズのための統合分析ダッシュボード。複数アカウント対応。">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+JP:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
-    <link rel="stylesheet" href="dashboard.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>X 引用RT自動投稿 — キュー管理ダッシュボード</title>
+<style>
+/* ===========================================
+   CSS CUSTOM PROPERTIES
+   =========================================== */
+:root {
+  --bg-primary: #0a0a0f;
+  --bg-card: #12121a;
+  --bg-card-hover: #1a1a26;
+  --bg-input: #1e1e2e;
+  --border: #2a2a3a;
+  --border-hover: #3a3a4e;
+  --text-primary: #f0f0f5;
+  --text-secondary: #8888a0;
+  --text-muted: #5a5a70;
+  --accent-blue: #1DA1F2;
+  --accent-blue-dim: rgba(29,161,242,0.15);
+  --accent-green: #10b981;
+  --accent-green-dim: rgba(16,185,129,0.15);
+  --accent-amber: #f59e0b;
+  --accent-amber-dim: rgba(245,158,11,0.15);
+  --accent-red: #ef4444;
+  --accent-red-dim: rgba(239,68,68,0.15);
+  --accent-purple: #8b5cf6;
+  --accent-purple-dim: rgba(139,92,246,0.15);
+  --radius: 12px;
+  --radius-sm: 8px;
+  --font-sans: "Inter", "Noto Sans JP", -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", "SF Mono", monospace;
+  --shadow: 0 4px 24px rgba(0,0,0,0.3);
+}
+
+/* ===========================================
+   RESET & BASE
+   =========================================== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ===========================================
+   LAYOUT
+   =========================================== */
+.app {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 24px 20px 60px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.header-logo {
+  width: 38px;
+  height: 38px;
+  background: var(--accent-blue);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 18px;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.header h1 {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.header h1 span {
+  color: var(--text-secondary);
+  font-weight: 400;
+  font-size: 14px;
+  margin-left: 8px;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.badge {
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.badge-live { background: var(--accent-green-dim); color: var(--accent-green); }
+.badge-stale { background: var(--accent-amber-dim); color: var(--accent-amber); }
+
+.last-updated {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+
+/* ===========================================
+   TABS
+   =========================================== */
+.tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 28px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0;
+  overflow-x: auto;
+}
+
+.tab {
+  padding: 10px 18px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  border: none;
+  background: none;
+  border-bottom: 2px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
+  white-space: nowrap;
+}
+
+.tab:hover { color: var(--text-primary); }
+.tab.active {
+  color: var(--accent-blue);
+  border-bottom-color: var(--accent-blue);
+}
+
+/* ===========================================
+   KPI CARDS
+   =========================================== */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.kpi-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  transition: border-color 0.2s, transform 0.15s;
+}
+
+.kpi-card:hover {
+  border-color: var(--border-hover);
+  transform: translateY(-1px);
+}
+
+.kpi-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 8px;
+}
+
+.kpi-value {
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  font-family: var(--font-mono);
+}
+
+.kpi-value.blue { color: var(--accent-blue); }
+.kpi-value.green { color: var(--accent-green); }
+.kpi-value.amber { color: var(--accent-amber); }
+.kpi-value.purple { color: var(--accent-purple); }
+.kpi-value.red { color: var(--accent-red); }
+
+.kpi-sub {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 4px;
+  font-family: var(--font-mono);
+}
+
+/* ===========================================
+   TAB PANELS
+   =========================================== */
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* ===========================================
+   DATA TABLE
+   =========================================== */
+.table-wrapper {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.table-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.table-toolbar h3 {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.filter-group {
+  display: flex;
+  gap: 6px;
+}
+
+.filter-btn {
+  font-size: 12px;
+  padding: 5px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: var(--font-sans);
+}
+
+.filter-btn:hover { border-color: var(--border-hover); color: var(--text-primary); }
+.filter-btn.active {
+  background: var(--accent-blue-dim);
+  border-color: var(--accent-blue);
+  color: var(--accent-blue);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  text-align: left;
+  padding: 12px 18px;
+  font-size: 13px;
+  border-bottom: 1px solid var(--border);
+}
+
+th {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  background: var(--bg-input);
+  position: sticky;
+  top: 0;
+}
+
+tr:last-child td { border-bottom: none; }
+
+tr:hover td { background: var(--bg-card-hover); }
+
+.table-scroll {
+  max-height: 520px;
+  overflow-y: auto;
+}
+
+/* Scrollbar */
+.table-scroll::-webkit-scrollbar { width: 6px; }
+.table-scroll::-webkit-scrollbar-track { background: var(--bg-card); }
+.table-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+/* Status badge in table */
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+.status-pending { background: var(--accent-amber-dim); color: var(--accent-amber); }
+.status-approved { background: var(--accent-blue-dim); color: var(--accent-blue); }
+.status-generated { background: var(--accent-purple-dim); color: var(--accent-purple); }
+.status-posted { background: var(--accent-green-dim); color: var(--accent-green); }
+.status-skipped { background: var(--accent-red-dim); color: var(--accent-red); }
+
+.tweet-text {
+  max-width: 400px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+.tweet-text.generated {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.tweet-meta {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+
+.tweet-metrics {
+  display: flex;
+  gap: 10px;
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+}
+
+.tweet-metrics span { white-space: nowrap; }
+
+.external-link {
+  color: var(--accent-blue);
+  text-decoration: none;
+  font-size: 12px;
+}
+.external-link:hover { text-decoration: underline; }
+
+/* ===========================================
+   POSTED HISTORY CARD
+   =========================================== */
+.posted-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+  margin-bottom: 12px;
+  transition: border-color 0.2s;
+}
+
+.posted-card:hover { border-color: var(--border-hover); }
+
+.posted-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.posted-time {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+
+.posted-body {
+  font-size: 14px;
+  line-height: 1.7;
+  margin-bottom: 10px;
+  color: var(--text-primary);
+}
+
+.posted-source {
+  font-size: 12px;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ===========================================
+   METRICS PANEL
+   =========================================== */
+.metrics-chart-area {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 20px;
+}
+
+.metrics-chart-area h3 {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 18px;
+}
+
+.chart-container {
+  position: relative;
+  height: 240px;
+}
+
+.metric-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.metric-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+}
+
+.metric-item-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+}
+
+.metric-item-value {
+  font-size: 22px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+}
+
+/* ===========================================
+   EMPTY STATE
+   =========================================== */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-muted);
+}
+
+.empty-state-icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+  opacity: 0.5;
+}
+
+.empty-state h3 {
+  font-size: 16px;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.empty-state p {
+  font-size: 13px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+/* ===========================================
+   LOADING
+   =========================================== */
+.loading {
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--border);
+  border-top-color: var(--accent-blue);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto 16px;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.loading-text {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* ===========================================
+   ERROR STATE
+   =========================================== */
+.error-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--accent-red);
+}
+
+.error-state h3 { margin-bottom: 8px; }
+
+.error-state p {
+  font-size: 13px;
+  color: var(--text-secondary);
+  max-width: 500px;
+  margin: 0 auto 16px;
+}
+
+.error-state code {
+  background: var(--bg-input);
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 12px;
+  display: inline-block;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+}
+
+/* ===========================================
+   TOOLTIP
+   =========================================== */
+.tooltip-trigger {
+  position: relative;
+  cursor: help;
+}
+
+.tooltip-trigger:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+  z-index: 100;
+  box-shadow: var(--shadow);
+}
+
+/* ===========================================
+   RESPONSIVE
+   =========================================== */
+@media (max-width: 768px) {
+  .app { padding: 16px 12px 40px; }
+  .header { margin-bottom: 20px; }
+  .header h1 { font-size: 16px; }
+  .kpi-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .kpi-card { padding: 14px; }
+  .kpi-value { font-size: 24px; }
+  th, td { padding: 10px 12px; font-size: 12px; }
+  .tweet-text { max-width: 200px; }
+}
+
+@media (max-width: 480px) {
+  .kpi-grid { grid-template-columns: 1fr 1fr; }
+  .tabs { gap: 0; }
+  .tab { padding: 8px 12px; font-size: 12px; }
+}
+
+/* ===========================================
+   LOGIN OVERLAY
+   =========================================== */
+.login-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: var(--bg-primary);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-card {
+  text-align: center;
+  padding: 40px;
+}
+
+.login-logo {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 24px;
+  background: var(--accent-blue);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  font-weight: 800;
+  color: #fff;
+}
+
+.login-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.login-subtitle {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 36px;
+}
+
+.google-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 32px;
+  border-radius: 10px;
+  background: #fff;
+  color: #333;
+  border: none;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: box-shadow 0.2s, transform 0.1s;
+}
+
+.google-btn:hover {
+  box-shadow: 0 4px 20px rgba(255,255,255,0.1);
+  transform: translateY(-1px);
+}
+
+.google-btn:active { transform: translateY(0); }
+
+.login-error {
+  color: var(--accent-red);
+  font-size: 13px;
+  margin-top: 20px;
+  display: none;
+  max-width: 360px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.login-loading {
+  display: none;
+  margin-top: 20px;
+}
+
+/* User Info in header */
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.user-avatar {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+}
+
+.user-name {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.logout-btn {
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-family: var(--font-sans);
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.logout-btn:hover {
+  border-color: var(--border-hover);
+  color: var(--text-primary);
+}
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<!-- Firebase SDK (compat) -->
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
 </head>
 <body>
-    <!-- Sidebar -->
-    <aside class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <div class="logo">
-                <span class="logo-icon">⚡</span>
-                <span class="logo-text">X Monetize</span>
-            </div>
-            <button class="sidebar-close" id="sidebarClose" aria-label="Close sidebar">✕</button>
-        </div>
 
-        <!-- Account Selector -->
-        <div class="account-selector">
-            <label class="selector-label">アカウント</label>
-            <div class="account-dropdown" id="accountDropdown">
-                <button class="account-current" id="accountCurrent">
-                    <span class="account-avatar">レ</span>
-                    <div class="account-info">
-                        <span class="account-name">レン</span>
-                        <span class="account-handle">@ren_aiautomation</span>
-                    </div>
-                    <span class="dropdown-arrow">▾</span>
-                </button>
-                <div class="account-list" id="accountList"></div>
-            </div>
-        </div>
-
-        <!-- Navigation -->
-        <nav class="sidebar-nav">
-            <a href="#" class="nav-item active" data-view="overview">
-                <span class="nav-icon">📊</span>
-                <span class="nav-label">オーバービュー</span>
-            </a>
-            <a href="#" class="nav-item" data-view="posts">
-                <span class="nav-icon">📝</span>
-                <span class="nav-label">投稿パフォーマンス</span>
-            </a>
-            <a href="#" class="nav-item" data-view="analytics">
-                <span class="nav-icon">📈</span>
-                <span class="nav-label">トレンド分析</span>
-            </a>
-            <a href="#" class="nav-item" data-view="funnel">
-                <span class="nav-icon">🔗</span>
-                <span class="nav-label">ファネル</span>
-            </a>
-            <a href="#" class="nav-item" data-view="abtest">
-                <span class="nav-icon">🧪</span>
-                <span class="nav-label">A/Bテスト</span>
-            </a>
-            <a href="#" class="nav-item" data-view="calendar">
-                <span class="nav-icon">📅</span>
-                <span class="nav-label">コンテンツカレンダー</span>
-            </a>
-            <a href="#" class="nav-item" data-view="notes">
-                <span class="nav-icon">💡</span>
-                <span class="nav-label">分析ノート</span>
-            </a>
-            <a href="#" class="nav-item" data-view="settings">
-                <span class="nav-icon">⚙️</span>
-                <span class="nav-label">設定</span>
-            </a>
-        </nav>
-
-        <div class="sidebar-footer">
-            <div class="sync-status" id="syncStatus">
-                <span class="sync-dot"></span>
-                <span class="sync-text">スプシ未接続</span>
-            </div>
-            <button class="sync-btn" id="syncBtn" title="データを同期">🔄 同期</button>
-        </div>
-    </aside>
-
-    <!-- Main Content -->
-    <main class="main" id="main">
-        <!-- Top Bar -->
-        <header class="topbar">
-            <button class="hamburger" id="hamburger" aria-label="Menu">☰</button>
-            <div class="topbar-title" id="topbarTitle">オーバービュー</div>
-            <div class="topbar-actions">
-                <div class="date-range-picker">
-                    <select id="dateRange" class="date-select">
-                        <option value="7d">過去7日</option>
-                        <option value="14d">過去14日</option>
-                        <option value="30d" selected>過去30日</option>
-                        <option value="90d">過去90日</option>
-                        <option value="all">全期間</option>
-                    </select>
-                </div>
-                <button class="export-btn" id="exportBtn" title="CSVエクスポート">📥 Export</button>
-            </div>
-        </header>
-
-        <!-- Views Container -->
-        <div class="content" id="content">
-
-            <!-- ======== OVERVIEW VIEW ======== -->
-            <section class="view active" id="view-overview">
-                <!-- Multi-account summary (only shown when "ALL" is selected) -->
-                <div class="multi-account-bar" id="multiAccountBar" style="display:none">
-                    <h3 class="section-title">全アカウント サマリー</h3>
-                    <div class="account-cards" id="accountCards"></div>
-                </div>
-
-                <!-- KPI Cards -->
-                <div class="kpi-grid">
-                    <div class="kpi-card" id="kpi-followers">
-                        <div class="kpi-header">
-                            <span class="kpi-label">フォロワー</span>
-                            <span class="kpi-change positive" id="kpi-followers-change">+0</span>
-                        </div>
-                        <div class="kpi-value" id="kpi-followers-value">0</div>
-                        <canvas id="spark-followers" class="kpi-spark" width="120" height="36"></canvas>
-                    </div>
-                    <div class="kpi-card" id="kpi-engagement">
-                        <div class="kpi-header">
-                            <span class="kpi-label">エンゲージメント率</span>
-                            <span class="kpi-change positive" id="kpi-engagement-change">+0%</span>
-                        </div>
-                        <div class="kpi-value" id="kpi-engagement-value">0%</div>
-                        <canvas id="spark-engagement" class="kpi-spark" width="120" height="36"></canvas>
-                    </div>
-                    <div class="kpi-card" id="kpi-impressions">
-                        <div class="kpi-header">
-                            <span class="kpi-label">インプレッション</span>
-                            <span class="kpi-change positive" id="kpi-impressions-change">+0</span>
-                        </div>
-                        <div class="kpi-value" id="kpi-impressions-value">0</div>
-                        <canvas id="spark-impressions" class="kpi-spark" width="120" height="36"></canvas>
-                    </div>
-                    <div class="kpi-card" id="kpi-revenue">
-                        <div class="kpi-header">
-                            <span class="kpi-label">月間売上</span>
-                            <span class="kpi-change positive" id="kpi-revenue-change">+¥0</span>
-                        </div>
-                        <div class="kpi-value" id="kpi-revenue-value">¥0</div>
-                        <canvas id="spark-revenue" class="kpi-spark" width="120" height="36"></canvas>
-                    </div>
-                </div>
-
-                <!-- Main Charts Row -->
-                <div class="chart-row">
-                    <div class="chart-card wide">
-                        <div class="chart-header">
-                            <h3>エンゲージメント推移</h3>
-                            <div class="chart-legend">
-                                <span class="legend-item"><span class="legend-dot" style="background:#6366f1"></span>いいね</span>
-                                <span class="legend-item"><span class="legend-dot" style="background:#06b6d4"></span>RT</span>
-                                <span class="legend-item"><span class="legend-dot" style="background:#f59e0b"></span>リプライ</span>
-                            </div>
-                        </div>
-                        <canvas id="chart-engagement" height="280"></canvas>
-                    </div>
-                </div>
-
-                <!-- Secondary Charts -->
-                <div class="chart-row two-col">
-                    <div class="chart-card">
-                        <div class="chart-header">
-                            <h3>投稿型別 平均いいね</h3>
-                        </div>
-                        <canvas id="chart-type-avg" height="260"></canvas>
-                    </div>
-                    <div class="chart-card">
-                        <div class="chart-header">
-                            <h3>時間帯別パフォーマンス</h3>
-                        </div>
-                        <canvas id="chart-time-heatmap" height="260"></canvas>
-                    </div>
-                </div>
-
-                <!-- Best / Worst Posts -->
-                <div class="chart-row two-col">
-                    <div class="chart-card">
-                        <div class="chart-header">
-                            <h3>🏆 ベスト投稿 Top 5</h3>
-                        </div>
-                        <div class="post-ranking" id="bestPosts"></div>
-                    </div>
-                    <div class="chart-card">
-                        <div class="chart-header">
-                            <h3>📉 ワースト投稿 Bottom 5</h3>
-                        </div>
-                        <div class="post-ranking" id="worstPosts"></div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ======== POSTS VIEW ======== -->
-            <section class="view" id="view-posts">
-                <div class="posts-toolbar">
-                    <div class="search-box">
-                        <input type="text" id="postSearch" placeholder="投稿を検索..." class="search-input">
-                    </div>
-                    <div class="filter-group">
-                        <select id="filterRank" class="filter-select">
-                            <option value="">全ランク</option>
-                            <option value="S">S ランク</option>
-                            <option value="A">A ランク</option>
-                            <option value="B">B ランク</option>
-                            <option value="C">C ランク</option>
-                        </select>
-                        <select id="filterType" class="filter-select">
-                            <option value="">全カテゴリ</option>
-                            <option value="問題提起">問題提起</option>
-                            <option value="How to">How to</option>
-                            <option value="ストーリー">ストーリー</option>
-                            <option value="リスト">リスト</option>
-                            <option value="反常識">反常識</option>
-                            <option value="権威引用">権威引用</option>
-                            <option value="宣伝">宣伝</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="posts-table-wrap">
-                    <table class="posts-table" id="postsTable">
-                        <thead>
-                            <tr>
-                                <th class="sortable" data-sort="date">日時 ↕</th>
-                                <th>投稿テキスト</th>
-                                <th class="sortable" data-sort="type">型 ↕</th>
-                                <th class="sortable" data-sort="likes">いいね ↕</th>
-                                <th class="sortable" data-sort="rts">RT ↕</th>
-                                <th class="sortable" data-sort="replies">リプ ↕</th>
-                                <th class="sortable" data-sort="rank">ランク ↕</th>
-                                <th>アクション</th>
-                            </tr>
-                        </thead>
-                        <tbody id="postsTableBody"></tbody>
-                    </table>
-                </div>
-            </section>
-
-            <!-- ======== ANALYTICS VIEW ======== -->
-            <section class="view" id="view-analytics">
-                <div class="chart-row">
-                    <div class="chart-card wide">
-                        <div class="chart-header">
-                            <h3>フォロワー推移</h3>
-                        </div>
-                        <canvas id="chart-follower-trend" height="300"></canvas>
-                    </div>
-                </div>
-                <div class="chart-row two-col">
-                    <div class="chart-card">
-                        <div class="chart-header">
-                            <h3>投稿ランク分布</h3>
-                        </div>
-                        <canvas id="chart-rank-dist" height="260"></canvas>
-                    </div>
-                    <div class="chart-card">
-                        <div class="chart-header">
-                            <h3>文字数 vs エンゲージメント</h3>
-                        </div>
-                        <canvas id="chart-length-engagement" height="260"></canvas>
-                    </div>
-                </div>
-                <div class="chart-row">
-                    <div class="chart-card wide">
-                        <div class="chart-header">
-                            <h3>週次KPIトレンド</h3>
-                        </div>
-                        <canvas id="chart-weekly-kpi" height="300"></canvas>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ======== FUNNEL VIEW ======== -->
-            <section class="view" id="view-funnel">
-                <div class="funnel-container">
-                    <h3 class="section-title">コンバージョンファネル（月次）</h3>
-                    <div class="funnel-month-selector">
-                        <select id="funnelMonth" class="filter-select">
-                            <option value="2026-03">2026年3月</option>
-                            <option value="2026-04">2026年4月</option>
-                        </select>
-                    </div>
-                    <div class="funnel-visual" id="funnelVisual"></div>
-                    <div class="funnel-insights" id="funnelInsights"></div>
-                </div>
-            </section>
-
-            <!-- ======== A/B TEST VIEW ======== -->
-            <section class="view" id="view-abtest">
-                <h3 class="section-title">A/Bテスト結果</h3>
-                <div class="abtest-grid" id="abtestGrid"></div>
-                <div class="abtest-form-card">
-                    <h3>新しいA/Bテストを記録</h3>
-                    <form id="abtestForm" class="abtest-form">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>テスト名</label>
-                                <input type="text" id="abTestName" placeholder="例: フック_数字 vs 自己開示" required>
-                            </div>
-                            <div class="form-group">
-                                <label>テスト対象</label>
-                                <select id="abTestTarget">
-                                    <option>フック</option>
-                                    <option>投稿時間</option>
-                                    <option>投稿型</option>
-                                    <option>文字数</option>
-                                    <option>CTA</option>
-                                    <option>その他</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>バリエーションA</label>
-                                <input type="text" id="abVarA" placeholder="例: 数字フック (3時間→30分)">
-                            </div>
-                            <div class="form-group">
-                                <label>バリエーションB</label>
-                                <input type="text" id="abVarB" placeholder="例: 自己開示フック (正直、しんどかった)">
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>結果A（いいね数）</label>
-                                <input type="number" id="abResultA" placeholder="45">
-                            </div>
-                            <div class="form-group">
-                                <label>結果B（いいね数）</label>
-                                <input type="number" id="abResultB" placeholder="78">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>学び・メモ</label>
-                            <textarea id="abMemo" rows="2" placeholder="例: 自己開示の方がいいね1.7倍。朝の投稿でネガティブ起点が強い。"></textarea>
-                        </div>
-                        <button type="submit" class="form-submit">テスト結果を記録</button>
-                    </form>
-                </div>
-            </section>
-
-            <!-- ======== CALENDAR VIEW ======== -->
-            <section class="view" id="view-calendar">
-                <h3 class="section-title">投稿カレンダー</h3>
-                <div class="calendar-legend">
-                    <span class="cal-legend-item"><span class="cal-dot" style="background:#1e293b"></span>投稿なし</span>
-                    <span class="cal-legend-item"><span class="cal-dot" style="background:#312e81"></span>低</span>
-                    <span class="cal-legend-item"><span class="cal-dot" style="background:#4338ca"></span>中</span>
-                    <span class="cal-legend-item"><span class="cal-dot" style="background:#6366f1"></span>高</span>
-                    <span class="cal-legend-item"><span class="cal-dot" style="background:#a5b4fc"></span>超高</span>
-                </div>
-                <div class="calendar-grid" id="calendarGrid"></div>
-            </section>
-
-            <!-- ======== NOTES VIEW ======== -->
-            <section class="view" id="view-notes">
-                <h3 class="section-title">💡 分析ノート & 人間の洞察</h3>
-                <p class="section-desc">AIの分析を補足する、あなた自身の気づきや判断を記録する場所です。</p>
-
-                <div class="notes-compose">
-                    <form id="noteForm">
-                        <div class="form-row">
-                            <div class="form-group" style="flex:2">
-                                <label>タイトル</label>
-                                <input type="text" id="noteTitle" placeholder="例: Week 2 の振り返りで気づいたこと" required>
-                            </div>
-                            <div class="form-group" style="flex:1">
-                                <label>カテゴリ</label>
-                                <select id="noteCategory">
-                                    <option value="insight">💡 気づき</option>
-                                    <option value="decision">🎯 意思決定</option>
-                                    <option value="hypothesis">🧪 仮説</option>
-                                    <option value="competitor">🕵️ 競合動向</option>
-                                    <option value="improvement">🔧 改善案</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>内容</label>
-                            <textarea id="noteContent" rows="4" placeholder="あなたの分析や気づきをここに記録..."></textarea>
-                        </div>
-                        <button type="submit" class="form-submit">ノートを追加</button>
-                    </form>
-                </div>
-
-                <div class="notes-list" id="notesList"></div>
-            </section>
-
-            <!-- ======== SETTINGS VIEW ======== -->
-            <section class="view" id="view-settings">
-                <h3 class="section-title">⚙️ 設定</h3>
-
-                <div class="settings-section">
-                    <h4>アカウント管理</h4>
-                    <div class="settings-card" id="accountManager">
-                        <div class="accounts-list-full" id="accountsListFull"></div>
-                        <button class="form-submit" id="addAccountBtn" style="margin-top:16px">+ 新しいアカウントを追加</button>
-                    </div>
-
-                    <div class="settings-card" id="addAccountForm" style="display:none">
-                        <h4>アカウント追加</h4>
-                        <form id="newAccountForm">
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label>アカウント名</label>
-                                    <input type="text" id="newAccName" placeholder="例: サブアカ" required>
-                                </div>
-                                <div class="form-group">
-                                    <label>X ハンドル</label>
-                                    <input type="text" id="newAccHandle" placeholder="例: @sub_account" required>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label>GAS Web App URL（スプシ連携用）</label>
-                                <input type="url" id="newAccApiUrl" placeholder="https://script.google.com/macros/s/xxxxx/exec">
-                                <span class="form-hint">gas/web_api.gs をデプロイして取得したURLを入力</span>
-                            </div>
-                            <div class="form-row">
-                                <button type="submit" class="form-submit">追加</button>
-                                <button type="button" class="form-cancel" id="cancelAddAccount">キャンセル</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
-                <div class="settings-section">
-                    <h4>データ連携</h4>
-                    <div class="settings-card">
-                        <p class="settings-desc">Google スプレッドシートとの連携状態</p>
-                        <div class="connection-status" id="connectionStatus"></div>
-                        <button class="form-submit" id="testConnectionBtn" style="margin-top:12px">接続テスト</button>
-                    </div>
-                </div>
-            </section>
-
-        </div>
-    </main>
-
-    <!-- Post Detail Modal -->
-    <div class="modal-overlay" id="postModal" style="display:none">
-        <div class="modal-content">
-            <button class="modal-close" id="modalClose">✕</button>
-            <div id="postModalBody"></div>
-        </div>
+<!-- ===== LOGIN OVERLAY ===== -->
+<div class="login-overlay" id="loginOverlay">
+  <div class="login-card">
+    <div class="login-logo">X</div>
+    <h2 class="login-title">キュー管理ダッシュボード</h2>
+    <p class="login-subtitle">ログインしてダッシュボードにアクセス</p>
+    <button class="google-btn" id="googleLoginBtn">
+      <svg width="20" height="20" viewBox="0 0 48 48">
+        <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+        <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+        <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+        <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+      </svg>
+      Google でログイン
+    </button>
+    <p class="login-error" id="loginError"></p>
+    <div class="login-loading" id="loginLoading">
+      <div class="spinner"></div>
+      <div class="loading-text">認証中...</div>
     </div>
+  </div>
+</div>
 
-    <script src="app.js"></script>
+<div class="app" style="display:none">
+  <!-- ===== HEADER ===== -->
+  <header class="header">
+    <div class="header-left">
+      <div class="header-logo">X</div>
+      <h1>キュー管理ダッシュボード <span>Pattern B</span></h1>
+    </div>
+    <div class="header-right">
+      <span class="badge badge-live" id="statusBadge">LIVE</span>
+      <span class="last-updated" id="lastUpdated">--</span>
+    </div>
+  </header>
+
+  <!-- ===== KPI CARDS ===== -->
+  <div class="kpi-grid" id="kpiGrid">
+    <div class="kpi-card">
+      <div class="kpi-label">承認待ち</div>
+      <div class="kpi-value amber" id="kpiPending">-</div>
+      <div class="kpi-sub">pending</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">承認済み</div>
+      <div class="kpi-value blue" id="kpiApproved">-</div>
+      <div class="kpi-sub">approved</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">投稿済み（本日）</div>
+      <div class="kpi-value green" id="kpiPostedToday">-</div>
+      <div class="kpi-sub">posted today</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">投稿済み（累計）</div>
+      <div class="kpi-value purple" id="kpiPostedTotal">-</div>
+      <div class="kpi-sub">all time</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">スキップ</div>
+      <div class="kpi-value red" id="kpiSkipped">-</div>
+      <div class="kpi-sub">skipped</div>
+    </div>
+  </div>
+
+  <!-- ===== TABS ===== -->
+  <nav class="tabs" id="tabNav">
+    <button class="tab active" data-tab="queue">キュー一覧</button>
+    <button class="tab" data-tab="posted">投稿履歴</button>
+    <button class="tab" data-tab="metrics">メトリクス</button>
+  </nav>
+
+  <!-- ===== TAB: QUEUE ===== -->
+  <div class="tab-panel active" id="panel-queue">
+    <div class="table-wrapper">
+      <div class="table-toolbar">
+        <h3>収集キュー</h3>
+        <div class="filter-group">
+          <button class="filter-btn active" data-filter="all">すべて</button>
+          <button class="filter-btn" data-filter="pending">承認待ち</button>
+          <button class="filter-btn" data-filter="approved">承認済み</button>
+          <button class="filter-btn" data-filter="skipped">スキップ</button>
+        </div>
+      </div>
+      <div class="table-scroll" id="queueTableScroll">
+        <table>
+          <thead>
+            <tr>
+              <th>ステータス</th>
+              <th>元ツイート</th>
+              <th>生成テキスト</th>
+              <th>エンゲージメント</th>
+              <th>追加日時</th>
+              <th>リンク</th>
+            </tr>
+          </thead>
+          <tbody id="queueTbody">
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== TAB: POSTED ===== -->
+  <div class="tab-panel" id="panel-posted">
+    <div id="postedList"></div>
+  </div>
+
+  <!-- ===== TAB: METRICS ===== -->
+  <div class="tab-panel" id="panel-metrics">
+    <div class="metrics-chart-area">
+      <h3>直近7日間の投稿数推移</h3>
+      <div class="chart-container">
+        <canvas id="metricsChart"></canvas>
+      </div>
+    </div>
+    <div class="metric-row" id="metricCards"></div>
+  </div>
+</div>
+
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+
+<!-- ===== FIREBASE AUTH ===== -->
+<script>
+(function() {
+  // ============================
+  // Firebase Configuration
+  // ============================
+  // TODO: Firebase Console から取得した値を設定してください
+  const firebaseConfig = {
+    apiKey: "FIREBASE_API_KEY",
+    authDomain: "isai-11f7b.firebaseapp.com",
+    projectId: "isai-11f7b",
+    storageBucket: "isai-11f7b.firebasestorage.app",
+    messagingSenderId: "FIREBASE_MESSAGING_SENDER_ID",
+    appId: "FIREBASE_APP_ID"
+  };
+
+  // ============================
+  // Allowed Emails (whitelist)
+  // ============================
+  // 空配列 = 制限なし（Google認証のみ）
+  // メールアドレスを追加するとホワイトリスト制限
+  const ALLOWED_EMAILS = [
+    // 'yamato.kitada@cyan-inc.net',
+    // 'client@example.com',
+  ];
+
+  // ============================
+  // Initialize Firebase
+  // ============================
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+
+  // DOM Elements
+  const overlay = document.getElementById('loginOverlay');
+  const appEl = document.querySelector('.app');
+  const loginBtn = document.getElementById('googleLoginBtn');
+  const loginError = document.getElementById('loginError');
+  const loginLoading = document.getElementById('loginLoading');
+
+  // ============================
+  // Auth State Listener
+  // ============================
+  auth.onAuthStateChanged((user) => {
+    if (user) {
+      // Check whitelist
+      if (ALLOWED_EMAILS.length > 0 && !ALLOWED_EMAILS.includes(user.email)) {
+        showLoginError('このメールアドレスにはアクセス権限がありません: ' + user.email);
+        auth.signOut();
+        return;
+      }
+
+      // Authenticated — show dashboard
+      overlay.style.display = 'none';
+      appEl.style.display = 'block';
+      addUserInfo(user);
+
+      // Load dashboard data after auth
+      if (typeof initDashboard === 'function') {
+        initDashboard();
+      }
+    } else {
+      // Not authenticated — show login
+      overlay.style.display = 'flex';
+      appEl.style.display = 'none';
+      loginBtn.style.display = 'inline-flex';
+      loginLoading.style.display = 'none';
+    }
+  });
+
+  // ============================
+  // Google Login
+  // ============================
+  loginBtn.addEventListener('click', async () => {
+    loginError.style.display = 'none';
+    loginBtn.style.display = 'none';
+    loginLoading.style.display = 'block';
+
+    try {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      await auth.signInWithPopup(provider);
+    } catch (err) {
+      // Popup blocked? Try redirect
+      if (err.code === 'auth/popup-blocked') {
+        try {
+          const provider = new firebase.auth.GoogleAuthProvider();
+          await auth.signInWithRedirect(provider);
+          return;
+        } catch (redirectErr) {
+          showLoginError('ログインに失敗しました: ' + redirectErr.message);
+        }
+      } else if (err.code !== 'auth/popup-closed-by-user') {
+        showLoginError('ログインに失敗しました: ' + err.message);
+      }
+      loginBtn.style.display = 'inline-flex';
+      loginLoading.style.display = 'none';
+    }
+  });
+
+  // ============================
+  // Helpers
+  // ============================
+  function showLoginError(msg) {
+    loginError.textContent = msg;
+    loginError.style.display = 'block';
+    loginBtn.style.display = 'inline-flex';
+    loginLoading.style.display = 'none';
+  }
+
+  function addUserInfo(user) {
+    const headerRight = document.querySelector('.header-right');
+    if (!headerRight || document.getElementById('userInfo')) return;
+
+    const div = document.createElement('div');
+    div.id = 'userInfo';
+    div.className = 'user-info';
+
+    const photoUrl = user.photoURL || '';
+    const displayName = user.displayName || user.email || '';
+
+    div.innerHTML =
+      (photoUrl ? '<img class="user-avatar" src="' + photoUrl + '" alt="" onerror="this.style.display=\'none\'">' : '') +
+      '<span class="user-name">' + displayName + '</span>' +
+      '<button class="logout-btn" id="logoutBtn">ログアウト</button>';
+
+    headerRight.appendChild(div);
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      const userInfoEl = document.getElementById('userInfo');
+      if (userInfoEl) userInfoEl.remove();
+      auth.signOut();
+    });
+  }
+})();
+</script>
+
+<script>
+/* ===========================================
+   DASHBOARD APP
+   =========================================== */
+
+const DATA_URL = './dashboard-data.json';
+let currentFilter = 'all';
+let dashboardData = null;
+let metricsChartInstance = null;
+let dashboardInitialized = false;
+
+// --- Init (called by auth after login) ---
+function initDashboard() {
+  if (dashboardInitialized) return;
+  dashboardInitialized = true;
+  initTabs();
+  initFilters();
+  loadData();
+}
+
+// --- Tab switching ---
+function initTabs() {
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById('panel-' + tab.dataset.tab).classList.add('active');
+    });
+  });
+}
+
+// --- Filter buttons ---
+function initFilters() {
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentFilter = btn.dataset.filter;
+      renderQueue();
+    });
+  });
+}
+
+// --- Load data ---
+async function loadData() {
+  const container = document.getElementById('queueTbody');
+  container.innerHTML = '<tr><td colspan="6"><div class="loading"><div class="spinner"></div><div class="loading-text">データを読み込み中...</div></div></td></tr>';
+
+  try {
+    const res = await fetch(DATA_URL);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    dashboardData = await res.json();
+    render();
+  } catch (err) {
+    container.innerHTML = `<tr><td colspan="6">
+      <div class="error-state">
+        <div class="empty-state-icon">!</div>
+        <h3>データの読み込みに失敗しました</h3>
+        <p>dashboard-data.json が見つかりません。以下のコマンドでデータを生成してください:</p>
+        <code>python -m src.main export-dashboard</code>
+      </div>
+    </td></tr>`;
+  }
+}
+
+// --- Render all ---
+function render() {
+  if (!dashboardData) return;
+  renderKPI();
+  renderQueue();
+  renderPosted();
+  renderMetrics();
+  renderUpdatedTime();
+}
+
+// --- KPI ---
+function renderKPI() {
+  const s = dashboardData.stats;
+  document.getElementById('kpiPending').textContent = s.pending ?? 0;
+  document.getElementById('kpiApproved').textContent = s.approved ?? 0;
+  document.getElementById('kpiPostedToday').textContent = s.posted_today ?? 0;
+  document.getElementById('kpiPostedTotal').textContent = s.posted_total ?? 0;
+  document.getElementById('kpiSkipped').textContent = s.skipped ?? 0;
+}
+
+// --- Queue table ---
+function renderQueue() {
+  const tbody = document.getElementById('queueTbody');
+  if (!dashboardData || !dashboardData.queue) {
+    tbody.innerHTML = '<tr><td colspan="6"><div class="empty-state"><div class="empty-state-icon">📭</div><h3>キューが空です</h3><p>collectコマンドでバズツイートを収集してください</p></div></td></tr>';
+    return;
+  }
+
+  let items = dashboardData.queue;
+  if (currentFilter !== 'all') {
+    items = items.filter(i => i.status === currentFilter);
+  }
+
+  if (items.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="6"><div class="empty-state"><div class="empty-state-icon">🔍</div><h3>該当するアイテムがありません</h3></div></td></tr>`;
+    return;
+  }
+
+  // Sort: pending first, then approved, then others
+  const order = { pending: 0, approved: 1, skipped: 2 };
+  items = [...items].sort((a, b) => (order[a.status] ?? 9) - (order[b.status] ?? 9));
+
+  tbody.innerHTML = items.map(item => {
+    const statusClass = `status-${item.status}`;
+    const statusLabel = { pending: '承認待ち', approved: '承認済み', skipped: 'スキップ', generated: '生成済み' }[item.status] || item.status;
+
+    const originalText = item.original_text || item.text || '-';
+    const generatedText = item.generated_text || '';
+    const tweetId = item.tweet_id || '';
+    const tweetUrl = tweetId ? `https://x.com/i/status/${tweetId}` : '#';
+
+    const likes = item.likes ?? item.favorite_count ?? '-';
+    const rts = item.retweets ?? item.retweet_count ?? '-';
+    const addedAt = item.added_at ? formatTime(item.added_at) : '-';
+
+    return `<tr>
+      <td><span class="status ${statusClass}">${statusLabel}</span></td>
+      <td><div class="tweet-text" title="${escapeHtml(originalText)}">${escapeHtml(truncate(originalText, 60))}</div></td>
+      <td><div class="tweet-text ${generatedText ? 'generated' : ''}" title="${escapeHtml(generatedText)}">${generatedText ? escapeHtml(truncate(generatedText, 50)) : '<span style="color:var(--text-muted)">未生成</span>'}</div></td>
+      <td><div class="tweet-metrics"><span>♥ ${formatNum(likes)}</span><span>🔁 ${formatNum(rts)}</span></div></td>
+      <td><span class="tweet-meta">${addedAt}</span></td>
+      <td>${tweetId ? `<a class="external-link" href="${tweetUrl}" target="_blank" rel="noopener">元ツイート ↗</a>` : '-'}</td>
+    </tr>`;
+  }).join('');
+}
+
+// --- Posted history ---
+function renderPosted() {
+  const container = document.getElementById('postedList');
+  const posted = dashboardData.recent_posted;
+
+  if (!posted || posted.length === 0) {
+    container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📤</div><h3>投稿履歴がありません</h3><p>引用RT投稿が完了すると、ここに表示されます</p></div>';
+    return;
+  }
+
+  container.innerHTML = posted.map(item => {
+    const postedAt = item.posted_at ? formatTime(item.posted_at) : '-';
+    const text = item.generated_text || item.text || '-';
+    const tweetId = item.tweet_id || '';
+    const postedTweetId = item.posted_tweet_id || '';
+    const originalUrl = tweetId ? `https://x.com/i/status/${tweetId}` : '';
+    const postedUrl = postedTweetId ? `https://x.com/i/status/${postedTweetId}` : '';
+
+    return `<div class="posted-card">
+      <div class="posted-header">
+        <span class="status status-posted">投稿済み</span>
+        <span class="posted-time">${postedAt}</span>
+      </div>
+      <div class="posted-body">${escapeHtml(text)}</div>
+      <div class="posted-source">
+        ${originalUrl ? `<a class="external-link" href="${originalUrl}" target="_blank" rel="noopener">元ツイート ↗</a>` : ''}
+        ${postedUrl ? `<a class="external-link" href="${postedUrl}" target="_blank" rel="noopener">投稿ツイート ↗</a>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// --- Metrics ---
+function renderMetrics() {
+  const metrics = dashboardData.metrics;
+
+  // Metric summary cards
+  const container = document.getElementById('metricCards');
+  if (!metrics || metrics.length === 0) {
+    container.innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><div class="empty-state-icon">📊</div><h3>メトリクスデータがありません</h3><p>metricsコマンドで収集できます</p></div>';
+    renderEmptyChart();
+    return;
+  }
+
+  // Aggregate latest metrics
+  const latest = metrics[0] || {};
+  const summary = latest.summary || latest;
+
+  const cards = [
+    { label: 'いいね合計', value: summary.total_likes ?? summary.likes ?? '-', color: 'var(--accent-red)' },
+    { label: 'RT合計', value: summary.total_retweets ?? summary.retweets ?? '-', color: 'var(--accent-green)' },
+    { label: 'インプレッション', value: summary.total_impressions ?? summary.impressions ?? '-', color: 'var(--accent-blue)' },
+    { label: '平均エンゲージメント率', value: summary.avg_engagement_rate != null ? (summary.avg_engagement_rate * 100).toFixed(2) + '%' : '-', color: 'var(--accent-purple)' },
+  ];
+
+  container.innerHTML = cards.map(c => `
+    <div class="metric-item">
+      <div class="metric-item-label">${c.label}</div>
+      <div class="metric-item-value" style="color:${c.color}">${typeof c.value === 'number' ? formatNum(c.value) : c.value}</div>
+    </div>
+  `).join('');
+
+  // Chart
+  renderChart(metrics);
+}
+
+function renderChart(metrics) {
+  const ctx = document.getElementById('metricsChart');
+  if (!ctx) return;
+
+  if (metricsChartInstance) {
+    metricsChartInstance.destroy();
+  }
+
+  const labels = metrics.map(m => {
+    const d = m.date || m.collected_at || '';
+    return d.substring(5, 10); // MM-DD
+  }).reverse();
+
+  const postCounts = metrics.map(m => {
+    const s = m.summary || m;
+    return s.tweet_count ?? s.post_count ?? 0;
+  }).reverse();
+
+  const likeCounts = metrics.map(m => {
+    const s = m.summary || m;
+    return s.total_likes ?? s.likes ?? 0;
+  }).reverse();
+
+  metricsChartInstance = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: '投稿数',
+          data: postCounts,
+          backgroundColor: 'rgba(29,161,242,0.6)',
+          borderColor: 'rgba(29,161,242,1)',
+          borderWidth: 1,
+          borderRadius: 4,
+          yAxisID: 'y',
+        },
+        {
+          label: 'いいね数',
+          data: likeCounts,
+          type: 'line',
+          borderColor: 'rgba(239,68,68,0.8)',
+          backgroundColor: 'rgba(239,68,68,0.1)',
+          borderWidth: 2,
+          pointRadius: 3,
+          fill: true,
+          tension: 0.3,
+          yAxisID: 'y1',
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: {
+          labels: { color: '#8888a0', font: { size: 11 } }
+        }
+      },
+      scales: {
+        x: {
+          ticks: { color: '#5a5a70', font: { size: 11 } },
+          grid: { color: 'rgba(42,42,58,0.5)' }
+        },
+        y: {
+          position: 'left',
+          ticks: { color: '#5a5a70', font: { size: 11 }, stepSize: 1 },
+          grid: { color: 'rgba(42,42,58,0.5)' },
+          title: { display: true, text: '投稿数', color: '#8888a0', font: { size: 11 } }
+        },
+        y1: {
+          position: 'right',
+          ticks: { color: '#5a5a70', font: { size: 11 } },
+          grid: { drawOnChartArea: false },
+          title: { display: true, text: 'いいね', color: '#8888a0', font: { size: 11 } }
+        }
+      }
+    }
+  });
+}
+
+function renderEmptyChart() {
+  const ctx = document.getElementById('metricsChart');
+  if (!ctx) return;
+  if (metricsChartInstance) metricsChartInstance.destroy();
+
+  metricsChartInstance = new Chart(ctx, {
+    type: 'bar',
+    data: { labels: ['---'], datasets: [{ label: '投稿数', data: [0], backgroundColor: 'rgba(29,161,242,0.3)' }] },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { ticks: { color: '#5a5a70' }, grid: { color: 'rgba(42,42,58,0.5)' } },
+        y: { ticks: { color: '#5a5a70' }, grid: { color: 'rgba(42,42,58,0.5)' } }
+      }
+    }
+  });
+}
+
+// --- Updated time ---
+function renderUpdatedTime() {
+  const el = document.getElementById('lastUpdated');
+  const badge = document.getElementById('statusBadge');
+  if (!dashboardData.updated_at) {
+    el.textContent = '--';
+    return;
+  }
+
+  const updated = new Date(dashboardData.updated_at);
+  const now = new Date();
+  const diffMin = Math.floor((now - updated) / 60000);
+
+  el.textContent = formatTime(dashboardData.updated_at);
+
+  if (diffMin > 120) {
+    badge.className = 'badge badge-stale';
+    badge.textContent = 'STALE';
+  } else {
+    badge.className = 'badge badge-live';
+    badge.textContent = 'LIVE';
+  }
+}
+
+// --- Helpers ---
+function formatTime(isoStr) {
+  try {
+    const d = new Date(isoStr);
+    return d.toLocaleString('ja-JP', {
+      month: '2-digit', day: '2-digit',
+      hour: '2-digit', minute: '2-digit'
+    });
+  } catch { return isoStr; }
+}
+
+function formatNum(n) {
+  if (n == null || n === '-') return '-';
+  const num = Number(n);
+  if (isNaN(num)) return n;
+  if (num >= 10000) return (num / 10000).toFixed(1) + '万';
+  if (num >= 1000) return (num / 1000).toFixed(1) + 'k';
+  return num.toLocaleString();
+}
+
+function truncate(str, len) {
+  if (!str) return '';
+  return str.length > len ? str.slice(0, len) + '...' : str;
+}
+
+function escapeHtml(str) {
+  if (!str) return '';
+  const d = document.createElement('div');
+  d.textContent = str;
+  return d.innerHTML;
+}
+</script>
 </body>
 </html>

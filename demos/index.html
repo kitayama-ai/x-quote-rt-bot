@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>X Monetize Dashboard — マルチアカウント分析</title>
+    <meta name="description" content="X副業マネタイズのための統合分析ダッシュボード。複数アカウント対応。">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+JP:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <span class="logo-icon">⚡</span>
+                <span class="logo-text">X Monetize</span>
+            </div>
+            <button class="sidebar-close" id="sidebarClose" aria-label="Close sidebar">✕</button>
+        </div>
+
+        <!-- Account Selector -->
+        <div class="account-selector">
+            <label class="selector-label">アカウント</label>
+            <div class="account-dropdown" id="accountDropdown">
+                <button class="account-current" id="accountCurrent">
+                    <span class="account-avatar">レ</span>
+                    <div class="account-info">
+                        <span class="account-name">レン</span>
+                        <span class="account-handle">@ren_aiautomation</span>
+                    </div>
+                    <span class="dropdown-arrow">▾</span>
+                </button>
+                <div class="account-list" id="accountList"></div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="sidebar-nav">
+            <a href="#" class="nav-item active" data-view="overview">
+                <span class="nav-icon">📊</span>
+                <span class="nav-label">オーバービュー</span>
+            </a>
+            <a href="#" class="nav-item" data-view="posts">
+                <span class="nav-icon">📝</span>
+                <span class="nav-label">投稿パフォーマンス</span>
+            </a>
+            <a href="#" class="nav-item" data-view="analytics">
+                <span class="nav-icon">📈</span>
+                <span class="nav-label">トレンド分析</span>
+            </a>
+            <a href="#" class="nav-item" data-view="funnel">
+                <span class="nav-icon">🔗</span>
+                <span class="nav-label">ファネル</span>
+            </a>
+            <a href="#" class="nav-item" data-view="abtest">
+                <span class="nav-icon">🧪</span>
+                <span class="nav-label">A/Bテスト</span>
+            </a>
+            <a href="#" class="nav-item" data-view="calendar">
+                <span class="nav-icon">📅</span>
+                <span class="nav-label">コンテンツカレンダー</span>
+            </a>
+            <a href="#" class="nav-item" data-view="notes">
+                <span class="nav-icon">💡</span>
+                <span class="nav-label">分析ノート</span>
+            </a>
+            <a href="#" class="nav-item" data-view="settings">
+                <span class="nav-icon">⚙️</span>
+                <span class="nav-label">設定</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="sync-status" id="syncStatus">
+                <span class="sync-dot"></span>
+                <span class="sync-text">スプシ未接続</span>
+            </div>
+            <button class="sync-btn" id="syncBtn" title="データを同期">🔄 同期</button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main" id="main">
+        <!-- Top Bar -->
+        <header class="topbar">
+            <button class="hamburger" id="hamburger" aria-label="Menu">☰</button>
+            <div class="topbar-title" id="topbarTitle">オーバービュー</div>
+            <div class="topbar-actions">
+                <div class="date-range-picker">
+                    <select id="dateRange" class="date-select">
+                        <option value="7d">過去7日</option>
+                        <option value="14d">過去14日</option>
+                        <option value="30d" selected>過去30日</option>
+                        <option value="90d">過去90日</option>
+                        <option value="all">全期間</option>
+                    </select>
+                </div>
+                <button class="export-btn" id="exportBtn" title="CSVエクスポート">📥 Export</button>
+            </div>
+        </header>
+
+        <!-- Views Container -->
+        <div class="content" id="content">
+
+            <!-- ======== OVERVIEW VIEW ======== -->
+            <section class="view active" id="view-overview">
+                <!-- Multi-account summary (only shown when "ALL" is selected) -->
+                <div class="multi-account-bar" id="multiAccountBar" style="display:none">
+                    <h3 class="section-title">全アカウント サマリー</h3>
+                    <div class="account-cards" id="accountCards"></div>
+                </div>
+
+                <!-- KPI Cards -->
+                <div class="kpi-grid">
+                    <div class="kpi-card" id="kpi-followers">
+                        <div class="kpi-header">
+                            <span class="kpi-label">フォロワー</span>
+                            <span class="kpi-change positive" id="kpi-followers-change">+0</span>
+                        </div>
+                        <div class="kpi-value" id="kpi-followers-value">0</div>
+                        <canvas id="spark-followers" class="kpi-spark" width="120" height="36"></canvas>
+                    </div>
+                    <div class="kpi-card" id="kpi-engagement">
+                        <div class="kpi-header">
+                            <span class="kpi-label">エンゲージメント率</span>
+                            <span class="kpi-change positive" id="kpi-engagement-change">+0%</span>
+                        </div>
+                        <div class="kpi-value" id="kpi-engagement-value">0%</div>
+                        <canvas id="spark-engagement" class="kpi-spark" width="120" height="36"></canvas>
+                    </div>
+                    <div class="kpi-card" id="kpi-impressions">
+                        <div class="kpi-header">
+                            <span class="kpi-label">インプレッション</span>
+                            <span class="kpi-change positive" id="kpi-impressions-change">+0</span>
+                        </div>
+                        <div class="kpi-value" id="kpi-impressions-value">0</div>
+                        <canvas id="spark-impressions" class="kpi-spark" width="120" height="36"></canvas>
+                    </div>
+                    <div class="kpi-card" id="kpi-revenue">
+                        <div class="kpi-header">
+                            <span class="kpi-label">月間売上</span>
+                            <span class="kpi-change positive" id="kpi-revenue-change">+¥0</span>
+                        </div>
+                        <div class="kpi-value" id="kpi-revenue-value">¥0</div>
+                        <canvas id="spark-revenue" class="kpi-spark" width="120" height="36"></canvas>
+                    </div>
+                </div>
+
+                <!-- Main Charts Row -->
+                <div class="chart-row">
+                    <div class="chart-card wide">
+                        <div class="chart-header">
+                            <h3>エンゲージメント推移</h3>
+                            <div class="chart-legend">
+                                <span class="legend-item"><span class="legend-dot" style="background:#6366f1"></span>いいね</span>
+                                <span class="legend-item"><span class="legend-dot" style="background:#06b6d4"></span>RT</span>
+                                <span class="legend-item"><span class="legend-dot" style="background:#f59e0b"></span>リプライ</span>
+                            </div>
+                        </div>
+                        <canvas id="chart-engagement" height="280"></canvas>
+                    </div>
+                </div>
+
+                <!-- Secondary Charts -->
+                <div class="chart-row two-col">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>投稿型別 平均いいね</h3>
+                        </div>
+                        <canvas id="chart-type-avg" height="260"></canvas>
+                    </div>
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>時間帯別パフォーマンス</h3>
+                        </div>
+                        <canvas id="chart-time-heatmap" height="260"></canvas>
+                    </div>
+                </div>
+
+                <!-- Best / Worst Posts -->
+                <div class="chart-row two-col">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>🏆 ベスト投稿 Top 5</h3>
+                        </div>
+                        <div class="post-ranking" id="bestPosts"></div>
+                    </div>
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>📉 ワースト投稿 Bottom 5</h3>
+                        </div>
+                        <div class="post-ranking" id="worstPosts"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ======== POSTS VIEW ======== -->
+            <section class="view" id="view-posts">
+                <div class="posts-toolbar">
+                    <div class="search-box">
+                        <input type="text" id="postSearch" placeholder="投稿を検索..." class="search-input">
+                    </div>
+                    <div class="filter-group">
+                        <select id="filterRank" class="filter-select">
+                            <option value="">全ランク</option>
+                            <option value="S">S ランク</option>
+                            <option value="A">A ランク</option>
+                            <option value="B">B ランク</option>
+                            <option value="C">C ランク</option>
+                        </select>
+                        <select id="filterType" class="filter-select">
+                            <option value="">全カテゴリ</option>
+                            <option value="問題提起">問題提起</option>
+                            <option value="How to">How to</option>
+                            <option value="ストーリー">ストーリー</option>
+                            <option value="リスト">リスト</option>
+                            <option value="反常識">反常識</option>
+                            <option value="権威引用">権威引用</option>
+                            <option value="宣伝">宣伝</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="posts-table-wrap">
+                    <table class="posts-table" id="postsTable">
+                        <thead>
+                            <tr>
+                                <th class="sortable" data-sort="date">日時 ↕</th>
+                                <th>投稿テキスト</th>
+                                <th class="sortable" data-sort="type">型 ↕</th>
+                                <th class="sortable" data-sort="likes">いいね ↕</th>
+                                <th class="sortable" data-sort="rts">RT ↕</th>
+                                <th class="sortable" data-sort="replies">リプ ↕</th>
+                                <th class="sortable" data-sort="rank">ランク ↕</th>
+                                <th>アクション</th>
+                            </tr>
+                        </thead>
+                        <tbody id="postsTableBody"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- ======== ANALYTICS VIEW ======== -->
+            <section class="view" id="view-analytics">
+                <div class="chart-row">
+                    <div class="chart-card wide">
+                        <div class="chart-header">
+                            <h3>フォロワー推移</h3>
+                        </div>
+                        <canvas id="chart-follower-trend" height="300"></canvas>
+                    </div>
+                </div>
+                <div class="chart-row two-col">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>投稿ランク分布</h3>
+                        </div>
+                        <canvas id="chart-rank-dist" height="260"></canvas>
+                    </div>
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>文字数 vs エンゲージメント</h3>
+                        </div>
+                        <canvas id="chart-length-engagement" height="260"></canvas>
+                    </div>
+                </div>
+                <div class="chart-row">
+                    <div class="chart-card wide">
+                        <div class="chart-header">
+                            <h3>週次KPIトレンド</h3>
+                        </div>
+                        <canvas id="chart-weekly-kpi" height="300"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ======== FUNNEL VIEW ======== -->
+            <section class="view" id="view-funnel">
+                <div class="funnel-container">
+                    <h3 class="section-title">コンバージョンファネル（月次）</h3>
+                    <div class="funnel-month-selector">
+                        <select id="funnelMonth" class="filter-select">
+                            <option value="2026-03">2026年3月</option>
+                            <option value="2026-04">2026年4月</option>
+                        </select>
+                    </div>
+                    <div class="funnel-visual" id="funnelVisual"></div>
+                    <div class="funnel-insights" id="funnelInsights"></div>
+                </div>
+            </section>
+
+            <!-- ======== A/B TEST VIEW ======== -->
+            <section class="view" id="view-abtest">
+                <h3 class="section-title">A/Bテスト結果</h3>
+                <div class="abtest-grid" id="abtestGrid"></div>
+                <div class="abtest-form-card">
+                    <h3>新しいA/Bテストを記録</h3>
+                    <form id="abtestForm" class="abtest-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>テスト名</label>
+                                <input type="text" id="abTestName" placeholder="例: フック_数字 vs 自己開示" required>
+                            </div>
+                            <div class="form-group">
+                                <label>テスト対象</label>
+                                <select id="abTestTarget">
+                                    <option>フック</option>
+                                    <option>投稿時間</option>
+                                    <option>投稿型</option>
+                                    <option>文字数</option>
+                                    <option>CTA</option>
+                                    <option>その他</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>バリエーションA</label>
+                                <input type="text" id="abVarA" placeholder="例: 数字フック (3時間→30分)">
+                            </div>
+                            <div class="form-group">
+                                <label>バリエーションB</label>
+                                <input type="text" id="abVarB" placeholder="例: 自己開示フック (正直、しんどかった)">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>結果A（いいね数）</label>
+                                <input type="number" id="abResultA" placeholder="45">
+                            </div>
+                            <div class="form-group">
+                                <label>結果B（いいね数）</label>
+                                <input type="number" id="abResultB" placeholder="78">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>学び・メモ</label>
+                            <textarea id="abMemo" rows="2" placeholder="例: 自己開示の方がいいね1.7倍。朝の投稿でネガティブ起点が強い。"></textarea>
+                        </div>
+                        <button type="submit" class="form-submit">テスト結果を記録</button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- ======== CALENDAR VIEW ======== -->
+            <section class="view" id="view-calendar">
+                <h3 class="section-title">投稿カレンダー</h3>
+                <div class="calendar-legend">
+                    <span class="cal-legend-item"><span class="cal-dot" style="background:#1e293b"></span>投稿なし</span>
+                    <span class="cal-legend-item"><span class="cal-dot" style="background:#312e81"></span>低</span>
+                    <span class="cal-legend-item"><span class="cal-dot" style="background:#4338ca"></span>中</span>
+                    <span class="cal-legend-item"><span class="cal-dot" style="background:#6366f1"></span>高</span>
+                    <span class="cal-legend-item"><span class="cal-dot" style="background:#a5b4fc"></span>超高</span>
+                </div>
+                <div class="calendar-grid" id="calendarGrid"></div>
+            </section>
+
+            <!-- ======== NOTES VIEW ======== -->
+            <section class="view" id="view-notes">
+                <h3 class="section-title">💡 分析ノート & 人間の洞察</h3>
+                <p class="section-desc">AIの分析を補足する、あなた自身の気づきや判断を記録する場所です。</p>
+
+                <div class="notes-compose">
+                    <form id="noteForm">
+                        <div class="form-row">
+                            <div class="form-group" style="flex:2">
+                                <label>タイトル</label>
+                                <input type="text" id="noteTitle" placeholder="例: Week 2 の振り返りで気づいたこと" required>
+                            </div>
+                            <div class="form-group" style="flex:1">
+                                <label>カテゴリ</label>
+                                <select id="noteCategory">
+                                    <option value="insight">💡 気づき</option>
+                                    <option value="decision">🎯 意思決定</option>
+                                    <option value="hypothesis">🧪 仮説</option>
+                                    <option value="competitor">🕵️ 競合動向</option>
+                                    <option value="improvement">🔧 改善案</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>内容</label>
+                            <textarea id="noteContent" rows="4" placeholder="あなたの分析や気づきをここに記録..."></textarea>
+                        </div>
+                        <button type="submit" class="form-submit">ノートを追加</button>
+                    </form>
+                </div>
+
+                <div class="notes-list" id="notesList"></div>
+            </section>
+
+            <!-- ======== SETTINGS VIEW ======== -->
+            <section class="view" id="view-settings">
+                <h3 class="section-title">⚙️ 設定</h3>
+
+                <div class="settings-section">
+                    <h4>アカウント管理</h4>
+                    <div class="settings-card" id="accountManager">
+                        <div class="accounts-list-full" id="accountsListFull"></div>
+                        <button class="form-submit" id="addAccountBtn" style="margin-top:16px">+ 新しいアカウントを追加</button>
+                    </div>
+
+                    <div class="settings-card" id="addAccountForm" style="display:none">
+                        <h4>アカウント追加</h4>
+                        <form id="newAccountForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>アカウント名</label>
+                                    <input type="text" id="newAccName" placeholder="例: サブアカ" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>X ハンドル</label>
+                                    <input type="text" id="newAccHandle" placeholder="例: @sub_account" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>GAS Web App URL（スプシ連携用）</label>
+                                <input type="url" id="newAccApiUrl" placeholder="https://script.google.com/macros/s/xxxxx/exec">
+                                <span class="form-hint">gas/web_api.gs をデプロイして取得したURLを入力</span>
+                            </div>
+                            <div class="form-row">
+                                <button type="submit" class="form-submit">追加</button>
+                                <button type="button" class="form-cancel" id="cancelAddAccount">キャンセル</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h4>データ連携</h4>
+                    <div class="settings-card">
+                        <p class="settings-desc">Google スプレッドシートとの連携状態</p>
+                        <div class="connection-status" id="connectionStatus"></div>
+                        <button class="form-submit" id="testConnectionBtn" style="margin-top:12px">接続テスト</button>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Post Detail Modal -->
+    <div class="modal-overlay" id="postModal" style="display:none">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">✕</button>
+            <div id="postModalBody"></div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

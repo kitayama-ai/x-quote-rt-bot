@@ -15,6 +15,21 @@
             "value": "max-age=3600"
           }
         ]
+      },
+      {
+        "source": "dashboard-data.json",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=300"
+          }
+        ]
+      }
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
       }
     ]
   }
