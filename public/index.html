@@ -1191,7 +1191,7 @@ tr:hover td { background: var(--bg-card-hover); }
     <!-- API Keys -->
     <div class="settings-section">
       <h3>APIキー設定</h3>
-      <p>各サービスのAPIキーを登録してください。キーは暗号化されてFirestoreに保存されます。</p>
+      <p>各サービスのAPIキーを登録してください。キーはFirestoreにセキュアに保存され、ご自身のみアクセスできます。</p>
 
       <div class="settings-grid">
         <!-- SocialData API -->
@@ -1427,6 +1427,13 @@ tr:hover td { background: var(--bg-card-hover); }
         }
       } else if (err.code === 'auth/account-exists-with-different-credential') {
         showLoginError('このアカウントは別の方法でログイン済みです。Google または X のうち、最初に使った方でログインしてください。');
+      } else if (err.code === 'auth/operation-not-allowed') {
+        const method = providerName === 'twitter' ? 'X（Twitter）' : 'Google';
+        showLoginError(method + ' ログインは現在無効です。管理者が Firebase Console で有効化する必要があります。');
+      } else if (err.code === 'auth/cancelled-popup-request') {
+        // 複数ポップアップが開かれた場合、無視
+      } else if (err.code === 'auth/network-request-failed') {
+        showLoginError('ネットワークエラーが発生しました。インターネット接続を確認してください。');
       } else if (err.code !== 'auth/popup-closed-by-user') {
         showLoginError('ログインに失敗しました: ' + err.message);
       }
