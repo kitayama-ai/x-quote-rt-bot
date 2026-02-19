@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>プライバシーポリシー — X海外バズリツ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-primary: #06060b;
+  --bg-card: #111119;
+  --border: #1f1f30;
+  --text-primary: #eeeef2;
+  --text-secondary: #8b8ba8;
+  --text-muted: #555570;
+  --accent-blue: #3b82f6;
+  --radius: 14px;
+  --font-sans: "Inter", "Noto Sans JP", -apple-system, BlinkMacSystemFont, sans-serif;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: var(--font-sans);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.8;
+  min-height: 100vh;
+}
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 60px 24px 80px;
+}
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--accent-blue);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 32px;
+  transition: opacity 150ms;
+}
+.back-link:hover { opacity: 0.8; }
+h1 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  letter-spacing: -0.02em;
+}
+.updated {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 40px;
+}
+.section {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+  margin-bottom: 16px;
+}
+.section h2 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: var(--text-primary);
+}
+.section p, .section li {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.8;
+}
+.section ul {
+  padding-left: 20px;
+  margin-top: 8px;
+}
+.section li {
+  margin-bottom: 6px;
+}
+.section p + p {
+  margin-top: 10px;
+}
+.footer {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--text-muted);
+  text-align: center;
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <a class="back-link" href="/">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    ダッシュボードに戻る
+  </a>
+
+  <h1>プライバシーポリシー</h1>
+  <p class="updated">最終更新日: 2026年2月19日</p>
+
+  <div class="section">
+    <h2>1. はじめに</h2>
+    <p>本プライバシーポリシーは、「X海外バズリツ」（以下「本サービス」）が取り扱う個人情報の取得、利用、管理について定めるものです。</p>
+  </div>
+
+  <div class="section">
+    <h2>2. 取得する情報</h2>
+    <p>本サービスでは、以下の情報を取得します。</p>
+    <ul>
+      <li><strong>アカウント情報</strong>：Google または X（旧Twitter）アカウントによるログイン時に提供されるメールアドレス、表示名、プロフィール画像URL</li>
+      <li><strong>APIキー</strong>：ユーザーが自ら登録するSocialData API、OpenAI API、X API等のキー情報</li>
+      <li><strong>利用データ</strong>：ダッシュボードの操作ログ、投稿キューの管理データ</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>3. 情報の利用目的</h2>
+    <p>取得した情報は、以下の目的で利用します。</p>
+    <ul>
+      <li>ユーザー認証およびアクセス制御</li>
+      <li>ユーザーごとのAPI連携機能の提供</li>
+      <li>X上のツイート収集・引用リツイート自動投稿機能の実行</li>
+      <li>サービスの改善および不具合対応</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>4. 情報の保管</h2>
+    <p>ユーザー情報およびAPIキーは、Google Firebase（Firestore）に保存されます。Firestoreのセキュリティルールにより、各ユーザーは自身のデータにのみアクセスできるよう制限されています。</p>
+    <p>APIキーは、ユーザーの Firebase Authentication UID に紐づけて保存され、他のユーザーからはアクセスできません。</p>
+  </div>
+
+  <div class="section">
+    <h2>5. 第三者への提供</h2>
+    <p>本サービスは、以下の場合を除き、ユーザーの個人情報を第三者に提供しません。</p>
+    <ul>
+      <li>ユーザーの同意がある場合</li>
+      <li>法令に基づく場合</li>
+      <li>サービス提供に必要な外部サービス（Firebase、X API、OpenAI API、SocialData API）への連携</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>6. 外部サービスとの連携</h2>
+    <p>本サービスは以下の外部サービスを利用しています。各サービスのプライバシーポリシーもあわせてご確認ください。</p>
+    <ul>
+      <li><strong>Google Firebase</strong>：認証・データ保管・ホスティング</li>
+      <li><strong>X（旧Twitter）API</strong>：ツイートの収集および投稿</li>
+      <li><strong>OpenAI API</strong>：投稿テキストの生成</li>
+      <li><strong>SocialData API</strong>：ツイートデータの収集</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>7. データの削除</h2>
+    <p>ユーザーは、ダッシュボードの設定画面からAPIキーの変更が可能です。アカウントおよび関連データの完全な削除を希望する場合は、運営者にお問い合わせください。</p>
+  </div>
+
+  <div class="section">
+    <h2>8. ポリシーの変更</h2>
+    <p>本ポリシーは予告なく変更されることがあります。変更後のポリシーは、本ページに掲載された時点から効力を生じるものとします。</p>
+  </div>
+
+  <div class="footer">
+    &copy; 2026 X海外バズリツ. All rights reserved.
+  </div>
+</div>
+</body>
+</html>
