@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-02-21T05:47:59.210218",
+  "updated_at": "2026-02-21T07:28:25.552153",
   "stats": {
     "pending": 0,
     "approved": 0,
@@ -104,5 +104,53 @@
     }
   ],
   "recent_posted": [],
-  "metrics": []
+  "metrics": [],
+  "pdca_insights": {
+    "approval_rate": 0.75,
+    "total_decisions": 96,
+    "by_source": {
+      "sama": {
+        "approved": 23,
+        "skipped": 5
+      },
+      "b": {
+        "approved": 5,
+        "skipped": 0
+      },
+      "c": {
+        "approved": 0,
+        "skipped": 5
+      },
+      "test_user": {
+        "approved": 25,
+        "skipped": 10
+      },
+      "testuser": {
+        "approved": 16,
+        "skipped": 4
+      },
+      "karpathy": {
+        "approved": 3,
+        "skipped": 0
+      }
+    },
+    "by_topic": {},
+    "by_reason": {}
+  },
+  "preferences": {
+    "weekly_focus": "",
+    "preferred_topics": [
+      "AI agents",
+      "product launches",
+      "coding AI"
+    ],
+    "avoid_topics": [
+      "AI doomerism",
+      "crypto",
+      "politics"
+    ],
+    "boosted_accounts": [],
+    "version": 1,
+    "updated_at": ""
+  }
 }
