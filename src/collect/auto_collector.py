@@ -53,6 +53,15 @@ class AutoCollector:
             rules = json.load(f)
         self.buzz_thresholds = rules.get("buzz_thresholds", {})
 
+        # ダッシュボード/PDCA からの閾値上書き
+        prefs_path = PROJECT_ROOT / "config" / "selection_preferences.json"
+        try:
+            with open(prefs_path, "r", encoding="utf-8") as f:
+                prefs = json.load(f)
+            self.threshold_overrides = prefs.get("threshold_overrides", {})
+        except (FileNotFoundError, json.JSONDecodeError):
+            self.threshold_overrides = {}
+
     def collect(
         self,
         min_likes: int | None = None,
@@ -76,17 +85,30 @@ class AutoCollector:
         Returns:
             {"fetched", "filtered", "added", "skipped_dup", "tweets"}
         """
-        _min_likes = min_likes or self.buzz_thresholds.get("likes_min", 500)
+        # 優先順位: CLI引数 > ダッシュボード設定(threshold_overrides) > quote_rt_rules
+        _min_likes = (
+            min_likes
+            or self.threshold_overrides.get("min_likes")
+            or self.buzz_thresholds.get("likes_min", 500)
+        )
         _lang = lang or self.buzz_thresholds.get("lang", ["en"])[0]
-        _max_age = max_age_hours or self.buzz_thresholds.get("age_max_hours", 48)
+        _max_age = (
+            max_age_hours
+            or self.threshold_overrides.get("max_age_hours")
+            or self.buzz_thresholds.get("age_max_hours", 48)
+        )
+        # max_tweets: CLI引数がデフォルト(50)ならダッシュボード設定を優先
+        _max_tweets = max_tweets
+        if max_tweets == 50 and self.threshold_overrides.get("max_tweets"):
+            _max_tweets = self.threshold_overrides["max_tweets"]
 
-        print(f"🔍 収集設定: min_likes={_min_likes}, lang={_lang}, max_age={_max_age}h")
+        print(f"🔍 収集設定: min_likes={_min_likes}, lang={_lang}, max_age={_max_age}h, max_tweets={_max_tweets}")
 
         # ── STEP 1: API検索 ──────────────────────────────────────────
         raw_tweets = self._fetch_tweets(
             min_likes=_min_likes,
             lang=_lang,
-            max_tweets=max_tweets,
+            max_tweets=_max_tweets,
         )
         print(f"📥 API取得: {len(raw_tweets)}件")
 

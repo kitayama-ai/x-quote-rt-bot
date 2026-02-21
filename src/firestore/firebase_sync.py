@@ -87,6 +87,12 @@ def map_preferences_to_local(raw: dict, local_prefs: dict) -> list[str]:
             updated_keys.append("max_age_hours_override")
         except ValueError:
             pass
+    if raw.get("max_tweets_override"):
+        try:
+            to["max_tweets"] = int(raw["max_tweets_override"])
+            updated_keys.append("max_tweets_override")
+        except ValueError:
+            pass
 
     # extra_keywords → keyword_weights に追加
     if raw.get("extra_keywords"):

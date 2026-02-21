@@ -261,6 +261,12 @@ class QueueSync:
                 updated_keys.append("max_age_hours_override")
             except ValueError:
                 pass
+        if sheet_prefs.get("max_tweets_override"):
+            try:
+                to["max_tweets"] = int(sheet_prefs["max_tweets_override"])
+                updated_keys.append("max_tweets_override")
+            except ValueError:
+                pass
 
         # extra_keywords → keyword_weights に追加
         if sheet_prefs.get("extra_keywords"):

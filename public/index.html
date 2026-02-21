@@ -1668,6 +1668,40 @@ textarea.form-input {
       </button>
       <div class="save-msg" id="saveMsg"></div>
     </div>
+
+    <!-- Collection Settings -->
+    <div class="settings-section">
+      <h3>収集設定</h3>
+      <p>バズツイート自動収集のパラメータを調整します。変更は次回の収集から反映されます。</p>
+
+      <div class="settings-grid">
+        <div class="form-group">
+          <label class="form-label">1クエリあたり最大取得件数 (max_tweets)</label>
+          <input type="number" class="form-input" id="cfgMaxTweets" min="10" max="100" step="10" value="50">
+          <div class="form-hint">10〜100。大きいほど候補が増えるがAPI費用も増加。30件候補を出すなら100推奨。</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">最低いいね数 (min_likes)</label>
+          <input type="number" class="form-input" id="cfgMinLikes" min="50" max="5000" step="50" value="500">
+          <div class="form-hint">Python側フィルタの閾値。300にすれば候補数UP、1000にすれば厳選。</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">最大経過時間 (max_age_hours)</label>
+          <input type="number" class="form-input" id="cfgMaxAgeHours" min="6" max="168" step="6" value="48">
+          <div class="form-hint">この時間以内のツイートのみ収集。48h=2日、72h=3日。</div>
+        </div>
+      </div>
+
+      <div id="cfgCostEstimate" style="font-size:12px;color:var(--text-secondary);margin:12px 0 8px;padding:12px;background:var(--bg-input);border-radius:8px;font-family:var(--font-mono);line-height:1.8;"></div>
+
+      <button class="save-btn" id="saveCollectionSettings">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+        収集設定を保存
+      </button>
+      <div class="save-msg" id="saveCfgMsg"></div>
+    </div>
   </div>
 </div>
 
@@ -1996,6 +2030,96 @@ textarea.form-input {
       saveBtn.disabled = false;
     });
   }
+
+  // ============================
+  // Collection Settings
+  // ============================
+  const cfgMaxTweets = document.getElementById('cfgMaxTweets');
+  const cfgMinLikes = document.getElementById('cfgMinLikes');
+  const cfgMaxAgeHours = document.getElementById('cfgMaxAgeHours');
+  const cfgCostEstimate = document.getElementById('cfgCostEstimate');
+  const saveCfgBtn = document.getElementById('saveCollectionSettings');
+  const saveCfgMsg = document.getElementById('saveCfgMsg');
+
+  function updateCostEstimate() {
+    const mt = parseInt(cfgMaxTweets.value) || 50;
+    const ml = parseInt(cfgMinLikes.value) || 500;
+    const queries = 3; // 20 accounts / 8 per chunk
+    const totalReads = queries * mt;
+    const costPerRun = (totalReads * 0.005).toFixed(2);
+    const costPerMonth = (costPerRun * 30).toFixed(0);
+    // Rough survival estimate based on min_likes threshold
+    var survivalPct;
+    if (ml <= 100) survivalPct = 25;
+    else if (ml <= 300) survivalPct = 12;
+    else if (ml <= 500) survivalPct = 6;
+    else if (ml <= 1000) survivalPct = 3;
+    else survivalPct = 1;
+    const estCandidates = Math.round(totalReads * survivalPct / 100);
+    if (cfgCostEstimate) {
+      cfgCostEstimate.innerHTML =
+        'API取得: ' + queries + 'クエリ x ' + mt + '件 = <b>' + totalReads + '件/回</b><br>' +
+        'コスト: $' + costPerRun + '/回 ≈ <b>$' + costPerMonth + '/月</b> (1日1回)<br>' +
+        'フィルタ後候補: 推定 <b>~' + estCandidates + '件</b> (min_likes=' + ml + ')';
+    }
+  }
+
+  if (cfgMaxTweets) cfgMaxTweets.addEventListener('input', updateCostEstimate);
+  if (cfgMinLikes) cfgMinLikes.addEventListener('input', updateCostEstimate);
+  updateCostEstimate();
+
+  async function loadCollectionSettings(uid) {
+    try {
+      var doc = await db.collection('selection_preferences').doc(uid).get();
+      if (doc.exists) {
+        var data = doc.data();
+        if (data.max_tweets_override && cfgMaxTweets) cfgMaxTweets.value = data.max_tweets_override;
+        if (data.min_likes_override && cfgMinLikes) cfgMinLikes.value = data.min_likes_override;
+        if (data.max_age_hours_override && cfgMaxAgeHours) cfgMaxAgeHours.value = data.max_age_hours_override;
+        updateCostEstimate();
+      }
+    } catch (err) {
+      console.warn('Collection settings load failed:', err);
+    }
+  }
+
+  if (saveCfgBtn) {
+    saveCfgBtn.addEventListener('click', async function() {
+      if (!currentUser) return;
+      saveCfgBtn.disabled = true;
+      if (saveCfgMsg) { saveCfgMsg.className = 'save-msg'; saveCfgMsg.style.display = 'none'; }
+
+      try {
+        var updates = {
+          max_tweets_override: String(parseInt(cfgMaxTweets.value) || 50),
+          min_likes_override: String(parseInt(cfgMinLikes.value) || 500),
+          max_age_hours_override: String(parseInt(cfgMaxAgeHours.value) || 48),
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+          uid: currentUser.uid,
+        };
+
+        await db.collection('selection_preferences').doc(currentUser.uid).set(updates, { merge: true });
+
+        if (saveCfgMsg) {
+          saveCfgMsg.textContent = '収集設定を保存しました（次回収集から反映）';
+          saveCfgMsg.className = 'save-msg success';
+        }
+      } catch (err) {
+        console.error('Save collection settings error:', err);
+        if (saveCfgMsg) {
+          saveCfgMsg.textContent = '保存に失敗しました: ' + err.message;
+          saveCfgMsg.className = 'save-msg error';
+        }
+      }
+
+      saveCfgBtn.disabled = false;
+    });
+  }
+
+  // Load collection settings after auth
+  auth.onAuthStateChanged(function(u) {
+    if (u) loadCollectionSettings(u.uid);
+  });
 })();
 </script>
 
