@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-02-21T07:59:46.158570",
+  "updated_at": "2026-02-21T08:36:54.815921",
   "stats": {
     "pending": 0,
     "approved": 8,
@@ -324,11 +324,11 @@
   "recent_posted": [],
   "metrics": [],
   "pdca_insights": {
-    "approval_rate": 0.769,
-    "total_decisions": 104,
+    "approval_rate": 0.75,
+    "total_decisions": 96,
     "by_source": {
       "sama": {
-        "approved": 24,
+        "approved": 23,
         "skipped": 5
       },
       "b": {
@@ -350,42 +350,9 @@
       "karpathy": {
         "approved": 3,
         "skipped": 0
-      },
-      "GoogleDeepMind": {
-        "approved": 1,
-        "skipped": 0
-      },
-      "svpino": {
-        "approved": 1,
-        "skipped": 0
-      },
-      "rohanpaul_ai": {
-        "approved": 1,
-        "skipped": 0
-      },
-      "AIatMeta": {
-        "approved": 1,
-        "skipped": 0
-      },
-      "MatthewBerman": {
-        "approved": 1,
-        "skipped": 0
-      },
-      "DrJimFan": {
-        "approved": 1,
-        "skipped": 0
-      },
-      "bindureddy": {
-        "approved": 1,
-        "skipped": 0
       }
     },
-    "by_topic": {
-      "coding AI": {
-        "approved": 1,
-        "skipped": 0
-      }
-    },
+    "by_topic": {},
     "by_reason": {}
   },
   "preferences": {
