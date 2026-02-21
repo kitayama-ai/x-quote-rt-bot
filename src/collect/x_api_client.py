@@ -214,8 +214,10 @@ class XAPIClient:
             kw_parts = [f'"{kw}"' if " " in kw else kw for kw in keywords]
             parts.append(f"({' OR '.join(kw_parts)})")
 
-        if min_likes > 0:
-            parts.append(f"min_faves:{min_likes}")
+        # min_faves はBasicプラン以上でないと使えないため、
+        # Python側でフィルタする（auto_collector._filter_tweets）
+        # if min_likes > 0:
+        #     parts.append(f"min_faves:{min_likes}")
 
         if lang:
             parts.append(f"lang:{lang}")
