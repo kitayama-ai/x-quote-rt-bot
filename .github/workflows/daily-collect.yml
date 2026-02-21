@@ -43,11 +43,21 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      - name: Sync from Firebase (dashboard decisions)
+        if: ${{ inputs.dry_run != 'true' }}
+        env:
+          FIREBASE_CREDENTIALS_BASE64: ${{ secrets.FIREBASE_CREDENTIALS_BASE64 }}
+          FIREBASE_UID: ${{ secrets.FIREBASE_UID }}
+        run: python -m src.main sync-from-firebase --quiet
+        continue-on-error: true
+
       - name: Collect buzz tweets
         env:
           SOCIALDATA_API_KEY: ${{ secrets.SOCIALDATA_API_KEY }}
           DISCORD_WEBHOOK_GENERAL: ${{ secrets.DISCORD_WEBHOOK_GENERAL }}
           DISCORD_WEBHOOK_ACCOUNT_1: ${{ secrets.DISCORD_WEBHOOK_ACCOUNT_1 }}
+          FIREBASE_CREDENTIALS_BASE64: ${{ secrets.FIREBASE_CREDENTIALS_BASE64 }}
+          FIREBASE_UID: ${{ secrets.FIREBASE_UID }}
         run: |
           ARGS="--account 1"
           if [ "${{ inputs.dry_run }}" = "true" ]; then
@@ -76,9 +86,10 @@ jobs:
 
       - name: Commit queue changes
         if: ${{ inputs.dry_run != 'true' }}
+        continue-on-error: true
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add data/queue/ public/dashboard-data.json
+          git add data/queue/ public/dashboard-data.json config/selection_preferences.json
           git diff --staged --quiet || git commit -m "chore: auto-collect buzz tweets $(date +'%Y-%m-%d')"
-          git push
+          git push origin main

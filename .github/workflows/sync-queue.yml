@@ -44,7 +44,14 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Sync queue
+      - name: Sync from Firebase (dashboard decisions)
+        env:
+          FIREBASE_CREDENTIALS_BASE64: ${{ secrets.FIREBASE_CREDENTIALS_BASE64 }}
+          FIREBASE_UID: ${{ secrets.FIREBASE_UID }}
+        run: python -m src.main sync-from-firebase --quiet
+        continue-on-error: true
+
+      - name: Sync queue (Sheets)
         env:
           SPREADSHEET_ID: ${{ secrets.SPREADSHEET_ID }}
           GOOGLE_CREDENTIALS_BASE64: ${{ secrets.GOOGLE_CREDENTIALS_BASE64 }}
@@ -55,9 +62,10 @@ jobs:
           python -m src.main sync-queue --direction "$DIRECTION" --quiet
 
       - name: Commit queue changes
+        continue-on-error: true
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add data/queue/
-          git diff --staged --quiet || git commit -m "🔄 Sync queue from sheet $(date +'%Y-%m-%d %H:%M')"
-          git push
+          git add data/queue/ config/selection_preferences.json
+          git diff --staged --quiet || git commit -m "🔄 Sync queue from sheet+firebase $(date +'%Y-%m-%d %H:%M')"
+          git push origin main
