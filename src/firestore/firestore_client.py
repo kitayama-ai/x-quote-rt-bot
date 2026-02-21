@@ -230,3 +230,84 @@ class FirestoreClient:
         if doc.exists:
             return doc.to_dict()
         return None
+
+    # ========================================
+    # キュー決定（ダッシュボード → バックエンド同期）
+    # ========================================
+
+    def get_queue_decisions(self) -> list[dict]:
+        """
+        ダッシュボードからのキュー操作（承認/スキップ）を全件取得
+
+        Returns:
+            [{"tweet_id": str, "action": str, "skip_reason": str, "decided_by": str, ...}]
+        """
+        db = self._get_db()
+        decisions = []
+        for doc in db.collection("queue_decisions").stream():
+            data = doc.to_dict()
+            data["tweet_id"] = doc.id  # ドキュメントID = tweet_id
+            decisions.append(data)
+        return decisions
+
+    def mark_decisions_processed(self, tweet_ids: list[str]) -> int:
+        """
+        処理済みの決定をFirestoreから削除（バッチ処理）
+
+        Args:
+            tweet_ids: 処理済みのツイートIDリスト
+
+        Returns:
+            削除件数
+        """
+        if not tweet_ids:
+            return 0
+
+        db = self._get_db()
+        batch = db.batch()
+        count = 0
+
+        for tweet_id in tweet_ids:
+            ref = db.collection("queue_decisions").document(tweet_id)
+            batch.delete(ref)
+            count += 1
+
+            # Firestoreのバッチは最大500件
+            if count % 500 == 0:
+                batch.commit()
+                batch = db.batch()
+
+        if count % 500 != 0:
+            batch.commit()
+
+        return count
+
+    # ========================================
+    # 選定プリファレンス（ダッシュボード → バックエンド同期）
+    # ========================================
+
+    def get_selection_preferences(self, uid: str) -> dict | None:
+        """
+        ダッシュボードで設定された選定プリファレンスを取得
+
+        Args:
+            uid: Firebase Auth UID
+
+        Returns:
+            {
+                "weekly_focus": "...",
+                "focus_keywords": "AI agent, Claude",  # CSV形式
+                "preferred_topics": "AI agents, coding AI",
+                ...
+            } or None
+        """
+        db = self._get_db()
+        doc = db.collection("selection_preferences").document(uid).get()
+        if doc.exists:
+            data = doc.to_dict()
+            # Firestore Timestamp をフィルタ（JSON非対応）
+            return {
+                k: v for k, v in data.items()
+                if not hasattr(v, 'timestamp')  # Timestamp型を除外
+            }
+        return None

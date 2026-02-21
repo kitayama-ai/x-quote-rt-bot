@@ -389,6 +389,37 @@ def cmd_collect(args):
     except Exception as e:
         print(f"⚠️ シート設定の読み込みスキップ: {e}")
 
+    # プリファレンス同期（Sheets → ローカルJSON）
+    if sync:
+        try:
+            pref_result = sync.sync_preferences()
+            if pref_result["updated_keys"]:
+                print(f"🎯 プリファレンス同期(Sheets): {', '.join(pref_result['updated_keys'])}")
+        except Exception as e:
+            print(f"⚠️ プリファレンス同期スキップ: {e}")
+
+    # Firebase同期（ダッシュボード操作の反映）
+    try:
+        import os as _os
+        from src.firestore.firestore_client import FirestoreClient
+        from src.firestore.firebase_sync import FirebaseSync
+        fc = FirestoreClient()
+        fb_sync = FirebaseSync(fc)
+        # キュー決定を同期
+        q_result = fb_sync.sync_queue_decisions()
+        if q_result["approved"] or q_result["skipped"]:
+            print(f"🔥 Firebase同期: 承認{q_result['approved']}件, スキップ{q_result['skipped']}件")
+        # プリファレンス同期
+        fb_uid = _os.getenv("FIREBASE_UID", "")
+        if fb_uid:
+            p_result = fb_sync.sync_selection_preferences(fb_uid)
+            if p_result["updated_keys"]:
+                print(f"🎯 Firebase設定同期: {', '.join(p_result['updated_keys'])}")
+    except ImportError:
+        pass  # firebase-admin 未インストール時はスキップ
+    except Exception as e:
+        print(f"⚠️ Firebase同期スキップ: {e}")
+
     # CLI引数がなければシート設定を使用
     effective_min_likes = args.min_likes or sheet_settings.get("min_likes")
     effective_auto_approve = args.auto_approve or sheet_settings.get("auto_approve", False)
@@ -547,6 +578,20 @@ def cmd_weekly_pdca(args):
         print("  ✅ マスターデータ更新完了")
     except Exception as e:
         print(f"  ⚠️ マスターデータ更新スキップ: {e}")
+
+    # 3.5. 選定PDCA
+    print("\n── STEP 3.5: 選定PDCA ──")
+    try:
+        from src.pdca.preference_updater import PreferenceUpdater
+        pref_updater = PreferenceUpdater()
+        pref_analysis = pref_updater.analyze_feedback()
+        if pref_analysis["total_decisions"] > 0:
+            pref_changes = pref_updater.auto_update()
+            print(f"  ✅ 選定PDCA: {pref_changes['summary']}")
+        else:
+            print("  ℹ️ 選定PDCA: フィードバックデータなし")
+    except Exception as e:
+        print(f"  ⚠️ 選定PDCAスキップ: {e}")
 
     # 4. Discord通知
     print("\n── STEP 4: Discord通知 ──")
@@ -728,12 +773,46 @@ def cmd_export_dashboard(args):
         reverse=True,
     )[:30]
 
+    # PDCA分析データ
+    pdca_insights = {}
+    try:
+        feedback_stats = queue.get_feedback_stats()
+        if feedback_stats:
+            pdca_insights = {
+                "approval_rate": feedback_stats.get("approval_rate", 0),
+                "total_decisions": feedback_stats.get("total", 0),
+                "by_source": feedback_stats.get("by_source", {}),
+                "by_topic": feedback_stats.get("by_topic", {}),
+                "by_reason": feedback_stats.get("by_reason", {}),
+            }
+    except Exception:
+        pass
+
+    # プリファレンス設定
+    preferences_summary = {}
+    try:
+        from src.collect.preference_scorer import PreferenceScorer
+        scorer = PreferenceScorer()
+        prefs = scorer.preferences
+        preferences_summary = {
+            "weekly_focus": prefs.get("weekly_focus", {}).get("directive", ""),
+            "preferred_topics": prefs.get("topic_preferences", {}).get("preferred", []),
+            "avoid_topics": prefs.get("topic_preferences", {}).get("avoid", []),
+            "boosted_accounts": prefs.get("account_overrides", {}).get("boosted", []),
+            "version": prefs.get("version", 1),
+            "updated_at": prefs.get("updated_at", ""),
+        }
+    except Exception:
+        pass
+
     dashboard_data = {
         "updated_at": datetime.now().isoformat(),
         "stats": stats,
         "queue": all_pending,
         "recent_posted": recent_posted,
         "metrics": recent_metrics,
+        "pdca_insights": pdca_insights,
+        "preferences": preferences_summary,
     }
 
     output_path = PROJECT_ROOT / "public" / "dashboard-data.json"
@@ -743,6 +822,209 @@ def cmd_export_dashboard(args):
 
     print(f"📊 ダッシュボードデータをエクスポート: {output_path}")
     print(f"   キュー: {len(all_pending)}件 / 投稿済み: {len(recent_posted)}件")
+
+
+def cmd_preferences(args):
+    """選定プリファレンスの表示・同期"""
+    from src.collect.preference_scorer import PreferenceScorer
+
+    config = Config(f"account_{args.account}")
+
+    if args.sync:
+        # スプレッドシートからプリファレンスを同期
+        print("🔄 プリファレンスをスプレッドシートから同期中...")
+        try:
+            from src.sheets.sheets_client import SheetsClient
+            from src.sheets.queue_sync import QueueSync
+            sheets = SheetsClient(config)
+            sync = QueueSync(sheets)
+            result = sync.sync_preferences()
+            if result["updated_keys"]:
+                print(f"✅ 更新: {', '.join(result['updated_keys'])}")
+            else:
+                print("✅ 変更なし")
+        except Exception as e:
+            print(f"❌ 同期エラー: {e}")
+        return
+
+    # デフォルト: 現在のプリファレンスを表示
+    scorer = PreferenceScorer()
+    prefs = scorer.preferences
+
+    print(f"\n{'='*50}")
+    print("🎯 選定プリファレンス設定")
+    print(f"{'='*50}")
+
+    # Weekly Focus
+    wf = prefs.get("weekly_focus", {})
+    print(f"\n📌 今週のフォーカス:")
+    print(f"   テーマ: {wf.get('directive', '（未設定）') or '（未設定）'}")
+    print(f"   キーワード: {', '.join(wf.get('focus_keywords', [])) or '（なし）'}")
+    print(f"   アカウント: {', '.join(wf.get('focus_accounts', [])) or '（なし）'}")
+
+    # Topics
+    tp = prefs.get("topic_preferences", {})
+    print(f"\n📋 トピック:")
+    print(f"   優先: {', '.join(tp.get('preferred', []))}")
+    print(f"   回避: {', '.join(tp.get('avoid', []))}")
+
+    # Accounts
+    ao = prefs.get("account_overrides", {})
+    print(f"\n👤 アカウント:")
+    print(f"   優先: {', '.join(ao.get('boosted', [])) or '（なし）'}")
+    print(f"   ブロック: {', '.join(ao.get('blocked', [])) or '（なし）'}")
+
+    # Keywords
+    kw = prefs.get("keyword_weights", {})
+    print(f"\n🔑 キーワード重み:")
+    for k, v in sorted(kw.items(), key=lambda x: x[1], reverse=True)[:10]:
+        print(f"   {k}: {v}")
+
+    print(f"\n   更新日: {prefs.get('updated_at', '—')}")
+    print(f"   更新者: {prefs.get('updated_by', '—')}")
+    print(f"   バージョン: {prefs.get('version', 1)}")
+    print(f"{'='*50}")
+
+
+def cmd_selection_pdca(args):
+    """選定PDCAの実行（分析→調整→レポート）"""
+    from src.pdca.preference_updater import PreferenceUpdater
+
+    print("🎯 選定PDCA実行中...")
+
+    updater = PreferenceUpdater()
+
+    # 1. 分析
+    print("\n── STEP 1: フィードバック分析 ──")
+    analysis = updater.analyze_feedback()
+
+    if analysis["total_decisions"] == 0:
+        print("  📭 フィードバックデータがありません。")
+        print("  💡 ツイートの承認/スキップ操作を行ってからお試しください。")
+        return
+
+    print(f"  判断数: {analysis['total_decisions']}件")
+    print(f"  承認率: {analysis['approval_rate']*100:.1f}%")
+
+    if analysis["account_recommendations"]["promote"]:
+        print(f"\n  ✅ 高承認率アカウント:")
+        for p in analysis["account_recommendations"]["promote"][:5]:
+            print(f"     @{p['username']}: {p['rate']*100:.0f}% ({p['count']}件)")
+
+    if analysis["account_recommendations"]["demote"]:
+        print(f"\n  ⚠️ 低承認率アカウント:")
+        for d in analysis["account_recommendations"]["demote"][:5]:
+            print(f"     @{d['username']}: {d['rate']*100:.0f}% ({d['count']}件)")
+
+    if analysis["top_skip_reasons"]:
+        reason_labels = {
+            "topic_mismatch": "トピック不一致",
+            "source_untrusted": "ソース不適切",
+            "too_old": "古すぎる",
+            "low_quality": "品質不足",
+            "off_brand": "ブランド不適合",
+            "other": "その他",
+        }
+        print(f"\n  📋 スキップ理由:")
+        for sr in analysis["top_skip_reasons"][:5]:
+            label = reason_labels.get(sr["reason"], sr["reason"])
+            print(f"     {label}: {sr['count']}件")
+
+    # 2. 自動調整
+    if args.auto_adjust:
+        print("\n── STEP 2: 自動調整 ──")
+        result = updater.auto_update(dry_run=args.dry_run)
+        if result["changes"]:
+            for change in result["changes"]:
+                print(f"  🔄 {change}")
+            if args.dry_run:
+                print(f"\n  🔒 ドライラン: 変更は保存されません")
+            else:
+                print(f"\n  ✅ {result['summary']}")
+        else:
+            print(f"  ℹ️ {result['summary']}")
+    else:
+        print("\n💡 --auto-adjust フラグで自動調整を実行できます")
+
+    # 3. レポート生成
+    print("\n── STEP 3: レポート ──")
+    report = updater.generate_report()
+    print(report)
+
+    # Discord通知
+    if not args.dry_run:
+        try:
+            config = Config(f"account_{args.account}")
+            from src.notify.discord_notifier import DiscordNotifier
+            webhook = config.discord_webhook_metrics or config.discord_webhook_general
+            if webhook:
+                notifier = DiscordNotifier(webhook)
+                notifier.send(content=report)
+                print("\n📨 Discord通知を送信しました")
+        except Exception as e:
+            print(f"⚠️ Discord通知エラー: {e}")
+
+
+def cmd_sync_from_firebase(args):
+    """Firestore（ダッシュボード操作）→ ローカルJSON同期"""
+    import os
+    from src.firestore.firestore_client import FirestoreClient
+    from src.firestore.firebase_sync import FirebaseSync
+
+    quiet = getattr(args, "quiet", False)
+
+    if not quiet:
+        print("🔥 Firebase同期開始（ダッシュボード → バックエンド）")
+
+    try:
+        fc = FirestoreClient()
+        fb_sync = FirebaseSync(fc)
+    except Exception as e:
+        if not quiet:
+            print(f"❌ Firebase初期化エラー: {e}")
+        return
+
+    queue_only = getattr(args, "queue_only", False)
+    prefs_only = getattr(args, "prefs_only", False)
+
+    # キュー決定の同期
+    if not prefs_only:
+        try:
+            q_result = fb_sync.sync_queue_decisions()
+            if not quiet:
+                total = q_result["approved"] + q_result["skipped"]
+                if total > 0:
+                    print(f"  ✅ キュー同期: 承認{q_result['approved']}件, スキップ{q_result['skipped']}件")
+                    if q_result["not_found"]:
+                        print(f"  ⚠️ 見つからなかった決定: {q_result['not_found']}件")
+                else:
+                    print("  📭 キュー決定: 新規なし")
+            if q_result["errors"] and not quiet:
+                for err in q_result["errors"]:
+                    print(f"  ❌ {err}")
+        except Exception as e:
+            if not quiet:
+                print(f"  ⚠️ キュー同期エラー: {e}")
+
+    # プリファレンスの同期
+    if not queue_only:
+        uid = getattr(args, "uid", "") or os.getenv("FIREBASE_UID", "")
+        if uid:
+            try:
+                p_result = fb_sync.sync_selection_preferences(uid)
+                if not quiet:
+                    if p_result["updated_keys"]:
+                        print(f"  🎯 プリファレンス同期: {', '.join(p_result['updated_keys'])}")
+                    else:
+                        print("  📭 プリファレンス: 変更なし")
+            except Exception as e:
+                if not quiet:
+                    print(f"  ⚠️ プリファレンス同期エラー: {e}")
+        elif not quiet:
+            print("  ⚠️ プリファレンス同期スキップ（--uid または FIREBASE_UID 未設定）")
+
+    if not quiet:
+        print("🔥 Firebase同期完了")
 
 
 def cmd_analyze_persona(args):
@@ -920,6 +1202,28 @@ def main():
         subparsers.add_parser("export-dashboard", help="ダッシュボード用JSONデータをエクスポート")
     )
 
+    # preferences (選定プリファレンス管理)
+    pref_parser = add_account_arg(
+        subparsers.add_parser("preferences", help="選定プリファレンスの表示・同期")
+    )
+    pref_parser.add_argument("--sync", action="store_true", help="スプレッドシートからプリファレンスを同期")
+
+    # selection-pdca (選定PDCA)
+    sel_pdca_parser = add_account_arg(
+        subparsers.add_parser("selection-pdca", help="選定PDCAの実行（分析→調整→レポート）")
+    )
+    sel_pdca_parser.add_argument("--auto-adjust", action="store_true", help="分析結果に基づいて自動調整")
+    sel_pdca_parser.add_argument("--dry-run", action="store_true", help="ドライラン（変更を保存しない）")
+
+    # sync-from-firebase (Firestore → ローカルJSON同期)
+    fb_sync_parser = add_account_arg(
+        subparsers.add_parser("sync-from-firebase", help="Firestore（ダッシュボード操作）→ ローカルJSON同期")
+    )
+    fb_sync_parser.add_argument("--uid", type=str, default="", help="対象ユーザーUID（デフォルト: FIREBASE_UID環境変数）")
+    fb_sync_parser.add_argument("--queue-only", action="store_true", help="キュー決定のみ同期")
+    fb_sync_parser.add_argument("--prefs-only", action="store_true", help="プリファレンスのみ同期")
+    fb_sync_parser.add_argument("--quiet", action="store_true", help="出力抑制（GitHub Actions用）")
+
     # analyze-persona (Xアカウントの文体分析)
     persona_parser = add_account_arg(
         subparsers.add_parser("analyze-persona", help="Xアカウントの文体を分析してペルソナプロファイル生成")
@@ -949,6 +1253,9 @@ def main():
         "sync-settings": cmd_sync_settings,
         "export-dashboard": cmd_export_dashboard,
         "analyze-persona": cmd_analyze_persona,
+        "preferences": cmd_preferences,
+        "selection-pdca": cmd_selection_pdca,
+        "sync-from-firebase": cmd_sync_from_firebase,
     }
 
     commands[args.command](args)
