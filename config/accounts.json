@@ -2,11 +2,11 @@
   "accounts": [
     {
       "id": "account_1",
-      "name": "レン",
-      "handle": "@ren_aiautomation",
-      "theme": "AIエージェント・自動化",
-      "target": "中〜上級者（AIで自動化したい人）",
-      "tone": "カジュアル＋専門的、仲間感",
+      "name": "NinjaGuild_Japan",
+      "handle": "@ngg_japan",
+      "theme": "暗号資産（仮想通貨）・Web3・AI",
+      "target": "仮想通貨トレーダー・Web3ユーザー・AIに関心のある投資家層",
+      "tone": "熱量高い・断定的・ニュースキュレーター型",
       "master_data": "data/master/account_1_master.md",
       "prompt_template": "src/generate/templates/account_1.md",
       "env_prefix": "X_ACCOUNT_1",

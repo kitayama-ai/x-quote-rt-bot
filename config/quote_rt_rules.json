@@ -33,32 +33,32 @@
   "templates": [
     {
       "id": "translate_comment",
-      "name": "翻訳+自分コメント型",
-      "description": "要約→「僕的なポイントは〜」",
+      "name": "翻訳+市場インパクト型",
+      "description": "🚨【キーワード】→ 市場/投資家への影響を箇条書きで",
       "max_daily_uses": 2
     },
     {
       "id": "summary_points",
       "name": "要点まとめ型",
-      "description": "「海外で話題の〇〇。ポイント3つ:」",
+      "description": "💥【速報】→ ポイント3つを箇条書きで",
       "max_daily_uses": 2
     },
     {
       "id": "question_prompt",
       "name": "問題提起型",
-      "description": "要約→「これ日本でも〜。みんなどう思う？」",
+      "description": "🚨【警告】→ 根拠/データで警鐘を鳴らす",
       "max_daily_uses": 2
     },
     {
       "id": "practice_report",
-      "name": "実践レポート型",
-      "description": "要約→「実際に試してみた。結果:」",
+      "name": "分析レポート型",
+      "description": "💥【激震】→ 分析ポイントを箇条書きで断定",
       "max_daily_uses": 2
     },
     {
       "id": "breaking_news",
       "name": "速報型",
-      "description": "要約→「これはデカい。〜が変わる」",
+      "description": "🚨【衝撃】→ 歴史的意義を断言して締める",
       "max_daily_uses": 2
     }
   ],
