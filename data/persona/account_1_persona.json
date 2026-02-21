@@ -1,0 +1,56 @@
+{
+  "username": "ngg_japan",
+  "display_name": "",
+  "bio": "",
+  "tweet_count_analyzed": 100,
+  "first_person": "私",
+  "first_person_frequency": 0.04,
+  "sentence_endings": [
+    "だよ。",
+    "体言止め",
+    "けど。"
+  ],
+  "catchphrases": [
+    "2026年2月18日",
+    "🏛️🇺🇸",
+    "2026年2月20日",
+    "🏛️⚖️",
+    "・最高裁判決を前に"
+  ],
+  "emotion_words": [
+    "最高",
+    "最強",
+    "相当",
+    "ガチ",
+    "圧倒的",
+    "神",
+    "面白い",
+    "猛烈に",
+    "劇的に"
+  ],
+  "avg_tweet_length": 176.93,
+  "avg_line_count": 5.33,
+  "uses_emoji": true,
+  "emoji_frequency": 0.96,
+  "top_emojis": [
+    "💥",
+    "🏛️📉",
+    "🏛️🔥",
+    "🏛️🇺🇸",
+    "🏛️✨",
+    "💀",
+    "🏛️",
+    "🩸",
+    "🏛️⚖️",
+    "🚀"
+  ],
+  "uses_hashtags": false,
+  "punctuation_style": "句点使う、改行多め、体言止め多用",
+  "kanji_ratio": 0.22715198100943876,
+  "tone": "",
+  "formality_level": "敬語ベース",
+  "topics": [],
+  "content_types": {},
+  "prompt_summary": "",
+  "sample_tweets": []
+}
