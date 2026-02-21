@@ -1,6 +1,6 @@
 name: Daily Collect (バズツイート自動収集)
 
-# 毎朝 6:00 JST (21:00 UTC) にSocialData APIでバズツイートを収集
+# 毎朝 6:00 JST (21:00 UTC) にX API v2でバズツイートを収集
 # → 6:30 の daily-curate で引用RTコメント生成
 on:
   schedule:
@@ -53,7 +53,7 @@ jobs:
 
       - name: Collect buzz tweets
         env:
-          SOCIALDATA_API_KEY: ${{ secrets.SOCIALDATA_API_KEY }}
+          TWITTER_BEARER_TOKEN: ${{ secrets.TWITTER_BEARER_TOKEN }}
           DISCORD_WEBHOOK_GENERAL: ${{ secrets.DISCORD_WEBHOOK_GENERAL }}
           DISCORD_WEBHOOK_ACCOUNT_1: ${{ secrets.DISCORD_WEBHOOK_ACCOUNT_1 }}
           FIREBASE_CREDENTIALS_BASE64: ${{ secrets.FIREBASE_CREDENTIALS_BASE64 }}

@@ -1,7 +1,7 @@
 """
 X Auto Post System — 自動バズツイート収集（パターンB）
 
-SocialData APIを使って、target_accounts.json に登録された
+X API v2 (tweepy) を使って、target_accounts.json に登録された
 海外AIアカウントのバズツイートを自動収集し、キューに追加する。
 
 Usage:
@@ -12,7 +12,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
-from src.collect.socialdata_client import SocialDataClient, SocialDataError
+from src.collect.x_api_client import XAPIClient, XAPIError
 from src.collect.tweet_parser import TweetParser, ParsedTweet
 from src.collect.queue_manager import QueueManager
 from src.collect.preference_scorer import PreferenceScorer
@@ -30,10 +30,10 @@ class AutoCollector:
 
     def __init__(
         self,
-        api_key: str = "",
+        bearer_token: str = "",
         queue: QueueManager | None = None,
     ):
-        self.client = SocialDataClient(api_key=api_key)
+        self.client = XAPIClient(bearer_token=bearer_token)
         self.queue = queue or QueueManager()
         self.preference_scorer = PreferenceScorer()
         self._load_config()
@@ -102,7 +102,7 @@ class AutoCollector:
         parsed_tweets = []
         for tweet_data in filtered:
             try:
-                parsed = TweetParser.from_api_data(tweet_data, source="socialdata")
+                parsed = TweetParser.from_api_data(tweet_data, source="x_api_v2")
                 parsed_tweets.append(parsed)
             except Exception as e:
                 print(f"  ⚠️ パースエラー: {e}")
@@ -196,7 +196,7 @@ class AutoCollector:
                 )
                 all_tweets.extend(tweets)
                 print(f"     → {len(tweets)}件取得")
-            except SocialDataError as e:
+            except XAPIError as e:
                 print(f"     ❌ APIエラー: {e}")
 
         # キーワード検索（アカウント検索で十分取れなかった場合の補完）
@@ -215,7 +215,7 @@ class AutoCollector:
                 )
                 all_tweets.extend(tweets)
                 print(f"     → {len(tweets)}件取得")
-            except SocialDataError as e:
+            except XAPIError as e:
                 print(f"     ❌ APIエラー: {e}")
 
         # 重複排除（同じtweet_idが複数クエリで取れる場合）

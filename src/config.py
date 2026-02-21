@@ -178,7 +178,7 @@ class Config:
         with open(self.prompt_template_path, "r", encoding="utf-8") as f:
             return f.read()
 
-    # === SocialData API ===
+    # === SocialData API (deprecated — X API v2 に移行済み) ===
 
     @property
     def socialdata_api_key(self) -> str:

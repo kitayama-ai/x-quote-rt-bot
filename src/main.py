@@ -367,11 +367,11 @@ def cmd_curate_post(args):
 
 
 def cmd_collect(args):
-    """バズツイートを自動収集（パターンB: SocialData API）"""
+    """バズツイートを自動収集（パターンB: X API v2）"""
     from src.collect.auto_collector import AutoCollector
     from src.notify.discord_notifier import DiscordNotifier
 
-    print("🔍 バズツイート自動収集開始（SocialData API）")
+    print("🔍 バズツイート自動収集開始（X API v2）")
 
     # スプシから設定を読み込み（環境変数が設定されていれば）
     sheet_settings = {}
@@ -429,7 +429,7 @@ def cmd_collect(args):
         collector = AutoCollector()
     except ValueError as e:
         print(f"❌ {e}")
-        print("💡 .env に SOCIALDATA_API_KEY=your_key を追加してください")
+        print("💡 .env に TWITTER_BEARER_TOKEN=your_token を追加してください")
         return
 
     result = collector.collect(
@@ -1030,14 +1030,14 @@ def cmd_sync_from_firebase(args):
 def cmd_analyze_persona(args):
     """Xアカウントの文体を分析してペルソナプロファイルを生成"""
     from src.analyze.persona_analyzer import PersonaAnalyzer
-    from src.collect.socialdata_client import SocialDataClient
+    from src.collect.x_api_client import XAPIClient, XAPIError
 
     config = Config(f"account_{args.account}")
     username = args.username or config.account_handle.lstrip("@")
 
     print(f"🔍 ペルソナ分析開始 — @{username}")
 
-    # ツイート取得（SocialData API or ファイルから）
+    # ツイート取得（X API v2 or ファイルから）
     tweets_text = []
 
     if args.file:
@@ -1055,21 +1055,27 @@ def cmd_analyze_persona(args):
                 tweets_text = [line.strip() for line in f if line.strip()]
         print(f"📄 ファイルから{len(tweets_text)}件のツイートを読み込み")
     else:
-        # SocialData APIで取得
-        api_key = config.socialdata_api_key
-        if not api_key:
-            print("❌ SOCIALDATA_API_KEY が設定されていません。")
+        # X API v2で取得
+        import os
+        bearer_token = os.getenv("TWITTER_BEARER_TOKEN", "")
+        if not bearer_token:
+            print("❌ TWITTER_BEARER_TOKEN が設定されていません。")
             print("   代替: --file オプションでツイートファイルを指定してください。")
             return
 
-        client = SocialDataClient(api_key)
-        print(f"📡 @{username} のツイートをSocialData APIで取得中...")
+        try:
+            client = XAPIClient(bearer_token)
+        except ValueError as e:
+            print(f"❌ {e}")
+            return
+
+        print(f"📡 @{username} のツイートをX API v2で取得中...")
 
         try:
-            raw_tweets = client.get_user_tweets(username, count=args.count)
+            raw_tweets = client.get_user_tweets(username, max_results=args.count)
             tweets_text = [t.get("text", "") for t in raw_tweets if t.get("text")]
             print(f"📥 {len(tweets_text)}件のツイートを取得")
-        except Exception as e:
+        except XAPIError as e:
             print(f"❌ ツイート取得エラー: {e}")
             return
 
@@ -1155,7 +1161,7 @@ def main():
     add_account_arg(subparsers.add_parser("curate-post", help="引用RT投稿を実行（生成済みキューから）"))
 
     # collect (パターンB)
-    collect_parser = add_account_arg(subparsers.add_parser("collect", help="バズツイートを自動収集（SocialData API）"))
+    collect_parser = add_account_arg(subparsers.add_parser("collect", help="バズツイートを自動収集（X API v2）"))
     collect_parser.add_argument("--dry-run", action="store_true", help="ドライラン（キューに追加しない）")
     collect_parser.add_argument("--auto-approve", action="store_true", help="収集したツイートを自動承認")
     collect_parser.add_argument("--min-likes", type=int, default=None, help="最低いいね数（デフォルト: 設定ファイルの値）")

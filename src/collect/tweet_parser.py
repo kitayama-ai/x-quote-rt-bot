@@ -26,7 +26,7 @@ class ParsedTweet:
     bookmarks: int = 0
     url: str = ""
     collected_at: str = ""
-    source: str = "manual"  # "manual" | "socialdata" | "payperuse"
+    source: str = "manual"  # "manual" | "x_api_v2" | "socialdata"
     tags: list[str] = field(default_factory=list)
     memo: str = ""  # 収集時のメモ
     # プリファレンスマッチ情報（選定PDCAで使用）

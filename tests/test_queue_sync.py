@@ -17,7 +17,7 @@ def _make_tweet(tweet_id: str, username: str = "test_user") -> ParsedTweet:
         author_username=username,
         text=f"Test tweet {tweet_id}",
         likes=1000,
-        source="socialdata",
+        source="x_api_v2",
     )
 
 

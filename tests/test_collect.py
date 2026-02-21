@@ -1,6 +1,6 @@
 """
 テスト — バズツイート収集（パターンB）
-SocialDataClient, AutoCollector, TweetParser, QueueManager
+XAPIClient, AutoCollector, TweetParser, QueueManager
 """
 import json
 import pytest
@@ -9,7 +9,7 @@ from unittest.mock import patch, MagicMock
 
 from src.collect.tweet_parser import TweetParser, ParsedTweet, is_valid_tweet_url
 from src.collect.queue_manager import QueueManager
-from src.collect.socialdata_client import SocialDataClient, SocialDataError
+from src.collect.x_api_client import XAPIClient, XAPIError
 
 
 # ========================================
@@ -73,7 +73,7 @@ class TestTweetParser:
             TweetParser.from_url("https://google.com")
 
     def test_from_api_data(self):
-        """APIデータからParsedTweet生成（SocialData形式）"""
+        """APIデータからParsedTweet生成（X API v2 互換形式）"""
         data = {
             "id": 9876543210,
             "full_text": "AI Agents are becoming mainstream.",
@@ -86,16 +86,16 @@ class TestTweetParser:
             "retweet_count": 8100,
             "reply_count": 500,
             "quote_count": 200,
-            "bookmark_count": 1500,
+            "bookmark_count": 0,
         }
-        tweet = TweetParser.from_api_data(data, source="socialdata")
+        tweet = TweetParser.from_api_data(data, source="x_api_v2")
         assert tweet.tweet_id == "9876543210"
         assert tweet.author_username == "AndrewYNg"
         assert tweet.author_name == "Andrew Ng"
         assert tweet.text == "AI Agents are becoming mainstream."
         assert tweet.likes == 38700
         assert tweet.retweets == 8100
-        assert tweet.source == "socialdata"
+        assert tweet.source == "x_api_v2"
 
     def test_from_api_data_text_field(self):
         """APIデータの'text'フィールドも対応"""
@@ -140,7 +140,7 @@ class TestParsedTweet:
             author_username="sama",
             text="test tweet",
             likes=1000,
-            source="socialdata",
+            source="x_api_v2",
         )
         restored = ParsedTweet.from_dict(original.to_dict())
         assert restored.tweet_id == original.tweet_id
@@ -253,30 +253,33 @@ class TestQueueManager:
 
 
 # ========================================
-# SocialDataClient Tests
+# XAPIClient Tests
 # ========================================
 
-class TestSocialDataClient:
-    def test_init_no_key(self):
-        """APIキーなしでValueError"""
+class TestXAPIClient:
+    def test_init_no_token(self):
+        """Bearer Tokenなしで ValueError"""
         with patch.dict("os.environ", {}, clear=True):
-            with pytest.raises(ValueError, match="SOCIALDATA_API_KEY"):
-                SocialDataClient(api_key="")
+            with pytest.raises(ValueError, match="TWITTER_BEARER_TOKEN"):
+                XAPIClient(bearer_token="")
 
-    def test_init_with_key(self):
-        """APIキー指定で初期化"""
-        client = SocialDataClient(api_key="test_key_123")
-        assert client.api_key == "test_key_123"
+    @patch("src.collect.x_api_client.tweepy.Client")
+    def test_init_with_token(self, mock_tweepy_cls):
+        """Bearer Token指定で初期化"""
+        client = XAPIClient(bearer_token="test_token_123")
+        assert client.bearer_token == "test_token_123"
 
-    def test_init_from_env(self):
-        """環境変数からAPIキー取得"""
-        with patch.dict("os.environ", {"SOCIALDATA_API_KEY": "env_key_456"}):
-            client = SocialDataClient()
-            assert client.api_key == "env_key_456"
+    @patch("src.collect.x_api_client.tweepy.Client")
+    def test_init_from_env(self, mock_tweepy_cls):
+        """環境変数からBearer Token取得"""
+        with patch.dict("os.environ", {"TWITTER_BEARER_TOKEN": "env_token_456"}):
+            client = XAPIClient()
+            assert client.bearer_token == "env_token_456"
 
-    def test_build_search_query_accounts(self):
+    @patch("src.collect.x_api_client.tweepy.Client")
+    def test_build_search_query_accounts(self, mock_tweepy_cls):
         """アカウント検索クエリ生成"""
-        client = SocialDataClient(api_key="test")
+        client = XAPIClient(bearer_token="test")
         query = client.build_search_query(
             accounts=["sama", "karpathy"],
             min_likes=1000,
@@ -286,12 +289,13 @@ class TestSocialDataClient:
         assert "from:karpathy" in query
         assert "min_faves:1000" in query
         assert "lang:en" in query
-        assert "-filter:replies" in query
-        assert "-filter:retweets" in query
+        assert "-is:reply" in query
+        assert "-is:retweet" in query
 
-    def test_build_search_query_keywords(self):
+    @patch("src.collect.x_api_client.tweepy.Client")
+    def test_build_search_query_keywords(self, mock_tweepy_cls):
         """キーワード検索クエリ生成"""
-        client = SocialDataClient(api_key="test")
+        client = XAPIClient(bearer_token="test")
         query = client.build_search_query(
             keywords=["AI agent", "LLM"],
             min_likes=500,
@@ -300,9 +304,10 @@ class TestSocialDataClient:
         assert "LLM" in query
         assert "min_faves:500" in query
 
-    def test_build_search_query_keywords_ignored_when_accounts(self):
+    @patch("src.collect.x_api_client.tweepy.Client")
+    def test_build_search_query_keywords_ignored_when_accounts(self, mock_tweepy_cls):
         """アカウント指定時はキーワード無視"""
-        client = SocialDataClient(api_key="test")
+        client = XAPIClient(bearer_token="test")
         query = client.build_search_query(
             accounts=["sama"],
             keywords=["AI"],
@@ -311,60 +316,77 @@ class TestSocialDataClient:
         assert "from:sama" in query
         assert "AI" not in query  # keywords should be ignored
 
-    @patch("src.collect.socialdata_client.requests.Session")
-    def test_search_tweets_success(self, mock_session_cls):
+    @patch("src.collect.x_api_client.tweepy.Client")
+    def test_search_tweets_success(self, mock_tweepy_cls):
         """検索成功"""
-        mock_session = MagicMock()
-        mock_session_cls.return_value = mock_session
+        mock_tweepy = MagicMock()
+        mock_tweepy_cls.return_value = mock_tweepy
+
+        # tweepy.Tweet モックを作成
+        mock_tweet1 = MagicMock()
+        mock_tweet1.id = 1
+        mock_tweet1.text = "tweet 1"
+        mock_tweet1.public_metrics = {"like_count": 100, "retweet_count": 10, "reply_count": 5, "quote_count": 2}
+        mock_tweet1.author_id = "111"
+        mock_tweet1.lang = "en"
+        mock_tweet1.created_at = None
+
+        mock_tweet2 = MagicMock()
+        mock_tweet2.id = 2
+        mock_tweet2.text = "tweet 2"
+        mock_tweet2.public_metrics = {"like_count": 200, "retweet_count": 20, "reply_count": 10, "quote_count": 5}
+        mock_tweet2.author_id = "222"
+        mock_tweet2.lang = "en"
+        mock_tweet2.created_at = None
+
+        mock_user1 = MagicMock()
+        mock_user1.id = 111
+        mock_user1.username = "user_a"
+        mock_user1.name = "User A"
+
+        mock_user2 = MagicMock()
+        mock_user2.id = 222
+        mock_user2.username = "user_b"
+        mock_user2.name = "User B"
 
         mock_response = MagicMock()
-        mock_response.status_code = 200
-        mock_response.json.return_value = {
-            "tweets": [
-                {"id": 1, "full_text": "tweet 1", "user": {"screen_name": "a"}},
-                {"id": 2, "full_text": "tweet 2", "user": {"screen_name": "b"}},
-            ],
-            "next_cursor": None,
-        }
-        mock_session.request.return_value = mock_response
+        mock_response.data = [mock_tweet1, mock_tweet2]
+        mock_response.includes = {"users": [mock_user1, mock_user2]}
+        mock_tweepy.search_recent_tweets.return_value = mock_response
 
-        client = SocialDataClient(api_key="test")
-        client.session = mock_session
-
+        client = XAPIClient(bearer_token="test")
         tweets = client.search_tweets("from:sama", max_results=10)
         assert len(tweets) == 2
+        assert tweets[0]["text"] == "tweet 1"
+        assert tweets[1]["text"] == "tweet 2"
 
-    @patch("src.collect.socialdata_client.requests.Session")
-    def test_search_tweets_rate_limit(self, mock_session_cls):
+    @patch("src.collect.x_api_client.tweepy.Client")
+    def test_search_tweets_rate_limit(self, mock_tweepy_cls):
         """レート制限エラー"""
-        mock_session = MagicMock()
-        mock_session_cls.return_value = mock_session
+        import tweepy
+        mock_tweepy = MagicMock()
+        mock_tweepy_cls.return_value = mock_tweepy
+        mock_tweepy.search_recent_tweets.side_effect = tweepy.errors.TooManyRequests(
+            MagicMock(status_code=429)
+        )
 
-        mock_response = MagicMock()
-        mock_response.status_code = 429
-        mock_session.request.return_value = mock_response
-
-        client = SocialDataClient(api_key="test")
-        client.session = mock_session
-
-        with pytest.raises(SocialDataError) as exc_info:
+        client = XAPIClient(bearer_token="test")
+        with pytest.raises(XAPIError) as exc_info:
             client.search_tweets("from:sama")
         assert exc_info.value.status_code == 429
 
-    @patch("src.collect.socialdata_client.requests.Session")
-    def test_search_tweets_auth_error(self, mock_session_cls):
+    @patch("src.collect.x_api_client.tweepy.Client")
+    def test_search_tweets_auth_error(self, mock_tweepy_cls):
         """認証エラー"""
-        mock_session = MagicMock()
-        mock_session_cls.return_value = mock_session
+        import tweepy
+        mock_tweepy = MagicMock()
+        mock_tweepy_cls.return_value = mock_tweepy
+        mock_tweepy.search_recent_tweets.side_effect = tweepy.errors.Unauthorized(
+            MagicMock(status_code=401)
+        )
 
-        mock_response = MagicMock()
-        mock_response.status_code = 401
-        mock_session.request.return_value = mock_response
-
-        client = SocialDataClient(api_key="test")
-        client.session = mock_session
-
-        with pytest.raises(SocialDataError) as exc_info:
+        client = XAPIClient(bearer_token="test")
+        with pytest.raises(XAPIError) as exc_info:
             client.search_tweets("from:sama")
         assert exc_info.value.status_code == 401
 
@@ -374,7 +396,7 @@ class TestSocialDataClient:
 # ========================================
 
 class TestAutoCollector:
-    @patch("src.collect.auto_collector.SocialDataClient")
+    @patch("src.collect.auto_collector.XAPIClient")
     def test_collect_dry_run(self, mock_client_cls, queue):
         """ドライラン収集"""
         from datetime import datetime, timezone
@@ -416,7 +438,7 @@ class TestAutoCollector:
         # dry_runなのでキューには追加されない
         assert len(queue.get_pending()) == 0
 
-    @patch("src.collect.auto_collector.SocialDataClient")
+    @patch("src.collect.auto_collector.XAPIClient")
     def test_collect_with_auto_approve(self, mock_client_cls, queue):
         """自動承認付き収集"""
         from datetime import datetime, timezone
@@ -455,7 +477,7 @@ class TestAutoCollector:
         assert result["added"] == 1
         assert len(queue.get_approved()) == 1
 
-    @patch("src.collect.auto_collector.SocialDataClient")
+    @patch("src.collect.auto_collector.XAPIClient")
     def test_collect_filters_replies(self, mock_client_cls, queue):
         """リプライはフィルタされる"""
         mock_client = MagicMock()
@@ -485,7 +507,7 @@ class TestAutoCollector:
         result = collector.collect()
         assert result["filtered"] == 0
 
-    @patch("src.collect.auto_collector.SocialDataClient")
+    @patch("src.collect.auto_collector.XAPIClient")
     def test_collect_filters_retweets(self, mock_client_cls, queue):
         """RTはフィルタされる"""
         mock_client = MagicMock()
