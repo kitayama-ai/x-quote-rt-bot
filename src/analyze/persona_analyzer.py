@@ -366,23 +366,38 @@ class PersonaAnalyzer:
 
         profile.punctuation_style = "、".join(styles)
 
+    @staticmethod
+    def _strip_urls(text: str) -> str:
+        """ツイートからURLを除去（サンプル保存時用）"""
+        return re.sub(r'https?://\S+', '', text).strip()
+
     def _select_sample_tweets(self, tweets: list[str], profile: PersonaProfile):
         """プロンプト例示用のサンプルツイートを選定"""
-        # 文字数が50-250字で、いい感じのものを選ぶ
+        import random
+
+        # フィルタ: RT・メンション開始を除外
+        base = [t for t in tweets if not t.startswith("RT ") and not t.startswith("@")]
+
+        # Tier 1: 50-250字 + 改行あり + URL なし（理想的）
         candidates = [
-            t for t in tweets
-            if 50 <= len(t) <= 250
-            and "\n" in t  # 改行を含む（構造的な投稿）
-            and not t.startswith("RT ")
-            and not t.startswith("@")
-            and "http" not in t
+            t for t in base
+            if 50 <= len(t) <= 250 and "\n" in t and "http" not in t
         ]
 
-        if not candidates:
-            candidates = [t for t in tweets if 30 <= len(t) <= 280 and "http" not in t]
+        # Tier 2: 30-280字 + URL なし
+        if len(candidates) < 5:
+            tier2 = [t for t in base if 30 <= len(t) <= 280 and "http" not in t]
+            candidates.extend([t for t in tier2 if t not in candidates])
+
+        # Tier 3: 30字以上（URL含むツイートもOK、URL部分は除去して保存）
+        if len(candidates) < 3:
+            tier3 = [
+                self._strip_urls(t) for t in base
+                if len(self._strip_urls(t)) >= 30
+            ]
+            candidates.extend([t for t in tier3 if t not in candidates])
 
         # 多様性を持たせてサンプリング
-        import random
         random.shuffle(candidates)
         profile.sample_tweets = candidates[:8]
 
