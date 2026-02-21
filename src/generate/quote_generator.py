@@ -32,7 +32,7 @@ TEMPLATE_IDS = [
 class QuoteGenerator:
     """引用RT投稿文を生成"""
 
-    def __init__(self, config: Config):
+    def __init__(self, config: Config, persona_profile: dict | None = None):
         self.config = config
         self.scorer = PostScorer()
         self.safety_checker = SafetyChecker(config.safety_rules)
@@ -47,6 +47,13 @@ class QuoteGenerator:
         with open(template_path, "r", encoding="utf-8") as f:
             self.prompt_template = f.read()
 
+        # ペルソナプロファイル（文体コピー用）
+        # Xアカウントの過去ツイートから分析した文体データ
+        self._persona_profile = persona_profile
+        if not self._persona_profile:
+            self._persona_profile = config.load_persona_profile()
+        self._persona_prompt = self._build_persona_prompt()
+
         # Gemini初期化
         if config.gemini_api_key:
             self.client = genai.Client(api_key=config.gemini_api_key)
@@ -59,6 +66,28 @@ class QuoteGenerator:
         # テンプレート使用回数トラッキング（日次リセット）
         self._template_usage: dict[str, int] = {}
         self._usage_date: str = ""
+
+    def _build_persona_prompt(self) -> str:
+        """ペルソナプロファイルからプロンプト注入テキストを生成"""
+        if not self._persona_profile:
+            return ""
+
+        # PersonaProfile.to_prompt_injection() の出力を使う
+        # または dict から直接構築
+        try:
+            from src.analyze.persona_analyzer import PersonaProfile
+            if isinstance(self._persona_profile, dict):
+                pp = PersonaProfile(**{
+                    k: v for k, v in self._persona_profile.items()
+                    if k in PersonaProfile.__dataclass_fields__
+                })
+                return pp.to_prompt_injection()
+            elif isinstance(self._persona_profile, PersonaProfile):
+                return self._persona_profile.to_prompt_injection()
+        except Exception:
+            pass
+
+        return ""
 
     def _get_template_id(self, preferred: str = "") -> str:
         """
@@ -228,6 +257,8 @@ class QuoteGenerator:
 
         prompt = f"""
 {self.prompt_template}
+
+{self._persona_prompt if self._persona_prompt else ""}
 
 ━━━━━━━━━━━━━━━━━━
 ■ 今回の条件

@@ -745,6 +745,94 @@ def cmd_export_dashboard(args):
     print(f"   キュー: {len(all_pending)}件 / 投稿済み: {len(recent_posted)}件")
 
 
+def cmd_analyze_persona(args):
+    """Xアカウントの文体を分析してペルソナプロファイルを生成"""
+    from src.analyze.persona_analyzer import PersonaAnalyzer
+    from src.collect.socialdata_client import SocialDataClient
+
+    config = Config(f"account_{args.account}")
+    username = args.username or config.account_handle.lstrip("@")
+
+    print(f"🔍 ペルソナ分析開始 — @{username}")
+
+    # ツイート取得（SocialData API or ファイルから）
+    tweets_text = []
+
+    if args.file:
+        # ファイルからツイートを読み込む（1行1ツイート or JSON）
+        file_path = Path(args.file)
+        if file_path.suffix == ".json":
+            with open(file_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+                if isinstance(data, list):
+                    tweets_text = [t.get("text", t) if isinstance(t, dict) else str(t) for t in data]
+                else:
+                    tweets_text = [data.get("text", str(data))]
+        else:
+            with open(file_path, "r", encoding="utf-8") as f:
+                tweets_text = [line.strip() for line in f if line.strip()]
+        print(f"📄 ファイルから{len(tweets_text)}件のツイートを読み込み")
+    else:
+        # SocialData APIで取得
+        api_key = config.socialdata_api_key
+        if not api_key:
+            print("❌ SOCIALDATA_API_KEY が設定されていません。")
+            print("   代替: --file オプションでツイートファイルを指定してください。")
+            return
+
+        client = SocialDataClient(api_key)
+        print(f"📡 @{username} のツイートをSocialData APIで取得中...")
+
+        try:
+            raw_tweets = client.get_user_tweets(username, count=args.count)
+            tweets_text = [t.get("text", "") for t in raw_tweets if t.get("text")]
+            print(f"📥 {len(tweets_text)}件のツイートを取得")
+        except Exception as e:
+            print(f"❌ ツイート取得エラー: {e}")
+            return
+
+    if not tweets_text:
+        print("❌ 分析対象のツイートがありません。")
+        return
+
+    # 分析実行
+    analyzer = PersonaAnalyzer(config)
+    profile = analyzer.analyze_account(
+        tweets=tweets_text,
+        username=username,
+    )
+
+    # 結果の保存
+    output_dir = PROJECT_ROOT / "data" / "persona"
+    output_dir.mkdir(parents=True, exist_ok=True)
+    output_path = output_dir / f"account_{args.account}_persona.json"
+
+    with open(output_path, "w", encoding="utf-8") as f:
+        json.dump(profile.to_dict(), f, ensure_ascii=False, indent=2)
+
+    # プロンプト注入テキストも保存
+    prompt_path = output_dir / f"account_{args.account}_persona_prompt.md"
+    with open(prompt_path, "w", encoding="utf-8") as f:
+        f.write(profile.to_prompt_injection())
+
+    print(f"\n✅ ペルソナ分析完了")
+    print(f"   分析ツイート数: {profile.tweet_count_analyzed}")
+    print(f"   一人称: {profile.first_person or '不明'}")
+    print(f"   トーン: {profile.tone or '（AI分析なし）'}")
+    print(f"   敬語レベル: {profile.formality_level}")
+    print(f"   絵文字使用: {'あり' if profile.uses_emoji else 'なし'}")
+    print(f"   平均ツイート長: {profile.avg_tweet_length:.0f}文字")
+
+    if profile.catchphrases:
+        print(f"   口癖: {', '.join(profile.catchphrases[:5])}")
+    if profile.sentence_endings:
+        print(f"   文末パターン: {', '.join(profile.sentence_endings[:5])}")
+
+    print(f"\n📁 保存先:")
+    print(f"   プロファイル: {output_path}")
+    print(f"   プロンプト: {prompt_path}")
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="X Auto Post System",
@@ -832,6 +920,14 @@ def main():
         subparsers.add_parser("export-dashboard", help="ダッシュボード用JSONデータをエクスポート")
     )
 
+    # analyze-persona (Xアカウントの文体分析)
+    persona_parser = add_account_arg(
+        subparsers.add_parser("analyze-persona", help="Xアカウントの文体を分析してペルソナプロファイル生成")
+    )
+    persona_parser.add_argument("--username", type=str, default="", help="分析対象のXユーザー名（省略時はアカウント設定のhandle）")
+    persona_parser.add_argument("--file", type=str, default="", help="ツイートファイルパス（JSON or テキスト）")
+    persona_parser.add_argument("--count", type=int, default=100, help="取得ツイート数（API使用時）")
+
     args = parser.parse_args()
 
     if not args.command:
@@ -852,6 +948,7 @@ def main():
         "sync-queue": cmd_sync_queue,
         "sync-settings": cmd_sync_settings,
         "export-dashboard": cmd_export_dashboard,
+        "analyze-persona": cmd_analyze_persona,
     }
 
     commands[args.command](args)

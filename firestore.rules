@@ -25,6 +25,26 @@ service cloud.firestore {
       allow delete: if false;
     }
 
+    // ============================
+    // Dashboard Data collection
+    // ============================
+    // ユーザーは自分のダッシュボードデータのみ読み取り可能
+    // 書き込みはサーバーサイド（Admin SDK）のみ
+    match /dashboard_data/{userId} {
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow write: if false; // Admin SDKのみ
+    }
+
+    // ============================
+    // Persona Profiles collection
+    // ============================
+    // ユーザーは自分のペルソナプロファイルのみ読み取り可能
+    // 書き込みはサーバーサイド（Admin SDK）のみ
+    match /persona_profiles/{userId} {
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow write: if false; // Admin SDKのみ
+    }
+
     // デフォルト: 全て拒否
     match /{document=**} {
       allow read, write: if false;

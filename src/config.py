@@ -82,6 +82,23 @@ class Config:
     def discord_webhook_safety(self) -> str:
         return os.getenv("DISCORD_WEBHOOK_SAFETY", "")
 
+    # === Firebase / Firestore ===
+
+    @property
+    def firebase_project_id(self) -> str:
+        return os.getenv("FIREBASE_PROJECT_ID", "isai-11f7b")
+
+    @property
+    def firebase_credentials_path(self) -> str:
+        return os.getenv(
+            "FIREBASE_CREDENTIALS_PATH",
+            str(PROJECT_ROOT / "config" / "firebase-service-account.json")
+        )
+
+    @property
+    def firebase_credentials_base64(self) -> str:
+        return os.getenv("FIREBASE_CREDENTIALS_BASE64", "")
+
     # === Google Sheets ===
 
     @property
@@ -160,6 +177,27 @@ class Config:
     def load_prompt_template(self) -> str:
         with open(self.prompt_template_path, "r", encoding="utf-8") as f:
             return f.read()
+
+    # === SocialData API ===
+
+    @property
+    def socialdata_api_key(self) -> str:
+        return os.getenv("SOCIALDATA_API_KEY", "")
+
+    # === ペルソナプロファイル ===
+
+    @property
+    def persona_profile_path(self) -> Path:
+        """アカウント別ペルソナプロファイル保存先"""
+        return PROJECT_ROOT / "data" / "persona" / f"{self.account_id}_persona.json"
+
+    def load_persona_profile(self) -> dict | None:
+        """保存済みペルソナプロファイルを読み込む"""
+        path = self.persona_profile_path
+        if path.exists():
+            with open(path, "r", encoding="utf-8") as f:
+                return json.load(f)
+        return None
 
     # === アクティブアカウント一覧 ===
 
