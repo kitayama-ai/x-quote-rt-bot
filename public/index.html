@@ -1512,6 +1512,90 @@ textarea.form-input {
       <div id="keywordWeightDisplay" style="margin-top:12px;"></div>
     </div>
 
+    <!-- 引用RTプロンプト設定 -->
+    <div class="pref-section">
+      <h3>✍️ 引用RTプロンプト設定</h3>
+      <p class="desc">引用RTコメントを生成するAIへの指示をカスタマイズします。変更は次回のコメント生成から反映されます。</p>
+
+      <div class="pref-grid">
+        <div class="form-group">
+          <label class="form-label">ペルソナ名</label>
+          <input type="text" class="form-input" id="promptPersonaName" placeholder="レン" value="レン">
+          <div class="form-hint">投稿者としての名前</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">一人称</label>
+          <input type="text" class="form-input" id="promptFirstPerson" placeholder="僕" value="僕">
+          <div class="form-hint">僕 / 俺 / 私 / わたし など</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">ポジション（何者か）</label>
+        <input type="text" class="form-input" id="promptPosition" placeholder="海外AI最新情報を噛み砕いて伝える実践者" value="海外AI最新情報を噛み砕いて伝える実践者">
+        <div class="form-hint">「〇〇として発信している」の〇〇部分</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">差別化ポイント</label>
+        <input type="text" class="form-input" id="promptDifferentiator" placeholder="ただの翻訳じゃなく「だから日本で何が変わるか」を語る" value="ただの翻訳じゃなく「だから日本で何が変わるか」を語る">
+        <div class="form-hint">他のアカウントとの違い</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">トーン</label>
+        <input type="text" class="form-input" id="promptTone" placeholder="カジュアルだが知的。友達に「これ見た？やばくない？」と話す感じ" value="カジュアルだが知的。友達に「これ見た？やばくない？」と話す感じ">
+        <div class="form-hint">文章の雰囲気・テンション</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">口調パターン（改行区切り）</label>
+        <textarea class="form-input" id="promptStylePatterns" rows="4" placeholder="体言止め:「〜な時代。」「〜一択。」&#10;口語:「〜なんだけど」「〜してる」&#10;感情語:「マジで」「ガチで」「えぐい」">体言止め:「〜な時代。」「〜一択。」
+口語:「〜なんだけど」「〜してる」「〜だよな」
+感情語:「マジで」「ガチで」「えぐい」「最強」</textarea>
+        <div class="form-hint">文体のパターンを記述。改行で区切り。</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">NGワード（カンマ区切り）</label>
+        <input type="text" class="form-input" id="promptNgWords" placeholder="素晴らしい, 革新的, 画期的" value="素晴らしい, 革新的, 画期的">
+        <div class="form-hint">生成時に使わせたくないワード</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">カスタム指示（自由記述）</label>
+        <textarea class="form-input" id="promptCustomDirective" rows="3" placeholder="例: もっと具体的な数字やデータを入れて欲しい&#10;例: 絵文字を多めに使って"></textarea>
+        <div class="form-hint">AIへの追加指示。ここに書いた内容がプロンプトの末尾に追加されます。</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" style="margin-bottom:12px;">使用テンプレート</label>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;">
+            <input type="checkbox" id="tmplTranslateComment" checked style="accent-color:var(--accent-blue);width:16px;height:16px;">
+            翻訳+自分コメント型 — 要約→「僕的なポイントは〜」
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;">
+            <input type="checkbox" id="tmplSummaryPoints" checked style="accent-color:var(--accent-blue);width:16px;height:16px;">
+            要点まとめ型 — 「海外で話題の〇〇。ポイント3つ:」
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;">
+            <input type="checkbox" id="tmplQuestionPrompt" checked style="accent-color:var(--accent-blue);width:16px;height:16px;">
+            問題提起型 — 要約→「これ日本でも〜」
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;">
+            <input type="checkbox" id="tmplPracticeReport" checked style="accent-color:var(--accent-blue);width:16px;height:16px;">
+            実践レポート型 — 「実際に試してみた。結果:」
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;">
+            <input type="checkbox" id="tmplBreakingNews" checked style="accent-color:var(--accent-blue);width:16px;height:16px;">
+            速報型 — 「これはデカい。〜が変わる」
+          </label>
+        </div>
+        <div class="form-hint" style="margin-top:8px;">チェックを外したテンプレートは使用されません。最低1つは有効にしてください。</div>
+      </div>
+    </div>
+
     <button class="save-btn" id="savePrefBtn">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
       選定設定を保存
@@ -2546,6 +2630,43 @@ function renderPreferences() {
       .join('');
     kwContainer.innerHTML = tags;
   }
+
+  // 引用RTプロンプト設定の復元（Firestoreから）
+  loadPromptSettings();
+}
+
+async function loadPromptSettings() {
+  if (!window.__fb || !window.__fb.auth.currentUser) return;
+  try {
+    var uid = window.__fb.auth.currentUser.uid;
+    var doc = await window.__fb.db.collection('selection_preferences').doc(uid).get();
+    if (!doc.exists) return;
+    var d = doc.data();
+    if (d.prompt_persona_name) setVal('promptPersonaName', d.prompt_persona_name);
+    if (d.prompt_first_person) setVal('promptFirstPerson', d.prompt_first_person);
+    if (d.prompt_position) setVal('promptPosition', d.prompt_position);
+    if (d.prompt_differentiator) setVal('promptDifferentiator', d.prompt_differentiator);
+    if (d.prompt_tone) setVal('promptTone', d.prompt_tone);
+    if (d.prompt_style_patterns) setVal('promptStylePatterns', d.prompt_style_patterns);
+    if (d.prompt_ng_words) setVal('promptNgWords', d.prompt_ng_words);
+    if (d.prompt_custom_directive) setVal('promptCustomDirective', d.prompt_custom_directive);
+    if (d.prompt_enabled_templates) {
+      var enabled = d.prompt_enabled_templates.split(',');
+      var tmplMap = {
+        'translate_comment': 'tmplTranslateComment',
+        'summary_points': 'tmplSummaryPoints',
+        'question_prompt': 'tmplQuestionPrompt',
+        'practice_report': 'tmplPracticeReport',
+        'breaking_news': 'tmplBreakingNews'
+      };
+      Object.keys(tmplMap).forEach(function(tid) {
+        var cb = document.getElementById(tmplMap[tid]);
+        if (cb) cb.checked = enabled.indexOf(tid) !== -1;
+      });
+    }
+  } catch (err) {
+    console.warn('Prompt settings load failed:', err);
+  }
 }
 
 function setVal(id, val) {
@@ -2575,6 +2696,15 @@ function renderTags(containerId, items, className) {
     const db = window.__fb.db;
 
     try {
+      // テンプレートON/OFF
+      var enabledTemplates = [];
+      if (document.getElementById('tmplTranslateComment')?.checked) enabledTemplates.push('translate_comment');
+      if (document.getElementById('tmplSummaryPoints')?.checked) enabledTemplates.push('summary_points');
+      if (document.getElementById('tmplQuestionPrompt')?.checked) enabledTemplates.push('question_prompt');
+      if (document.getElementById('tmplPracticeReport')?.checked) enabledTemplates.push('practice_report');
+      if (document.getElementById('tmplBreakingNews')?.checked) enabledTemplates.push('breaking_news');
+      if (enabledTemplates.length === 0) enabledTemplates.push('translate_comment'); // 最低1つ
+
       const prefData = {
         weekly_focus: document.getElementById('prefFocusDirective')?.value || '',
         focus_keywords: document.getElementById('prefFocusKeywords')?.value || '',
@@ -2584,6 +2714,16 @@ function renderTags(containerId, items, className) {
         boosted_accounts: document.getElementById('prefBoostedAccounts')?.value || '',
         blocked_accounts: document.getElementById('prefBlockedAccounts')?.value || '',
         extra_keywords: document.getElementById('prefExtraKeywords')?.value || '',
+        // 引用RTプロンプト設定
+        prompt_persona_name: document.getElementById('promptPersonaName')?.value || '',
+        prompt_first_person: document.getElementById('promptFirstPerson')?.value || '',
+        prompt_position: document.getElementById('promptPosition')?.value || '',
+        prompt_differentiator: document.getElementById('promptDifferentiator')?.value || '',
+        prompt_tone: document.getElementById('promptTone')?.value || '',
+        prompt_style_patterns: document.getElementById('promptStylePatterns')?.value || '',
+        prompt_ng_words: document.getElementById('promptNgWords')?.value || '',
+        prompt_custom_directive: document.getElementById('promptCustomDirective')?.value || '',
+        prompt_enabled_templates: enabledTemplates.join(','),
         updated_at: firebase.firestore.FieldValue.serverTimestamp(),
         updated_by: uid,
       };

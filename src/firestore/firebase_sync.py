@@ -102,6 +102,19 @@ def map_preferences_to_local(raw: dict, local_prefs: dict) -> list[str]:
                 kw[keyword] = 2.0  # 新規キーワードはweight 2.0
                 updated_keys.append(f"keyword:{keyword}")
 
+    # prompt_overrides — ダッシュボードからの引用RTプロンプト設定
+    prompt_fields = [
+        "prompt_persona_name", "prompt_first_person", "prompt_position",
+        "prompt_differentiator", "prompt_tone", "prompt_style_patterns",
+        "prompt_ng_words", "prompt_custom_directive", "prompt_enabled_templates",
+    ]
+    po = local_prefs.setdefault("prompt_overrides", {})
+    for field in prompt_fields:
+        if raw.get(field):
+            key = field.replace("prompt_", "", 1)  # prompt_tone → tone
+            po[key] = raw[field]
+            updated_keys.append(field)
+
     return updated_keys
 
 

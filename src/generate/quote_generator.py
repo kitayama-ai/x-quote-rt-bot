@@ -47,6 +47,11 @@ class QuoteGenerator:
         with open(template_path, "r", encoding="utf-8") as f:
             self.prompt_template = f.read()
 
+        # ダッシュボードからのプロンプト上書き設定を読み込み
+        self._prompt_overrides = self._load_prompt_overrides()
+        if self._prompt_overrides:
+            self.prompt_template = self._apply_prompt_overrides(self.prompt_template)
+
         # ペルソナプロファイル（文体コピー用）
         # Xアカウントの過去ツイートから分析した文体データ
         self._persona_profile = persona_profile
@@ -66,6 +71,99 @@ class QuoteGenerator:
         # テンプレート使用回数トラッキング（日次リセット）
         self._template_usage: dict[str, int] = {}
         self._usage_date: str = ""
+
+    def _load_prompt_overrides(self) -> dict:
+        """selection_preferences.json から prompt_overrides を読み込み"""
+        prefs_path = PROJECT_ROOT / "config" / "selection_preferences.json"
+        try:
+            with open(prefs_path, "r", encoding="utf-8") as f:
+                prefs = json.load(f)
+            return prefs.get("prompt_overrides", {})
+        except (FileNotFoundError, json.JSONDecodeError):
+            return {}
+
+    def _apply_prompt_overrides(self, template: str) -> str:
+        """ダッシュボード設定でプロンプトテンプレートを動的に上書き"""
+        po = self._prompt_overrides
+        if not po:
+            return template
+
+        # ペルソナ名の置換
+        name = po.get("persona_name", "").strip()
+        if name and name != "レン":
+            template = template.replace("「レン」", f"「{name}」")
+            template = template.replace("レンの口調", f"{name}の口調")
+
+        # 一人称の置換
+        fp = po.get("first_person", "").strip()
+        if fp and fp != "僕":
+            template = template.replace("一人称:「僕」", f"一人称:「{fp}」")
+            template = template.replace("僕的な", f"{fp}的な")
+
+        # ポジションの置換
+        pos = po.get("position", "").strip()
+        if pos:
+            template = re.sub(
+                r"- \*\*ポジション\*\*: .+",
+                f"- **ポジション**: {pos}",
+                template,
+            )
+
+        # 差別化の置換
+        diff = po.get("differentiator", "").strip()
+        if diff:
+            template = re.sub(
+                r"- \*\*差別化\*\*: .+",
+                f"- **差別化**: {diff}",
+                template,
+            )
+
+        # トーンの置換
+        tone = po.get("tone", "").strip()
+        if tone:
+            template = re.sub(
+                r"- \*\*トーン\*\*: .+",
+                f"- **トーン**: {tone}",
+                template,
+            )
+
+        # 文体ルールの置換
+        style = po.get("style_patterns", "").strip()
+        if style:
+            style_lines = "\n".join(f"- {line.strip()}" for line in style.split("\n") if line.strip())
+            template = re.sub(
+                r"(■ 文体ルール.+?━+\n\n)[\s\S]*?(━━━)",
+                rf"\1{style_lines}\n\n\2",
+                template,
+            )
+
+        # NGワードの追加
+        ng = po.get("ng_words", "").strip()
+        if ng:
+            ng_list = [w.strip() for w in ng.split(",") if w.strip()]
+            existing_section = template.find("■ 絶対NG")
+            if existing_section != -1:
+                # NGセクションの末尾に追加
+                for word in ng_list:
+                    if word not in template:
+                        insert_pos = template.find("\n━", existing_section + 1)
+                        if insert_pos != -1:
+                            template = template[:insert_pos] + f"\n- 「{word}」" + template[insert_pos:]
+
+        # カスタム指示の追加（出力セクションの前に挿入）
+        custom = po.get("custom_directive", "").strip()
+        if custom:
+            insert_marker = "━━━━━━━━━━━━━━━━━━\n■ 出力"
+            if insert_marker in template:
+                custom_section = (
+                    f"━━━━━━━━━━━━━━━━━━\n"
+                    f"■ クライアント追加指示\n"
+                    f"━━━━━━━━━━━━━━━━━━\n\n"
+                    f"{custom}\n\n"
+                )
+                template = template.replace(insert_marker, custom_section + insert_marker)
+
+        return template
 
     def _build_persona_prompt(self) -> str:
         """ペルソナプロファイルからプロンプト注入テキストを生成"""
@@ -104,20 +202,28 @@ class QuoteGenerator:
         templates = self.quote_rules.get("templates", [])
         max_daily = {t["id"]: t.get("max_daily_uses", 2) for t in templates}
 
+        # ダッシュボードで有効化されたテンプレートのみ使用
+        enabled_csv = self._prompt_overrides.get("enabled_templates", "")
+        if enabled_csv:
+            enabled_ids = [t.strip() for t in enabled_csv.split(",") if t.strip()]
+        else:
+            enabled_ids = TEMPLATE_IDS  # デフォルト: 全テンプレート有効
+
         # 指定テンプレートが使用可能ならそれを返す
-        if preferred and preferred in max_daily:
+        if preferred and preferred in max_daily and preferred in enabled_ids:
             if self._template_usage.get(preferred, 0) < max_daily[preferred]:
                 return preferred
 
         # 使用可能なテンプレートからランダム選択
         available = [
-            tid for tid in TEMPLATE_IDS
-            if self._template_usage.get(tid, 0) < max_daily.get(tid, 2)
+            tid for tid in enabled_ids
+            if tid in TEMPLATE_IDS  # 有効なIDのみ
+            and self._template_usage.get(tid, 0) < max_daily.get(tid, 2)
         ]
 
         if not available:
             # 全テンプレート上限到達 → リセットして再選択
-            available = TEMPLATE_IDS
+            available = enabled_ids if enabled_ids else TEMPLATE_IDS
 
         return random.choice(available)
 
