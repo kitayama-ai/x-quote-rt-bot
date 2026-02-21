@@ -303,7 +303,7 @@
     "preference_match_score": 1.0,
     "matched_topics": [],
     "matched_keywords": [],
-    "status": "approved",
+    "status": "pending",
     "added_at": "2026-02-21T16:59:45.745562+09:00",
     "generated_text": "",
     "template_id": "",
