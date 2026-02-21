@@ -1,150 +1,108 @@
 {
-  "updated_at": "2025-01-20T10:30:00+09:00",
+  "updated_at": "2026-02-21T05:27:50.673574",
   "stats": {
-    "pending": 5,
-    "approved": 3,
-    "skipped": 2,
-    "posted_total": 47,
-    "posted_today": 4
+    "pending": 0,
+    "approved": 0,
+    "skipped": 4,
+    "posted_total": 0,
+    "posted_today": 0
   },
   "queue": [
     {
-      "tweet_id": "1881234567890123456",
-      "status": "pending",
-      "original_text": "Just released GPT-5 with 10x performance improvements across all benchmarks. The future of AI is here.",
-      "author": "@OpenAI",
-      "likes": 45200,
-      "retweets": 12300,
-      "generated_text": "",
-      "template_id": "",
-      "score": null,
-      "added_at": "2025-01-20T06:15:00+09:00"
-    },
-    {
-      "tweet_id": "1881234567890123457",
-      "status": "pending",
-      "original_text": "We trained a model that can now write production-grade code with 95% accuracy on real-world tasks.",
-      "author": "@AnthropicAI",
-      "likes": 38700,
-      "retweets": 9800,
-      "generated_text": "",
-      "template_id": "",
-      "score": null,
-      "added_at": "2025-01-20T06:15:00+09:00"
-    },
-    {
-      "tweet_id": "1881234567890123458",
-      "status": "approved",
-      "original_text": "Breaking: Apple announces on-device AI that runs entirely offline with zero latency.",
-      "author": "@Apple",
-      "likes": 62100,
-      "retweets": 18500,
-      "generated_text": "Appleがオフラインで動くオンデバイスAIを発表。ゼロレイテンシーでプライバシーも完璧。これは他社も追随するしかない流れ。",
-      "template_id": "tech_analysis",
-      "score": {"total": 82},
-      "added_at": "2025-01-19T06:20:00+09:00"
-    },
-    {
-      "tweet_id": "1881234567890123459",
-      "status": "approved",
-      "original_text": "DeepMind's new reasoning model solves math olympiad problems at human expert level.",
-      "author": "@DeepMind",
-      "likes": 31500,
-      "retweets": 8200,
-      "generated_text": "DeepMindの推論モデルが数学オリンピックレベルの問題を解けるように。AIの論理的思考能力がまた一段階上がった。",
-      "template_id": "insight",
-      "score": {"total": 78},
-      "added_at": "2025-01-19T06:20:00+09:00"
-    },
-    {
-      "tweet_id": "1881234567890123460",
+      "tweet_id": "9999999901",
+      "author_username": "sama",
+      "author_name": "",
+      "text": "Test tweet 1",
+      "lang": "",
+      "likes": 0,
+      "retweets": 0,
+      "replies": 0,
+      "quotes": 0,
+      "bookmarks": 0,
+      "url": "https://x.com/sama/status/9999999901",
+      "collected_at": "2026-02-18T13:03:34.767246+09:00",
+      "source": "manual",
+      "tags": [],
+      "memo": "test",
       "status": "skipped",
-      "original_text": "Controversial take: AGI will arrive by 2025 and most jobs will be automated within 5 years.",
-      "author": "@AIResearcher",
-      "likes": 42000,
-      "retweets": 15000,
+      "added_at": "2026-02-18T13:03:34.767561+09:00",
       "generated_text": "",
       "template_id": "",
-      "score": null,
-      "added_at": "2025-01-18T06:30:00+09:00"
+      "score": null
+    },
+    {
+      "tweet_id": "9999999902",
+      "author_username": "ylecun",
+      "author_name": "",
+      "text": "Test tweet 2",
+      "lang": "",
+      "likes": 0,
+      "retweets": 0,
+      "replies": 0,
+      "quotes": 0,
+      "bookmarks": 0,
+      "url": "https://x.com/ylecun/status/9999999902",
+      "collected_at": "2026-02-18T13:03:34.767672+09:00",
+      "source": "manual",
+      "tags": [],
+      "memo": "",
+      "status": "skipped",
+      "added_at": "2026-02-18T13:03:34.767728+09:00",
+      "generated_text": "",
+      "template_id": "",
+      "score": null
+    },
+    {
+      "tweet_id": "1893012345678",
+      "author_username": "sama",
+      "author_name": "",
+      "text": "GPT-5 is here. Multimodal capabilities are insane.",
+      "lang": "",
+      "likes": 0,
+      "retweets": 0,
+      "replies": 0,
+      "quotes": 0,
+      "bookmarks": 0,
+      "url": "https://x.com/sama/status/1893012345678",
+      "collected_at": "2026-02-18T13:04:18.407727+09:00",
+      "source": "manual",
+      "tags": [],
+      "memo": "OpenAI GPT-5 announcement",
+      "status": "skipped",
+      "added_at": "2026-02-18T13:04:18.408348+09:00",
+      "generated_text": "海外で今めちゃくちゃ話題になってるAIの使い方。\n\n僕的なポイントは\n「自動化の範囲が想像以上に広い」ってこと。\n\n日本だとまだ手動でやってる人多いけど\nこれ知ったら世界変わるよ。\n\n試した人いる？",
+      "template_id": "translate_comment",
+      "score": {
+        "total": 2,
+        "rank": "C"
+      }
+    },
+    {
+      "tweet_id": "1893023456789",
+      "author_username": "AndrewYNg",
+      "author_name": "",
+      "text": "The future of AI education is changing rapidly",
+      "lang": "",
+      "likes": 0,
+      "retweets": 0,
+      "replies": 0,
+      "quotes": 0,
+      "bookmarks": 0,
+      "url": "https://x.com/AndrewYNg/status/1893023456789",
+      "collected_at": "2026-02-18T13:04:20.022446+09:00",
+      "source": "manual",
+      "tags": [],
+      "memo": "Andrew Ng AI education",
+      "status": "skipped",
+      "added_at": "2026-02-18T13:04:20.022717+09:00",
+      "generated_text": "海外で話題のAI自動化手法。\n\n実際に試してみた。\n結果: 3時間の作業が20分になった。\n\nしかもミスゼロ。\nこれはガチで使える。",
+      "template_id": "practice_report",
+      "score": {
+        "total": 6,
+        "rank": "A"
+      }
     }
   ],
-  "recent_posted": [
-    {
-      "tweet_id": "1881234567890123450",
-      "posted_tweet_id": "1881234567890999001",
-      "generated_text": "Googleが量子コンピューティングで重要なマイルストーンを達成。従来のスパコンで1万年かかる計算を数分で。量子時代がいよいよ現実味を帯びてきた。",
-      "posted_at": "2025-01-20T08:00:00+09:00",
-      "original_text": "Google achieves quantum computing milestone.",
-      "author": "@Google"
-    },
-    {
-      "tweet_id": "1881234567890123451",
-      "posted_tweet_id": "1881234567890999002",
-      "generated_text": "MetaのLlama 4がオープンソースで公開。性能はGPT-4を超えるとの報告も。オープンAIの時代が加速している。",
-      "posted_at": "2025-01-20T10:00:00+09:00",
-      "original_text": "Meta releases Llama 4 as open source.",
-      "author": "@Meta"
-    },
-    {
-      "tweet_id": "1881234567890123452",
-      "posted_tweet_id": "1881234567890999003",
-      "generated_text": "NVIDIAの新GPUが発表。AI推論の速度が前世代の3倍に。クラウドコストの大幅削減が見込める。",
-      "posted_at": "2025-01-19T14:30:00+09:00",
-      "original_text": "NVIDIA announces next-gen AI GPU with 3x inference speed.",
-      "author": "@NVIDIA"
-    }
-  ],
-  "metrics": [
-    {
-      "date": "2025-01-20",
-      "summary": {
-        "tweet_count": 8,
-        "total_likes": 1250,
-        "total_retweets": 340,
-        "total_impressions": 45000,
-        "avg_engagement_rate": 0.035
-      }
-    },
-    {
-      "date": "2025-01-19",
-      "summary": {
-        "tweet_count": 7,
-        "total_likes": 980,
-        "total_retweets": 270,
-        "total_impressions": 38000,
-        "avg_engagement_rate": 0.033
-      }
-    },
-    {
-      "date": "2025-01-18",
-      "summary": {
-        "tweet_count": 9,
-        "total_likes": 1580,
-        "total_retweets": 410,
-        "total_impressions": 52000,
-        "avg_engagement_rate": 0.038
-      }
-    },
-    {
-      "date": "2025-01-17",
-      "summary": {
-        "tweet_count": 6,
-        "total_likes": 720,
-        "total_retweets": 180,
-        "total_impressions": 28000,
-        "avg_engagement_rate": 0.032
-      }
-    },
-    {
-      "date": "2025-01-16",
-      "summary": {
-        "tweet_count": 8,
-        "total_likes": 1100,
-        "total_retweets": 290,
-        "total_impressions": 41000,
-        "avg_engagement_rate": 0.034
-      }
-    }
-  ]
+  "recent_posted": [],
+  "metrics": []
 }
