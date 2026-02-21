@@ -45,6 +45,28 @@ service cloud.firestore {
       allow write: if false; // Admin SDKのみ
     }
 
+    // ============================
+    // Queue Decisions collection
+    // ============================
+    // ダッシュボードからの承認/スキップ操作
+    // 認証ユーザーなら読み書き可、削除はAdmin SDKのみ（同期後のクリーンアップ）
+    match /queue_decisions/{tweetId} {
+      allow read: if request.auth != null;
+      allow create, update: if request.auth != null;
+      allow delete: if false; // Admin SDKのみ
+    }
+
+    // ============================
+    // Selection Preferences collection
+    // ============================
+    // ダッシュボードからの選定設定
+    // ユーザーは自分の設定のみ読み書き可能
+    match /selection_preferences/{userId} {
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow create, update: if request.auth != null && request.auth.uid == userId;
+      allow delete: if false;
+    }
+
     // デフォルト: 全て拒否
     match /{document=**} {
       allow read, write: if false;

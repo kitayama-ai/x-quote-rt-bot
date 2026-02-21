@@ -5,12 +5,16 @@ GitHub Actions から呼ばれ、以下の同期を行う:
   sync_to_sheet():   queue JSON -> スプシ「キュー管理」シート
   sync_from_sheet(): スプシ「キュー管理」シート -> queue JSON (承認/拒否反映)
   sync_dashboard():  キュー統計 -> スプシ「ダッシュボード」シート
+  sync_preferences(): スプシ「選定プリファレンス」シート -> config/selection_preferences.json
 """
+import json
 from datetime import datetime
+from pathlib import Path
 from zoneinfo import ZoneInfo
 
 from src.collect.queue_manager import QueueManager
 from src.sheets.sheets_client import SheetsClient
+from src.config import PROJECT_ROOT
 
 JST = ZoneInfo("Asia/Tokyo")
 
@@ -89,9 +93,10 @@ class QueueSync:
                 else:
                     result["errors"].append(f"承認失敗: {tweet_id}")
 
-            # * -> skipped
+            # * -> skipped（理由付き）
             elif new_status == "skipped":
-                if self.queue.skip(tweet_id):
+                skip_reason = decision.get("skip_reason", "")
+                if self.queue.skip_with_reason(tweet_id, reason=skip_reason):
                     result["skipped"] += 1
                 else:
                     result["errors"].append(f"スキップ失敗: {tweet_id}")
@@ -178,3 +183,103 @@ class QueueSync:
                 settings[key] = raw[key]
 
         return settings
+
+    def sync_preferences(self) -> dict:
+        """
+        スプシ「選定プリファレンス」シート -> config/selection_preferences.json に同期
+
+        Sheetsの設定をローカルJSONに反映する。
+        JSONファイルの既存設定をベースに、Sheetsで指定された値で上書き。
+
+        Returns:
+            {"updated_keys": list[str], "unchanged": int}
+        """
+        sheet_prefs = self.sheets.get_preferences()
+        if not sheet_prefs:
+            return {"updated_keys": [], "unchanged": 0}
+
+        prefs_path = PROJECT_ROOT / "config" / "selection_preferences.json"
+
+        # 既存プリファレンス読み込み
+        try:
+            with open(prefs_path, "r", encoding="utf-8") as f:
+                local_prefs = json.load(f)
+        except (FileNotFoundError, json.JSONDecodeError):
+            local_prefs = {}
+
+        updated_keys = []
+
+        # Sheets の値をローカルJSONにマッピング
+        def _parse_csv(val: str) -> list[str]:
+            return [v.strip() for v in val.split(",") if v.strip()] if val else []
+
+        # weekly_focus
+        if sheet_prefs.get("weekly_focus"):
+            wf = local_prefs.setdefault("weekly_focus", {})
+            wf["directive"] = sheet_prefs["weekly_focus"]
+            updated_keys.append("weekly_focus")
+        if sheet_prefs.get("focus_keywords"):
+            wf = local_prefs.setdefault("weekly_focus", {})
+            wf["focus_keywords"] = _parse_csv(sheet_prefs["focus_keywords"])
+            updated_keys.append("focus_keywords")
+        if sheet_prefs.get("focus_accounts"):
+            wf = local_prefs.setdefault("weekly_focus", {})
+            wf["focus_accounts"] = _parse_csv(sheet_prefs["focus_accounts"])
+            updated_keys.append("focus_accounts")
+
+        # topic_preferences
+        if sheet_prefs.get("preferred_topics"):
+            tp = local_prefs.setdefault("topic_preferences", {})
+            tp["preferred"] = _parse_csv(sheet_prefs["preferred_topics"])
+            updated_keys.append("preferred_topics")
+        if sheet_prefs.get("avoid_topics"):
+            tp = local_prefs.setdefault("topic_preferences", {})
+            tp["avoid"] = _parse_csv(sheet_prefs["avoid_topics"])
+            updated_keys.append("avoid_topics")
+
+        # account_overrides
+        if sheet_prefs.get("boosted_accounts"):
+            ao = local_prefs.setdefault("account_overrides", {})
+            ao["boosted"] = _parse_csv(sheet_prefs["boosted_accounts"])
+            updated_keys.append("boosted_accounts")
+        if sheet_prefs.get("blocked_accounts"):
+            ao = local_prefs.setdefault("account_overrides", {})
+            ao["blocked"] = _parse_csv(sheet_prefs["blocked_accounts"])
+            updated_keys.append("blocked_accounts")
+
+        # threshold_overrides
+        to = local_prefs.setdefault("threshold_overrides", {})
+        if sheet_prefs.get("min_likes_override"):
+            try:
+                to["min_likes"] = int(sheet_prefs["min_likes_override"])
+                updated_keys.append("min_likes_override")
+            except ValueError:
+                pass
+        if sheet_prefs.get("max_age_hours_override"):
+            try:
+                to["max_age_hours"] = int(sheet_prefs["max_age_hours_override"])
+                updated_keys.append("max_age_hours_override")
+            except ValueError:
+                pass
+
+        # extra_keywords → keyword_weights に追加
+        if sheet_prefs.get("extra_keywords"):
+            kw = local_prefs.setdefault("keyword_weights", {})
+            for keyword in _parse_csv(sheet_prefs["extra_keywords"]):
+                if keyword not in kw:
+                    kw[keyword] = 2.0  # 新規キーワードはweight 2.0
+                    updated_keys.append(f"keyword:{keyword}")
+
+        # 更新日時
+        if updated_keys:
+            local_prefs["updated_at"] = datetime.now(JST).isoformat()[:10]
+            local_prefs["updated_by"] = "sheets_sync"
+
+        # 保存
+        with open(prefs_path, "w", encoding="utf-8") as f:
+            json.dump(local_prefs, f, ensure_ascii=False, indent=2)
+
+        return {
+            "updated_keys": updated_keys,
+            "unchanged": len(sheet_prefs) - len(updated_keys),
+        }

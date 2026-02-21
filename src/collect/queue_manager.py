@@ -18,6 +18,17 @@ JST = ZoneInfo("Asia/Tokyo")
 QUEUE_DIR = PROJECT_ROOT / "data" / "queue"
 PENDING_FILE = QUEUE_DIR / "pending_tweets.json"
 PROCESSED_FILE = QUEUE_DIR / "processed_tweets.json"
+FEEDBACK_FILE = PROJECT_ROOT / "data" / "feedback" / "selection_feedback.json"
+
+# スキップ理由の選択肢
+SKIP_REASONS = [
+    "topic_mismatch",     # トピック不一致
+    "source_untrusted",   # ソース不適切
+    "too_old",            # 古すぎる
+    "low_quality",        # 品質不足
+    "off_brand",          # ブランド不適合
+    "other",              # その他
+]
 
 
 class QueueManager:
@@ -75,6 +86,9 @@ class QueueManager:
         entry["generated_text"] = ""  # 生成後に埋める
         entry["template_id"] = ""     # 使用テンプレートID
         entry["score"] = None         # スコアリング結果
+        # 選定PDCAフィードバック用
+        entry["skip_reason"] = ""
+        entry["feedback_note"] = ""
 
         pending.append(entry)
         self._save(self._pending_file, pending)
@@ -125,7 +139,14 @@ class QueueManager:
 
     def approve(self, tweet_id: str) -> bool:
         """ツイートを承認"""
-        return self._update_status(tweet_id, "approved")
+        pending = self._load(self._pending_file)
+        for item in pending:
+            if item["tweet_id"] == tweet_id:
+                item["status"] = "approved"
+                self._save(self._pending_file, pending)
+                self._record_feedback(item, "approved")
+                return True
+        return False
 
     def approve_all_pending(self) -> int:
         """全pendingを一括承認"""
@@ -140,7 +161,27 @@ class QueueManager:
 
     def skip(self, tweet_id: str) -> bool:
         """ツイートをスキップ（投稿しない）"""
-        return self._update_status(tweet_id, "skipped")
+        return self.skip_with_reason(tweet_id)
+
+    def skip_with_reason(self, tweet_id: str, reason: str = "", note: str = "") -> bool:
+        """
+        ツイートをスキップ（理由付き — 選定PDCA用）
+
+        Args:
+            tweet_id: ツイートID
+            reason: スキップ理由（SKIP_REASONS参照）
+            note: 自由記述のフィードバックメモ
+        """
+        pending = self._load(self._pending_file)
+        for item in pending:
+            if item["tweet_id"] == tweet_id:
+                item["status"] = "skipped"
+                item["skip_reason"] = reason
+                item["feedback_note"] = note
+                self._save(self._pending_file, pending)
+                self._record_feedback(item, "skipped")
+                return True
+        return False
 
     def set_generated(self, tweet_id: str, text: str, template_id: str = "", score: dict | None = None):
         """生成済みテキストを設定"""
@@ -181,6 +222,91 @@ class QueueManager:
                 self._save(self._pending_file, pending)
                 return True
         return False
+
+    # === フィードバック記録（選定PDCA） ===
+
+    def _record_feedback(self, item: dict, decision: str):
+        """
+        承認/スキップ判断をフィードバックデータに記録
+
+        Args:
+            item: キューアイテム
+            decision: "approved" or "skipped"
+        """
+        feedback_file = FEEDBACK_FILE
+        feedback_file.parent.mkdir(parents=True, exist_ok=True)
+
+        # フィードバックデータ読み込み
+        try:
+            with open(feedback_file, "r", encoding="utf-8") as f:
+                feedback_data = json.load(f)
+        except (FileNotFoundError, json.JSONDecodeError):
+            feedback_data = {"entries": [], "stats": {
+                "total": 0, "approved": 0, "skipped": 0,
+                "approval_rate": 0.0,
+                "by_source": {}, "by_topic": {}, "by_keyword": {}, "by_reason": {},
+            }}
+
+        # エントリ追加
+        entry = {
+            "tweet_id": item.get("tweet_id", ""),
+            "author_username": item.get("author_username", ""),
+            "decision": decision,
+            "skip_reason": item.get("skip_reason", ""),
+            "feedback_note": item.get("feedback_note", ""),
+            "preference_match_score": item.get("preference_match_score", 0.0),
+            "matched_topics": item.get("matched_topics", []),
+            "matched_keywords": item.get("matched_keywords", []),
+            "likes": item.get("likes", 0),
+            "decided_at": datetime.now(JST).isoformat(),
+        }
+        feedback_data["entries"].append(entry)
+
+        # 統計更新
+        stats = feedback_data.get("stats", {})
+        stats["total"] = stats.get("total", 0) + 1
+        stats[decision] = stats.get(decision, 0) + 1
+        total = stats["total"]
+        stats["approval_rate"] = round(stats.get("approved", 0) / total, 3) if total else 0.0
+
+        # ソース別統計
+        source = item.get("author_username", "unknown")
+        by_source = stats.setdefault("by_source", {})
+        src_stats = by_source.setdefault(source, {"approved": 0, "skipped": 0})
+        src_stats[decision] = src_stats.get(decision, 0) + 1
+
+        # トピック別統計
+        by_topic = stats.setdefault("by_topic", {})
+        for topic in item.get("matched_topics", []):
+            topic_stats = by_topic.setdefault(topic, {"approved": 0, "skipped": 0})
+            topic_stats[decision] = topic_stats.get(decision, 0) + 1
+
+        # キーワード別統計
+        by_keyword = stats.setdefault("by_keyword", {})
+        for keyword in item.get("matched_keywords", []):
+            kw_stats = by_keyword.setdefault(keyword, {"approved": 0, "skipped": 0})
+            kw_stats[decision] = kw_stats.get(decision, 0) + 1
+
+        # スキップ理由別統計
+        if decision == "skipped" and item.get("skip_reason"):
+            by_reason = stats.setdefault("by_reason", {})
+            reason = item["skip_reason"]
+            by_reason[reason] = by_reason.get(reason, 0) + 1
+
+        feedback_data["stats"] = stats
+
+        # 保存
+        with open(feedback_file, "w", encoding="utf-8") as f:
+            json.dump(feedback_data, f, ensure_ascii=False, indent=2)
+
+    def get_feedback_stats(self) -> dict:
+        """フィードバック統計を取得"""
+        try:
+            with open(FEEDBACK_FILE, "r", encoding="utf-8") as f:
+                data = json.load(f)
+            return data.get("stats", {})
+        except (FileNotFoundError, json.JSONDecodeError):
+            return {}
 
     # === クリーンアップ ===
 

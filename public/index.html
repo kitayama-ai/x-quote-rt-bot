@@ -1035,6 +1035,268 @@ tr:hover td { background: var(--bg-card-hover); }
   background: var(--accent-blue-dim);
   color: var(--accent-blue);
 }
+
+/* ===========================================
+   QUEUE ACTION BUTTONS
+   =========================================== */
+.queue-actions {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.action-btn {
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: transparent;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.action-btn.approve {
+  color: var(--accent-green);
+  border-color: rgba(16,185,129,0.3);
+}
+.action-btn.approve:hover {
+  background: var(--accent-green-dim);
+  border-color: var(--accent-green);
+}
+
+.action-btn.skip {
+  color: var(--accent-red);
+  border-color: rgba(239,68,68,0.3);
+  position: relative;
+}
+.action-btn.skip:hover {
+  background: var(--accent-red-dim);
+  border-color: var(--accent-red);
+}
+
+.skip-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 4px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 4px;
+  z-index: 50;
+  min-width: 180px;
+  box-shadow: var(--shadow-lg);
+  display: none;
+}
+
+.skip-dropdown.show { display: block; }
+
+.skip-option {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 8px 12px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  background: none;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.skip-option:hover {
+  background: var(--bg-input);
+  color: var(--text-primary);
+}
+
+.match-score {
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.match-score.high { color: var(--accent-green); }
+.match-score.medium { color: var(--accent-amber); }
+.match-score.low { color: var(--text-muted); }
+
+/* ===========================================
+   PREFERENCES FORM (選定設定)
+   =========================================== */
+.pref-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 16px;
+}
+
+.pref-section h3 {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pref-section .desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 18px;
+  line-height: 1.6;
+}
+
+.pref-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.tag {
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-weight: 500;
+  border: 1px solid var(--border);
+  background: var(--bg-input);
+  color: var(--text-secondary);
+}
+
+.tag.preferred { background: var(--accent-green-dim); color: var(--accent-green); border-color: rgba(16,185,129,0.3); }
+.tag.avoid { background: var(--accent-red-dim); color: var(--accent-red); border-color: rgba(239,68,68,0.3); }
+.tag.keyword { background: var(--accent-blue-dim); color: var(--accent-blue); border-color: rgba(59,130,246,0.3); }
+.tag.boosted { background: var(--accent-purple-dim); color: var(--accent-purple); border-color: rgba(139,92,246,0.3); }
+
+textarea.form-input {
+  min-height: 60px;
+  resize: vertical;
+  line-height: 1.6;
+}
+
+/* ===========================================
+   PDCA ANALYSIS TAB
+   =========================================== */
+.pdca-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.pdca-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px 24px;
+}
+
+.pdca-card h4 {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.approval-rate-big {
+  font-size: 48px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.approval-rate-big.good { color: var(--accent-green); }
+.approval-rate-big.ok { color: var(--accent-amber); }
+.approval-rate-big.bad { color: var(--accent-red); }
+
+.pdca-list {
+  list-style: none;
+}
+
+.pdca-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+
+.pdca-list li:last-child { border-bottom: none; }
+
+.pdca-list .account {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.pdca-list .rate {
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+.pdca-list .rate.high { color: var(--accent-green); }
+.pdca-list .rate.low { color: var(--accent-red); }
+
+.reason-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.reason-bar-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+  min-width: 100px;
+  flex-shrink: 0;
+}
+
+.reason-bar-fill {
+  height: 20px;
+  border-radius: 4px;
+  background: var(--accent-blue);
+  transition: width var(--transition-base);
+  min-width: 2px;
+}
+
+.reason-bar-count {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  flex-shrink: 0;
+}
+
+.adjustment-item {
+  font-size: 13px;
+  padding: 10px 14px;
+  background: var(--bg-input);
+  border-radius: 8px;
+  margin-bottom: 8px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  border-left: 3px solid var(--accent-blue);
+}
+
+.adjustment-item.promote { border-left-color: var(--accent-green); }
+.adjustment-item.demote { border-left-color: var(--accent-red); }
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1121,6 +1383,8 @@ tr:hover td { background: var(--bg-card-hover); }
     <button class="tab active" data-tab="queue">キュー一覧</button>
     <button class="tab" data-tab="posted">投稿履歴</button>
     <button class="tab" data-tab="metrics">メトリクス</button>
+    <button class="tab" data-tab="preferences">選定設定</button>
+    <button class="tab" data-tab="pdca">PDCA分析</button>
     <button class="tab" data-tab="settings">設定</button>
   </nav>
 
@@ -1144,8 +1408,9 @@ tr:hover td { background: var(--bg-card-hover); }
               <th>元ツイート</th>
               <th>生成テキスト</th>
               <th>エンゲージメント</th>
+              <th>マッチ</th>
               <th>追加日時</th>
-              <th>リンク</th>
+              <th>アクション</th>
             </tr>
           </thead>
           <tbody id="queueTbody">
@@ -1169,6 +1434,142 @@ tr:hover td { background: var(--bg-card-hover); }
       </div>
     </div>
     <div class="metric-row" id="metricCards"></div>
+  </div>
+
+  <!-- ===== TAB: PREFERENCES (選定設定) ===== -->
+  <div class="tab-panel" id="panel-preferences">
+    <!-- 今週のフォーカス -->
+    <div class="pref-section">
+      <h3>🎯 今週のフォーカス</h3>
+      <p class="desc">今週重点的に収集・引用したいテーマを設定します。ここに設定した内容に合致するツイートが優先的に選ばれます。</p>
+      <div class="form-group">
+        <label class="form-label">フォーカスディレクティブ</label>
+        <textarea class="form-input" id="prefFocusDirective" placeholder="例: 今週はAIエージェント関連のツイートを中心に。特にMCPやtool useの話題を重視。"></textarea>
+        <div class="form-hint">自由記述で今週の方針を書いてください</div>
+      </div>
+      <div class="pref-grid">
+        <div class="form-group">
+          <label class="form-label">フォーカスキーワード</label>
+          <input type="text" class="form-input" id="prefFocusKeywords" placeholder="MCP, tool use, AI agent">
+          <div class="form-hint">カンマ区切りで入力</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">フォーカスアカウント</label>
+          <input type="text" class="form-input" id="prefFocusAccounts" placeholder="@sama, @karpathy">
+          <div class="form-hint">カンマ区切りで入力（@は任意）</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- トピック設定 -->
+    <div class="pref-section">
+      <h3>📋 トピック設定</h3>
+      <p class="desc">優先したいトピックと回避したいトピックを設定します。PDCA分析の結果により自動調整されることもあります。</p>
+      <div class="pref-grid">
+        <div class="form-group">
+          <label class="form-label">優先トピック</label>
+          <input type="text" class="form-input" id="prefPreferredTopics" placeholder="AI agents, product launches, coding AI">
+          <div class="form-hint">カンマ区切り</div>
+          <div class="tag-list" id="tagPreferred"></div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">回避トピック</label>
+          <input type="text" class="form-input" id="prefAvoidTopics" placeholder="AI doomerism, crypto, politics">
+          <div class="form-hint">カンマ区切り</div>
+          <div class="tag-list" id="tagAvoid"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- アカウント設定 -->
+    <div class="pref-section">
+      <h3>👤 アカウント設定</h3>
+      <p class="desc">特定アカウントの優先度を設定します。ブーストしたアカウントのツイートは1.5倍のスコアで評価されます。</p>
+      <div class="pref-grid">
+        <div class="form-group">
+          <label class="form-label">優先アカウント（ブースト）</label>
+          <input type="text" class="form-input" id="prefBoostedAccounts" placeholder="sama, karpathy, AndrewYNg">
+          <div class="form-hint">カンマ区切り（@不要）</div>
+          <div class="tag-list" id="tagBoosted"></div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">ブロックアカウント</label>
+          <input type="text" class="form-input" id="prefBlockedAccounts" placeholder="spammer123">
+          <div class="form-hint">カンマ区切り（@不要）— このアカウントのツイートは除外</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- キーワードウェイト -->
+    <div class="pref-section">
+      <h3>⚖️ キーワードウェイト</h3>
+      <p class="desc">特定キーワードを含むツイートの優先度を調整します。数値が高いほど優先されます（デフォルト1.0）。</p>
+      <div class="form-group">
+        <label class="form-label">追加キーワード（weight 2.0 で追加）</label>
+        <input type="text" class="form-input" id="prefExtraKeywords" placeholder="MCP, function calling, agentic">
+        <div class="form-hint">カンマ区切り。既存キーワードは変更されません。</div>
+      </div>
+      <div id="keywordWeightDisplay" style="margin-top:12px;"></div>
+    </div>
+
+    <button class="save-btn" id="savePrefBtn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+      選定設定を保存
+    </button>
+    <div class="save-msg" id="prefSaveMsg"></div>
+  </div>
+
+  <!-- ===== TAB: PDCA ANALYSIS (PDCA分析) ===== -->
+  <div class="tab-panel" id="panel-pdca">
+    <div class="pdca-grid">
+      <!-- 承認率 -->
+      <div class="pdca-card">
+        <h4>📊 承認率</h4>
+        <div class="approval-rate-big" id="pdcaApprovalRate">—</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:8px;font-family:var(--font-mono);">
+          <span id="pdcaTotalDecisions">0</span> 件の判断
+        </div>
+      </div>
+
+      <!-- 承認/スキップ内訳 -->
+      <div class="pdca-card">
+        <h4>✅ 判断内訳</h4>
+        <div style="display:flex;gap:24px;margin-top:8px;">
+          <div>
+            <div style="font-size:11px;color:var(--text-muted);">承認</div>
+            <div style="font-size:28px;font-weight:700;font-family:var(--font-mono);color:var(--accent-green);" id="pdcaApprovedCount">0</div>
+          </div>
+          <div>
+            <div style="font-size:11px;color:var(--text-muted);">スキップ</div>
+            <div style="font-size:28px;font-weight:700;font-family:var(--font-mono);color:var(--accent-red);" id="pdcaSkippedCount">0</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ソース別承認率 -->
+    <div class="pdca-card" style="margin-bottom:16px;">
+      <h4>👤 ソース別承認率</h4>
+      <div id="pdcaSourceList">
+        <div style="color:var(--text-muted);font-size:13px;">データなし</div>
+      </div>
+    </div>
+
+    <!-- スキップ理由分布 -->
+    <div class="pdca-card" style="margin-bottom:16px;">
+      <h4>📋 スキップ理由の分布</h4>
+      <div id="pdcaReasonBars">
+        <div style="color:var(--text-muted);font-size:13px;">データなし</div>
+      </div>
+    </div>
+
+    <!-- 最新の自動調整 -->
+    <div class="pdca-card" style="margin-bottom:16px;">
+      <h4>🔄 最新の自動調整アクション</h4>
+      <div id="pdcaAdjustments">
+        <div style="color:var(--text-muted);font-size:13px;">自動調整履歴なし</div>
+      </div>
+    </div>
   </div>
 
   <!-- ===== TAB: SETTINGS ===== -->
@@ -1671,6 +2072,8 @@ function render() {
   renderQueue();
   renderPosted();
   renderMetrics();
+  renderPreferences();
+  renderPDCA();
   renderUpdatedTime();
 }
 
@@ -1688,7 +2091,7 @@ function renderKPI() {
 function renderQueue() {
   const tbody = document.getElementById('queueTbody');
   if (!dashboardData || !dashboardData.queue) {
-    tbody.innerHTML = '<tr><td colspan="6"><div class="empty-state"><svg class="empty-state-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/></svg><h3>キューが空です</h3><p>collectコマンドでバズツイートを収集してください</p></div></td></tr>';
+    tbody.innerHTML = '<tr><td colspan="7"><div class="empty-state"><svg class="empty-state-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/></svg><h3>キューが空です</h3><p>collectコマンドでバズツイートを収集してください</p></div></td></tr>';
     return;
   }
 
@@ -1698,7 +2101,7 @@ function renderQueue() {
   }
 
   if (items.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="6"><div class="empty-state"><svg class="empty-state-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg><h3>該当するアイテムがありません</h3></div></td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="7"><div class="empty-state"><svg class="empty-state-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg><h3>該当するアイテムがありません</h3></div></td></tr>`;
     return;
   }
 
@@ -1719,13 +2122,43 @@ function renderQueue() {
     const rts = item.retweets ?? item.retweet_count ?? '-';
     const addedAt = item.added_at ? formatTime(item.added_at) : '-';
 
+    // Match score
+    const matchScore = item.preference_match_score ?? 0;
+    const scoreClass = matchScore >= 2.0 ? 'high' : matchScore >= 1.0 ? 'medium' : 'low';
+    const scoreDisplay = matchScore > 0 ? matchScore.toFixed(1) : '—';
+
+    // Action buttons (only for pending)
+    let actionHtml = '';
+    if (item.status === 'pending') {
+      actionHtml = `<div class="queue-actions">
+        <button class="action-btn approve" onclick="queueAction('approve','${tweetId}')">✓ 承認</button>
+        <div style="position:relative;display:inline-block;">
+          <button class="action-btn skip" onclick="toggleSkipMenu(this)">✕ スキップ ▾</button>
+          <div class="skip-dropdown">
+            <button class="skip-option" onclick="queueAction('skip','${tweetId}','topic_mismatch')">トピック不一致</button>
+            <button class="skip-option" onclick="queueAction('skip','${tweetId}','source_untrusted')">ソース不適切</button>
+            <button class="skip-option" onclick="queueAction('skip','${tweetId}','too_old')">古すぎる</button>
+            <button class="skip-option" onclick="queueAction('skip','${tweetId}','low_quality')">品質不足</button>
+            <button class="skip-option" onclick="queueAction('skip','${tweetId}','off_brand')">ブランド不適合</button>
+            <button class="skip-option" onclick="queueAction('skip','${tweetId}','other')">その他</button>
+          </div>
+        </div>
+      </div>`;
+    } else if (item.status === 'skipped' && item.skip_reason) {
+      const reasonLabels = { topic_mismatch:'トピック不一致', source_untrusted:'ソース不適切', too_old:'古い', low_quality:'品質不足', off_brand:'ブランド不適合', other:'その他' };
+      actionHtml = `<span style="font-size:11px;color:var(--text-muted);">${reasonLabels[item.skip_reason] || item.skip_reason}</span>`;
+    } else {
+      actionHtml = tweetId ? `<a class="external-link" href="${tweetUrl}" target="_blank" rel="noopener">↗</a>` : '-';
+    }
+
     return `<tr>
       <td><span class="status ${statusClass}">${statusLabel}</span></td>
       <td><div class="tweet-text" title="${escapeHtml(originalText)}">${escapeHtml(truncate(originalText, 60))}</div></td>
       <td><div class="tweet-text ${generatedText ? 'generated' : ''}" title="${escapeHtml(generatedText)}">${generatedText ? escapeHtml(truncate(generatedText, 50)) : '<span style="color:var(--text-muted)">未生成</span>'}</div></td>
       <td><div class="tweet-metrics"><span><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-2px;opacity:0.7"><path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z"/></svg> ${formatNum(likes)}</span><span><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-2px;opacity:0.7"><path d="M19.902 4.098a3.75 3.75 0 00-5.304 0l-4.5 4.5a3.75 3.75 0 001.035 6.037.75.75 0 01-.646 1.353 5.25 5.25 0 01-1.449-8.45l4.5-4.5a5.25 5.25 0 117.424 7.424l-1.757 1.757a.75.75 0 11-1.06-1.06l1.757-1.757a3.75 3.75 0 000-5.304zm-7.389 4.267a.75.75 0 011-.353 5.25 5.25 0 011.449 8.45l-4.5 4.5a5.25 5.25 0 11-7.424-7.424l1.757-1.757a.75.75 0 111.06 1.06l-1.757 1.757a3.75 3.75 0 105.304 5.304l4.5-4.5a3.75 3.75 0 00-1.035-6.037.75.75 0 01-.354-1z"/></svg> ${formatNum(rts)}</span></div></td>
+      <td><span class="match-score ${scoreClass}" title="プリファレンスマッチスコア">⚡ ${scoreDisplay}</span></td>
       <td><span class="tweet-meta">${addedAt}</span></td>
-      <td>${tweetId ? `<a class="external-link" href="${tweetUrl}" target="_blank" rel="noopener">元ツイート ↗</a>` : '-'}</td>
+      <td>${actionHtml}</td>
     </tr>`;
   }).join('');
 }
@@ -1896,6 +2329,239 @@ function renderEmptyChart() {
       }
     }
   });
+}
+
+// --- Queue actions ---
+function toggleSkipMenu(btn) {
+  // Close all other dropdowns
+  document.querySelectorAll('.skip-dropdown.show').forEach(d => d.classList.remove('show'));
+  const dropdown = btn.nextElementSibling;
+  dropdown.classList.toggle('show');
+}
+
+// Close skip menus when clicking outside
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.action-btn.skip') && !e.target.closest('.skip-dropdown')) {
+    document.querySelectorAll('.skip-dropdown.show').forEach(d => d.classList.remove('show'));
+  }
+});
+
+async function queueAction(action, tweetId, reason) {
+  // Close any open dropdown
+  document.querySelectorAll('.skip-dropdown.show').forEach(d => d.classList.remove('show'));
+
+  if (!window.__fb || !window.__fb.auth.currentUser) return;
+
+  const uid = window.__fb.auth.currentUser.uid;
+  const db = window.__fb.db;
+
+  try {
+    // Save decision to Firestore
+    await db.collection('queue_decisions').doc(tweetId).set({
+      tweet_id: tweetId,
+      action: action,
+      skip_reason: reason || '',
+      decided_by: uid,
+      decided_at: firebase.firestore.FieldValue.serverTimestamp(),
+    });
+
+    // Update local data optimistically
+    if (dashboardData && dashboardData.queue) {
+      const item = dashboardData.queue.find(i => i.tweet_id === tweetId);
+      if (item) {
+        item.status = action === 'approve' ? 'approved' : 'skipped';
+        if (reason) item.skip_reason = reason;
+      }
+    }
+
+    renderQueue();
+    renderKPI();
+
+    console.log(`Queue action: ${action} ${tweetId} ${reason || ''}`);
+  } catch (err) {
+    console.error('Queue action error:', err);
+    alert('操作に失敗しました: ' + err.message);
+  }
+}
+
+// --- Preferences rendering ---
+function renderPreferences() {
+  const prefs = dashboardData.preferences;
+  if (!prefs) return;
+
+  // Weekly focus
+  const directive = prefs.weekly_focus?.directive || '';
+  const focusKeywords = (prefs.weekly_focus?.focus_keywords || []).join(', ');
+  const focusAccounts = (prefs.weekly_focus?.focus_accounts || []).join(', ');
+  setVal('prefFocusDirective', directive);
+  setVal('prefFocusKeywords', focusKeywords);
+  setVal('prefFocusAccounts', focusAccounts);
+
+  // Topics
+  const preferred = prefs.topic_preferences?.preferred || [];
+  const avoid = prefs.topic_preferences?.avoid || [];
+  setVal('prefPreferredTopics', preferred.join(', '));
+  setVal('prefAvoidTopics', avoid.join(', '));
+  renderTags('tagPreferred', preferred, 'preferred');
+  renderTags('tagAvoid', avoid, 'avoid');
+
+  // Accounts
+  const boosted = prefs.account_overrides?.boosted || [];
+  const blocked = prefs.account_overrides?.blocked || [];
+  setVal('prefBoostedAccounts', boosted.join(', '));
+  setVal('prefBlockedAccounts', blocked.join(', '));
+  renderTags('tagBoosted', boosted.map(a => '@' + a), 'boosted');
+
+  // Keyword weights
+  const kwWeights = prefs.keyword_weights || {};
+  const kwContainer = document.getElementById('keywordWeightDisplay');
+  if (kwContainer && Object.keys(kwWeights).length > 0) {
+    const tags = Object.entries(kwWeights)
+      .sort((a, b) => b[1] - a[1])
+      .map(([kw, w]) => `<span class="tag keyword">${escapeHtml(kw)} <span style="opacity:0.6">(${w})</span></span>`)
+      .join('');
+    kwContainer.innerHTML = tags;
+  }
+}
+
+function setVal(id, val) {
+  const el = document.getElementById(id);
+  if (el) el.value = val;
+}
+
+function renderTags(containerId, items, className) {
+  const el = document.getElementById(containerId);
+  if (!el || items.length === 0) return;
+  el.innerHTML = items.map(t => `<span class="tag ${className}">${escapeHtml(t)}</span>`).join('');
+}
+
+// --- Save Preferences ---
+(function initPrefSave() {
+  const btn = document.getElementById('savePrefBtn');
+  const msg = document.getElementById('prefSaveMsg');
+  if (!btn) return;
+
+  btn.addEventListener('click', async () => {
+    if (!window.__fb || !window.__fb.auth.currentUser) return;
+    btn.disabled = true;
+    msg.className = 'save-msg';
+    msg.style.display = 'none';
+
+    const uid = window.__fb.auth.currentUser.uid;
+    const db = window.__fb.db;
+
+    try {
+      const prefData = {
+        weekly_focus: document.getElementById('prefFocusDirective')?.value || '',
+        focus_keywords: document.getElementById('prefFocusKeywords')?.value || '',
+        focus_accounts: document.getElementById('prefFocusAccounts')?.value || '',
+        preferred_topics: document.getElementById('prefPreferredTopics')?.value || '',
+        avoid_topics: document.getElementById('prefAvoidTopics')?.value || '',
+        boosted_accounts: document.getElementById('prefBoostedAccounts')?.value || '',
+        blocked_accounts: document.getElementById('prefBlockedAccounts')?.value || '',
+        extra_keywords: document.getElementById('prefExtraKeywords')?.value || '',
+        updated_at: firebase.firestore.FieldValue.serverTimestamp(),
+        updated_by: uid,
+      };
+
+      await db.collection('selection_preferences').doc(uid).set(prefData, { merge: true });
+
+      msg.textContent = '選定設定を保存しました';
+      msg.className = 'save-msg success';
+    } catch (err) {
+      console.error('Save preferences error:', err);
+      msg.textContent = '保存に失敗しました: ' + err.message;
+      msg.className = 'save-msg error';
+    }
+
+    btn.disabled = false;
+  });
+})();
+
+// --- PDCA Analysis rendering ---
+function renderPDCA() {
+  const insights = dashboardData.pdca_insights;
+  if (!insights || insights.total === 0) {
+    document.getElementById('pdcaApprovalRate').textContent = '—';
+    return;
+  }
+
+  // Approval rate
+  const rate = insights.approval_rate ?? 0;
+  const ratePercent = (rate * 100).toFixed(1) + '%';
+  const rateEl = document.getElementById('pdcaApprovalRate');
+  rateEl.textContent = ratePercent;
+  rateEl.className = 'approval-rate-big ' + (rate >= 0.7 ? 'good' : rate >= 0.4 ? 'ok' : 'bad');
+
+  document.getElementById('pdcaTotalDecisions').textContent = insights.total ?? 0;
+  document.getElementById('pdcaApprovedCount').textContent = insights.approved ?? 0;
+  document.getElementById('pdcaSkippedCount').textContent = insights.skipped ?? 0;
+
+  // Source-level stats
+  const sourceList = document.getElementById('pdcaSourceList');
+  const bySource = insights.by_source || {};
+  const sourceEntries = Object.entries(bySource);
+  if (sourceEntries.length > 0) {
+    const sorted = sourceEntries
+      .map(([username, s]) => {
+        const total = (s.approved || 0) + (s.skipped || 0);
+        const r = total > 0 ? (s.approved || 0) / total : 0;
+        return { username, rate: r, total, approved: s.approved || 0 };
+      })
+      .sort((a, b) => b.total - a.total)
+      .slice(0, 10);
+
+    sourceList.innerHTML = '<ul class="pdca-list">' + sorted.map(s => {
+      const rClass = s.rate >= 0.7 ? 'high' : s.rate <= 0.3 ? 'low' : '';
+      return `<li>
+        <span class="account">@${escapeHtml(s.username)}</span>
+        <span>
+          <span class="rate ${rClass}">${(s.rate * 100).toFixed(0)}%</span>
+          <span style="font-size:11px;color:var(--text-muted);margin-left:6px;">(${s.total}件)</span>
+        </span>
+      </li>`;
+    }).join('') + '</ul>';
+  }
+
+  // Skip reasons
+  const reasonBars = document.getElementById('pdcaReasonBars');
+  const byReason = insights.by_reason || {};
+  const reasonEntries = Object.entries(byReason);
+  if (reasonEntries.length > 0) {
+    const maxCount = Math.max(...reasonEntries.map(([, c]) => c), 1);
+    const reasonLabels = {
+      topic_mismatch: 'トピック不一致',
+      source_untrusted: 'ソース不適切',
+      too_old: '古すぎる',
+      low_quality: '品質不足',
+      off_brand: 'ブランド不適合',
+      other: 'その他',
+    };
+
+    reasonBars.innerHTML = reasonEntries
+      .sort((a, b) => b[1] - a[1])
+      .map(([reason, count]) => {
+        const pct = (count / maxCount * 100).toFixed(0);
+        const label = reasonLabels[reason] || reason;
+        return `<div class="reason-bar">
+          <span class="reason-bar-label">${label}</span>
+          <div style="flex:1;background:var(--bg-input);border-radius:4px;overflow:hidden;">
+            <div class="reason-bar-fill" style="width:${pct}%;"></div>
+          </div>
+          <span class="reason-bar-count">${count}</span>
+        </div>`;
+      }).join('');
+  }
+
+  // Adjustments (from pdca_insights.adjustments if available)
+  const adjustEl = document.getElementById('pdcaAdjustments');
+  const adjustments = insights.adjustments || [];
+  if (adjustments.length > 0) {
+    adjustEl.innerHTML = adjustments.map(a => {
+      const cls = a.includes('優先追加') || a.includes('weight:') && a.includes('→') ? 'promote' : 'demote';
+      return `<div class="adjustment-item ${cls}">${escapeHtml(a)}</div>`;
+    }).join('');
+  }
 }
 
 // --- Updated time ---

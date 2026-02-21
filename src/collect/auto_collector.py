@@ -15,6 +15,7 @@ from zoneinfo import ZoneInfo
 from src.collect.socialdata_client import SocialDataClient, SocialDataError
 from src.collect.tweet_parser import TweetParser, ParsedTweet
 from src.collect.queue_manager import QueueManager
+from src.collect.preference_scorer import PreferenceScorer
 from src.config import PROJECT_ROOT
 
 JST = ZoneInfo("Asia/Tokyo")
@@ -34,6 +35,7 @@ class AutoCollector:
     ):
         self.client = SocialDataClient(api_key=api_key)
         self.queue = queue or QueueManager()
+        self.preference_scorer = PreferenceScorer()
         self._load_config()
 
     def _load_config(self):
@@ -104,6 +106,34 @@ class AutoCollector:
                 parsed_tweets.append(parsed)
             except Exception as e:
                 print(f"  ⚠️ パースエラー: {e}")
+
+        # ── STEP 3.5: プリファレンススコアリング ─────────────────────
+        for tweet in parsed_tweets:
+            pref_result = self.preference_scorer.score(
+                tweet_text=tweet.text,
+                author_username=tweet.author_username,
+            )
+            tweet.preference_match_score = pref_result["preference_score"]
+            tweet.matched_topics = pref_result["matched_topics"]
+            tweet.matched_keywords = pref_result["matched_keywords"]
+
+        # プリファレンスでブロックされたツイートを除外
+        before_pref = len(parsed_tweets)
+        parsed_tweets = [
+            t for t in parsed_tweets
+            if not self.preference_scorer.is_account_blocked(t.author_username)
+        ]
+        if before_pref != len(parsed_tweets):
+            print(f"🚫 ブロックアカウント除外: {before_pref - len(parsed_tweets)}件")
+
+        # ブレンドスコア（エンゲージメント × プリファレンス）で再ソート
+        parsed_tweets.sort(
+            key=lambda t: (t.likes + t.retweets * 3) * max(t.preference_match_score, 0.1),
+            reverse=True,
+        )
+
+        pref_matched = sum(1 for t in parsed_tweets if t.preference_match_score > 1.0)
+        print(f"🎯 プリファレンスマッチ: {pref_matched}/{len(parsed_tweets)}件")
 
         # ── STEP 4: キューに追加 ──────────────────────────────────────
         added = 0

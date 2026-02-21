@@ -29,6 +29,10 @@ class ParsedTweet:
     source: str = "manual"  # "manual" | "socialdata" | "payperuse"
     tags: list[str] = field(default_factory=list)
     memo: str = ""  # 収集時のメモ
+    # プリファレンスマッチ情報（選定PDCAで使用）
+    preference_match_score: float = 0.0
+    matched_topics: list[str] = field(default_factory=list)
+    matched_keywords: list[str] = field(default_factory=list)
 
     def to_dict(self) -> dict:
         return {
@@ -47,6 +51,9 @@ class ParsedTweet:
             "source": self.source,
             "tags": self.tags,
             "memo": self.memo,
+            "preference_match_score": self.preference_match_score,
+            "matched_topics": self.matched_topics,
+            "matched_keywords": self.matched_keywords,
         }
 
     @classmethod

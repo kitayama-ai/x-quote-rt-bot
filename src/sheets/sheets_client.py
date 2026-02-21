@@ -32,6 +32,7 @@ SHEET_QUEUE = "キュー管理"
 SHEET_COLLECTION_LOG = "収集ログ"
 SHEET_DASHBOARD = "ダッシュボード"
 SHEET_SETTINGS = "設定"
+SHEET_PREFERENCES = "選定プリファレンス"
 
 
 class SheetsClient:
@@ -216,7 +217,7 @@ class SheetsClient:
 
         # ヘッダー以外をクリア
         if ws.row_count > 1:
-            ws.batch_clear([f"A2:J{ws.row_count}"])
+            ws.batch_clear([f"A2:L{ws.row_count}"])
 
         if not items:
             return
@@ -236,9 +237,11 @@ class SheetsClient:
                 score_val,
                 item.get("source", ""),
                 item.get("url", ""),
+                item.get("skip_reason", ""),
+                item.get("preference_match_score", ""),
             ])
 
-        ws.update(f"A2:J{1 + len(rows)}", rows)
+        ws.update(f"A2:L{1 + len(rows)}", rows)
 
     def read_queue_decisions(self) -> list[dict]:
         """キュー管理シートからクライアントの承認/拒否を読み取り"""
@@ -255,6 +258,7 @@ class SheetsClient:
                 "row": i + 1,
                 "status": row[0].strip(),
                 "tweet_id": row[1].strip(),
+                "skip_reason": row[10].strip() if len(row) > 10 else "",
             })
         return decisions
 
@@ -337,12 +341,13 @@ class SheetsClient:
 
     def _create_queue_sheet(self):
         """キュー管理シートを作成"""
-        ws = self._spreadsheet.add_worksheet(title=SHEET_QUEUE, rows=200, cols=10)
-        ws.update("A1:J1", [[
+        ws = self._spreadsheet.add_worksheet(title=SHEET_QUEUE, rows=200, cols=12)
+        ws.update("A1:L1", [[
             "ステータス", "ツイートID", "著者", "ツイート本文",
-            "いいね数", "収集日時", "生成テキスト", "スコア", "ソース", "URL"
+            "いいね数", "収集日時", "生成テキスト", "スコア", "ソース", "URL",
+            "スキップ理由", "マッチスコア"
         ]])
-        ws.format("A1:J1", {"textFormat": {"bold": True}})
+        ws.format("A1:L1", {"textFormat": {"bold": True}})
         return ws
 
     def _create_collection_log_sheet(self):
@@ -369,6 +374,42 @@ class SheetsClient:
         ])
         ws.format("A1:B1", {"textFormat": {"bold": True}})
         return ws
+
+    def _create_preferences_sheet(self):
+        """選定プリファレンスシートを作成（クライアント編集可能）"""
+        ws = self._spreadsheet.add_worksheet(title=SHEET_PREFERENCES, rows=30, cols=3)
+        ws.update("A1:C1", [["設定キー", "値", "説明"]])
+        ws.update("A2:C11", [
+            ["weekly_focus", "", "今週のフォーカステーマ（自由記述）"],
+            ["focus_keywords", "", "フォーカスキーワード（カンマ区切り）"],
+            ["focus_accounts", "", "フォーカスアカウント（カンマ区切り）"],
+            ["preferred_topics", "AI agents, product launches, coding AI", "優先トピック（カンマ区切り）"],
+            ["avoid_topics", "AI doomerism, crypto", "回避トピック（カンマ区切り）"],
+            ["boosted_accounts", "", "優先アカウント（カンマ区切り）"],
+            ["blocked_accounts", "", "ブロックアカウント（カンマ区切り）"],
+            ["min_likes_override", "", "いいね最低値の上書き（空=デフォルト500）"],
+            ["max_age_hours_override", "", "最大経過時間の上書き（空=デフォルト48）"],
+            ["extra_keywords", "", "追加キーワード（weight:2.0、カンマ区切り）"],
+        ])
+        ws.format("A1:C1", {"textFormat": {"bold": True}})
+        return ws
+
+    def get_preferences(self) -> dict:
+        """選定プリファレンスシートから設定を読み取り"""
+        ws = self._get_or_create_sheet(SHEET_PREFERENCES, self._create_preferences_sheet)
+        all_rows = ws.get_all_values()
+
+        preferences = {}
+        for i, row in enumerate(all_rows):
+            if i == 0:
+                continue
+            if len(row) < 2:
+                continue
+            key = row[0].strip()
+            value = row[1].strip()
+            if key:
+                preferences[key] = value
+        return preferences
 
     def _create_settings_sheet(self):
         """設定シートを作成（クライアント編集可能）"""
@@ -398,6 +439,7 @@ class SheetsClient:
             SHEET_COLLECTION_LOG: self._create_collection_log_sheet,
             SHEET_DASHBOARD: self._create_dashboard_sheet,
             SHEET_SETTINGS: self._create_settings_sheet,
+            SHEET_PREFERENCES: self._create_preferences_sheet,
         }
 
         created = []

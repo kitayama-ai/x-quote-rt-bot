@@ -377,8 +377,13 @@ class TestAutoCollector:
     @patch("src.collect.auto_collector.SocialDataClient")
     def test_collect_dry_run(self, mock_client_cls, queue):
         """ドライラン収集"""
+        from datetime import datetime, timezone
         mock_client = MagicMock()
         mock_client_cls.return_value = mock_client
+
+        # 動的に「1時間前」の日時を生成
+        recent = datetime.now(timezone.utc)
+        created_at_str = recent.strftime("%a %b %d %H:%M:%S %z %Y")
 
         mock_client.build_search_query.return_value = "from:sama min_faves:500"
         mock_client.search_tweets.return_value = [
@@ -389,17 +394,19 @@ class TestAutoCollector:
                 "favorite_count": 50000,
                 "retweet_count": 10000,
                 "lang": "en",
-                "created_at": "Thu Feb 18 02:14:30 +0000 2026",
+                "created_at": created_at_str,
             },
         ]
 
         from src.collect.auto_collector import AutoCollector
+        from src.collect.preference_scorer import PreferenceScorer
         collector = AutoCollector.__new__(AutoCollector)
         collector.client = mock_client
         collector.queue = queue
         collector.target_accounts = [{"username": "sama", "priority": "high"}]
         collector.keywords = []
         collector.buzz_thresholds = {"likes_min": 500, "lang": ["en"], "age_max_hours": 48}
+        collector.preference_scorer = PreferenceScorer()
 
         result = collector.collect(dry_run=True)
 
@@ -412,8 +419,13 @@ class TestAutoCollector:
     @patch("src.collect.auto_collector.SocialDataClient")
     def test_collect_with_auto_approve(self, mock_client_cls, queue):
         """自動承認付き収集"""
+        from datetime import datetime, timezone
         mock_client = MagicMock()
         mock_client_cls.return_value = mock_client
+
+        # 動的に「1時間前」の日時を生成
+        recent = datetime.now(timezone.utc)
+        created_at_str = recent.strftime("%a %b %d %H:%M:%S %z %Y")
 
         mock_client.build_search_query.return_value = "from:sama min_faves:500"
         mock_client.search_tweets.return_value = [
@@ -424,17 +436,19 @@ class TestAutoCollector:
                 "favorite_count": 30000,
                 "retweet_count": 5000,
                 "lang": "en",
-                "created_at": "Thu Feb 18 02:14:30 +0000 2026",
+                "created_at": created_at_str,
             },
         ]
 
         from src.collect.auto_collector import AutoCollector
+        from src.collect.preference_scorer import PreferenceScorer
         collector = AutoCollector.__new__(AutoCollector)
         collector.client = mock_client
         collector.queue = queue
         collector.target_accounts = [{"username": "karpathy", "priority": "high"}]
         collector.keywords = []
         collector.buzz_thresholds = {"likes_min": 500, "lang": ["en"], "age_max_hours": 48}
+        collector.preference_scorer = PreferenceScorer()
 
         result = collector.collect(auto_approve=True)
 

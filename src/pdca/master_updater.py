@@ -74,6 +74,22 @@ class MasterUpdater:
         with open(master_path, "w", encoding="utf-8") as f:
             f.write(content)
 
+        # 選定PDCA調整ログも追記
+        try:
+            from src.pdca.preference_updater import PreferenceUpdater
+            pref_updater = PreferenceUpdater()
+            pref_analysis = pref_updater.analyze_feedback()
+            if pref_analysis["total_decisions"] > 0:
+                pref_entry = (
+                    f"| {today} | 選定PDCA: 承認率{pref_analysis['approval_rate']*100:.0f}% "
+                    f"({pref_analysis['total_decisions']}件判断) |"
+                )
+                content = content.rstrip() + f"\n{pref_entry}\n"
+                with open(master_path, "w", encoding="utf-8") as f:
+                    f.write(content)
+        except Exception:
+            pass  # フィードバックデータがない場合はスキップ
+
         summary = f"マスターデータ更新完了: {'; '.join(findings)}" if findings else "更新内容なし"
         print(f"📝 {summary}")
         return summary

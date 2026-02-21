@@ -128,6 +128,11 @@ class TestExportDashboard:
             "pending": 1, "approved": 1, "skipped": 0,
             "posted_total": 1, "posted_today": 0,
         }
+        mock_queue.get_feedback_stats.return_value = {
+            "total": 0, "approved": 0, "skipped": 0,
+            "approval_rate": 0.0, "by_source": {}, "by_topic": {},
+            "by_keyword": {}, "by_reason": {},
+        }
 
         with patch("src.main.PROJECT_ROOT", tmp_path), \
              patch("src.collect.queue_manager.QueueManager", return_value=mock_queue):

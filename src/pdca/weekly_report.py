@@ -87,6 +87,15 @@ class WeeklyReporter:
                 and summary.get('engagement_rate', 0) >= 1.0):
             report += "- ✅ 順調！現在の方針を継続\n"
 
+        # 選定PDCAセクション
+        try:
+            from src.pdca.preference_updater import PreferenceUpdater
+            updater = PreferenceUpdater()
+            pdca_report = updater.generate_report()
+            report += f"\n{pdca_report}\n"
+        except Exception:
+            pass  # フィードバックデータがない場合はスキップ
+
         return report
 
     def save_report(self, report: str) -> Path:
