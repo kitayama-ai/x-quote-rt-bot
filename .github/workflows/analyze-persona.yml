@@ -1,0 +1,63 @@
+name: Analyze Persona (文体分析)
+
+on:
+  workflow_dispatch:
+    inputs:
+      username:
+        description: '分析対象のXユーザー名（@なし）'
+        type: string
+        required: true
+        default: 'ngg_japan'
+      count:
+        description: '取得ツイート数'
+        type: number
+        default: 100
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Pull latest
+        run: git pull origin main || true
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Analyze persona
+        env:
+          TWITTER_BEARER_TOKEN: ${{ secrets.TWITTER_BEARER_TOKEN }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          python -m src.main analyze-persona \
+            --account 1 \
+            --username "${{ inputs.username }}" \
+            --count ${{ inputs.count }}
+
+      - name: Show results
+        run: |
+          echo "=== ペルソナプロファイル ==="
+          cat data/persona/account_1_persona.json
+          echo ""
+          echo "=== プロンプト注入テキスト ==="
+          cat data/persona/account_1_persona_prompt.md
+
+      - name: Commit results
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add data/persona/
+          git diff --staged --quiet || git commit -m "chore: persona analysis for @${{ inputs.username }}"
+          git push origin main
