@@ -1,8 +1,8 @@
 {
-  "updated_at": "2026-02-21T08:36:54.815921",
+  "updated_at": "2026-02-21T21:29:37.952352",
   "stats": {
     "pending": 0,
-    "approved": 8,
+    "approved": 11,
     "skipped": 4,
     "posted_total": 0,
     "posted_today": 0
@@ -319,13 +319,98 @@
       "score": null,
       "skip_reason": "",
       "feedback_note": ""
+    },
+    {
+      "tweet_id": "2025212679468851317",
+      "author_username": "svpino",
+      "author_name": "Santiago",
+      "text": "Pretty excited about this book (it just came out!)\n\nA wise person once said, \"The only thing better than an AI Agent is a well-architected AI Agent\".\n\nThis is precisely what this book covers!\n\nBy the way, this book is not about building your first chatbot, or theoretical ideas, https://t.co/KAsX7KQLzU",
+      "lang": "en",
+      "likes": 707,
+      "retweets": 86,
+      "replies": 25,
+      "quotes": 2,
+      "bookmarks": 0,
+      "url": "https://x.com/svpino/status/2025212679468851317",
+      "collected_at": "2026-02-22T06:29:37.521072+09:00",
+      "source": "x_api_v2",
+      "tags": [],
+      "memo": "",
+      "preference_match_score": 4.0,
+      "matched_topics": [
+        "AI agents"
+      ],
+      "matched_keywords": [
+        "AI agent"
+      ],
+      "status": "approved",
+      "added_at": "2026-02-22T06:29:37.521409+09:00",
+      "generated_text": "",
+      "template_id": "",
+      "score": null,
+      "skip_reason": "",
+      "feedback_note": ""
+    },
+    {
+      "tweet_id": "2025239374930346300",
+      "author_username": "ylecun",
+      "author_name": "Yann LeCun",
+      "text": "Corruption https://t.co/Buil6jWsxY",
+      "lang": "en",
+      "likes": 2018,
+      "retweets": 156,
+      "replies": 59,
+      "quotes": 5,
+      "bookmarks": 0,
+      "url": "https://x.com/ylecun/status/2025239374930346300",
+      "collected_at": "2026-02-22T06:29:37.521065+09:00",
+      "source": "x_api_v2",
+      "tags": [],
+      "memo": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "status": "approved",
+      "added_at": "2026-02-22T06:29:37.524578+09:00",
+      "generated_text": "",
+      "template_id": "",
+      "score": null,
+      "skip_reason": "",
+      "feedback_note": ""
+    },
+    {
+      "tweet_id": "2025274123560362347",
+      "author_username": "rohanpaul_ai",
+      "author_name": "Rohan Paul",
+      "text": "Demis Hassabis’s “Einstein test” for defining AGI: \n\nTrain a model on all human knowledge but cut it off at 1911, then see if it can independently discover general relativity (as Einstein did by 1915); \n\nif yes, it’s AGI.\nhttps://t.co/r10hYwXkRy",
+      "lang": "en",
+      "likes": 2060,
+      "retweets": 136,
+      "replies": 148,
+      "quotes": 37,
+      "bookmarks": 0,
+      "url": "https://x.com/rohanpaul_ai/status/2025274123560362347",
+      "collected_at": "2026-02-22T06:29:37.521049+09:00",
+      "source": "x_api_v2",
+      "tags": [],
+      "memo": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "status": "approved",
+      "added_at": "2026-02-22T06:29:37.527702+09:00",
+      "generated_text": "",
+      "template_id": "",
+      "score": null,
+      "skip_reason": "",
+      "feedback_note": ""
     }
   ],
   "recent_posted": [],
   "metrics": [],
   "pdca_insights": {
-    "approval_rate": 0.75,
-    "total_decisions": 96,
+    "approval_rate": 0.758,
+    "total_decisions": 99,
     "by_source": {
       "sama": {
         "approved": 23,
@@ -350,9 +435,26 @@
       "karpathy": {
         "approved": 3,
         "skipped": 0
+      },
+      "svpino": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "ylecun": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "rohanpaul_ai": {
+        "approved": 1,
+        "skipped": 0
       }
     },
-    "by_topic": {},
+    "by_topic": {
+      "AI agents": {
+        "approved": 1,
+        "skipped": 0
+      }
+    },
     "by_reason": {}
   },
   "preferences": {
