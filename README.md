@@ -47,7 +47,7 @@ python -m src.main generate --account 1
 
 | #   | テーマ                  | ペルソナ                 | 状態           |
 | --- | ----------------------- | ------------------------ | -------------- |
-| ①   | AIエージェント・自動化  | レン (@ren_aiautomation) | ★ まずここから |
+| ①   | AIエージェント・自動化  | NinjaGuild_Japan (@ngg_japan) | ★ まずここから |
 | ②   | AIツール紹介・レビュー  | TBD                      | Phase B で追加 |
 | ③   | LLM・テキスト生成AI入門 | TBD                      | Phase C で追加 |
 

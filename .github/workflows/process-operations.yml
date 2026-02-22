@@ -1,10 +1,10 @@
 name: Process Dashboard Operations (操作リクエスト処理)
 
 # ダッシュボードの「操作」タブからのリクエストを処理
-# 15分おきにFirestoreをチェックして未処理リクエストを実行
+# 3分おきにFirestoreをチェックして未処理リクエストを実行
 on:
   schedule:
-    - cron: '*/15 * * * *'  # 15分おき
+    - cron: '*/3 * * * *'  # 3分おき
   workflow_dispatch:  # 手動実行可能
 
 jobs:

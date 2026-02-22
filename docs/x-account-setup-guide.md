@@ -158,7 +158,7 @@ X（旧Twitter）は新規アカウントを「ボット / スパムの可能性
 
 ---
 
-## 🎯 レン（@ren_aiautomation）の初動チェックリスト
+## 🎯 NinjaGuild_Japan（@ngg_japan）の初動チェックリスト
 
 ```
 アカウント作成

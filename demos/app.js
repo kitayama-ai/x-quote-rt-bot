@@ -7,8 +7,8 @@ const DemoData = {
   accounts: [
     {
       id: "acc1",
-      name: "レン",
-      handle: "@ren_aiautomation",
+      name: "NinjaGuild_Japan",
+      handle: "@ngg_japan",
       color: "#6366f1",
       apiUrl: "",
     },
