@@ -285,6 +285,25 @@ def cmd_curate(args):
         print("\n🔒 ドライランモード: Discord通知はスキップ")
 
 
+def _get_daily_post_limit(config, queue):
+    """1日の投稿上限と本日の投稿済み件数を返す"""
+    daily_limit = config.safety_rules.get("posting_rules", {}).get("daily_limit_per_account", 10)
+    posted_today = queue.get_today_posted_count()
+    return daily_limit, posted_today
+
+
+def _verify_poster(poster):
+    """X APIアカウントを確認し、ユーザー名を返す。失敗時はNone"""
+    try:
+        me = poster.verify_credentials()
+        username = me["username"]
+        print(f"✅ アカウント確認: @{username}")
+        return username
+    except Exception as e:
+        print(f"❌ アカウント確認失敗: {e}")
+        return None
+
+
 def cmd_curate_post(args):
     """引用RT投稿を実行（生成済みキューから）"""
     from src.collect.queue_manager import QueueManager
@@ -301,13 +320,9 @@ def cmd_curate_post(args):
     print(f"📤 引用RT投稿チェック — {config.account_name}")
 
     # アカウント確認
-    try:
-        me = poster.verify_credentials()
-        print(f"✅ アカウント確認: @{me['username']}")
-    except Exception as e:
-        print(f"❌ アカウント確認失敗: {e}")
-        notifier.notify_error("アカウント確認失敗", str(e))
-        return
+    if not _verify_poster(poster):
+        notifier.notify_error("アカウント確認失敗", "verify_credentials() failed")
+        sys.exit(1)
 
     # 生成済みの投稿を取得
     generated = queue.get_generated()
@@ -317,11 +332,11 @@ def cmd_curate_post(args):
 
     # モード判定
     if config.mode == "manual_approval":
-        print(f"🔒 手動承認モード: Discordで確認してからcurate-postを実行してください")
+        print("🔒 手動承認モード: ダッシュボードの「投稿」ボタンから1件ずつ投稿してください")
+        return
 
     # 1日の投稿上限チェック
-    daily_limit = config.safety_rules.get("posting_rules", {}).get("daily_limit_per_account", 10)
-    posted_today = queue.get_today_posted_count()
+    daily_limit, posted_today = _get_daily_post_limit(config, queue)
     remaining = daily_limit - posted_today
 
     if remaining <= 0:
@@ -349,29 +364,24 @@ def cmd_curate_post(args):
 
         # 投稿実行
         try:
-            result = poster.post_tweet(
-                text=text,
-                quote_tweet_id=tweet_id,
-            )
+            result = poster.post_tweet(text=text, quote_tweet_id=tweet_id)
             posted_tweet_id = result["id"]
-
             queue.mark_posted(tweet_id, posted_tweet_id)
             print(f"  ✅ 引用RT投稿完了: {posted_tweet_id} (元: {tweet_id})")
             posted_count += 1
-
         except Exception as e:
             print(f"  ❌ 投稿エラー [{tweet_id}]: {e}")
             notifier.notify_error("引用RT投稿エラー", str(e))
 
-    if posted_count == 0 and generated:
-        print("⚠️ 投稿可能な引用RTがありましたが、投稿されませんでした")
+    if posted_count == 0:
+        print("⚠️ 投稿可能な引用RTがありましたが、すべてスキップまたはエラーで投稿されませんでした")
         sys.exit(1)
 
     print(f"\n📊 投稿結果: {posted_count}件投稿 / 本日累計{posted_today + posted_count}件")
 
 
 def cmd_post_one(args):
-    """指定した1件のツイートを即時投稿（ダッシュボード選択式投稿用）"""
+    """指定した1件のツイートを即時投稿"""
     from src.collect.queue_manager import QueueManager
     from src.post.x_poster import XPoster
     from src.post.safety_checker import SafetyChecker
@@ -385,35 +395,26 @@ def cmd_post_one(args):
     print(f"📤 即時投稿（1件）— tweet_id: {tweet_id}")
 
     # アカウント確認
-    try:
-        me = poster.verify_credentials()
-        print(f"✅ アカウント確認: @{me['username']}")
-    except Exception as e:
-        print(f"❌ アカウント確認失敗: {e}")
+    if not _verify_poster(poster):
         sys.exit(1)
 
     # 1日の投稿上限チェック
-    daily_limit = config.safety_rules.get("posting_rules", {}).get("daily_limit_per_account", 10)
-    posted_today = queue.get_today_posted_count()
+    daily_limit, posted_today = _get_daily_post_limit(config, queue)
     if posted_today >= daily_limit:
         print(f"⛔ 本日の投稿上限（{daily_limit}件）に達しています")
         sys.exit(1)
 
-    # 対象ツイートを取得
-    generated = queue.get_generated()
-    target = None
-    for item in generated:
-        if item["tweet_id"] == tweet_id:
-            target = item
-            break
-
-    if not target:
+    # 対象ツイートをキューから検索
+    target = next(
+        (item for item in queue.get_generated() if item["tweet_id"] == tweet_id),
+        None,
+    )
+    if target is None:
         print(f"❌ tweet_id={tweet_id} が投稿可能キューに見つかりません（承認済み＋生成済みが必要）")
         sys.exit(1)
 
-    text = target["generated_text"]
-
     # 安全チェック
+    text = target["generated_text"]
     safety = safety_checker.check(text, is_quote_rt=True)
     if not safety.is_safe:
         print(f"⛔ 安全チェック不合格: {safety.violations}")
@@ -421,10 +422,7 @@ def cmd_post_one(args):
 
     # 投稿実行
     try:
-        result = poster.post_tweet(
-            text=text,
-            quote_tweet_id=tweet_id,
-        )
+        result = poster.post_tweet(text=text, quote_tweet_id=tweet_id)
         posted_tweet_id = result["id"]
         queue.mark_posted(tweet_id, posted_tweet_id)
         print(f"✅ 投稿完了: https://x.com/i/status/{posted_tweet_id}")
@@ -1178,31 +1176,19 @@ def cmd_process_operations(args):
                 else:
                     fc.update_operation_status(doc_id, "failed", "No tweet URL provided", uid=op_uid)
 
-            elif cmd == "post-one":
-                # 1件選択式即時投稿
-                target_tweet_id = op.get("tweet_id", "")
-                if not target_tweet_id:
-                    raise Exception("tweet_id が指定されていません")
-                sub_args = [
-                    sys.executable, "-m", "src.main", "post-one",
-                    "--account", "1", "--tweet-id", target_tweet_id,
-                ]
-                result = subprocess.run(
-                    sub_args,
-                    capture_output=True, text=True, timeout=120,
-                    env=sub_env,
-                )
-                print(result.stdout)
-                if result.returncode != 0:
-                    err_msg = (result.stderr or result.stdout or "post-one failed").strip()
-                    print(f"  stderr: {err_msg}")
-                    raise Exception(err_msg[-500:])
-                fc.update_operation_status(doc_id, "completed", f"Posted tweet {target_tweet_id}", uid=op_uid)
+            elif cmd in ("post-one", "collect", "curate", "curate-post", "export-dashboard"):
+                sub_args = [sys.executable, "-m", "src.main"]
 
-            elif cmd in ("collect", "curate", "curate-post", "export-dashboard"):
-                sub_args = [sys.executable, "-m", "src.main", cmd, "--account", "1"]
-                if cmd == "collect":
-                    sub_args.extend(["--auto-approve", "--min-likes", "500"])
+                if cmd == "post-one":
+                    target_tweet_id = op.get("tweet_id", "")
+                    if not target_tweet_id:
+                        raise Exception("tweet_id が指定されていません")
+                    sub_args += ["post-one", "--account", "1", "--tweet-id", target_tweet_id]
+                else:
+                    sub_args += [cmd, "--account", "1"]
+                    if cmd == "collect":
+                        sub_args += ["--auto-approve", "--min-likes", "500"]
+
                 result = subprocess.run(
                     sub_args,
                     capture_output=True, text=True, timeout=300,
@@ -1213,7 +1199,9 @@ def cmd_process_operations(args):
                     err_msg = (result.stderr or result.stdout or f"{cmd} failed").strip()
                     print(f"  stderr: {err_msg}")
                     raise Exception(err_msg[-500:])
-                fc.update_operation_status(doc_id, "completed", f"{cmd} succeeded", uid=op_uid)
+
+                detail = f"Posted tweet {op.get('tweet_id', '')}" if cmd == "post-one" else f"{cmd} succeeded"
+                fc.update_operation_status(doc_id, "completed", detail, uid=op_uid)
             else:
                 fc.update_operation_status(doc_id, "failed", f"Unknown command: {cmd}", uid=op_uid)
 

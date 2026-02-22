@@ -1723,7 +1723,7 @@ textarea.form-input {
           <div style="font-weight:600;margin-bottom:6px;">📤 引用RT投稿（1件選択）</div>
           <div style="font-size:12px;color:var(--text-secondary);margin-bottom:12px;">投稿したい引用RTを1件選んで即時投稿します</div>
           <div id="postOneList" style="max-height:320px;overflow-y:auto;"></div>
-          <div id="postOneEmpty" style="font-size:12px;color:var(--text-muted);padding:12px 0;text-align:center;">
+          <div id="postOneEmpty" style="font-size:12px;color:var(--text-muted);padding:12px 0;text-align:center;display:none;">
             投稿候補なし（収集→生成を先に実行してください）
           </div>
         </div>
@@ -3751,18 +3751,22 @@ async function requestOperation(command) {
 }
 
 // --- Post One: 1件選択式即時投稿 ---
+
+/** 投稿ボタンの有効/無効を一括切替 */
+function _setPostOneBtnsDisabled(disabled) {
+  document.querySelectorAll('#postOneList .save-btn').forEach(b => {
+    b.disabled = disabled;
+    b.style.opacity = disabled ? '0.5' : '1';
+  });
+}
+
 function renderPostOneList() {
   const listEl = document.getElementById('postOneList');
   const emptyEl = document.getElementById('postOneEmpty');
   if (!listEl || !emptyEl) return;
 
-  // dashboardDataのキューから投稿候補（approved + generated_text あり）を取得
-  let candidates = [];
-  if (dashboardData && dashboardData.queue) {
-    candidates = dashboardData.queue.filter(function(i) {
-      return i.status === 'approved' && i.generated_text;
-    });
-  }
+  const candidates = (dashboardData && dashboardData.queue || [])
+    .filter(i => i.status === 'approved' && i.generated_text);
 
   if (candidates.length === 0) {
     listEl.innerHTML = '';
@@ -3771,38 +3775,39 @@ function renderPostOneList() {
   }
 
   emptyEl.style.display = 'none';
-  listEl.innerHTML = candidates.map(function(item) {
-    var tid = item.tweet_id || '';
-    var gen = item.generated_text || '';
-    var preview = gen.length > 80 ? gen.slice(0, 80) + '…' : gen;
-    var author = item.author_username ? '@' + item.author_username : '';
-    var scoreRank = (item.score && item.score.rank) ? item.score.rank : '-';
-    var rankColor = scoreRank === 'A' ? 'var(--accent-green)' : scoreRank === 'B' ? 'var(--accent-amber)' : 'var(--text-muted)';
-    return '<div style="display:flex;align-items:flex-start;gap:10px;padding:10px;margin-bottom:8px;background:var(--bg-card);border:1px solid var(--border);border-radius:8px;">' +
-      '<div style="flex:1;min-width:0;">' +
-        '<div style="font-size:11px;color:var(--text-muted);margin-bottom:4px;">' + escapeHtml(author) + ' <span style="color:' + rankColor + ';font-weight:600;">(' + scoreRank + ')</span></div>' +
-        '<div style="font-size:12px;color:var(--text-secondary);word-break:break-all;">' + escapeHtml(preview) + '</div>' +
-      '</div>' +
-      '<button onclick="requestPostOne(\'' + tid + '\')" class="save-btn" style="flex-shrink:0;padding:6px 14px;font-size:11px;white-space:nowrap;">投稿</button>' +
-    '</div>';
+
+  const rankColors = { A: 'var(--accent-green)', B: 'var(--accent-amber)' };
+
+  listEl.innerHTML = candidates.map(item => {
+    const tid = escapeHtml(item.tweet_id || '');
+    const preview = escapeHtml(truncate(item.generated_text || '', 80));
+    const author = item.author_username ? escapeHtml('@' + item.author_username) : '';
+    const rank = (item.score && item.score.rank) || '-';
+    const color = rankColors[rank] || 'var(--text-muted)';
+
+    return `<div style="display:flex;align-items:flex-start;gap:10px;padding:10px;margin-bottom:8px;background:var(--bg-card);border:1px solid var(--border);border-radius:8px;">
+      <div style="flex:1;min-width:0;">
+        <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px;">${author} <span style="color:${color};font-weight:600;">(${rank})</span></div>
+        <div style="font-size:12px;color:var(--text-secondary);word-break:break-all;">${preview}</div>
+      </div>
+      <button data-tweet-id="${tid}" onclick="requestPostOne(this.dataset.tweetId)" class="save-btn" style="flex-shrink:0;padding:6px 14px;font-size:11px;white-space:nowrap;">投稿</button>
+    </div>`;
   }).join('');
 }
 
 async function requestPostOne(tweetId) {
+  if (!tweetId) return;
   if (!window.__fb || !window.__fb.auth.currentUser) {
     alert('ログインが必要です');
     return;
   }
-
   if (!confirm('この1件を今すぐ投稿しますか？')) return;
 
-  // ボタンを無効化
-  var btns = document.querySelectorAll('#postOneList .save-btn');
-  btns.forEach(function(b) { b.disabled = true; b.style.opacity = '0.5'; });
+  _setPostOneBtnsDisabled(true);
 
   try {
-    var db = window.__fb.db;
-    var user = window.__fb.auth.currentUser;
+    const db = window.__fb.db;
+    const user = window.__fb.auth.currentUser;
 
     await db.collection('users').doc(user.uid).set({
       displayName: user.displayName || '',
@@ -3818,28 +3823,28 @@ async function requestPostOne(tweetId) {
       requested_at: firebase.firestore.FieldValue.serverTimestamp(),
     });
 
-    if (window.showToast) showToast('投稿リクエストを送信しました（約3分以内に実行）', 'success');
-    var msgEl = document.getElementById('opMsg');
+    if (window.showToast) showToast('投稿リクエスト送信済み（約3分以内に実行）', 'success');
+    const msgEl = document.getElementById('opMsg');
     if (msgEl) {
-      msgEl.innerHTML = '<span style="color:var(--accent-green);">✅ 投稿リクエスト送信済み（tweet: ' + tweetId.slice(-6) + '）</span>';
+      msgEl.innerHTML = `<span style="color:var(--accent-green);">✅ 投稿リクエスト送信済み（tweet: …${escapeHtml(tweetId.slice(-6))}）</span>`;
     }
     loadOpHistory();
   } catch (err) {
     console.error('Post-one request error:', err);
     if (window.showToast) showToast('送信に失敗しました', 'error');
   } finally {
-    var btns2 = document.querySelectorAll('#postOneList .save-btn');
-    btns2.forEach(function(b) { b.disabled = false; b.style.opacity = '1'; });
+    _setPostOneBtnsDisabled(false);
   }
 }
 
 function switchToOpsTab() {
-  document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
-  document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
-  var opsTab = document.querySelector('[data-tab="operations"]');
-  if (opsTab) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  const opsTab = document.querySelector('[data-tab="operations"]');
+  const opsPanel = document.getElementById('panel-operations');
+  if (opsTab && opsPanel) {
     opsTab.classList.add('active');
-    document.getElementById('panel-operations').classList.add('active');
+    opsPanel.classList.add('active');
   }
   renderPostOneList();
 }
