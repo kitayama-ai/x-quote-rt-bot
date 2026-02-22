@@ -5,17 +5,17 @@ name: Scheduled Curate Post (引用RT投稿)
 on:
   schedule:
     # 朝〜夜の投稿スロットに対応（UTC）
-    - cron: '50 21 * * *'   # JST 06:50 → slot_01 (07:00 original)
-    - cron: '20 23 * * *'   # JST 08:20 → slot_02 (08:30 quote_rt)
-    - cron: '0 1 * * *'     # JST 10:00 → slot_03 (10:15 quote_rt)
-    - cron: '50 2 * * *'    # JST 11:50 → slot_04 (12:00 original)
-    - cron: '0 5 * * *'     # JST 14:00 → slot_05 (14:15 quote_rt)
-    - cron: '50 6 * * *'    # JST 15:50 → slot_06 (16:00 quote_rt)
-    - cron: '50 8 * * *'    # JST 17:50 → slot_07 (18:00 quote_rt)
-    - cron: '30 10 * * *'   # JST 19:30 → slot_08 (19:45 original)
-    - cron: '50 11 * * *'   # JST 20:50 → slot_09 (21:00 quote_rt)
-    - cron: '20 13 * * *'   # JST 22:20 → slot_10 (22:30 flexible)
-  workflow_dispatch:  # 手動実行可能
+    - cron: "50 21 * * *" # JST 06:50 → slot_01 (07:00 original)
+    - cron: "20 23 * * *" # JST 08:20 → slot_02 (08:30 quote_rt)
+    - cron: "0 1 * * *" # JST 10:00 → slot_03 (10:15 quote_rt)
+    - cron: "50 2 * * *" # JST 11:50 → slot_04 (12:00 original)
+    - cron: "0 5 * * *" # JST 14:00 → slot_05 (14:15 quote_rt)
+    - cron: "50 6 * * *" # JST 15:50 → slot_06 (16:00 quote_rt)
+    - cron: "50 8 * * *" # JST 17:50 → slot_07 (18:00 quote_rt)
+    - cron: "30 10 * * *" # JST 19:30 → slot_08 (19:45 original)
+    - cron: "50 11 * * *" # JST 20:50 → slot_09 (21:00 quote_rt)
+    - cron: "20 13 * * *" # JST 22:20 → slot_10 (22:30 flexible)
+  workflow_dispatch: # 手動実行可能
 
 jobs:
   post:
@@ -32,13 +32,14 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
-          cache: 'pip'
+          python-version: "3.11"
+          cache: "pip"
 
       - name: Install dependencies
         run: pip install -r requirements.txt
 
       - name: Execute curate post
+        continue-on-error: true
         env:
           X_API_KEY: ${{ secrets.X_API_KEY }}
           X_API_SECRET: ${{ secrets.X_API_SECRET }}
@@ -51,9 +52,11 @@ jobs:
         run: python -m src.main curate-post --account 1
 
       - name: Commit post status
+        continue-on-error: true
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add data/queue/
           git diff --staged --quiet || git commit -m "chore: update post status $(date +'%Y-%m-%d %H:%M')"
-          git push
+          git pull --rebase origin main || true
+          git push origin main || true
