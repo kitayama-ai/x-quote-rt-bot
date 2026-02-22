@@ -1,12 +1,13 @@
 name: Deploy Dashboard (Firebase Hosting)
 
-# public/ 配下の変更時に自動デプロイ
+# public/ 配下 or Firestore ルール変更時に自動デプロイ
 on:
   push:
     branches: [main]
     paths:
       - "public/**"
       - "firebase.json"
+      - "firestore.rules"
   workflow_dispatch: # 手動実行可能
 
 jobs:
@@ -28,7 +29,7 @@ jobs:
         env:
           FIREBASE_CREDENTIALS_BASE64: ${{ secrets.FIREBASE_CREDENTIALS_BASE64 }}
 
-      - name: Deploy to Firebase Hosting
-        run: firebase deploy --only hosting --project isai-11f7b
+      - name: Deploy to Firebase (Hosting + Firestore Rules)
+        run: firebase deploy --only hosting,firestore:rules --project isai-11f7b
         env:
           GOOGLE_APPLICATION_CREDENTIALS: /tmp/firebase-sa.json

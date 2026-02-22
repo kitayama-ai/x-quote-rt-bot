@@ -30,7 +30,11 @@ service cloud.firestore {
       match /operation_requests/{opId} {
         allow read: if request.auth != null && request.auth.uid == userId;
         allow create: if request.auth != null && request.auth.uid == userId;
-        allow update: if false; // Admin SDKのみ（ステータス更新）
+        // ユーザーは自分のリクエストを「キャンセル」に変更可能
+        // running/completed/failed への更新は Admin SDK のみ
+        allow update: if request.auth != null
+                      && request.auth.uid == userId
+                      && request.resource.data.status == 'cancelled';
         allow delete: if false;
       }
     }
