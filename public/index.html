@@ -3631,6 +3631,7 @@ function formatTime(isoStr) {
   try {
     const d = new Date(isoStr);
     return d.toLocaleString('ja-JP', {
+      timeZone: 'Asia/Tokyo',
       month: '2-digit', day: '2-digit',
       hour: '2-digit', minute: '2-digit'
     });
@@ -3822,6 +3823,7 @@ async function loadOpHistory() {
       const d = doc.data();
       const docId = doc.id;
       const time = d.requested_at ? new Date(d.requested_at.seconds * 1000).toLocaleString('ja-JP', {
+        timeZone: 'Asia/Tokyo',
         month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'
       }) : '--';
       const label = commandLabels[d.command] || d.command;
