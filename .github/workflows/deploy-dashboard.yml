@@ -28,7 +28,24 @@ jobs:
         env:
           FIREBASE_CREDENTIALS_BASE64: ${{ secrets.FIREBASE_CREDENTIALS_BASE64 }}
 
+      - name: Verify credentials
+        run: |
+          if [ ! -f /tmp/firebase-sa.json ] || [ ! -s /tmp/firebase-sa.json ]; then
+            echo "❌ Firebase service account file is missing or empty"
+            exit 1
+          fi
+          echo "✅ Service account file ready"
+
       - name: Deploy to Firebase Hosting
-        run: firebase deploy --only hosting --project isai-11f7b
+        run: |
+          firebase deploy --only hosting --project isai-11f7b || {
+            echo ""
+            echo "❌ Deploy失敗。以下を確認してください："
+            echo "1. GCP Console > IAM で、サービスアカウントに以下のロールを付与："
+            echo "   - Firebase Hosting Admin"
+            echo "   - Service Usage Consumer (roles/serviceusage.serviceUsageConsumer)"
+            echo "2. FIREBASE_CREDENTIALS_BASE64 が正しいサービスアカウントのBase64エンコードであること"
+            exit 1
+          }
         env:
           GOOGLE_APPLICATION_CREDENTIALS: /tmp/firebase-sa.json

@@ -1063,7 +1063,8 @@ def cmd_process_operations(args):
                 if tweet_url:
                     result = subprocess.run(
                         [sys.executable, "tools/add_tweet.py", tweet_url],
-                        capture_output=True, text=True, timeout=60
+                        capture_output=True, text=True, timeout=60,
+                        env=os.environ.copy(),
                     )
                     print(result.stdout)
                     if result.returncode != 0:
@@ -1072,7 +1073,8 @@ def cmd_process_operations(args):
                     # 自動承認
                     subprocess.run(
                         [sys.executable, "tools/add_tweet.py", "--approve-all"],
-                        capture_output=True, text=True, timeout=30
+                        capture_output=True, text=True, timeout=30,
+                        env=os.environ.copy(),
                     )
                     fc.update_operation_status(doc_id, "completed", f"Added: {tweet_url}", uid=op_uid)
                 else:
@@ -1084,7 +1086,8 @@ def cmd_process_operations(args):
                     sub_args.extend(["--auto-approve", "--min-likes", "500"])
                 result = subprocess.run(
                     sub_args,
-                    capture_output=True, text=True, timeout=300
+                    capture_output=True, text=True, timeout=300,
+                    env=os.environ.copy(),
                 )
                 print(result.stdout)
                 if result.returncode != 0:

@@ -20,6 +20,24 @@ class XPoster:
     def __init__(self, config: Config):
         self.config = config
         self._session = None
+        self._validate_credentials()
+
+    def _validate_credentials(self):
+        """認証情報が空でないことを確認（起動時チェック）"""
+        missing = []
+        if not self.config.x_api_key:
+            missing.append("X_API_KEY")
+        if not self.config.x_api_secret:
+            missing.append("X_API_SECRET")
+        if not self.config.x_access_token:
+            missing.append(f"{self.config.account_id.upper().replace('ACCOUNT_', 'X_ACCOUNT_')}_ACCESS_TOKEN")
+        if not self.config.x_access_secret:
+            missing.append(f"{self.config.account_id.upper().replace('ACCOUNT_', 'X_ACCOUNT_')}_ACCESS_SECRET")
+        if missing:
+            raise RuntimeError(
+                f"X API認証情報が未設定です: {', '.join(missing)}\n"
+                "GitHub Secrets または .env を確認してください。"
+            )
 
     @property
     def session(self) -> OAuth1Session:
@@ -36,13 +54,11 @@ class XPoster:
     def verify_credentials(self) -> dict:
         """
         アカウント確認（誤投稿防止）
+        期待するアカウントと実際の認証アカウントの一致も確認する。
 
         Returns:
             {"id": str, "name": str, "username": str}
         """
-        # Bearer Token で /2/users/me は使えないため
-        # OAuth1.0a で get_me 相当を確認する
-        # → 投稿テストの代わりにアカウント情報を取得
         import tweepy
         client = tweepy.Client(
             consumer_key=self.config.x_api_key,
@@ -55,11 +71,25 @@ class XPoster:
         if not me or not me.data:
             raise RuntimeError("アカウント確認に失敗しました")
 
-        return {
+        result = {
             "id": me.data.id,
             "name": me.data.name,
             "username": me.data.username
         }
+
+        # アカウント不一致チェック
+        expected_handle = self.config.account_handle.lstrip("@").lower()
+        actual_handle = me.data.username.lower()
+        if expected_handle and actual_handle != expected_handle:
+            raise RuntimeError(
+                f"⚠️ アカウント不一致！\n"
+                f"  期待: @{expected_handle}\n"
+                f"  実際: @{actual_handle}\n"
+                f"GitHub Secrets の X_ACCOUNT_1_ACCESS_TOKEN / ACCESS_SECRET を\n"
+                f"@{expected_handle} のトークンに更新してください。"
+            )
+
+        return result
 
     def post_tweet(
         self,
