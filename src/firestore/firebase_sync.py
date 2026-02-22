@@ -137,17 +137,23 @@ class FirebaseSync:
             self._queue = QueueManager()
         return self._queue
 
-    def sync_queue_decisions(self) -> dict:
+    def sync_queue_decisions(self, uid: str = "") -> dict:
         """
-        Firestore queue_decisions → QueueManager に反映
+        Firestore users/{uid}/queue_decisions → QueueManager に反映
 
         ダッシュボードからの承認/スキップ操作をローカルキューに適用し、
         処理済みの決定をFirestoreから削除する。
 
+        Args:
+            uid: 特定ユーザーのみ同期する場合に指定。空の場合は全ユーザー。
+
         Returns:
             {"approved": int, "skipped": int, "not_found": int, "errors": list}
         """
-        decisions = self.fc.get_queue_decisions()
+        if uid:
+            decisions = self.fc.get_queue_decisions(uid=uid)
+        else:
+            decisions = self.fc.get_queue_decisions()  # 全ユーザー
 
         if not decisions:
             return {"approved": 0, "skipped": 0, "not_found": 0, "errors": []}
@@ -159,11 +165,13 @@ class FirebaseSync:
             "not_found": 0,
             "errors": [],
         }
-        processed_ids = []
+        # UID別に処理済みIDを追跡
+        processed_by_uid: dict[str, list[str]] = {}
 
         for decision in decisions:
             tweet_id = decision.get("tweet_id", "")
             action = decision.get("action", "")
+            dec_uid = decision.get("uid", uid)
 
             if not tweet_id or not action:
                 result["errors"].append(f"無効な決定データ: {decision}")
@@ -173,7 +181,7 @@ class FirebaseSync:
                 if action == "approve":
                     if queue.approve(tweet_id):
                         result["approved"] += 1
-                        processed_ids.append(tweet_id)
+                        processed_by_uid.setdefault(dec_uid, []).append(tweet_id)
                     else:
                         result["not_found"] += 1
 
@@ -181,7 +189,7 @@ class FirebaseSync:
                     skip_reason = decision.get("skip_reason", "")
                     if queue.skip_with_reason(tweet_id, reason=skip_reason):
                         result["skipped"] += 1
-                        processed_ids.append(tweet_id)
+                        processed_by_uid.setdefault(dec_uid, []).append(tweet_id)
                     else:
                         result["not_found"] += 1
 
@@ -191,12 +199,13 @@ class FirebaseSync:
             except Exception as e:
                 result["errors"].append(f"処理エラー ({tweet_id}): {e}")
 
-        # 処理済みの決定をFirestoreから削除
-        if processed_ids:
-            try:
-                self.fc.mark_decisions_processed(processed_ids)
-            except Exception as e:
-                result["errors"].append(f"Firestore削除エラー: {e}")
+        # 処理済みの決定をFirestoreから削除（UID別）
+        for dec_uid, tweet_ids in processed_by_uid.items():
+            if tweet_ids and dec_uid:
+                try:
+                    self.fc.mark_decisions_processed(tweet_ids, uid=dec_uid)
+                except Exception as e:
+                    result["errors"].append(f"Firestore削除エラー (uid={dec_uid}): {e}")
 
         return result
 

@@ -1042,7 +1042,7 @@ def cmd_process_operations(args):
         print(f"❌ Firebase初期化エラー: {e}")
         return
 
-    pending = fc.get_pending_operations()
+    pending = fc.get_pending_operations()  # 全ユーザーの未処理リクエストを取得
     if not pending:
         print("📭 未処理のリクエストはありません")
         return
@@ -1052,9 +1052,10 @@ def cmd_process_operations(args):
     for op in pending:
         cmd = op.get("command", "")
         doc_id = op["id"]
-        print(f"\n▶ 実行中: {cmd} (id: {doc_id})")
+        op_uid = op.get("uid", "")
+        print(f"\n▶ 実行中: {cmd} (id: {doc_id}, user: {op_uid})")
 
-        fc.update_operation_status(doc_id, "running")
+        fc.update_operation_status(doc_id, "running", uid=op_uid)
 
         try:
             if cmd == "add-tweet":
@@ -1072,9 +1073,9 @@ def cmd_process_operations(args):
                         [sys.executable, "tools/add_tweet.py", "--approve-all"],
                         capture_output=True, text=True, timeout=30
                     )
-                    fc.update_operation_status(doc_id, "completed", f"Added: {tweet_url}")
+                    fc.update_operation_status(doc_id, "completed", f"Added: {tweet_url}", uid=op_uid)
                 else:
-                    fc.update_operation_status(doc_id, "failed", "No tweet URL provided")
+                    fc.update_operation_status(doc_id, "failed", "No tweet URL provided", uid=op_uid)
 
             elif cmd in ("collect", "curate", "curate-post", "export-dashboard"):
                 sub_args = [sys.executable, "-m", "src.main", cmd, "--account", "1"]
@@ -1087,13 +1088,13 @@ def cmd_process_operations(args):
                 print(result.stdout)
                 if result.returncode != 0:
                     raise Exception(result.stderr or f"{cmd} failed")
-                fc.update_operation_status(doc_id, "completed", f"{cmd} succeeded")
+                fc.update_operation_status(doc_id, "completed", f"{cmd} succeeded", uid=op_uid)
             else:
-                fc.update_operation_status(doc_id, "failed", f"Unknown command: {cmd}")
+                fc.update_operation_status(doc_id, "failed", f"Unknown command: {cmd}", uid=op_uid)
 
         except Exception as e:
             print(f"❌ エラー: {e}")
-            fc.update_operation_status(doc_id, "failed", str(e)[:200])
+            fc.update_operation_status(doc_id, "failed", str(e)[:200], uid=op_uid)
 
     print("\n✅ 操作リクエスト処理完了")
 

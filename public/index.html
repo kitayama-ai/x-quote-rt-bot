@@ -745,36 +745,6 @@ tr:hover td { background: var(--bg-card-hover); }
   line-height: 1.6;
 }
 
-.google-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  padding: 13px 28px;
-  border-radius: var(--radius-sm);
-  background: #fff;
-  color: #1f1f1f;
-  border: none;
-  font-size: 14px;
-  font-weight: 600;
-  font-family: var(--font-sans);
-  cursor: pointer;
-  transition: box-shadow var(--transition-fast), transform var(--transition-fast);
-  width: 100%;
-  justify-content: center;
-}
-
-.google-btn:hover {
-  box-shadow: 0 4px 24px rgba(255,255,255,0.12);
-  transform: translateY(-1px);
-}
-
-.google-btn:active { transform: translateY(0); }
-
-.google-btn:focus-visible {
-  outline: 2px solid var(--accent-blue);
-  outline-offset: 2px;
-}
-
 .login-error {
   color: var(--accent-red);
   font-size: 13px;
@@ -869,22 +839,182 @@ tr:hover td { background: var(--bg-card-hover); }
   fill: #fff;
 }
 
-.login-divider {
+/* ===========================================
+   QUEUE DETAIL MODAL
+   =========================================== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(6px);
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  animation: fadeIn 0.2s ease;
+}
+.modal-overlay.show { display: flex; }
+
+.modal-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  max-width: 820px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-lg);
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  background: var(--bg-card);
+  z-index: 1;
+}
+
+.modal-header h3 {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 22px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+.modal-close:hover { background: var(--bg-input); color: var(--text-primary); }
+
+.modal-body { padding: 24px; }
+
+.modal-section {
+  margin-bottom: 20px;
+}
+
+.modal-section-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.modal-original-text {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text-primary);
+  padding: 16px;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  word-break: break-word;
+}
+
+.modal-jp-summary {
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--accent-blue);
+  padding: 12px 16px;
+  background: var(--accent-blue-dim);
+  border: 1px solid rgba(59,130,246,0.2);
+  border-radius: var(--radius-sm);
+  margin-top: 8px;
+}
+
+.modal-generated-text {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text-primary);
+  padding: 16px;
+  background: rgba(16,185,129,0.06);
+  border: 1px solid rgba(16,185,129,0.2);
+  border-radius: var(--radius-sm);
+  word-break: break-word;
+}
+
+.modal-metrics {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.modal-metric {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+
+.modal-metric .metric-icon {
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.modal-metric .metric-val {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.modal-metric .metric-label {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.modal-author {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.modal-author a {
+  color: var(--accent-blue);
+  text-decoration: none;
+  font-weight: 500;
+}
+.modal-author a:hover { text-decoration: underline; }
+
+.modal-footer {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin: 16px 0;
-  color: var(--text-muted);
-  font-size: 12px;
+  padding: 16px 24px;
+  border-top: 1px solid var(--border);
+  background: var(--bg-secondary);
+  border-radius: 0 0 var(--radius) var(--radius);
 }
 
-.login-divider::before,
-.login-divider::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: var(--border);
+.modal-footer .action-btn { padding: 10px 20px; font-size: 14px; }
+
+.modal-tweet-link {
+  margin-left: auto;
+  color: var(--text-muted);
+  font-size: 12px;
+  text-decoration: none;
 }
+.modal-tweet-link:hover { color: var(--accent-blue); }
+
+/* Make queue rows clickable */
+#queueTbody tr { cursor: pointer; transition: background var(--transition-fast); }
+#queueTbody tr:hover { background: var(--bg-card-hover); }
 
 /* ===========================================
    SETTINGS TAB
@@ -1308,22 +1438,62 @@ textarea.form-input {
 </head>
 <body>
 
+<!-- ===== QUEUE DETAIL MODAL ===== -->
+<div class="modal-overlay" id="queueModal">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h3 id="modalTitle">ツイート詳細</h3>
+      <button class="modal-close" onclick="closeQueueModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <!-- Author + Status -->
+      <div class="modal-section">
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <div class="modal-author" id="modalAuthor"></div>
+          <span id="modalStatus"></span>
+        </div>
+      </div>
+
+      <!-- Engagement Metrics -->
+      <div class="modal-section">
+        <div class="modal-section-label">エンゲージメント</div>
+        <div class="modal-metrics" id="modalMetrics"></div>
+      </div>
+
+      <!-- Original Text -->
+      <div class="modal-section">
+        <div class="modal-section-label">元ツイート（原文）</div>
+        <div class="modal-original-text" id="modalOriginalText"></div>
+        <div class="modal-jp-summary" id="modalJpSummary" style="display:none;"></div>
+      </div>
+
+      <!-- Generated Text -->
+      <div class="modal-section" id="modalGeneratedSection">
+        <div class="modal-section-label">AI生成コメント（引用RT投稿文）</div>
+        <div class="modal-generated-text" id="modalGeneratedText"></div>
+      </div>
+
+      <!-- Additional info -->
+      <div class="modal-section" style="display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--text-muted);">
+        <span id="modalAddedAt"></span>
+        <span id="modalSource"></span>
+        <span id="modalTemplate"></span>
+        <span id="modalScore"></span>
+      </div>
+    </div>
+
+    <div class="modal-footer" id="modalFooter">
+      <!-- Actions populated by JS -->
+    </div>
+  </div>
+</div>
+
 <!-- ===== LOGIN OVERLAY ===== -->
 <div class="login-overlay" id="loginOverlay">
   <div class="login-card">
     <div class="login-logo"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></div>
     <h2 class="login-title">キュー管理ダッシュボード</h2>
     <p class="login-subtitle">ログインしてダッシュボードにアクセス</p>
-    <button class="google-btn" id="googleLoginBtn">
-      <svg width="20" height="20" viewBox="0 0 48 48">
-        <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
-        <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
-        <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
-        <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
-      </svg>
-      Google でログイン
-    </button>
-    <div class="login-divider">または</div>
     <button class="x-login-btn" id="xLoginBtn">
       <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
       X でログイン
@@ -1387,6 +1557,7 @@ textarea.form-input {
     <button class="tab" data-tab="pdca">PDCA分析</button>
     <button class="tab" data-tab="operations">操作</button>
     <button class="tab" data-tab="settings">設定</button>
+    <button class="tab" data-tab="guide">📖 使い方</button>
   </nav>
 
   <!-- ===== TAB: OPERATIONS ===== -->
@@ -1612,11 +1783,12 @@ textarea.form-input {
 
       <div class="form-group">
         <label class="form-label">口調パターン（改行区切り）</label>
-        <textarea class="form-input" id="promptStylePatterns" rows="5" placeholder="体言止め:「〜な時代。」「〜一択。」">見出し:「💥【激震】」「💥【警告】」「💥【衝撃】」「💥【伝説】」で開始
+        <textarea class="form-input" id="promptStylePatterns" rows="6" placeholder="体言止め:「〜な時代。」「〜一択。」">見出し8種:「💥【激震】」「💥【速報】」「🚨【警告】」「🚨【衝撃】」「💥【独占】」「💥【伝説】」「💀（ダーク型）」「🚨【キーワード】」
 箇条書き:「・」で要点を3〜5個簡潔に整理
-体言止め:「〜へ。」「〜か。」など断定的に締める
-感情語:「最高」「最強」「圧倒的」「ガチ」
-絵文字:🏛️💥🇺🇸✨❄️💎📊🩸🤖🌅 を適宜挿入</textarea>
+体言止め:「〜へ。」「〜か。」「〜の実績。」など断定的に締める
+感情語:「圧倒的」「最強」「ガチ」「神」「猛烈に」「劇的に」
+絵文字:🏛️💥🇺🇸✨💎📊🩸💀⚖️🔥 を積極的に挿入
+締め: 毎回異なるフレーズで断定する（同じ締めの繰り返し禁止）</textarea>
         <div class="form-hint">文体のパターンを記述。改行で区切り。</div>
       </div>
 
@@ -1628,35 +1800,47 @@ textarea.form-input {
 
       <div class="form-group">
         <label class="form-label">カスタム指示（自由記述）</label>
-        <textarea class="form-input" id="promptCustomDirective" rows="4" placeholder="例: もっと具体的な数字やデータを入れて欲しい">必ず「💥【見出し】」で始めること。本文は「・」の箇条書きで3〜5ポイント。具体的な数字やデータを必ず含める。曖昧な表現は避け断言する。絵文字は🏛️を基調に使う。</textarea>
+        <textarea class="form-input" id="promptCustomDirective" rows="4" placeholder="例: もっと具体的な数字やデータを入れて欲しい">8種の見出しパターンを使い分け、連続で同じ見出しは使わないこと。本文は「・」の箇条書きで3〜5ポイント。具体的な数字やデータを必ず含める。曖昧な表現は避け断言する。絵文字は🏛️を基調に使う。締めの一言は毎回異なるフレーズにすること。</textarea>
         <div class="form-hint">AIへの追加指示。ここに書いた内容がプロンプトの末尾に追加されます。</div>
       </div>
 
       <div class="form-group">
-        <label class="form-label" style="margin-bottom:12px;">使用テンプレート</label>
+        <label class="form-label" style="margin-bottom:12px;">使用テンプレート（8パターン）</label>
         <div style="display:flex;flex-direction:column;gap:10px;">
           <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;">
             <input type="checkbox" id="tmplTranslateComment" checked style="accent-color:var(--accent-blue);width:16px;height:16px;">
-            翻訳+自分コメント型 — 要約→「僕的なポイントは〜」
+            🚨 市場インパクト型 — 市場/投資家への影響を箇条書きで
           </label>
           <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;">
             <input type="checkbox" id="tmplSummaryPoints" checked style="accent-color:var(--accent-blue);width:16px;height:16px;">
-            要点まとめ型 — 「海外で話題の〇〇。ポイント3つ:」
+            💥 要点まとめ型 — 【速報】ポイント3つを箇条書き
           </label>
           <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;">
             <input type="checkbox" id="tmplQuestionPrompt" checked style="accent-color:var(--accent-blue);width:16px;height:16px;">
-            問題提起型 — 要約→「これ日本でも〜」
+            🚨 警告・問題提起型 — 【警告】根拠/データで警鐘
           </label>
           <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;">
             <input type="checkbox" id="tmplPracticeReport" checked style="accent-color:var(--accent-blue);width:16px;height:16px;">
-            実践レポート型 — 「実際に試してみた。結果:」
+            💥 激震分析型 — 【激震】分析ポイントを断定
           </label>
           <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;">
             <input type="checkbox" id="tmplBreakingNews" checked style="accent-color:var(--accent-blue);width:16px;height:16px;">
-            速報型 — 「これはデカい。〜が変わる」
+            🚨 衝撃速報型 — 【衝撃】歴史的意義を断言
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;">
+            <input type="checkbox" id="tmplExclusiveReport" checked style="accent-color:var(--accent-blue);width:16px;height:16px;">
+            💥 独占入手型 — 【独占】スクープ情報を断定的に
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;">
+            <input type="checkbox" id="tmplDarkAlert" checked style="accent-color:var(--accent-blue);width:16px;height:16px;">
+            💀 ダーク警告型 — 暗い/危険なニュースを冷徹にレポート
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;">
+            <input type="checkbox" id="tmplLegendMoment" checked style="accent-color:var(--accent-blue);width:16px;height:16px;">
+            💥 伝説・歴史型 — 【伝説】歴史的偉業をドラマチックに
           </label>
         </div>
-        <div class="form-hint" style="margin-top:8px;">チェックを外したテンプレートは使用されません。最低1つは有効にしてください。</div>
+        <div class="form-hint" style="margin-top:8px;">チェックを外したテンプレートは使用されません。最低1つは有効にしてください。8種を有効にすると1日10件でも被りにくくなります。</div>
       </div>
     </div>
 
@@ -1850,7 +2034,137 @@ textarea.form-input {
       </button>
       <div class="save-msg" id="saveCfgMsg"></div>
     </div>
+
+    <!-- Operation Mode -->
+    <div class="settings-section">
+      <h3>⚙️ 運用モード</h3>
+      <p>投稿の承認方法を選択します。モード変更は即座に反映されます。</p>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px;">
+        <label style="display:flex;gap:14px;padding:20px;background:var(--bg-input);border:2px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;transition:border-color var(--transition-fast);" id="modeCardManual">
+          <input type="radio" name="operationMode" value="manual_approval" id="modeManual" checked style="accent-color:var(--accent-blue);margin-top:2px;">
+          <div>
+            <div style="font-weight:600;margin-bottom:4px;">🛡️ 半自動モード（承認制）</div>
+            <div style="font-size:12px;color:var(--text-secondary);line-height:1.6;">
+              AIが引用RTコメントを生成 → あなたがダッシュボードで承認/スキップ → 承認したものだけ投稿。安全に運用できる。
+            </div>
+          </div>
+        </label>
+        <label style="display:flex;gap:14px;padding:20px;background:var(--bg-input);border:2px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;transition:border-color var(--transition-fast);" id="modeCardAuto">
+          <input type="radio" name="operationMode" value="full_auto" id="modeAuto" style="accent-color:var(--accent-blue);margin-top:2px;">
+          <div>
+            <div style="font-weight:600;margin-bottom:4px;">🚀 完全自動モード</div>
+            <div style="font-size:12px;color:var(--text-secondary);line-height:1.6;">
+              AIが引用RTコメントを生成 → 自動承認 → 自動投稿。承認作業不要。収集・生成・投稿がすべてスケジュール通りに自動実行される。
+            </div>
+          </div>
+        </label>
+      </div>
+      <div style="margin-top:12px;font-size:12px;color:var(--text-muted);" id="modeStatus">現在のモード: <b>半自動（承認制）</b></div>
+      <div class="save-msg" id="modeSaveMsg"></div>
+    </div>
   </div>
+
+  <!-- ===== TAB: GUIDE ===== -->
+  <div class="tab-panel" id="panel-guide">
+    <div class="settings-section">
+      <h3>📖 このツールの使い方</h3>
+      <p style="color:var(--text-secondary);margin-bottom:20px;">X（Twitter）引用RT自動投稿ツールの操作ガイドです。</p>
+
+      <div style="display:flex;flex-direction:column;gap:24px;">
+
+        <!-- Step 0: 初期設定 -->
+        <div style="background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius-sm);padding:20px;">
+          <div style="font-weight:700;font-size:15px;margin-bottom:8px;">🔧 ステップ 0: 初期設定</div>
+          <div style="font-size:13px;color:var(--text-secondary);line-height:1.8;">
+            1. <b>設定タブ</b>で各種APIキーを登録<br>
+            &nbsp;&nbsp;&nbsp;• Gemini API Key（コメント生成AI）<br>
+            &nbsp;&nbsp;&nbsp;• X API各種キー（Bearer Token, API Key/Secret, Access Token/Secret）<br>
+            &nbsp;&nbsp;&nbsp;• Discord Webhook URL（通知用・任意）<br>
+            2. <b>運用モード</b>を選択（半自動 or 完全自動）
+          </div>
+        </div>
+
+        <!-- Step 1: 収集 -->
+        <div style="background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius-sm);padding:20px;">
+          <div style="font-weight:700;font-size:15px;margin-bottom:8px;">📡 ステップ 1: バズツイート収集</div>
+          <div style="font-size:13px;color:var(--text-secondary);line-height:1.8;">
+            海外AI系インフルエンサーのバズツイート（英語、500いいね以上、48時間以内）を自動収集。<br>
+            • <b>操作タブ</b>の「今すぐ収集」ボタン → 手動でも実行可<br>
+            • 完全自動モードではスケジュールで自動実行される<br>
+            • 収集結果は<b>キュー一覧</b>タブに表示
+          </div>
+        </div>
+
+        <!-- Step 2: 承認 -->
+        <div style="background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius-sm);padding:20px;">
+          <div style="font-weight:700;font-size:15px;margin-bottom:8px;">✅ ステップ 2: 承認（半自動モードの場合）</div>
+          <div style="font-size:13px;color:var(--text-secondary);line-height:1.8;">
+            半自動モードでは、収集されたツイートをあなたが確認して承認/スキップ。<br>
+            • <b>キュー一覧</b>タブ → 各ツイートの「承認」or「スキップ」ボタン<br>
+            • スキップ時は理由を選択可（的外れ、重複、低品質 etc）<br>
+            • 完全自動モードでは自動承認されるため、このステップは不要
+          </div>
+        </div>
+
+        <!-- Step 3: AI生成 -->
+        <div style="background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius-sm);padding:20px;">
+          <div style="font-weight:700;font-size:15px;margin-bottom:8px;">✍️ ステップ 3: AIコメント生成</div>
+          <div style="font-size:13px;color:var(--text-secondary);line-height:1.8;">
+            承認済みツイートに対して、AIが日本語の引用RTコメントを自動生成。<br>
+            • 8種類のテンプレート（市場インパクト型、速報型、警告型 etc）をAIが自動選択<br>
+            • <b>選定設定</b>タブでペルソナ・トーン・NGワード等をカスタマイズ可<br>
+            • <b>操作タブ</b>の「今すぐ生成」ボタンで手動実行も可
+          </div>
+        </div>
+
+        <!-- Step 4: 投稿 -->
+        <div style="background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius-sm);padding:20px;">
+          <div style="font-weight:700;font-size:15px;margin-bottom:8px;">📤 ステップ 4: 引用RT投稿</div>
+          <div style="font-size:13px;color:var(--text-secondary);line-height:1.8;">
+            生成されたコメント付きで引用RTをXに投稿。<br>
+            • <b>操作タブ</b>の「今すぐ投稿」ボタンで手動実行<br>
+            • 完全自動モードでは生成→投稿が連続で自動実行される<br>
+            • 投稿済みのツイートは<b>投稿履歴</b>タブで確認可
+          </div>
+        </div>
+
+        <!-- 選定設定の説明 -->
+        <div style="background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius-sm);padding:20px;">
+          <div style="font-weight:700;font-size:15px;margin-bottom:8px;">🎯 カスタマイズ（選定設定タブ）</div>
+          <div style="font-size:13px;color:var(--text-secondary);line-height:1.8;">
+            • <b>週間フォーカス</b>: 今週特に注目したいテーマを指定<br>
+            • <b>注目トピック / 回避トピック</b>: 収集するジャンルの優先度を調整<br>
+            • <b>ブースト / ブロック アカウント</b>: 特定の海外アカウントを優先or除外<br>
+            • <b>引用RTプロンプト設定</b>: ペルソナ名、口調、NGワード、テンプレート選択等<br>
+            &nbsp;&nbsp;&nbsp;→ AIが生成するコメントの雰囲気を自分好みに調整可
+          </div>
+        </div>
+
+        <!-- URL手動追加 -->
+        <div style="background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius-sm);padding:20px;">
+          <div style="font-weight:700;font-size:15px;margin-bottom:8px;">🔗 ツイートURL手動追加</div>
+          <div style="font-size:13px;color:var(--text-secondary);line-height:1.8;">
+            自動収集以外に、引用RTしたいツイートのURLを<b>操作タブ</b>から手動で追加可能。<br>
+            追加後は「AIコメント生成」→「引用RT投稿」の順で実行してください。
+          </div>
+        </div>
+
+        <!-- モード説明 -->
+        <div style="background:var(--accent-blue-dim);border:1px solid rgba(59,130,246,0.3);border-radius:var(--radius-sm);padding:20px;">
+          <div style="font-weight:700;font-size:15px;margin-bottom:8px;">⚡ 運用モードの違い</div>
+          <div style="font-size:13px;color:var(--text-secondary);line-height:1.8;">
+            <b>🛡️ 半自動（承認制）</b>: 収集→<span style="color:var(--accent-amber);">あなたが承認</span>→生成→投稿。安全だが手間がかかる。<br>
+            <b>🚀 完全自動</b>: 収集→自動承認→生成→自動投稿。スケジュール通りに全自動で運用。手間ゼロ。<br>
+            <br>
+            → <b>設定タブ</b>の「運用モード」で切り替え可能。
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <!-- Chart.js CDN -->
@@ -1874,6 +2188,8 @@ textarea.form-input {
   // ============================
   // Admin UID (あなた) — Firestoreに依存しないフォールバック
   // ============================
+  // Admin判定用 — X (Twitter) UID またはメールアドレス
+  const ADMIN_UIDS = [];
   const ADMIN_EMAILS = ['dbeitian@gmail.com'];
 
   // ============================
@@ -1889,13 +2205,13 @@ textarea.form-input {
   // DOM Elements
   const overlay = document.getElementById('loginOverlay');
   const appEl = document.querySelector('.app');
-  const googleBtn = document.getElementById('googleLoginBtn');
   const xBtn = document.getElementById('xLoginBtn');
   const loginError = document.getElementById('loginError');
   const loginLoading = document.getElementById('loginLoading');
 
   let currentUser = null;
   let currentUserRole = null;
+  let twitterUsername = '';  // @ユーザー名（signInWithPopupから取得）
 
   // ============================
   // Auth State Listener
@@ -1909,11 +2225,12 @@ textarea.form-input {
 
         if (!userDoc.exists) {
           // First login — check if admin
-          const isAdmin = ADMIN_EMAILS.includes(user.email);
+          const isAdmin = ADMIN_UIDS.includes(user.uid) || ADMIN_EMAILS.includes(user.email);
           await userRef.set({
             email: user.email || '',
             displayName: user.displayName || '',
             photoURL: user.photoURL || '',
+            twitterUsername: twitterUsername || '',
             provider: user.providerData[0]?.providerId || 'unknown',
             role: isAdmin ? 'admin' : 'client',
             createdAt: firebase.firestore.FieldValue.serverTimestamp(),
@@ -1923,12 +2240,17 @@ textarea.form-input {
         } else {
           const data = userDoc.data();
           currentUserRole = data.role || 'client';
+          // Firestoreに保存済みのtwitterUsernameを復元
+          if (data.twitterUsername) twitterUsername = data.twitterUsername;
           // Update last login
-          userRef.update({
+          const updateData = {
             lastLoginAt: firebase.firestore.FieldValue.serverTimestamp(),
             displayName: user.displayName || data.displayName,
             photoURL: user.photoURL || data.photoURL,
-          });
+          };
+          // signInWithPopupで新たにusernameが取れた場合は上書き保存
+          if (twitterUsername) updateData.twitterUsername = twitterUsername;
+          userRef.update(updateData);
         }
 
         currentUser = user;
@@ -1949,7 +2271,7 @@ textarea.form-input {
       } catch (err) {
         console.error('Firestore error:', err);
         // Firestore が未設定でもフォールバック — admin emailならログイン許可
-        if (ADMIN_EMAILS.includes(user.email)) {
+        if (ADMIN_UIDS.includes(user.uid) || ADMIN_EMAILS.includes(user.email)) {
           currentUser = user;
           currentUserRole = 'admin';
           overlay.style.display = 'none';
@@ -1972,47 +2294,39 @@ textarea.form-input {
   });
 
   // ============================
-  // Google Login
-  // ============================
-  googleBtn.addEventListener('click', () => loginWith('google'));
-
-  // ============================
   // X (Twitter) Login
   // ============================
   xBtn.addEventListener('click', () => loginWith('twitter'));
 
   async function loginWith(providerName) {
     loginError.style.display = 'none';
-    hideLoginButtons();
+    xBtn.style.display = 'none';
     loginLoading.style.display = 'block';
 
     try {
-      let provider;
-      if (providerName === 'google') {
-        provider = new firebase.auth.GoogleAuthProvider();
-      } else {
-        provider = new firebase.auth.TwitterAuthProvider();
+      const provider = new firebase.auth.TwitterAuthProvider();
+      const result = await auth.signInWithPopup(provider);
+      // Twitter @username をキャプチャ（signInWithPopupでのみ取得可能）
+      if (result.additionalUserInfo && result.additionalUserInfo.username) {
+        twitterUsername = result.additionalUserInfo.username;
+        // Firestoreにも保存
+        try {
+          await db.collection('users').doc(result.user.uid).set({
+            twitterUsername: twitterUsername,
+          }, { merge: true });
+        } catch (e) { console.warn('Twitter username save failed:', e); }
       }
-      await auth.signInWithPopup(provider);
     } catch (err) {
       if (err.code === 'auth/popup-blocked') {
         try {
-          let provider;
-          if (providerName === 'google') {
-            provider = new firebase.auth.GoogleAuthProvider();
-          } else {
-            provider = new firebase.auth.TwitterAuthProvider();
-          }
+          const provider = new firebase.auth.TwitterAuthProvider();
           await auth.signInWithRedirect(provider);
           return;
         } catch (redirectErr) {
           showLoginError('ログインに失敗しました: ' + redirectErr.message);
         }
-      } else if (err.code === 'auth/account-exists-with-different-credential') {
-        showLoginError('このアカウントは別の方法でログイン済みです。Google または X のうち、最初に使った方でログインしてください。');
       } else if (err.code === 'auth/operation-not-allowed') {
-        const method = providerName === 'twitter' ? 'X（Twitter）' : 'Google';
-        showLoginError(method + ' ログインは現在無効です。管理者が Firebase Console で有効化する必要があります。');
+        showLoginError('X（Twitter）ログインは現在無効です。管理者が Firebase Console で有効化する必要があります。');
       } else if (err.code === 'auth/cancelled-popup-request') {
         // 複数ポップアップが開かれた場合、無視
       } else if (err.code === 'auth/network-request-failed') {
@@ -2020,7 +2334,7 @@ textarea.form-input {
       } else if (err.code !== 'auth/popup-closed-by-user') {
         showLoginError('ログインに失敗しました: ' + err.message);
       }
-      showLoginButtons();
+      xBtn.style.display = 'inline-flex';
       loginLoading.style.display = 'none';
     }
   }
@@ -2035,18 +2349,8 @@ textarea.form-input {
     loginLoading.style.display = 'none';
   }
 
-  function hideLoginButtons() {
-    googleBtn.style.display = 'none';
-    xBtn.style.display = 'none';
-    const divider = document.querySelector('.login-divider');
-    if (divider) divider.style.display = 'none';
-  }
-
   function showLoginButtons() {
-    googleBtn.style.display = 'inline-flex';
     xBtn.style.display = 'inline-flex';
-    const divider = document.querySelector('.login-divider');
-    if (divider) divider.style.display = 'flex';
   }
 
   function addUserInfo(user) {
@@ -2058,7 +2362,7 @@ textarea.form-input {
     div.className = 'user-info';
 
     const photoUrl = user.photoURL || '';
-    const displayName = user.displayName || user.email || '';
+    const displayName = twitterUsername ? ('@' + twitterUsername) : (user.displayName || user.email || '');
 
     div.innerHTML =
       (photoUrl ? '<img class="user-avatar" src="' + photoUrl + '" alt="" onerror="this.style.display=\'none\'">' : '') +
@@ -2081,7 +2385,7 @@ textarea.form-input {
 
     if (avatar) avatar.src = user.photoURL || '';
     if (name) name.textContent = user.displayName || user.email || '-';
-    if (email) email.textContent = user.email || user.uid;
+    if (email) email.textContent = twitterUsername ? ('@' + twitterUsername) : (user.email || user.uid);
     if (badge) {
       badge.textContent = currentUserRole || 'client';
       badge.className = 'role-badge ' + (currentUserRole === 'admin' ? 'admin' : 'client');
@@ -2266,8 +2570,94 @@ textarea.form-input {
 
   // Load collection settings after auth
   auth.onAuthStateChanged(function(u) {
-    if (u) loadCollectionSettings(u.uid);
+    if (u) {
+      loadCollectionSettings(u.uid);
+      loadOperationMode(u.uid);
+    }
   });
+
+  // ============================
+  // Operation Mode Switcher
+  // ============================
+  const modeManualRadio = document.getElementById('modeManual');
+  const modeAutoRadio = document.getElementById('modeAuto');
+  const modeCardManual = document.getElementById('modeCardManual');
+  const modeCardAuto = document.getElementById('modeCardAuto');
+  const modeStatus = document.getElementById('modeStatus');
+  const modeSaveMsg = document.getElementById('modeSaveMsg');
+
+  function updateModeCardStyle() {
+    if (!modeCardManual || !modeCardAuto) return;
+    if (modeManualRadio && modeManualRadio.checked) {
+      modeCardManual.style.borderColor = 'var(--accent-blue)';
+      modeCardManual.style.background = 'var(--accent-blue-dim)';
+      modeCardAuto.style.borderColor = 'var(--border)';
+      modeCardAuto.style.background = 'var(--bg-input)';
+      if (modeStatus) modeStatus.innerHTML = '現在のモード: <b style="color:var(--accent-blue);">🛡️ 半自動（承認制）</b>';
+    } else {
+      modeCardAuto.style.borderColor = 'var(--accent-green)';
+      modeCardAuto.style.background = 'var(--accent-green-dim)';
+      modeCardManual.style.borderColor = 'var(--border)';
+      modeCardManual.style.background = 'var(--bg-input)';
+      if (modeStatus) modeStatus.innerHTML = '現在のモード: <b style="color:var(--accent-green);">🚀 完全自動</b>';
+    }
+  }
+
+  async function saveOperationMode(mode) {
+    if (!currentUser) return;
+    try {
+      await db.collection('selection_preferences').doc(currentUser.uid).set({
+        operation_mode: mode,
+        mode_updated_at: firebase.firestore.FieldValue.serverTimestamp(),
+      }, { merge: true });
+
+      if (modeSaveMsg) {
+        modeSaveMsg.textContent = 'モードを「' + (mode === 'full_auto' ? '完全自動' : '半自動（承認制）') + '」に変更しました';
+        modeSaveMsg.className = 'save-msg success';
+        setTimeout(() => { modeSaveMsg.className = 'save-msg'; }, 3000);
+      }
+    } catch (err) {
+      console.error('Save mode error:', err);
+      if (modeSaveMsg) {
+        modeSaveMsg.textContent = 'モード保存に失敗: ' + err.message;
+        modeSaveMsg.className = 'save-msg error';
+      }
+    }
+  }
+
+  async function loadOperationMode(uid) {
+    try {
+      var doc = await db.collection('selection_preferences').doc(uid).get();
+      if (doc.exists) {
+        var mode = doc.data().operation_mode || 'manual_approval';
+        if (mode === 'full_auto' && modeAutoRadio) {
+          modeAutoRadio.checked = true;
+        } else if (modeManualRadio) {
+          modeManualRadio.checked = true;
+        }
+      }
+      updateModeCardStyle();
+    } catch (err) {
+      console.warn('Load mode failed:', err);
+      updateModeCardStyle();
+    }
+  }
+
+  if (modeManualRadio) {
+    modeManualRadio.addEventListener('change', function() {
+      updateModeCardStyle();
+      saveOperationMode('manual_approval');
+    });
+  }
+  if (modeAutoRadio) {
+    modeAutoRadio.addEventListener('change', function() {
+      updateModeCardStyle();
+      saveOperationMode('full_auto');
+    });
+  }
+
+  // Initial card style
+  updateModeCardStyle();
 })();
 </script>
 
@@ -2276,7 +2666,7 @@ textarea.form-input {
    DASHBOARD APP
    =========================================== */
 
-const DATA_URL = './dashboard-data.json';
+const DATA_URL_FALLBACK = './dashboard-data.json';
 let currentFilter = 'all';
 let dashboardData = null;
 let metricsChartInstance = null;
@@ -2321,9 +2711,28 @@ async function loadData() {
   container.innerHTML = '<tr><td colspan="6"><div class="loading"><div class="spinner"></div><div class="loading-text">データを読み込み中...</div></div></td></tr>';
 
   try {
-    const res = await fetch(DATA_URL);
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    dashboardData = await res.json();
+    // Firestore dashboard_data/{uid} からユーザー別データを読み込む
+    let loaded = false;
+    if (window.__fb && window.__fb.auth.currentUser) {
+      try {
+        const uid = window.__fb.auth.currentUser.uid;
+        const doc = await window.__fb.db.collection('dashboard_data').doc(uid).get();
+        if (doc.exists) {
+          dashboardData = doc.data();
+          loaded = true;
+        }
+      } catch (fsErr) {
+        console.warn('Firestore dashboard load failed, trying fallback:', fsErr);
+      }
+    }
+
+    // フォールバック: 静的JSONファイル
+    if (!loaded) {
+      const res = await fetch(DATA_URL_FALLBACK);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      dashboardData = await res.json();
+    }
+
     render();
   } catch (err) {
     container.innerHTML = `<tr><td colspan="6">
@@ -2402,7 +2811,7 @@ function renderQueue() {
     // Action buttons (only for pending)
     let actionHtml = '';
     if (item.status === 'pending') {
-      actionHtml = `<div class="queue-actions">
+      actionHtml = `<div class="queue-actions" onclick="event.stopPropagation()">
         <button class="action-btn approve" onclick="queueAction('approve','${tweetId}')">✓ 承認</button>
         <div style="position:relative;display:inline-block;">
           <button class="action-btn skip" onclick="toggleSkipMenu(this)">✕ スキップ ▾</button>
@@ -2420,10 +2829,11 @@ function renderQueue() {
       const reasonLabels = { topic_mismatch:'トピック不一致', source_untrusted:'ソース不適切', too_old:'古い', low_quality:'品質不足', off_brand:'ブランド不適合', other:'その他' };
       actionHtml = `<span style="font-size:11px;color:var(--text-muted);">${reasonLabels[item.skip_reason] || item.skip_reason}</span>`;
     } else {
-      actionHtml = tweetId ? `<a class="external-link" href="${tweetUrl}" target="_blank" rel="noopener">↗</a>` : '-';
+      actionHtml = tweetId ? `<a class="external-link" href="${tweetUrl}" target="_blank" rel="noopener" onclick="event.stopPropagation()">↗</a>` : '-';
     }
 
-    return `<tr>
+    const rowIndex = dashboardData.queue.indexOf(item);
+    return `<tr onclick="openQueueModal(${rowIndex})" data-queue-idx="${rowIndex}">
       <td><span class="status ${statusClass}">${statusLabel}</span></td>
       <td><div class="tweet-text" title="${escapeHtml(originalText)}">${escapeHtml(truncate(originalText, 60))}</div></td>
       <td><div class="tweet-text ${generatedText ? 'generated' : ''}" title="${escapeHtml(generatedText)}">${generatedText ? escapeHtml(truncate(generatedText, 50)) : '<span style="color:var(--text-muted)">未生成</span>'}</div></td>
@@ -2433,6 +2843,155 @@ function renderQueue() {
       <td>${actionHtml}</td>
     </tr>`;
   }).join('');
+}
+
+// --- Queue Detail Modal ---
+let currentModalItem = null;
+
+function openQueueModal(idx) {
+  if (!dashboardData || !dashboardData.queue || !dashboardData.queue[idx]) return;
+  const item = dashboardData.queue[idx];
+  currentModalItem = item;
+
+  const modal = document.getElementById('queueModal');
+  const tweetId = item.tweet_id || '';
+  const tweetUrl = item.url || (tweetId ? `https://x.com/i/status/${tweetId}` : '#');
+  const authorHandle = item.author_username || '';
+  const authorName = item.author_name || authorHandle || '不明';
+
+  // Status
+  const statusLabels = { pending: '承認待ち', approved: '承認済み', skipped: 'スキップ', generated: '生成済み' };
+  const statusLabel = statusLabels[item.status] || item.status;
+  document.getElementById('modalStatus').innerHTML = `<span class="status status-${item.status}">${statusLabel}</span>`;
+
+  // Author
+  document.getElementById('modalAuthor').innerHTML = authorHandle
+    ? `<span>👤</span> <a href="https://x.com/${authorHandle}" target="_blank" rel="noopener">@${escapeHtml(authorHandle)}</a> <span style="color:var(--text-muted);">${escapeHtml(authorName)}</span>`
+    : `<span style="color:var(--text-muted);">投稿者不明</span>`;
+
+  // Metrics
+  const likes = item.likes ?? item.favorite_count ?? 0;
+  const rts = item.retweets ?? item.retweet_count ?? 0;
+  const replies = item.replies ?? 0;
+  const quotes = item.quotes ?? 0;
+  const bookmarks = item.bookmarks ?? 0;
+
+  let metricsHtml = `
+    <div class="modal-metric"><span class="metric-icon">❤️</span><span class="metric-val">${formatNum(likes)}</span><span class="metric-label">いいね</span></div>
+    <div class="modal-metric"><span class="metric-icon">🔁</span><span class="metric-val">${formatNum(rts)}</span><span class="metric-label">リツイート</span></div>
+    <div class="modal-metric"><span class="metric-icon">💬</span><span class="metric-val">${formatNum(replies)}</span><span class="metric-label">リプライ</span></div>`;
+  if (quotes > 0) metricsHtml += `<div class="modal-metric"><span class="metric-icon">🔗</span><span class="metric-val">${formatNum(quotes)}</span><span class="metric-label">引用</span></div>`;
+  if (bookmarks > 0) metricsHtml += `<div class="modal-metric"><span class="metric-icon">🔖</span><span class="metric-val">${formatNum(bookmarks)}</span><span class="metric-label">ブクマ</span></div>`;
+  document.getElementById('modalMetrics').innerHTML = metricsHtml;
+
+  // Original text
+  const originalText = item.original_text || item.text || '';
+  document.getElementById('modalOriginalText').textContent = originalText || '（テキストなし）';
+
+  // Japanese summary — simple inline translation hint
+  const jpSummary = document.getElementById('modalJpSummary');
+  if (originalText && originalText.length > 0 && /[a-zA-Z]/.test(originalText)) {
+    // 簡易日本語要約（クライアントサイド）: 英語テキストがある場合に表示
+    jpSummary.style.display = 'block';
+    jpSummary.innerHTML = '🇯🇵 <b>日本語要約</b>: <span id="jpSummaryText" style="opacity:0.8;">要約を生成中...</span>';
+    // Gemini APIキーがあれば翻訳実行、なければ省略
+    generateJpSummary(originalText);
+  } else {
+    jpSummary.style.display = 'none';
+  }
+
+  // Generated text
+  const generatedText = item.generated_text || '';
+  const genSection = document.getElementById('modalGeneratedSection');
+  if (generatedText) {
+    genSection.style.display = 'block';
+    document.getElementById('modalGeneratedText').textContent = generatedText;
+  } else {
+    genSection.style.display = 'none';
+  }
+
+  // Additional info
+  document.getElementById('modalAddedAt').textContent = item.added_at ? '📅 追加: ' + formatTime(item.added_at) : '';
+  document.getElementById('modalSource').textContent = item.source ? '📡 ソース: ' + item.source : '';
+  document.getElementById('modalTemplate').textContent = item.template_id ? '📝 テンプレート: ' + item.template_id : '';
+  const matchScore = item.preference_match_score ?? item.score ?? 0;
+  document.getElementById('modalScore').textContent = matchScore > 0 ? '⚡ マッチスコア: ' + Number(matchScore).toFixed(1) : '';
+
+  // Footer actions
+  const footer = document.getElementById('modalFooter');
+  if (item.status === 'pending') {
+    footer.innerHTML = `
+      <button class="action-btn approve" onclick="modalAction('approve','${tweetId}')">✓ 承認する</button>
+      <div style="position:relative;display:inline-block;">
+        <button class="action-btn skip" onclick="toggleSkipMenu(this)">✕ スキップ ▾</button>
+        <div class="skip-dropdown">
+          <button class="skip-option" onclick="modalAction('skip','${tweetId}','topic_mismatch')">トピック不一致</button>
+          <button class="skip-option" onclick="modalAction('skip','${tweetId}','source_untrusted')">ソース不適切</button>
+          <button class="skip-option" onclick="modalAction('skip','${tweetId}','too_old')">古すぎる</button>
+          <button class="skip-option" onclick="modalAction('skip','${tweetId}','low_quality')">品質不足</button>
+          <button class="skip-option" onclick="modalAction('skip','${tweetId}','off_brand')">ブランド不適合</button>
+          <button class="skip-option" onclick="modalAction('skip','${tweetId}','other')">その他</button>
+        </div>
+      </div>
+      <a class="modal-tweet-link" href="${tweetUrl}" target="_blank" rel="noopener">元ツイートを開く ↗</a>`;
+  } else {
+    footer.innerHTML = `<a class="modal-tweet-link" href="${tweetUrl}" target="_blank" rel="noopener" style="margin-left:0;">元ツイートを開く ↗</a>`;
+  }
+
+  modal.classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeQueueModal() {
+  document.getElementById('queueModal').classList.remove('show');
+  document.body.style.overflow = '';
+  currentModalItem = null;
+}
+
+// Close modal on overlay click or Escape
+document.getElementById('queueModal').addEventListener('click', function(e) {
+  if (e.target === this) closeQueueModal();
+});
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeQueueModal();
+});
+
+async function modalAction(action, tweetId, reason) {
+  await queueAction(action, tweetId, reason);
+  closeQueueModal();
+}
+
+// --- Japanese summary (simple Gemini call if API key available) ---
+async function generateJpSummary(text) {
+  const el = document.getElementById('jpSummaryText');
+  if (!el) return;
+
+  // Firestoreからユーザーの Gemini API Key を取得して翻訳
+  try {
+    if (!window.__fb || !window.__fb.auth.currentUser) throw new Error('no auth');
+    const uid = window.__fb.auth.currentUser.uid;
+    const doc = await window.__fb.db.collection('api_keys').doc(uid).get();
+    if (!doc.exists || !doc.data().gemini_api_key) throw new Error('no key');
+    const apiKey = doc.data().gemini_api_key;
+
+    const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: `以下の英語ツイートを日本語で2-3文で簡潔に要約してください。専門用語はそのまま使ってOK。\n\n${text}` }] }],
+        generationConfig: { maxOutputTokens: 200, temperature: 0.3 }
+      })
+    });
+
+    if (!resp.ok) throw new Error('API error');
+    const data = await resp.json();
+    const summary = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    el.textContent = summary || '（要約を取得できませんでした）';
+  } catch (err) {
+    // APIキーが無い場合やエラー時 → 簡易フォールバック
+    el.textContent = '（Gemini APIキーを設定タブで登録すると、ここに日本語要約が表示されます）';
+    el.style.opacity = '0.5';
+  }
 }
 
 // --- Posted history ---
@@ -2628,8 +3187,8 @@ async function queueAction(action, tweetId, reason) {
   const db = window.__fb.db;
 
   try {
-    // Save decision to Firestore
-    await db.collection('queue_decisions').doc(tweetId).set({
+    // Save decision to Firestore (per-user subcollection)
+    await db.collection('users').doc(uid).collection('queue_decisions').doc(tweetId).set({
       tweet_id: tweetId,
       action: action,
       skip_reason: reason || '',
@@ -2721,7 +3280,10 @@ async function loadPromptSettings() {
         'summary_points': 'tmplSummaryPoints',
         'question_prompt': 'tmplQuestionPrompt',
         'practice_report': 'tmplPracticeReport',
-        'breaking_news': 'tmplBreakingNews'
+        'breaking_news': 'tmplBreakingNews',
+        'exclusive_report': 'tmplExclusiveReport',
+        'dark_alert': 'tmplDarkAlert',
+        'legend_moment': 'tmplLegendMoment'
       };
       Object.keys(tmplMap).forEach(function(tid) {
         var cb = document.getElementById(tmplMap[tid]);
@@ -2760,13 +3322,16 @@ function renderTags(containerId, items, className) {
     const db = window.__fb.db;
 
     try {
-      // テンプレートON/OFF
+      // テンプレートON/OFF（8パターン）
       var enabledTemplates = [];
       if (document.getElementById('tmplTranslateComment')?.checked) enabledTemplates.push('translate_comment');
       if (document.getElementById('tmplSummaryPoints')?.checked) enabledTemplates.push('summary_points');
       if (document.getElementById('tmplQuestionPrompt')?.checked) enabledTemplates.push('question_prompt');
       if (document.getElementById('tmplPracticeReport')?.checked) enabledTemplates.push('practice_report');
       if (document.getElementById('tmplBreakingNews')?.checked) enabledTemplates.push('breaking_news');
+      if (document.getElementById('tmplExclusiveReport')?.checked) enabledTemplates.push('exclusive_report');
+      if (document.getElementById('tmplDarkAlert')?.checked) enabledTemplates.push('dark_alert');
+      if (document.getElementById('tmplLegendMoment')?.checked) enabledTemplates.push('legend_moment');
       if (enabledTemplates.length === 0) enabledTemplates.push('translate_comment'); // 最低1つ
 
       const prefData = {
@@ -2970,10 +3535,11 @@ async function requestOperation(command) {
   try {
     const db = window.__fb.db;
     const user = window.__fb.auth.currentUser;
-    await db.collection('operation_requests').add({
+    await db.collection('users').doc(user.uid).collection('operation_requests').add({
       command: command,
       status: 'pending',
-      requested_by: user.email || user.uid,
+      requested_by: user.displayName || user.uid,
+      requested_by_uid: user.uid,
       requested_at: firebase.firestore.FieldValue.serverTimestamp(),
     });
 
@@ -3023,11 +3589,12 @@ async function addManualTweet() {
   try {
     const db = window.__fb.db;
     const user = window.__fb.auth.currentUser;
-    await db.collection('operation_requests').add({
+    await db.collection('users').doc(user.uid).collection('operation_requests').add({
       command: 'add-tweet',
       tweet_url: url,
       status: 'pending',
-      requested_by: user.email || user.uid,
+      requested_by: user.displayName || user.uid,
+      requested_by_uid: user.uid,
       requested_at: firebase.firestore.FieldValue.serverTimestamp(),
     });
 
@@ -3043,11 +3610,12 @@ async function addManualTweet() {
 
 async function loadOpHistory() {
   const container = document.getElementById('opHistory');
-  if (!container || !window.__fb) return;
+  if (!container || !window.__fb || !window.__fb.auth.currentUser) return;
 
   try {
     const db = window.__fb.db;
-    const snapshot = await db.collection('operation_requests')
+    const uid = window.__fb.auth.currentUser.uid;
+    const snapshot = await db.collection('users').doc(uid).collection('operation_requests')
       .orderBy('requested_at', 'desc')
       .limit(10)
       .get();

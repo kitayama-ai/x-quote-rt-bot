@@ -235,32 +235,73 @@ class FirestoreClient:
     # キュー決定（ダッシュボード → バックエンド同期）
     # ========================================
 
-    def get_queue_decisions(self) -> list[dict]:
+    def get_queue_decisions(self, uid: str = "") -> list[dict]:
         """
-        ダッシュボードからのキュー操作（承認/スキップ）を全件取得
+        ダッシュボードからのキュー操作（承認/スキップ）を取得
+
+        Args:
+            uid: ユーザーUID（指定時はそのユーザーのみ）
 
         Returns:
-            [{"tweet_id": str, "action": str, "skip_reason": str, "decided_by": str, ...}]
+            [{"tweet_id": str, "action": str, "skip_reason": str, "decided_by": str, "uid": str, ...}]
         """
         db = self._get_db()
         decisions = []
-        for doc in db.collection("queue_decisions").stream():
-            data = doc.to_dict()
-            data["tweet_id"] = doc.id  # ドキュメントID = tweet_id
-            decisions.append(data)
+
+        if uid:
+            # 特定ユーザーのサブコレクションから取得
+            for doc in db.collection("users").document(uid).collection("queue_decisions").stream():
+                data = doc.to_dict()
+                data["tweet_id"] = doc.id
+                data["uid"] = uid
+                decisions.append(data)
+        else:
+            # 全ユーザーをイテレート
+            for user_doc in db.collection("users").stream():
+                user_uid = user_doc.id
+                for doc in db.collection("users").document(user_uid).collection("queue_decisions").stream():
+                    data = doc.to_dict()
+                    data["tweet_id"] = doc.id
+                    data["uid"] = user_uid
+                    decisions.append(data)
+
         return decisions
 
-    def mark_decisions_processed(self, tweet_ids: list[str]) -> int:
+    def get_all_queue_decisions(self) -> dict[str, list[dict]]:
+        """
+        全ユーザーのキュー決定をUID別に取得
+
+        Returns:
+            {"uid1": [decisions...], "uid2": [decisions...]}
+        """
+        db = self._get_db()
+        result: dict[str, list[dict]] = {}
+
+        for user_doc in db.collection("users").stream():
+            uid = user_doc.id
+            decisions = []
+            for doc in db.collection("users").document(uid).collection("queue_decisions").stream():
+                data = doc.to_dict()
+                data["tweet_id"] = doc.id
+                data["uid"] = uid
+                decisions.append(data)
+            if decisions:
+                result[uid] = decisions
+
+        return result
+
+    def mark_decisions_processed(self, tweet_ids: list[str], uid: str = "") -> int:
         """
         処理済みの決定をFirestoreから削除（バッチ処理）
 
         Args:
             tweet_ids: 処理済みのツイートIDリスト
+            uid: ユーザーUID（サブコレクション用）
 
         Returns:
             削除件数
         """
-        if not tweet_ids:
+        if not tweet_ids or not uid:
             return 0
 
         db = self._get_db()
@@ -268,7 +309,7 @@ class FirestoreClient:
         count = 0
 
         for tweet_id in tweet_ids:
-            ref = db.collection("queue_decisions").document(tweet_id)
+            ref = db.collection("users").document(uid).collection("queue_decisions").document(tweet_id)
             batch.delete(ref)
             count += 1
 
@@ -316,29 +357,88 @@ class FirestoreClient:
     # 操作リクエスト（ダッシュボード → バックエンド実行）
     # ========================================
 
-    def get_pending_operations(self) -> list[dict]:
+    def get_pending_operations(self, uid: str = "") -> list[dict]:
         """
         ダッシュボードから送信された未処理の操作リクエストを取得
 
+        Args:
+            uid: ユーザーUID（指定時はそのユーザーのみ）
+
         Returns:
-            [{"id": "doc_id", "command": "collect", "status": "pending", ...}, ...]
+            [{"id": "doc_id", "uid": "user_uid", "command": "collect", "status": "pending", ...}, ...]
         """
         db = self._get_db()
-        docs = (
-            db.collection("operation_requests")
-            .where("status", "==", "pending")
-            .order_by("requested_at")
-            .limit(10)
-            .stream()
-        )
         results = []
-        for doc in docs:
-            data = doc.to_dict()
-            data["id"] = doc.id
-            results.append(data)
+
+        if uid:
+            docs = (
+                db.collection("users").document(uid).collection("operation_requests")
+                .where("status", "==", "pending")
+                .order_by("requested_at")
+                .limit(10)
+                .stream()
+            )
+            for doc in docs:
+                data = doc.to_dict()
+                data["id"] = doc.id
+                data["uid"] = uid
+                results.append(data)
+        else:
+            # 全ユーザーをイテレート
+            for user_doc in db.collection("users").stream():
+                user_uid = user_doc.id
+                try:
+                    docs = (
+                        db.collection("users").document(user_uid).collection("operation_requests")
+                        .where("status", "==", "pending")
+                        .order_by("requested_at")
+                        .limit(10)
+                        .stream()
+                    )
+                    for doc in docs:
+                        data = doc.to_dict()
+                        data["id"] = doc.id
+                        data["uid"] = user_uid
+                        results.append(data)
+                except Exception:
+                    pass  # サブコレクションが無い場合はスキップ
+
         return results
 
-    def update_operation_status(self, doc_id: str, status: str, result: str = "") -> None:
+    def get_all_pending_operations(self) -> dict[str, list[dict]]:
+        """
+        全ユーザーの未処理操作リクエストをUID別に取得
+
+        Returns:
+            {"uid1": [operations...], "uid2": [operations...]}
+        """
+        db = self._get_db()
+        result: dict[str, list[dict]] = {}
+
+        for user_doc in db.collection("users").stream():
+            uid = user_doc.id
+            try:
+                docs = (
+                    db.collection("users").document(uid).collection("operation_requests")
+                    .where("status", "==", "pending")
+                    .order_by("requested_at")
+                    .limit(10)
+                    .stream()
+                )
+                ops = []
+                for doc in docs:
+                    data = doc.to_dict()
+                    data["id"] = doc.id
+                    data["uid"] = uid
+                    ops.append(data)
+                if ops:
+                    result[uid] = ops
+            except Exception:
+                pass
+
+        return result
+
+    def update_operation_status(self, doc_id: str, status: str, result: str = "", uid: str = "") -> None:
         """
         操作リクエストのステータスを更新
 
@@ -346,11 +446,20 @@ class FirestoreClient:
             doc_id: Firestoreドキュメント ID
             status: "running", "completed", "failed"
             result: 結果メッセージ（任意）
+            uid: ユーザーUID（サブコレクション用）
         """
         db = self._get_db()
         import datetime
-        db.collection("operation_requests").document(doc_id).update({
-            "status": status,
-            "result": result,
-            "processed_at": datetime.datetime.now(datetime.timezone.utc),
-        })
+        if uid:
+            db.collection("users").document(uid).collection("operation_requests").document(doc_id).update({
+                "status": status,
+                "result": result,
+                "processed_at": datetime.datetime.now(datetime.timezone.utc),
+            })
+        else:
+            # フォールバック: 旧形式
+            db.collection("operation_requests").document(doc_id).update({
+                "status": status,
+                "result": result,
+                "processed_at": datetime.datetime.now(datetime.timezone.utc),
+            })

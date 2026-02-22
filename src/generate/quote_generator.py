@@ -19,13 +19,16 @@ from src.post.safety_checker import SafetyChecker
 
 JST = ZoneInfo("Asia/Tokyo")
 
-# テンプレートID
+# テンプレートID（8パターン）
 TEMPLATE_IDS = [
-    "translate_comment",  # 翻訳+自分コメント型
+    "translate_comment",  # 市場インパクト型
     "summary_points",     # 要点まとめ型
-    "question_prompt",    # 問題提起型
-    "practice_report",    # 実践レポート型
-    "breaking_news",      # 速報型
+    "question_prompt",    # 警告・問題提起型
+    "practice_report",    # 激震分析型
+    "breaking_news",      # 衝撃速報型
+    "exclusive_report",   # 独占入手型
+    "dark_alert",         # ダーク警告型
+    "legend_moment",      # 伝説・歴史型
 ]
 
 
@@ -71,6 +74,8 @@ class QuoteGenerator:
         # テンプレート使用回数トラッキング（日次リセット）
         self._template_usage: dict[str, int] = {}
         self._usage_date: str = ""
+        # 直近使用テンプレート履歴（連続同一パターン防止）
+        self._recent_templates: list[str] = []
 
     def _load_prompt_overrides(self) -> dict:
         """selection_preferences.json から prompt_overrides を読み込み"""
@@ -189,7 +194,7 @@ class QuoteGenerator:
 
     def _get_template_id(self, preferred: str = "") -> str:
         """
-        テンプレートIDを選択（使用回数制限あり）
+        テンプレートIDを選択（使用回数制限 + 連続使用防止）
 
         Args:
             preferred: 指定テンプレートID（省略時はローテーション）
@@ -197,6 +202,7 @@ class QuoteGenerator:
         today = date.today().isoformat()
         if self._usage_date != today:
             self._template_usage = {}
+            self._recent_templates = []
             self._usage_date = today
 
         templates = self.quote_rules.get("templates", [])
@@ -225,7 +231,22 @@ class QuoteGenerator:
             # 全テンプレート上限到達 → リセットして再選択
             available = enabled_ids if enabled_ids else TEMPLATE_IDS
 
-        return random.choice(available)
+        # ── バリエーション強制: 直近2件と異なるテンプレートを優先 ──
+        if len(available) > 1 and self._recent_templates:
+            # 直近2件のテンプレートを除外した候補
+            recent_set = set(self._recent_templates[-2:])
+            non_recent = [tid for tid in available if tid not in recent_set]
+            if non_recent:
+                available = non_recent
+
+        chosen = random.choice(available)
+
+        # 履歴を更新（最大10件保持）
+        self._recent_templates.append(chosen)
+        if len(self._recent_templates) > 10:
+            self._recent_templates = self._recent_templates[-10:]
+
+        return chosen
 
     def generate(
         self,
@@ -261,6 +282,7 @@ class QuoteGenerator:
             likes=likes,
             retweets=retweets,
             template_id=template_id,
+            past_posts=past_posts,
         )
 
         if not text:
@@ -284,6 +306,7 @@ class QuoteGenerator:
                 retweets=retweets,
                 template_id=template_id,
                 retry_hint=retry_hint,
+                past_posts=past_posts,
             )
             if text:
                 score = self.scorer.score(text, post_type="引用RT")
@@ -349,6 +372,7 @@ class QuoteGenerator:
         retweets: int,
         template_id: str,
         retry_hint: str = "",
+        past_posts: list[str] | None = None,
     ) -> str | None:
         """Gemini APIで引用RTコメントを1件生成"""
         if not self.client:
@@ -361,12 +385,31 @@ class QuoteGenerator:
                 template_info = f"テンプレート: {t['name']} — {t['description']}"
                 break
 
+        # ── バリエーション強制: 直近の生成物の冒頭を見せて被り回避 ──
+        variety_hint = ""
+        if past_posts:
+            recent_openings = []
+            for p in past_posts[-5:]:
+                first_line = p.strip().split("\n")[0][:40] if p.strip() else ""
+                if first_line:
+                    recent_openings.append(first_line)
+            if recent_openings:
+                variety_hint = (
+                    "━━━━━━━━━━━━━━━━━━\n"
+                    "■ バリエーション指示（超重要）\n"
+                    "━━━━━━━━━━━━━━━━━━\n\n"
+                    "以下は直近の生成済み投稿の冒頭。これらと**同じ見出し語・同じ冒頭パターン**は絶対に使うな。\n"
+                    "異なる表現・異なる切り口で書け。\n\n"
+                    + "\n".join(f"- {o}" for o in recent_openings)
+                    + "\n\n"
+                )
+
         prompt = f"""
 {self.prompt_template}
 
 {self._persona_prompt if self._persona_prompt else ""}
 
-━━━━━━━━━━━━━━━━━━
+{variety_hint}━━━━━━━━━━━━━━━━━━
 ■ 今回の条件
 ━━━━━━━━━━━━━━━━━━
 - {template_info}
@@ -410,40 +453,61 @@ class QuoteGenerator:
         """デモ用のダミー引用RTを返す"""
         demos = {
             "translate_comment": (
-                "海外で今めちゃくちゃ話題になってるAIの使い方。\n\n"
-                "僕的なポイントは\n"
-                "「自動化の範囲が想像以上に広い」ってこと。\n\n"
-                "日本だとまだ手動でやってる人多いけど\n"
-                "これ知ったら世界変わる。\n\n"
-                "早めに触っておくべき。"
+                "🚨【AI革命】GPT-5のマルチモーダル機能が全業界を変える。\n\n"
+                "市場への影響は計り知れない。🏛️✨\n"
+                "・AI関連銘柄の時価総額が「2兆ドル」を突破する勢い\n"
+                "・従来のSaaS企業は淘汰の危機\n\n"
+                "投資家は今すぐポートフォリオの見直しを。"
             ),
             "summary_points": (
-                "海外で今バズってるAIの新しい使い方。\n"
-                "ポイントは3つ:\n\n"
-                "・従来の10倍速で処理できる\n"
-                "・コード書けなくてもOK\n"
-                "・無料で始められる\n\n"
-                "ガチでこれは来る。"
+                "💥【速報】OpenAI、企業向けAIエージェントを正式リリース。\n\n"
+                "業界の構図が一変する3つのポイント。🏛️📈\n"
+                "・自律型AIが「月額$200」で導入可能に\n"
+                "・コード不要で業務自動化が完結\n"
+                "・初月で10万社が導入申請\n\n"
+                "SaaS業界、生き残りの分水嶺。"
             ),
             "question_prompt": (
-                "AIエージェントが自分で判断して動く時代、\n"
-                "マジで来てる。\n\n"
-                "これ日本でも半年以内に\n"
-                "当たり前になる。\n\n"
-                "準備してない人は置いていかれる。"
+                "🚨【警告】米国AI規制法案、来月にも議会通過の見通し。\n\n"
+                "Web3・暗号資産にも波及する「実績」。🏛️🔥\n"
+                "・AIモデルの学習データに開示義務\n"
+                "・違反企業は最大「売上高10%」の罰金\n\n"
+                "規制は止められない。備えろ。"
             ),
             "practice_report": (
-                "海外で話題のAI自動化手法。\n\n"
-                "実際に試してみた。\n"
-                "結果: 3時間の作業が20分になった。\n\n"
-                "しかもミスゼロ。\n"
-                "これはガチで使える。"
+                "💥【激震】Google DeepMind、AGI到達の内部メモが流出。\n\n"
+                "AI業界の「地殻変動」が始まった。🏛️📊\n"
+                "・2026年末までに汎用人工知能の実現を示唆\n"
+                "・GoogleのAI投資額は年間「500億ドル」超\n\n"
+                "もはや止まらない。歴史の転換点。"
             ),
             "breaking_news": (
-                "これはデカい。\n\n"
-                "AIの使い方が根本から変わる可能性。\n\n"
-                "今までの常識が通用しなくなる。\n"
-                "早めに触っておいた方がいい。"
+                "🚨【衝撃】Apple、独自AIチップで「NVIDIA離れ」を宣言。\n\n"
+                "半導体市場に激震が走る。🏛️🇺🇸\n"
+                "・自社開発チップのAI推論性能がH100を「40%」上回る\n"
+                "・NVIDIA株が時間外で8%急落\n\n"
+                "AI覇権の構図が根本から変わる。"
+            ),
+            "exclusive_report": (
+                "💥【独占】ソフトバンク孫正義、さらに「3兆円」のAI投資を決断。\n\n"
+                "世界最大のAIファンドが動いた。🏛️💎\n"
+                "・OpenAI、Anthropicに追加出資\n"
+                "・日本国内にAIデータセンター10拠点建設\n"
+                "・目指すは「AI大国ニッポン」の復権。"
+            ),
+            "dark_alert": (
+                "💀米国失業率、AI自動化で「14.2%」に急騰の予測。\n\n"
+                "ウォール街のAIリサーチが衝撃のデータを公開。🏛️🩸\n"
+                "・ホワイトカラー職の38%が3年以内に消滅リスク\n"
+                "・再就職までの平均期間は「18ヶ月」\n\n"
+                "静かに、しかし確実に雇用崩壊は始まっている。"
+            ),
+            "legend_moment": (
+                "💥【伝説】ビットコイン、ついに「$200,000」の大台を突破。\n\n"
+                "暗号資産の歴史が書き換えられた。🏛️✨\n"
+                "・時価総額は「4兆ドル」でAppleを超える\n"
+                "・機関投資家の参入率が過去最高の67%\n\n"
+                "もう誰もBTCを無視できない。新時代の幕開け。"
             ),
         }
         return demos.get(template_id, demos["translate_comment"])
