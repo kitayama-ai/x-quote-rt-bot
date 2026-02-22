@@ -1679,7 +1679,7 @@ textarea.form-input {
     <span class="quick-actions-label">⚡ 実行</span>
     <button class="quick-btn" onclick="requestOperation('collect')" id="qbCollect">📡 収集</button>
     <button class="quick-btn green" onclick="requestOperation('curate')" id="qbCurate">✍️ 生成</button>
-    <button class="quick-btn purple" onclick="requestOperation('curate-post')" id="qbPost">📤 投稿</button>
+    <button class="quick-btn purple" onclick="switchToOpsTab()" id="qbPost">📤 投稿（選択）</button>
     <button class="quick-btn amber" onclick="requestOperation('export-dashboard')" id="qbDashboard">📊 更新</button>
     <span id="quickActionMsg" style="font-size:12px;margin-left:auto;"></span>
   </div>
@@ -1720,11 +1720,12 @@ textarea.form-input {
         </div>
 
         <div style="background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius-sm);padding:20px;">
-          <div style="font-weight:600;margin-bottom:6px;">📤 引用RT投稿</div>
-          <div style="font-size:12px;color:var(--text-secondary);margin-bottom:16px;">生成済みの引用RTをXに投稿します</div>
-          <button class="save-btn" onclick="requestOperation('curate-post')" id="btnPost" style="width:100%;">
-            今すぐ投稿
-          </button>
+          <div style="font-weight:600;margin-bottom:6px;">📤 引用RT投稿（1件選択）</div>
+          <div style="font-size:12px;color:var(--text-secondary);margin-bottom:12px;">投稿したい引用RTを1件選んで即時投稿します</div>
+          <div id="postOneList" style="max-height:320px;overflow-y:auto;"></div>
+          <div id="postOneEmpty" style="font-size:12px;color:var(--text-muted);padding:12px 0;text-align:center;">
+            投稿候補なし（収集→生成を先に実行してください）
+          </div>
         </div>
 
         <div style="background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius-sm);padding:20px;">
@@ -2259,8 +2260,8 @@ textarea.form-input {
           <div style="font-weight:700;font-size:15px;margin-bottom:8px;">📤 ステップ 4: 引用RT投稿</div>
           <div style="font-size:13px;color:var(--text-secondary);line-height:1.8;">
             生成されたコメント付きで引用RTをXに投稿。<br>
-            • <b>操作タブ</b>の「今すぐ投稿」ボタンで手動実行<br>
-            • 完全自動モードでは生成→投稿が連続で自動実行される<br>
+            • <b>操作タブ</b>の投稿候補一覧から1件選んで即時投稿<br>
+            • 1回の操作で1件だけ投稿（アカウントBAN防止）<br>
             • 投稿済みのツイートは<b>投稿履歴</b>タブで確認可
           </div>
         </div>
@@ -2896,6 +2897,7 @@ function render() {
   renderPreferences();
   renderPDCA();
   renderUpdatedTime();
+  renderPostOneList();
 }
 
 // --- KPI ---
@@ -3669,13 +3671,11 @@ async function requestOperation(command) {
   const btnIdMap = {
     'collect': 'btnCollect',
     'curate': 'btnCurate',
-    'curate-post': 'btnPost',
     'export-dashboard': 'btnDashboard'
   };
   const qbIdMap = {
     'collect': 'qbCollect',
     'curate': 'qbCurate',
-    'curate-post': 'qbPost',
     'export-dashboard': 'qbDashboard'
   };
 
@@ -3709,7 +3709,7 @@ async function requestOperation(command) {
       requested_at: firebase.firestore.FieldValue.serverTimestamp(),
     });
 
-    const cmdLabels = { 'collect': '収集', 'curate': '生成', 'curate-post': '投稿', 'export-dashboard': '更新' };
+    const cmdLabels = { 'collect': '収集', 'curate': '生成', 'export-dashboard': '更新' };
     const label = cmdLabels[command] || command;
 
     const msgEl = document.getElementById('opMsg');
@@ -3740,7 +3740,6 @@ async function requestOperation(command) {
       btn.textContent = {
         'collect': '今すぐ収集',
         'curate': '今すぐ生成',
-        'curate-post': '今すぐ投稿',
         'export-dashboard': '今すぐ更新'
       }[command];
     }
@@ -3749,6 +3748,100 @@ async function requestOperation(command) {
       qb.style.opacity = '1';
     }
   }
+}
+
+// --- Post One: 1件選択式即時投稿 ---
+function renderPostOneList() {
+  const listEl = document.getElementById('postOneList');
+  const emptyEl = document.getElementById('postOneEmpty');
+  if (!listEl || !emptyEl) return;
+
+  // dashboardDataのキューから投稿候補（approved + generated_text あり）を取得
+  let candidates = [];
+  if (dashboardData && dashboardData.queue) {
+    candidates = dashboardData.queue.filter(function(i) {
+      return i.status === 'approved' && i.generated_text;
+    });
+  }
+
+  if (candidates.length === 0) {
+    listEl.innerHTML = '';
+    emptyEl.style.display = 'block';
+    return;
+  }
+
+  emptyEl.style.display = 'none';
+  listEl.innerHTML = candidates.map(function(item) {
+    var tid = item.tweet_id || '';
+    var gen = item.generated_text || '';
+    var preview = gen.length > 80 ? gen.slice(0, 80) + '…' : gen;
+    var author = item.author_username ? '@' + item.author_username : '';
+    var scoreRank = (item.score && item.score.rank) ? item.score.rank : '-';
+    var rankColor = scoreRank === 'A' ? 'var(--accent-green)' : scoreRank === 'B' ? 'var(--accent-amber)' : 'var(--text-muted)';
+    return '<div style="display:flex;align-items:flex-start;gap:10px;padding:10px;margin-bottom:8px;background:var(--bg-card);border:1px solid var(--border);border-radius:8px;">' +
+      '<div style="flex:1;min-width:0;">' +
+        '<div style="font-size:11px;color:var(--text-muted);margin-bottom:4px;">' + escapeHtml(author) + ' <span style="color:' + rankColor + ';font-weight:600;">(' + scoreRank + ')</span></div>' +
+        '<div style="font-size:12px;color:var(--text-secondary);word-break:break-all;">' + escapeHtml(preview) + '</div>' +
+      '</div>' +
+      '<button onclick="requestPostOne(\'' + tid + '\')" class="save-btn" style="flex-shrink:0;padding:6px 14px;font-size:11px;white-space:nowrap;">投稿</button>' +
+    '</div>';
+  }).join('');
+}
+
+async function requestPostOne(tweetId) {
+  if (!window.__fb || !window.__fb.auth.currentUser) {
+    alert('ログインが必要です');
+    return;
+  }
+
+  if (!confirm('この1件を今すぐ投稿しますか？')) return;
+
+  // ボタンを無効化
+  var btns = document.querySelectorAll('#postOneList .save-btn');
+  btns.forEach(function(b) { b.disabled = true; b.style.opacity = '0.5'; });
+
+  try {
+    var db = window.__fb.db;
+    var user = window.__fb.auth.currentUser;
+
+    await db.collection('users').doc(user.uid).set({
+      displayName: user.displayName || '',
+      lastActive: firebase.firestore.FieldValue.serverTimestamp(),
+    }, { merge: true });
+
+    await db.collection('users').doc(user.uid).collection('operation_requests').add({
+      command: 'post-one',
+      tweet_id: tweetId,
+      status: 'pending',
+      requested_by: user.displayName || user.uid,
+      requested_by_uid: user.uid,
+      requested_at: firebase.firestore.FieldValue.serverTimestamp(),
+    });
+
+    if (window.showToast) showToast('投稿リクエストを送信しました（約3分以内に実行）', 'success');
+    var msgEl = document.getElementById('opMsg');
+    if (msgEl) {
+      msgEl.innerHTML = '<span style="color:var(--accent-green);">✅ 投稿リクエスト送信済み（tweet: ' + tweetId.slice(-6) + '）</span>';
+    }
+    loadOpHistory();
+  } catch (err) {
+    console.error('Post-one request error:', err);
+    if (window.showToast) showToast('送信に失敗しました', 'error');
+  } finally {
+    var btns2 = document.querySelectorAll('#postOneList .save-btn');
+    btns2.forEach(function(b) { b.disabled = false; b.style.opacity = '1'; });
+  }
+}
+
+function switchToOpsTab() {
+  document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+  document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
+  var opsTab = document.querySelector('[data-tab="operations"]');
+  if (opsTab) {
+    opsTab.classList.add('active');
+    document.getElementById('panel-operations').classList.add('active');
+  }
+  renderPostOneList();
 }
 
 async function addManualTweet() {
@@ -3812,6 +3905,7 @@ async function loadOpHistory() {
       'collect': '📡 収集',
       'curate': '✍️ 生成',
       'curate-post': '📤 投稿',
+      'post-one': '📤 即時投稿',
       'export-dashboard': '📊 更新',
       'add-tweet': '🔗 URL追加'
     };

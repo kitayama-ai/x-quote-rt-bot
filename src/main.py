@@ -363,7 +363,75 @@ def cmd_curate_post(args):
             print(f"  ❌ 投稿エラー [{tweet_id}]: {e}")
             notifier.notify_error("引用RT投稿エラー", str(e))
 
+    if posted_count == 0 and generated:
+        print("⚠️ 投稿可能な引用RTがありましたが、投稿されませんでした")
+        sys.exit(1)
+
     print(f"\n📊 投稿結果: {posted_count}件投稿 / 本日累計{posted_today + posted_count}件")
+
+
+def cmd_post_one(args):
+    """指定した1件のツイートを即時投稿（ダッシュボード選択式投稿用）"""
+    from src.collect.queue_manager import QueueManager
+    from src.post.x_poster import XPoster
+    from src.post.safety_checker import SafetyChecker
+
+    config = Config(f"account_{args.account}")
+    queue = QueueManager()
+    poster = XPoster(config)
+    safety_checker = SafetyChecker(config.safety_rules)
+
+    tweet_id = args.tweet_id
+    print(f"📤 即時投稿（1件）— tweet_id: {tweet_id}")
+
+    # アカウント確認
+    try:
+        me = poster.verify_credentials()
+        print(f"✅ アカウント確認: @{me['username']}")
+    except Exception as e:
+        print(f"❌ アカウント確認失敗: {e}")
+        sys.exit(1)
+
+    # 1日の投稿上限チェック
+    daily_limit = config.safety_rules.get("posting_rules", {}).get("daily_limit_per_account", 10)
+    posted_today = queue.get_today_posted_count()
+    if posted_today >= daily_limit:
+        print(f"⛔ 本日の投稿上限（{daily_limit}件）に達しています")
+        sys.exit(1)
+
+    # 対象ツイートを取得
+    generated = queue.get_generated()
+    target = None
+    for item in generated:
+        if item["tweet_id"] == tweet_id:
+            target = item
+            break
+
+    if not target:
+        print(f"❌ tweet_id={tweet_id} が投稿可能キューに見つかりません（承認済み＋生成済みが必要）")
+        sys.exit(1)
+
+    text = target["generated_text"]
+
+    # 安全チェック
+    safety = safety_checker.check(text, is_quote_rt=True)
+    if not safety.is_safe:
+        print(f"⛔ 安全チェック不合格: {safety.violations}")
+        sys.exit(1)
+
+    # 投稿実行
+    try:
+        result = poster.post_tweet(
+            text=text,
+            quote_tweet_id=tweet_id,
+        )
+        posted_tweet_id = result["id"]
+        queue.mark_posted(tweet_id, posted_tweet_id)
+        print(f"✅ 投稿完了: https://x.com/i/status/{posted_tweet_id}")
+        print(f"📊 本日累計: {posted_today + 1}/{daily_limit}件")
+    except Exception as e:
+        print(f"❌ 投稿エラー: {e}")
+        sys.exit(1)
 
 
 def cmd_collect(args):
@@ -1110,6 +1178,27 @@ def cmd_process_operations(args):
                 else:
                     fc.update_operation_status(doc_id, "failed", "No tweet URL provided", uid=op_uid)
 
+            elif cmd == "post-one":
+                # 1件選択式即時投稿
+                target_tweet_id = op.get("tweet_id", "")
+                if not target_tweet_id:
+                    raise Exception("tweet_id が指定されていません")
+                sub_args = [
+                    sys.executable, "-m", "src.main", "post-one",
+                    "--account", "1", "--tweet-id", target_tweet_id,
+                ]
+                result = subprocess.run(
+                    sub_args,
+                    capture_output=True, text=True, timeout=120,
+                    env=sub_env,
+                )
+                print(result.stdout)
+                if result.returncode != 0:
+                    err_msg = (result.stderr or result.stdout or "post-one failed").strip()
+                    print(f"  stderr: {err_msg}")
+                    raise Exception(err_msg[-500:])
+                fc.update_operation_status(doc_id, "completed", f"Posted tweet {target_tweet_id}", uid=op_uid)
+
             elif cmd in ("collect", "curate", "curate-post", "export-dashboard"):
                 sub_args = [sys.executable, "-m", "src.main", cmd, "--account", "1"]
                 if cmd == "collect":
@@ -1271,6 +1360,12 @@ def main():
     # curate-post
     add_account_arg(subparsers.add_parser("curate-post", help="引用RT投稿を実行（生成済みキューから）"))
 
+    # post-one (ダッシュボード選択式投稿)
+    post_one_parser = add_account_arg(
+        subparsers.add_parser("post-one", help="指定した1件の引用RTを即時投稿")
+    )
+    post_one_parser.add_argument("--tweet-id", type=str, required=True, help="投稿するツイートID")
+
     # collect (パターンB)
     collect_parser = add_account_arg(subparsers.add_parser("collect", help="バズツイートを自動収集（X API v2）"))
     collect_parser.add_argument("--dry-run", action="store_true", help="ドライラン（キューに追加しない）")
@@ -1365,6 +1460,7 @@ def main():
         "post": cmd_post,
         "curate": cmd_curate,
         "curate-post": cmd_curate_post,
+        "post-one": cmd_post_one,
         "collect": cmd_collect,
         "notify-test": cmd_notify_test,
         "metrics": cmd_metrics,
