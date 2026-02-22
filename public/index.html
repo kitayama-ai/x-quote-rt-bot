@@ -3694,6 +3694,13 @@ async function requestOperation(command) {
   try {
     const db = window.__fb.db;
     const user = window.__fb.auth.currentUser;
+
+    // 親ドキュメントを確保（バックエンドのusers.stream()で検出されるように）
+    await db.collection('users').doc(user.uid).set({
+      displayName: user.displayName || '',
+      lastActive: firebase.firestore.FieldValue.serverTimestamp(),
+    }, { merge: true });
+
     await db.collection('users').doc(user.uid).collection('operation_requests').add({
       command: command,
       status: 'pending',

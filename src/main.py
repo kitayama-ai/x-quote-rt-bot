@@ -1042,7 +1042,15 @@ def cmd_process_operations(args):
         print(f"❌ Firebase初期化エラー: {e}")
         return
 
-    pending = fc.get_pending_operations()  # 全ユーザーの未処理リクエストを取得
+    # FIREBASE_UID が設定されていればそのユーザーのリクエストを優先的に取得
+    # Firestoreでは親ドキュメントが無いとusers.stream()で見つからないため
+    firebase_uid = os.getenv("FIREBASE_UID", "")
+    if firebase_uid:
+        print(f"  🔍 FIREBASE_UID指定あり: {firebase_uid[:8]}...")
+        pending = fc.get_pending_operations(uid=firebase_uid)
+    else:
+        pending = fc.get_pending_operations()
+
     if not pending:
         print("📭 未処理のリクエストはありません")
         return
