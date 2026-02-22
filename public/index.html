@@ -1741,24 +1741,24 @@ textarea.form-input {
       <p>各サービスのAPIキーを登録してください。キーはFirestoreにセキュアに保存され、ご自身のみアクセスできます。</p>
 
       <div class="settings-grid">
-        <!-- SocialData API -->
+        <!-- Gemini API -->
         <div class="form-group">
           <label class="form-label">
-            SocialData API Key
-            <span class="api-status not-configured" id="statusSocialdata">未設定</span>
+            Gemini API Key
+            <span class="api-status not-configured" id="statusGemini">未設定</span>
           </label>
-          <input type="password" class="form-input" id="apiSocialdata" placeholder="sd_xxxxxxxxxxxxxxxx" autocomplete="off">
-          <div class="form-hint">SocialData.tools のダッシュボードから取得</div>
+          <input type="password" class="form-input" id="apiGemini" placeholder="AIzaSyxxxxxxxxxxxxxxxxxxxxxxxxx" autocomplete="off">
+          <div class="form-hint">aistudio.google.com/apikey から取得</div>
         </div>
 
-        <!-- OpenAI API -->
+        <!-- Discord Webhook -->
         <div class="form-group">
           <label class="form-label">
-            OpenAI API Key
-            <span class="api-status not-configured" id="statusOpenai">未設定</span>
+            Discord Webhook URL
+            <span class="api-status not-configured" id="statusDiscord">未設定</span>
           </label>
-          <input type="password" class="form-input" id="apiOpenai" placeholder="sk-xxxxxxxxxxxxxxxx" autocomplete="off">
-          <div class="form-hint">platform.openai.com から取得</div>
+          <input type="password" class="form-input" id="apiDiscord" placeholder="https://discord.com/api/webhooks/..." autocomplete="off">
+          <div class="form-hint">Discord チャンネル設定 → 連携サービス → ウェブフック</div>
         </div>
 
         <!-- X API (Bearer Token) -->
@@ -2090,8 +2090,8 @@ textarea.form-input {
   // API Key Management
   // ============================
   const API_KEY_FIELDS = [
-    { id: 'apiSocialdata', key: 'socialdata_api_key', statusId: 'statusSocialdata' },
-    { id: 'apiOpenai', key: 'openai_api_key', statusId: 'statusOpenai' },
+    { id: 'apiGemini', key: 'gemini_api_key', statusId: 'statusGemini' },
+    { id: 'apiDiscord', key: 'discord_webhook_url', statusId: 'statusDiscord' },
     { id: 'apiXbearer', key: 'x_bearer_token', statusId: 'statusXapi' },
     { id: 'apiXkey', key: 'x_api_key', statusId: 'statusXkey' },
     { id: 'apiXsecret', key: 'x_api_secret', statusId: 'statusXsecret' },
