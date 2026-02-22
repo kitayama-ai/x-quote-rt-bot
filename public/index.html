@@ -1123,6 +1123,132 @@ tr:hover td { background: var(--bg-card-hover); }
 .save-msg.success { color: var(--accent-green); display: block; }
 .save-msg.error { color: var(--accent-red); display: block; }
 
+/* Toast Notification */
+.toast-container {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.toast {
+  pointer-events: auto;
+  min-width: 280px;
+  max-width: 420px;
+  padding: 14px 20px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: var(--shadow-lg);
+  animation: toastIn 0.3s ease, toastOut 0.3s ease 2.7s forwards;
+  border: 1px solid;
+}
+
+.toast-success {
+  background: rgba(16,185,129,0.15);
+  border-color: rgba(16,185,129,0.3);
+  color: var(--accent-green);
+}
+
+.toast-error {
+  background: rgba(239,68,68,0.15);
+  border-color: rgba(239,68,68,0.3);
+  color: var(--accent-red);
+}
+
+.toast-info {
+  background: rgba(59,130,246,0.15);
+  border-color: rgba(59,130,246,0.3);
+  color: var(--accent-blue);
+}
+
+@keyframes toastIn {
+  from { opacity: 0; transform: translateX(40px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes toastOut {
+  from { opacity: 1; transform: translateX(0); }
+  to { opacity: 0; transform: translateX(40px); }
+}
+
+/* Quick Actions Bar */
+.quick-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.quick-actions-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-right: 8px;
+  white-space: nowrap;
+}
+
+.quick-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+  background: var(--accent-blue);
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-family: var(--font-sans);
+  white-space: nowrap;
+}
+
+.quick-btn:hover {
+  background: #2563eb;
+  box-shadow: 0 2px 8px rgba(59,130,246,0.3);
+}
+
+.quick-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.quick-btn.green { background: var(--accent-green); }
+.quick-btn.green:hover { background: #059669; box-shadow: 0 2px 8px rgba(16,185,129,0.3); }
+.quick-btn.purple { background: var(--accent-purple); }
+.quick-btn.purple:hover { background: #7c3aed; box-shadow: 0 2px 8px rgba(139,92,246,0.3); }
+.quick-btn.amber { background: var(--accent-amber); }
+.quick-btn.amber:hover { background: #d97706; box-shadow: 0 2px 8px rgba(245,158,11,0.3); }
+
+/* Queue delete button */
+.action-btn.delete {
+  color: var(--accent-red);
+  border-color: var(--accent-red-dim);
+  background: var(--accent-red-dim);
+}
+
+.action-btn.delete:hover {
+  background: var(--accent-red);
+  color: #fff;
+  border-color: var(--accent-red);
+}
+
 .api-status {
   display: inline-flex;
   align-items: center;
@@ -1546,6 +1672,16 @@ textarea.form-input {
       <div class="kpi-value red" id="kpiSkipped">-</div>
       <div class="kpi-sub">skipped</div>
     </div>
+  </div>
+
+  <!-- ===== QUICK ACTIONS BAR ===== -->
+  <div class="quick-actions" id="quickActionsBar" style="display:none;">
+    <span class="quick-actions-label">⚡ 実行</span>
+    <button class="quick-btn" onclick="requestOperation('collect')" id="qbCollect">📡 収集</button>
+    <button class="quick-btn green" onclick="requestOperation('curate')" id="qbCurate">✍️ 生成</button>
+    <button class="quick-btn purple" onclick="requestOperation('curate-post')" id="qbPost">📤 投稿</button>
+    <button class="quick-btn amber" onclick="requestOperation('export-dashboard')" id="qbDashboard">📊 更新</button>
+    <span id="quickActionMsg" style="font-size:12px;margin-left:auto;"></span>
   </div>
 
   <!-- ===== TABS ===== -->
@@ -2473,10 +2609,12 @@ textarea.form-input {
 
         saveMsg.textContent = 'APIキーを保存しました';
         saveMsg.className = 'save-msg success';
+        if (window.showToast) showToast('APIキーを保存しました', 'success');
       } catch (err) {
         console.error('Save API keys error:', err);
         saveMsg.textContent = '保存に失敗しました: ' + err.message;
         saveMsg.className = 'save-msg error';
+        if (window.showToast) showToast('APIキーの保存に失敗しました', 'error');
       }
 
       saveBtn.disabled = false;
@@ -2556,12 +2694,14 @@ textarea.form-input {
           saveCfgMsg.textContent = '収集設定を保存しました（次回収集から反映）';
           saveCfgMsg.className = 'save-msg success';
         }
+        if (window.showToast) showToast('収集設定を保存しました', 'success');
       } catch (err) {
         console.error('Save collection settings error:', err);
         if (saveCfgMsg) {
           saveCfgMsg.textContent = '保存に失敗しました: ' + err.message;
           saveCfgMsg.className = 'save-msg error';
         }
+        if (window.showToast) showToast('保存に失敗しました', 'error');
       }
 
       saveCfgBtn.disabled = false;
@@ -2808,8 +2948,9 @@ function renderQueue() {
     const scoreClass = matchScore >= 2.0 ? 'high' : matchScore >= 1.0 ? 'medium' : 'low';
     const scoreDisplay = matchScore > 0 ? matchScore.toFixed(1) : '—';
 
-    // Action buttons (only for pending)
+    // Action buttons
     let actionHtml = '';
+    const deleteBtn = `<button class="action-btn delete" onclick="event.stopPropagation();queueDelete('${tweetId}')" title="削除">🗑</button>`;
     if (item.status === 'pending') {
       actionHtml = `<div class="queue-actions" onclick="event.stopPropagation()">
         <button class="action-btn approve" onclick="queueAction('approve','${tweetId}')">✓ 承認</button>
@@ -2824,12 +2965,13 @@ function renderQueue() {
             <button class="skip-option" onclick="queueAction('skip','${tweetId}','other')">その他</button>
           </div>
         </div>
+        ${deleteBtn}
       </div>`;
     } else if (item.status === 'skipped' && item.skip_reason) {
       const reasonLabels = { topic_mismatch:'トピック不一致', source_untrusted:'ソース不適切', too_old:'古い', low_quality:'品質不足', off_brand:'ブランド不適合', other:'その他' };
-      actionHtml = `<span style="font-size:11px;color:var(--text-muted);">${reasonLabels[item.skip_reason] || item.skip_reason}</span>`;
+      actionHtml = `<div class="queue-actions" onclick="event.stopPropagation()"><span style="font-size:11px;color:var(--text-muted);">${reasonLabels[item.skip_reason] || item.skip_reason}</span> ${deleteBtn}</div>`;
     } else {
-      actionHtml = tweetId ? `<a class="external-link" href="${tweetUrl}" target="_blank" rel="noopener" onclick="event.stopPropagation()">↗</a>` : '-';
+      actionHtml = `<div class="queue-actions" onclick="event.stopPropagation()">${tweetId ? `<a class="external-link" href="${tweetUrl}" target="_blank" rel="noopener">↗</a>` : ''} ${deleteBtn}</div>`;
     }
 
     const rowIndex = dashboardData.queue.indexOf(item);
@@ -3208,10 +3350,13 @@ async function queueAction(action, tweetId, reason) {
     renderQueue();
     renderKPI();
 
+    const actionLabels = { approve: '承認しました', skip: 'スキップしました' };
+    if (window.showToast) showToast(actionLabels[action] || action, 'success');
+
     console.log(`Queue action: ${action} ${tweetId} ${reason || ''}`);
   } catch (err) {
     console.error('Queue action error:', err);
-    alert('操作に失敗しました: ' + err.message);
+    if (window.showToast) showToast('操作に失敗しました: ' + err.message, 'error');
   }
 }
 
@@ -3520,16 +3665,29 @@ async function requestOperation(command) {
     return;
   }
 
-  const btn = document.getElementById({
+  const btnIdMap = {
     'collect': 'btnCollect',
     'curate': 'btnCurate',
     'curate-post': 'btnPost',
     'export-dashboard': 'btnDashboard'
-  }[command]);
+  };
+  const qbIdMap = {
+    'collect': 'qbCollect',
+    'curate': 'qbCurate',
+    'curate-post': 'qbPost',
+    'export-dashboard': 'qbDashboard'
+  };
+
+  const btn = document.getElementById(btnIdMap[command]);
+  const qb = document.getElementById(qbIdMap[command]);
 
   if (btn) {
     btn.disabled = true;
     btn.textContent = '送信中...';
+  }
+  if (qb) {
+    qb.disabled = true;
+    qb.style.opacity = '0.5';
   }
 
   try {
@@ -3543,9 +3701,21 @@ async function requestOperation(command) {
       requested_at: firebase.firestore.FieldValue.serverTimestamp(),
     });
 
+    const cmdLabels = { 'collect': '収集', 'curate': '生成', 'curate-post': '投稿', 'export-dashboard': '更新' };
+    const label = cmdLabels[command] || command;
+
     const msgEl = document.getElementById('opMsg');
     if (msgEl) {
-      msgEl.innerHTML = '<span style="color:var(--accent-green);">✅ リクエストを送信しました。5〜10分以内に実行されます。</span>';
+      msgEl.innerHTML = '<span style="color:var(--accent-green);">✅ リクエストを送信しました。15分以内に自動実行されます。</span>';
+    }
+
+    if (window.showToast) showToast(label + 'リクエストを送信しました', 'success');
+
+    // Quick action msg
+    const qMsg = document.getElementById('quickActionMsg');
+    if (qMsg) {
+      qMsg.innerHTML = '<span style="color:var(--accent-green);">✅ ' + label + ' 送信済</span>';
+      setTimeout(function() { qMsg.innerHTML = ''; }, 4000);
     }
 
     loadOpHistory();
@@ -3555,6 +3725,7 @@ async function requestOperation(command) {
     if (msgEl) {
       msgEl.innerHTML = '<span style="color:var(--accent-red);">❌ エラー: ' + escapeHtml(err.message) + '</span>';
     }
+    if (window.showToast) showToast('リクエスト送信に失敗しました', 'error');
   } finally {
     if (btn) {
       btn.disabled = false;
@@ -3564,6 +3735,10 @@ async function requestOperation(command) {
         'curate-post': '今すぐ投稿',
         'export-dashboard': '今すぐ更新'
       }[command];
+    }
+    if (qb) {
+      qb.disabled = false;
+      qb.style.opacity = '1';
     }
   }
 }
@@ -3670,6 +3845,70 @@ document.addEventListener('click', (e) => {
     loadOpHistory();
   }
 });
+
+// ============================
+// Toast Notification System
+// ============================
+(function() {
+  // Create toast container
+  const container = document.createElement('div');
+  container.className = 'toast-container';
+  container.id = 'toastContainer';
+  document.body.appendChild(container);
+
+  window.showToast = function(message, type) {
+    type = type || 'success';
+    const toast = document.createElement('div');
+    toast.className = 'toast toast-' + type;
+    const icons = { success: '✅', error: '❌', info: 'ℹ️' };
+    toast.innerHTML = '<span>' + (icons[type] || '') + '</span><span>' + message + '</span>';
+    container.appendChild(toast);
+    setTimeout(function() {
+      if (toast.parentNode) toast.parentNode.removeChild(toast);
+    }, 3200);
+  };
+})();
+
+// ============================
+// Quick Actions Bar visibility
+// ============================
+auth.onAuthStateChanged(function(u) {
+  var bar = document.getElementById('quickActionsBar');
+  if (bar) bar.style.display = u ? 'flex' : 'none';
+});
+
+// ============================
+// Queue Delete Function
+// ============================
+async function queueDelete(tweetId) {
+  if (!window.__fb || !window.__fb.auth.currentUser) return;
+  if (!confirm('このアイテムをキューから削除しますか？')) return;
+
+  const uid = window.__fb.auth.currentUser.uid;
+  const db = window.__fb.db;
+
+  try {
+    // Mark as deleted in Firestore
+    await db.collection('users').doc(uid).collection('queue_decisions').doc(tweetId).set({
+      tweet_id: tweetId,
+      action: 'delete',
+      decided_by: uid,
+      decided_at: firebase.firestore.FieldValue.serverTimestamp(),
+    });
+
+    // Remove from local data
+    if (dashboardData && dashboardData.queue) {
+      dashboardData.queue = dashboardData.queue.filter(function(i) { return i.tweet_id !== tweetId; });
+    }
+
+    renderQueue();
+    renderKPI();
+    showToast('キューから削除しました', 'success');
+  } catch (err) {
+    console.error('Queue delete error:', err);
+    showToast('削除に失敗しました: ' + err.message, 'error');
+  }
+}
 </script>
 </body>
 </html>

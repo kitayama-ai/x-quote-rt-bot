@@ -193,6 +193,14 @@ class FirebaseSync:
                     else:
                         result["not_found"] += 1
 
+                elif action == "delete":
+                    # ダッシュボードからの削除操作: キューから完全に除去
+                    if queue.remove(tweet_id):
+                        result["skipped"] += 1  # カウントはskippedに含める
+                        processed_by_uid.setdefault(dec_uid, []).append(tweet_id)
+                    else:
+                        result["not_found"] += 1
+
                 else:
                     result["errors"].append(f"不明なアクション: {action} (tweet: {tweet_id})")
 

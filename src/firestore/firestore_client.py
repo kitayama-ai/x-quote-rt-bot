@@ -53,7 +53,12 @@ class FirestoreClient:
             if self._credentials_base64:
                 import base64
                 import tempfile
-                cred_json = base64.b64decode(self._credentials_base64).decode("utf-8")
+                # Base64パディング修正（末尾の=が欠落している場合に補完）
+                b64str = self._credentials_base64.strip()
+                missing_padding = len(b64str) % 4
+                if missing_padding:
+                    b64str += '=' * (4 - missing_padding)
+                cred_json = base64.b64decode(b64str).decode("utf-8")
                 cred_dict = json.loads(cred_json)
                 cred = credentials.Certificate(cred_dict)
             elif Path(self._credentials_path).exists():

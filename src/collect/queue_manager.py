@@ -183,6 +183,15 @@ class QueueManager:
                 return True
         return False
 
+    def remove(self, tweet_id: str) -> bool:
+        """ツイートをキューから完全に削除"""
+        pending = self._load(self._pending_file)
+        new_pending = [item for item in pending if item["tweet_id"] != tweet_id]
+        if len(new_pending) < len(pending):
+            self._save(self._pending_file, new_pending)
+            return True
+        return False
+
     def set_generated(self, tweet_id: str, text: str, template_id: str = "", score: dict | None = None):
         """生成済みテキストを設定"""
         pending = self._load(self._pending_file)
