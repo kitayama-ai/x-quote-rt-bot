@@ -65,4 +65,5 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git add data/queue/ public/dashboard-data.json
           git diff --staged --quiet || git commit -m "chore: update curate queue $(date +'%Y-%m-%d')"
-          git push
+          git pull --rebase origin main || true
+          git push origin main || true

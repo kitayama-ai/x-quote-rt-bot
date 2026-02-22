@@ -151,7 +151,9 @@ def cmd_post(args):
         # 投稿実行
         try:
             result = poster.post_tweet(post["text"])
-            tweet_id = result["id"]
+            tweet_id = result.get("id")
+            if not tweet_id:
+                raise ValueError(f"X APIからツイートIDが返りませんでした: {result}")
 
             scheduler.mark_as_posted(post["_filepath"], post["slot"], tweet_id)
             notifier.notify_post_completed(config.account_name, post["text"], tweet_id)
@@ -219,8 +221,8 @@ def cmd_curate(args):
             poster = XPoster(config)
             recent = poster.get_recent_tweets(max_results=10)
             past_posts = [t["text"] for t in recent]
-        except Exception:
-            pass
+        except Exception as e:
+            print(f"  ⚠️ 過去投稿の取得スキップ（重複チェック不可）: {e}")
 
     # 各ツイートの引用RTコメントを生成
     results = []
@@ -365,7 +367,9 @@ def cmd_curate_post(args):
         # 投稿実行
         try:
             result = poster.post_tweet(text=text, quote_tweet_id=tweet_id)
-            posted_tweet_id = result["id"]
+            posted_tweet_id = result.get("id")
+            if not posted_tweet_id:
+                raise ValueError(f"X APIからツイートIDが返りませんでした: {result}")
             queue.mark_posted(tweet_id, posted_tweet_id)
             print(f"  ✅ 引用RT投稿完了: {posted_tweet_id} (元: {tweet_id})")
             posted_count += 1
@@ -423,7 +427,9 @@ def cmd_post_one(args):
     # 投稿実行
     try:
         result = poster.post_tweet(text=text, quote_tweet_id=tweet_id)
-        posted_tweet_id = result["id"]
+        posted_tweet_id = result.get("id")
+        if not posted_tweet_id:
+            raise ValueError(f"X APIからツイートIDが返りませんでした: {result}")
         queue.mark_posted(tweet_id, posted_tweet_id)
         print(f"✅ 投稿完了: https://x.com/i/status/{posted_tweet_id}")
         print(f"📊 本日累計: {posted_today + 1}/{daily_limit}件")
@@ -482,7 +488,7 @@ def cmd_collect(args):
             if p_result["updated_keys"]:
                 print(f"🎯 Firebase設定同期: {', '.join(p_result['updated_keys'])}")
     except ImportError:
-        pass  # firebase-admin 未インストール時はスキップ
+        print("  ⚠️ Firebase同期スキップ（firebase-admin 未インストール）")
     except Exception as e:
         print(f"⚠️ Firebase同期スキップ: {e}")
 
@@ -782,8 +788,8 @@ def cmd_sync_queue(args):
             if webhook:
                 notifier = DiscordNotifier(webhook)
                 notifier.send(content=f"🔄 キュー同期完了（{args.direction}）")
-        except Exception:
-            pass
+        except Exception as e:
+            print(f"  ⚠️ Discord通知スキップ: {e}")
 
 
 def cmd_sync_settings(args):
@@ -829,8 +835,8 @@ def cmd_export_dashboard(args):
             try:
                 with open(mf, encoding="utf-8") as f:
                     recent_metrics.append(json.load(f))
-            except Exception:
-                pass
+            except (json.JSONDecodeError, OSError) as e:
+                print(f"  ⚠️ メトリクスファイル読み込みスキップ ({mf.name}): {e}")
 
     # 直近の投稿履歴（processed から最新30件）
     recent_posted = sorted(
@@ -851,8 +857,8 @@ def cmd_export_dashboard(args):
                 "by_topic": feedback_stats.get("by_topic", {}),
                 "by_reason": feedback_stats.get("by_reason", {}),
             }
-    except Exception:
-        pass
+    except Exception as e:
+        print(f"  ⚠️ PDCA分析データ取得スキップ: {e}")
 
     # プリファレンス設定
     preferences_summary = {}
@@ -868,8 +874,8 @@ def cmd_export_dashboard(args):
             "version": prefs.get("version", 1),
             "updated_at": prefs.get("updated_at", ""),
         }
-    except Exception:
-        pass
+    except Exception as e:
+        print(f"  ⚠️ プリファレンス設定取得スキップ: {e}")
 
     dashboard_data = {
         "updated_at": datetime.now().isoformat(),
@@ -1155,34 +1161,35 @@ def cmd_process_operations(args):
 
         try:
             if cmd == "add-tweet":
-                tweet_url = op.get("tweet_url", "")
-                if tweet_url:
-                    result = subprocess.run(
-                        [sys.executable, "tools/add_tweet.py", tweet_url],
-                        capture_output=True, text=True, timeout=60,
-                        env=sub_env,
-                    )
-                    print(result.stdout)
-                    if result.returncode != 0:
-                        err_msg = (result.stderr or result.stdout or "add_tweet failed").strip()
-                        raise Exception(err_msg[-500:])
-                    # 自動承認
-                    subprocess.run(
-                        [sys.executable, "tools/add_tweet.py", "--approve-all"],
-                        capture_output=True, text=True, timeout=30,
-                        env=sub_env,
-                    )
-                    fc.update_operation_status(doc_id, "completed", f"Added: {tweet_url}", uid=op_uid)
-                else:
-                    fc.update_operation_status(doc_id, "failed", "No tweet URL provided", uid=op_uid)
+                tweet_url = op.get("tweet_url", "").strip()
+                if not tweet_url or "/status/" not in tweet_url:
+                    raise ValueError(f"ツイートURLが不正です: {tweet_url[:100]}")
+                result = subprocess.run(
+                    [sys.executable, "tools/add_tweet.py", tweet_url],
+                    capture_output=True, text=True, timeout=60,
+                    env=sub_env,
+                )
+                print(result.stdout)
+                if result.returncode != 0:
+                    err_msg = (result.stderr or result.stdout or "add_tweet failed").strip()
+                    raise RuntimeError(err_msg[-500:])
+                # 自動承認
+                subprocess.run(
+                    [sys.executable, "tools/add_tweet.py", "--approve-all"],
+                    capture_output=True, text=True, timeout=30,
+                    env=sub_env,
+                )
+                fc.update_operation_status(doc_id, "completed", f"Added: {tweet_url}", uid=op_uid)
 
             elif cmd in ("post-one", "collect", "curate", "curate-post", "export-dashboard"):
                 sub_args = [sys.executable, "-m", "src.main"]
 
                 if cmd == "post-one":
-                    target_tweet_id = op.get("tweet_id", "")
+                    target_tweet_id = op.get("tweet_id", "").strip()
                     if not target_tweet_id:
-                        raise Exception("tweet_id が指定されていません")
+                        raise ValueError("tweet_id が指定されていません")
+                    if not target_tweet_id.isdigit() or len(target_tweet_id) > 30:
+                        raise ValueError(f"tweet_id の形式が不正です: {target_tweet_id[:50]}")
                     sub_args += ["post-one", "--account", "1", "--tweet-id", target_tweet_id]
                 else:
                     sub_args += [cmd, "--account", "1"]

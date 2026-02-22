@@ -39,7 +39,6 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Execute curate post
-        continue-on-error: true
         env:
           X_API_KEY: ${{ secrets.X_API_KEY }}
           X_API_SECRET: ${{ secrets.X_API_SECRET }}
@@ -52,7 +51,6 @@ jobs:
         run: python -m src.main curate-post --account 1
 
       - name: Commit post status
-        continue-on-error: true
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"

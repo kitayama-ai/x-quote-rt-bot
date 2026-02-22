@@ -412,8 +412,8 @@ class FirestoreClient:
                         data["id"] = doc.id
                         data["uid"] = user_uid
                         results.append(data)
-                except Exception:
-                    pass  # サブコレクションが無い場合はスキップ
+                except Exception as e:
+                    print(f"  ⚠️ ユーザー {user_uid} の操作リクエスト取得スキップ: {e}")
 
         return results
 
@@ -446,8 +446,8 @@ class FirestoreClient:
                     ops.append(data)
                 if ops:
                     result[uid] = ops
-            except Exception:
-                pass
+            except Exception as e:
+                print(f"  ⚠️ ユーザー {uid} の操作リクエスト取得スキップ: {e}")
 
         return result
 
