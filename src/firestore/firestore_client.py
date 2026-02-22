@@ -311,3 +311,46 @@ class FirestoreClient:
                 if not hasattr(v, 'timestamp')  # Timestamp型を除外
             }
         return None
+
+    # ========================================
+    # 操作リクエスト（ダッシュボード → バックエンド実行）
+    # ========================================
+
+    def get_pending_operations(self) -> list[dict]:
+        """
+        ダッシュボードから送信された未処理の操作リクエストを取得
+
+        Returns:
+            [{"id": "doc_id", "command": "collect", "status": "pending", ...}, ...]
+        """
+        db = self._get_db()
+        docs = (
+            db.collection("operation_requests")
+            .where("status", "==", "pending")
+            .order_by("requested_at")
+            .limit(10)
+            .stream()
+        )
+        results = []
+        for doc in docs:
+            data = doc.to_dict()
+            data["id"] = doc.id
+            results.append(data)
+        return results
+
+    def update_operation_status(self, doc_id: str, status: str, result: str = "") -> None:
+        """
+        操作リクエストのステータスを更新
+
+        Args:
+            doc_id: Firestoreドキュメント ID
+            status: "running", "completed", "failed"
+            result: 結果メッセージ（任意）
+        """
+        db = self._get_db()
+        import datetime
+        db.collection("operation_requests").document(doc_id).update({
+            "status": status,
+            "result": result,
+            "processed_at": datetime.datetime.now(datetime.timezone.utc),
+        })

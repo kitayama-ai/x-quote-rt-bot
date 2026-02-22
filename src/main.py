@@ -1027,6 +1027,77 @@ def cmd_sync_from_firebase(args):
         print("🔥 Firebase同期完了")
 
 
+def cmd_process_operations(args):
+    """ダッシュボードからの操作リクエストを処理"""
+    import os
+    import subprocess
+    import sys
+    from src.firestore.firestore_client import FirestoreClient
+
+    print("🔄 ダッシュボード操作リクエストを確認中...")
+
+    try:
+        fc = FirestoreClient()
+    except Exception as e:
+        print(f"❌ Firebase初期化エラー: {e}")
+        return
+
+    pending = fc.get_pending_operations()
+    if not pending:
+        print("📭 未処理のリクエストはありません")
+        return
+
+    print(f"📋 {len(pending)}件のリクエストを処理します")
+
+    for op in pending:
+        cmd = op.get("command", "")
+        doc_id = op["id"]
+        print(f"\n▶ 実行中: {cmd} (id: {doc_id})")
+
+        fc.update_operation_status(doc_id, "running")
+
+        try:
+            if cmd == "add-tweet":
+                tweet_url = op.get("tweet_url", "")
+                if tweet_url:
+                    result = subprocess.run(
+                        [sys.executable, "tools/add_tweet.py", tweet_url],
+                        capture_output=True, text=True, timeout=60
+                    )
+                    print(result.stdout)
+                    if result.returncode != 0:
+                        raise Exception(result.stderr or "add_tweet failed")
+                    # 自動承認
+                    subprocess.run(
+                        [sys.executable, "tools/add_tweet.py", "--approve-all"],
+                        capture_output=True, text=True, timeout=30
+                    )
+                    fc.update_operation_status(doc_id, "completed", f"Added: {tweet_url}")
+                else:
+                    fc.update_operation_status(doc_id, "failed", "No tweet URL provided")
+
+            elif cmd in ("collect", "curate", "curate-post", "export-dashboard"):
+                sub_args = [sys.executable, "-m", "src.main", cmd, "--account", "1"]
+                if cmd == "collect":
+                    sub_args.extend(["--auto-approve", "--min-likes", "500"])
+                result = subprocess.run(
+                    sub_args,
+                    capture_output=True, text=True, timeout=300
+                )
+                print(result.stdout)
+                if result.returncode != 0:
+                    raise Exception(result.stderr or f"{cmd} failed")
+                fc.update_operation_status(doc_id, "completed", f"{cmd} succeeded")
+            else:
+                fc.update_operation_status(doc_id, "failed", f"Unknown command: {cmd}")
+
+        except Exception as e:
+            print(f"❌ エラー: {e}")
+            fc.update_operation_status(doc_id, "failed", str(e)[:200])
+
+    print("\n✅ 操作リクエスト処理完了")
+
+
 def cmd_analyze_persona(args):
     """Xアカウントの文体を分析してペルソナプロファイルを生成"""
     from src.analyze.persona_analyzer import PersonaAnalyzer
@@ -1230,6 +1301,11 @@ def main():
     fb_sync_parser.add_argument("--prefs-only", action="store_true", help="プリファレンスのみ同期")
     fb_sync_parser.add_argument("--quiet", action="store_true", help="出力抑制（GitHub Actions用）")
 
+    # process-operations (ダッシュボード操作リクエスト処理)
+    op_parser = add_account_arg(
+        subparsers.add_parser("process-operations", help="ダッシュボードからの操作リクエストを処理")
+    )
+
     # analyze-persona (Xアカウントの文体分析)
     persona_parser = add_account_arg(
         subparsers.add_parser("analyze-persona", help="Xアカウントの文体を分析してペルソナプロファイル生成")
@@ -1262,6 +1338,7 @@ def main():
         "preferences": cmd_preferences,
         "selection-pdca": cmd_selection_pdca,
         "sync-from-firebase": cmd_sync_from_firebase,
+        "process-operations": cmd_process_operations,
     }
 
     commands[args.command](args)

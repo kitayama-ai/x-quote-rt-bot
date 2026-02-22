@@ -1385,8 +1385,70 @@ textarea.form-input {
     <button class="tab" data-tab="metrics">メトリクス</button>
     <button class="tab" data-tab="preferences">選定設定</button>
     <button class="tab" data-tab="pdca">PDCA分析</button>
+    <button class="tab" data-tab="operations">操作</button>
     <button class="tab" data-tab="settings">設定</button>
   </nav>
+
+  <!-- ===== TAB: OPERATIONS ===== -->
+  <div class="tab-panel" id="panel-operations">
+    <div class="settings-section">
+      <h3>🚀 手動操作</h3>
+      <p>ボタンを押すと操作リクエストが送信されます。通常5〜10分以内に自動実行されます。</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:20px;">
+
+        <div style="background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius-sm);padding:20px;">
+          <div style="font-weight:600;margin-bottom:6px;">📡 バズツイート収集</div>
+          <div style="font-size:12px;color:var(--text-secondary);margin-bottom:16px;">海外AIインフルエンサーのバズツイートを今すぐ収集します</div>
+          <button class="save-btn" onclick="requestOperation('collect')" id="btnCollect" style="width:100%;">
+            今すぐ収集
+          </button>
+        </div>
+
+        <div style="background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius-sm);padding:20px;">
+          <div style="font-weight:600;margin-bottom:6px;">✍️ AIコメント生成</div>
+          <div style="font-size:12px;color:var(--text-secondary);margin-bottom:16px;">承認済みツイートに対してAIが引用RTコメントを生成します</div>
+          <button class="save-btn" onclick="requestOperation('curate')" id="btnCurate" style="width:100%;">
+            今すぐ生成
+          </button>
+        </div>
+
+        <div style="background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius-sm);padding:20px;">
+          <div style="font-weight:600;margin-bottom:6px;">📤 引用RT投稿</div>
+          <div style="font-size:12px;color:var(--text-secondary);margin-bottom:16px;">生成済みの引用RTをXに投稿します</div>
+          <button class="save-btn" onclick="requestOperation('curate-post')" id="btnPost" style="width:100%;">
+            今すぐ投稿
+          </button>
+        </div>
+
+        <div style="background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius-sm);padding:20px;">
+          <div style="font-weight:600;margin-bottom:6px;">📊 ダッシュボード更新</div>
+          <div style="font-size:12px;color:var(--text-secondary);margin-bottom:16px;">このダッシュボードのデータを最新に更新します</div>
+          <button class="save-btn" onclick="requestOperation('export-dashboard')" id="btnDashboard" style="width:100%;">
+            今すぐ更新
+          </button>
+        </div>
+
+      </div>
+      <div id="opMsg" style="margin-top:16px;font-size:13px;"></div>
+    </div>
+
+    <!-- 操作履歴 -->
+    <div class="settings-section" style="margin-top:24px;">
+      <h3>📋 操作リクエスト履歴</h3>
+      <div id="opHistory" style="font-size:13px;color:var(--text-secondary);">読み込み中...</div>
+    </div>
+
+    <!-- ツイートURL手動追加 -->
+    <div class="settings-section" style="margin-top:24px;">
+      <h3>🔗 ツイートURLを手動追加</h3>
+      <p>引用RTしたいツイートのURLを入力して追加できます。追加後は「AIコメント生成」→「引用RT投稿」の順で実行してください。</p>
+      <div style="display:flex;gap:10px;margin-top:16px;">
+        <input type="text" class="form-input" id="manualTweetUrl" placeholder="https://x.com/username/status/XXXXXXXXX" style="flex:1;">
+        <button class="save-btn" onclick="addManualTweet()" id="btnAddTweet">追加</button>
+      </div>
+      <div id="addTweetMsg" style="margin-top:10px;font-size:13px;"></div>
+    </div>
+  </div>
 
   <!-- ===== TAB: QUEUE ===== -->
   <div class="tab-panel active" id="panel-queue">
@@ -2883,6 +2945,161 @@ function escapeHtml(str) {
   d.textContent = str;
   return d.innerHTML;
 }
+
+// --- Operations Panel ---
+async function requestOperation(command) {
+  if (!window.__fb || !window.__fb.auth.currentUser) {
+    alert('ログインが必要です');
+    return;
+  }
+
+  const btn = document.getElementById({
+    'collect': 'btnCollect',
+    'curate': 'btnCurate',
+    'curate-post': 'btnPost',
+    'export-dashboard': 'btnDashboard'
+  }[command]);
+
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = '送信中...';
+  }
+
+  try {
+    const db = window.__fb.db;
+    const user = window.__fb.auth.currentUser;
+    await db.collection('operation_requests').add({
+      command: command,
+      status: 'pending',
+      requested_by: user.email || user.uid,
+      requested_at: firebase.firestore.FieldValue.serverTimestamp(),
+    });
+
+    const msgEl = document.getElementById('opMsg');
+    if (msgEl) {
+      msgEl.innerHTML = '<span style="color:var(--accent-green);">✅ リクエストを送信しました。5〜10分以内に実行されます。</span>';
+    }
+
+    loadOpHistory();
+  } catch (err) {
+    console.error('Operation request error:', err);
+    const msgEl = document.getElementById('opMsg');
+    if (msgEl) {
+      msgEl.innerHTML = '<span style="color:var(--accent-red);">❌ エラー: ' + escapeHtml(err.message) + '</span>';
+    }
+  } finally {
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = {
+        'collect': '今すぐ収集',
+        'curate': '今すぐ生成',
+        'curate-post': '今すぐ投稿',
+        'export-dashboard': '今すぐ更新'
+      }[command];
+    }
+  }
+}
+
+async function addManualTweet() {
+  if (!window.__fb || !window.__fb.auth.currentUser) {
+    alert('ログインが必要です');
+    return;
+  }
+
+  const urlInput = document.getElementById('manualTweetUrl');
+  const url = urlInput.value.trim();
+  const msgEl = document.getElementById('addTweetMsg');
+
+  if (!url || !url.includes('/status/')) {
+    if (msgEl) msgEl.innerHTML = '<span style="color:var(--accent-red);">❌ 正しいツイートURLを入力してください</span>';
+    return;
+  }
+
+  const btn = document.getElementById('btnAddTweet');
+  if (btn) { btn.disabled = true; btn.textContent = '追加中...'; }
+
+  try {
+    const db = window.__fb.db;
+    const user = window.__fb.auth.currentUser;
+    await db.collection('operation_requests').add({
+      command: 'add-tweet',
+      tweet_url: url,
+      status: 'pending',
+      requested_by: user.email || user.uid,
+      requested_at: firebase.firestore.FieldValue.serverTimestamp(),
+    });
+
+    if (msgEl) msgEl.innerHTML = '<span style="color:var(--accent-green);">✅ ツイートを追加リクエストしました</span>';
+    urlInput.value = '';
+    loadOpHistory();
+  } catch (err) {
+    if (msgEl) msgEl.innerHTML = '<span style="color:var(--accent-red);">❌ エラー: ' + escapeHtml(err.message) + '</span>';
+  } finally {
+    if (btn) { btn.disabled = false; btn.textContent = '追加'; }
+  }
+}
+
+async function loadOpHistory() {
+  const container = document.getElementById('opHistory');
+  if (!container || !window.__fb) return;
+
+  try {
+    const db = window.__fb.db;
+    const snapshot = await db.collection('operation_requests')
+      .orderBy('requested_at', 'desc')
+      .limit(10)
+      .get();
+
+    if (snapshot.empty) {
+      container.textContent = '操作履歴はありません';
+      return;
+    }
+
+    const commandLabels = {
+      'collect': '📡 収集',
+      'curate': '✍️ 生成',
+      'curate-post': '📤 投稿',
+      'export-dashboard': '📊 更新',
+      'add-tweet': '🔗 URL追加'
+    };
+
+    const statusLabels = {
+      'pending': '<span style="color:var(--accent-amber);">⏳ 待機中</span>',
+      'running': '<span style="color:var(--accent-blue);">🔄 実行中</span>',
+      'completed': '<span style="color:var(--accent-green);">✅ 完了</span>',
+      'failed': '<span style="color:var(--accent-red);">❌ 失敗</span>'
+    };
+
+    let html = '<div style="display:flex;flex-direction:column;gap:8px;">';
+    snapshot.forEach(doc => {
+      const d = doc.data();
+      const time = d.requested_at ? new Date(d.requested_at.seconds * 1000).toLocaleString('ja-JP', {
+        month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'
+      }) : '--';
+      const label = commandLabels[d.command] || d.command;
+      const status = statusLabels[d.status] || d.status;
+      const extra = d.tweet_url ? ' — ' + escapeHtml(d.tweet_url) : '';
+      html += `<div style="display:flex;align-items:center;gap:12px;padding:8px 12px;background:var(--bg-card);border:1px solid var(--border);border-radius:8px;">
+        <span style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);min-width:85px;">${time}</span>
+        <span style="font-weight:500;min-width:80px;">${label}</span>
+        ${status}
+        <span style="font-size:11px;color:var(--text-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${extra}</span>
+      </div>`;
+    });
+    html += '</div>';
+    container.innerHTML = html;
+  } catch (err) {
+    container.textContent = '履歴の読み込みに失敗しました';
+    console.error(err);
+  }
+}
+
+// Load op history when operations tab is shown
+document.addEventListener('click', (e) => {
+  if (e.target.dataset && e.target.dataset.tab === 'operations') {
+    loadOpHistory();
+  }
+});
 </script>
 </body>
 </html>
