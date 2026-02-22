@@ -1,45 +1,37 @@
 """
-X Auto Post System — X API投稿 (tweepy)
+X Auto Post System — X API投稿 (requests-oauthlib)
 
-ai-tweet-collector/XPoster.gs のOAuth 1.0a実装をPython版に移植。
+tweepy の POST /2/tweets が Pay Per Use プランで403になるため、
+requests-oauthlib による OAuth 1.0a 直接実装に切り替え。
+引用RT・通常投稿・削除に対応。
 """
-import tweepy
+import os
+import requests
+from requests_oauthlib import OAuth1Session
+
 from src.config import Config
 
 
 class XPoster:
-    """X (Twitter) APIを使った投稿"""
+    """X (Twitter) APIを使った投稿 (requests-oauthlib版)"""
+
+    BASE_URL = "https://api.twitter.com/2"
 
     def __init__(self, config: Config):
         self.config = config
-        self._client = None
-        self._api = None
+        self._session = None
 
     @property
-    def client(self) -> tweepy.Client:
-        """tweepy v2 Client (lazy init)"""
-        if self._client is None:
-            self._client = tweepy.Client(
-                consumer_key=self.config.x_api_key,
-                consumer_secret=self.config.x_api_secret,
-                access_token=self.config.x_access_token,
-                access_token_secret=self.config.x_access_secret,
-                wait_on_rate_limit=True
+    def session(self) -> OAuth1Session:
+        """OAuth1Session (lazy init)"""
+        if self._session is None:
+            self._session = OAuth1Session(
+                self.config.x_api_key,
+                client_secret=self.config.x_api_secret,
+                resource_owner_key=self.config.x_access_token,
+                resource_owner_secret=self.config.x_access_secret,
             )
-        return self._client
-
-    @property
-    def api(self) -> tweepy.API:
-        """tweepy v1.1 API (メディアアップロード用, lazy init)"""
-        if self._api is None:
-            auth = tweepy.OAuth1UserHandler(
-                consumer_key=self.config.x_api_key,
-                consumer_secret=self.config.x_api_secret,
-                access_token=self.config.x_access_token,
-                access_token_secret=self.config.x_access_secret
-            )
-            self._api = tweepy.API(auth, wait_on_rate_limit=True)
-        return self._api
+        return self._session
 
     def verify_credentials(self) -> dict:
         """
@@ -48,7 +40,18 @@ class XPoster:
         Returns:
             {"id": str, "name": str, "username": str}
         """
-        me = self.client.get_me()
+        # Bearer Token で /2/users/me は使えないため
+        # OAuth1.0a で get_me 相当を確認する
+        # → 投稿テストの代わりにアカウント情報を取得
+        import tweepy
+        client = tweepy.Client(
+            consumer_key=self.config.x_api_key,
+            consumer_secret=self.config.x_api_secret,
+            access_token=self.config.x_access_token,
+            access_token_secret=self.config.x_access_secret,
+            wait_on_rate_limit=True
+        )
+        me = client.get_me()
         if not me or not me.data:
             raise RuntimeError("アカウント確認に失敗しました")
 
@@ -77,26 +80,51 @@ class XPoster:
         Returns:
             {"id": str, "text": str}
         """
-        kwargs = {"text": text}
+        payload: dict = {"text": text}
+
         if media_ids:
-            kwargs["media_ids"] = media_ids
+            payload["media"] = {"media_ids": media_ids}
         if quote_tweet_id:
-            kwargs["quote_tweet_id"] = quote_tweet_id
+            payload["quote_tweet_id"] = quote_tweet_id
         if reply_to_id:
-            kwargs["in_reply_to_tweet_id"] = reply_to_id
+            payload["reply"] = {"in_reply_to_tweet_id": reply_to_id}
 
-        response = self.client.create_tweet(**kwargs)
-        if not response or not response.data:
-            raise RuntimeError(f"投稿に失敗しました: {response}")
+        response = self.session.post(
+            f"{self.BASE_URL}/tweets",
+            json=payload,
+        )
 
+        if response.status_code not in (200, 201):
+            raise RuntimeError(
+                f"投稿に失敗しました: {response.status_code} {response.json()}"
+            )
+
+        data = response.json().get("data", {})
         return {
-            "id": response.data["id"],
-            "text": response.data.get("text", text)
+            "id": data.get("id", ""),
+            "text": data.get("text", text),
         }
+
+    def delete_tweet(self, tweet_id: str) -> bool:
+        """
+        ツイートを削除
+
+        Args:
+            tweet_id: 削除するツイートID
+
+        Returns:
+            True if deleted
+        """
+        response = self.session.delete(f"{self.BASE_URL}/tweets/{tweet_id}")
+        if response.status_code == 200:
+            return response.json().get("data", {}).get("deleted", False)
+        raise RuntimeError(
+            f"削除に失敗しました: {response.status_code} {response.json()}"
+        )
 
     def upload_media(self, file_path: str) -> str:
         """
-        メディアをアップロード
+        メディアをアップロード（v1.1 API使用）
 
         Args:
             file_path: メディアファイルのパス
@@ -104,7 +132,15 @@ class XPoster:
         Returns:
             media_id (str)
         """
-        media = self.api.media_upload(file_path)
+        import tweepy
+        auth = tweepy.OAuth1UserHandler(
+            consumer_key=self.config.x_api_key,
+            consumer_secret=self.config.x_api_secret,
+            access_token=self.config.x_access_token,
+            access_token_secret=self.config.x_access_secret,
+        )
+        api = tweepy.API(auth, wait_on_rate_limit=True)
+        media = api.media_upload(file_path)
         return str(media.media_id)
 
     def post_with_image(self, text: str, image_path: str) -> dict:
@@ -119,14 +155,22 @@ class XPoster:
         Returns:
             [{"id": str, "text": str, "created_at": datetime}]
         """
-        me = self.client.get_me()
+        import tweepy
+        client = tweepy.Client(
+            consumer_key=self.config.x_api_key,
+            consumer_secret=self.config.x_api_secret,
+            access_token=self.config.x_access_token,
+            access_token_secret=self.config.x_access_secret,
+            wait_on_rate_limit=True,
+        )
+        me = client.get_me()
         if not me or not me.data:
             return []
 
-        tweets = self.client.get_users_tweets(
+        tweets = client.get_users_tweets(
             me.data.id,
             max_results=max_results,
-            tweet_fields=["created_at"]
+            tweet_fields=["created_at"],
         )
 
         if not tweets or not tweets.data:
@@ -136,7 +180,7 @@ class XPoster:
             {
                 "id": str(t.id),
                 "text": t.text,
-                "created_at": t.created_at
+                "created_at": t.created_at,
             }
             for t in tweets.data
         ]
@@ -146,11 +190,16 @@ class XPoster:
         ツイートのエンゲージメントを取得
 
         Returns:
-            {"likes": int, "retweets": int, "replies": int, "impressions": int, ...}
+            {"likes": int, "retweets": int, "replies": int, ...}
         """
-        tweet = self.client.get_tweet(
+        import tweepy
+        client = tweepy.Client(
+            bearer_token=os.getenv("TWITTER_BEARER_TOKEN", ""),
+            wait_on_rate_limit=True,
+        )
+        tweet = client.get_tweet(
             tweet_id,
-            tweet_fields=["public_metrics", "created_at"]
+            tweet_fields=["public_metrics", "created_at"],
         )
 
         if not tweet or not tweet.data:
@@ -164,5 +213,5 @@ class XPoster:
             "impressions": metrics.get("impression_count", 0),
             "quotes": metrics.get("quote_count", 0),
             "bookmarks": metrics.get("bookmark_count", 0),
-            "created_at": str(tweet.data.created_at) if tweet.data.created_at else ""
+            "created_at": str(tweet.data.created_at) if tweet.data.created_at else "",
         }
