@@ -77,17 +77,16 @@ class XPoster:
             "username": me.data.username
         }
 
-        # アカウント不一致チェック
+        # アカウント情報をログに表示（マルチユーザー対応のため警告のみ）
         expected_handle = self.config.account_handle.lstrip("@").lower()
         actual_handle = me.data.username.lower()
         if expected_handle and actual_handle != expected_handle:
-            raise RuntimeError(
-                f"⚠️ アカウント不一致！\n"
-                f"  期待: @{expected_handle}\n"
-                f"  実際: @{actual_handle}\n"
-                f"GitHub Secrets の X_ACCOUNT_1_ACCESS_TOKEN / ACCESS_SECRET を\n"
-                f"@{expected_handle} のトークンに更新してください。"
+            print(
+                f"  ℹ️ 認証アカウント: @{me.data.username}"
+                f"（設定上のデフォルト: @{expected_handle}）"
             )
+        else:
+            print(f"  ✅ 認証アカウント: @{me.data.username}")
 
         return result
 

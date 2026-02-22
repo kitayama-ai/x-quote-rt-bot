@@ -1057,6 +1057,34 @@ def cmd_process_operations(args):
 
         fc.update_operation_status(doc_id, "running", uid=op_uid)
 
+        # ユーザー別のX API認証情報をFirestoreから取得し、subprocess環境変数に注入
+        sub_env = os.environ.copy()
+        if op_uid:
+            user_creds = fc.get_user_x_credentials(op_uid)
+            if user_creds:
+                cred_map = {
+                    "X_API_KEY": user_creds.get("api_key", ""),
+                    "X_API_SECRET": user_creds.get("api_secret", ""),
+                    "X_ACCOUNT_1_ACCESS_TOKEN": user_creds.get("access_token", ""),
+                    "X_ACCOUNT_1_ACCESS_SECRET": user_creds.get("access_token_secret", ""),
+                    "TWITTER_BEARER_TOKEN": user_creds.get("bearer_token", ""),
+                }
+                # 空でない値のみ上書き（Firestore未設定の項目はGitHub Secretsにフォールバック）
+                for k, v in cred_map.items():
+                    if v:
+                        sub_env[k] = v
+                print(f"  🔑 ユーザー {op_uid} のX API認証情報をFirestoreから取得")
+            else:
+                print(f"  ⚠️ ユーザー {op_uid} のAPI設定がFirestoreにありません。GitHub Secretsを使用")
+
+            # Gemini/Discord もユーザー設定があれば上書き
+            user_keys = fc.get_api_keys(op_uid)
+            if user_keys:
+                if user_keys.get("gemini_api_key"):
+                    sub_env["GEMINI_API_KEY"] = user_keys["gemini_api_key"]
+                if user_keys.get("discord_webhook_url"):
+                    sub_env["DISCORD_WEBHOOK_ACCOUNT_1"] = user_keys["discord_webhook_url"]
+
         try:
             if cmd == "add-tweet":
                 tweet_url = op.get("tweet_url", "")
@@ -1064,7 +1092,7 @@ def cmd_process_operations(args):
                     result = subprocess.run(
                         [sys.executable, "tools/add_tweet.py", tweet_url],
                         capture_output=True, text=True, timeout=60,
-                        env=os.environ.copy(),
+                        env=sub_env,
                     )
                     print(result.stdout)
                     if result.returncode != 0:
@@ -1074,7 +1102,7 @@ def cmd_process_operations(args):
                     subprocess.run(
                         [sys.executable, "tools/add_tweet.py", "--approve-all"],
                         capture_output=True, text=True, timeout=30,
-                        env=os.environ.copy(),
+                        env=sub_env,
                     )
                     fc.update_operation_status(doc_id, "completed", f"Added: {tweet_url}", uid=op_uid)
                 else:
@@ -1087,7 +1115,7 @@ def cmd_process_operations(args):
                 result = subprocess.run(
                     sub_args,
                     capture_output=True, text=True, timeout=300,
-                    env=os.environ.copy(),
+                    env=sub_env,
                 )
                 print(result.stdout)
                 if result.returncode != 0:
