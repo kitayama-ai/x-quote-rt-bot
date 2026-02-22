@@ -186,45 +186,25 @@ class AutoCollector:
         lang: str,
         max_tweets: int,
     ) -> list[dict]:
-        """ターゲットアカウントからバズツイートを検索"""
+        """キーワード検索でバズツイートを収集（アカウント監視なし）"""
         all_tweets = []
 
-        # アカウントをpriority順にソート（high優先）
-        priority_order = {"high": 0, "medium": 1, "low": 2}
-        sorted_accounts = sorted(
-            self.target_accounts,
-            key=lambda a: priority_order.get(a.get("priority", "medium"), 1),
-        )
+        if not self.keywords:
+            print("  ⚠️ キーワードが未設定です。config/target_accounts.json の keywords を確認してください。")
+            return []
 
-        # アカウントをチャンクに分割してクエリ実行
-        usernames = [a["username"] for a in sorted_accounts]
+        # キーワードを複数グループに分けて検索（1クエリに詰め込みすぎない）
+        KEYWORDS_PER_QUERY = 5
         chunks = [
-            usernames[i : i + MAX_ACCOUNTS_PER_QUERY]
-            for i in range(0, len(usernames), MAX_ACCOUNTS_PER_QUERY)
+            self.keywords[i : i + KEYWORDS_PER_QUERY]
+            for i in range(0, len(self.keywords), KEYWORDS_PER_QUERY)
         ]
+
+        per_chunk = max(max_tweets // len(chunks), 10)
 
         for chunk in chunks:
             query = self.client.build_search_query(
-                accounts=chunk,
-                min_likes=min_likes,
-                lang=lang,
-            )
-            print(f"  🔍 検索: {query[:80]}...")
-
-            try:
-                tweets = self.client.search_tweets(
-                    query=query,
-                    max_results=max_tweets,
-                )
-                all_tweets.extend(tweets)
-                print(f"     → {len(tweets)}件取得")
-            except XAPIError as e:
-                print(f"     ❌ APIエラー: {e}")
-
-        # キーワード検索（アカウント検索で十分取れなかった場合の補完）
-        if len(all_tweets) < max_tweets // 2 and self.keywords:
-            query = self.client.build_search_query(
-                keywords=self.keywords[:5],
+                keywords=chunk,
                 min_likes=min_likes,
                 lang=lang,
             )
@@ -233,7 +213,7 @@ class AutoCollector:
             try:
                 tweets = self.client.search_tweets(
                     query=query,
-                    max_results=max_tweets // 2,
+                    max_results=per_chunk,
                 )
                 all_tweets.extend(tweets)
                 print(f"     → {len(tweets)}件取得")
