@@ -1067,7 +1067,8 @@ def cmd_process_operations(args):
                     )
                     print(result.stdout)
                     if result.returncode != 0:
-                        raise Exception(result.stderr or "add_tweet failed")
+                        err_msg = (result.stderr or result.stdout or "add_tweet failed").strip()
+                        raise Exception(err_msg[-500:])
                     # 自動承認
                     subprocess.run(
                         [sys.executable, "tools/add_tweet.py", "--approve-all"],
@@ -1087,11 +1088,16 @@ def cmd_process_operations(args):
                 )
                 print(result.stdout)
                 if result.returncode != 0:
-                    raise Exception(result.stderr or f"{cmd} failed")
+                    err_msg = (result.stderr or result.stdout or f"{cmd} failed").strip()
+                    print(f"  stderr: {err_msg}")
+                    raise Exception(err_msg[-500:])
                 fc.update_operation_status(doc_id, "completed", f"{cmd} succeeded", uid=op_uid)
             else:
                 fc.update_operation_status(doc_id, "failed", f"Unknown command: {cmd}", uid=op_uid)
 
+        except subprocess.TimeoutExpired as e:
+            print(f"❌ タイムアウト: {cmd}")
+            fc.update_operation_status(doc_id, "failed", f"Timeout after 300s: {cmd}", uid=op_uid)
         except Exception as e:
             print(f"❌ エラー: {e}")
             fc.update_operation_status(doc_id, "failed", str(e)[:200], uid=op_uid)

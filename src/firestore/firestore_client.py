@@ -52,13 +52,18 @@ class FirestoreClient:
             # 新規初期化
             if self._credentials_base64:
                 import base64
-                import tempfile
-                # Base64パディング修正（末尾の=が欠落している場合に補完）
-                b64str = self._credentials_base64.strip()
+                import re as _re
+                # Base64パディング修正（改行・空白・パディング欠落を全て処理）
+                b64str = self._credentials_base64
+                # 1. 改行・空白・タブを全て除去
+                b64str = _re.sub(r'\s+', '', b64str)
+                # 2. 末尾の=をいったん除去して正規化
+                b64str = b64str.rstrip('=')
+                # 3. 正しいパディングを再付与
                 missing_padding = len(b64str) % 4
                 if missing_padding:
                     b64str += '=' * (4 - missing_padding)
-                cred_json = base64.b64decode(b64str).decode("utf-8")
+                cred_json = base64.b64decode(b64str, validate=False).decode("utf-8")
                 cred_dict = json.loads(cred_json)
                 cred = credentials.Certificate(cred_dict)
             elif Path(self._credentials_path).exists():
@@ -107,8 +112,9 @@ class FirestoreClient:
     def get_admin_users(self) -> list[dict]:
         """adminロールのユーザーのみ取得"""
         db = self._get_db()
+        from google.cloud.firestore_v1.base_query import FieldFilter
         users = []
-        query = db.collection("users").where("role", "==", "admin")
+        query = db.collection("users").where(filter=FieldFilter("role", "==", "admin"))
         for doc in query.stream():
             user = doc.to_dict()
             user["uid"] = doc.id
@@ -373,12 +379,13 @@ class FirestoreClient:
             [{"id": "doc_id", "uid": "user_uid", "command": "collect", "status": "pending", ...}, ...]
         """
         db = self._get_db()
+        from google.cloud.firestore_v1.base_query import FieldFilter
         results = []
 
         if uid:
             docs = (
                 db.collection("users").document(uid).collection("operation_requests")
-                .where("status", "==", "pending")
+                .where(filter=FieldFilter("status", "==", "pending"))
                 .order_by("requested_at")
                 .limit(10)
                 .stream()
@@ -395,7 +402,7 @@ class FirestoreClient:
                 try:
                     docs = (
                         db.collection("users").document(user_uid).collection("operation_requests")
-                        .where("status", "==", "pending")
+                        .where(filter=FieldFilter("status", "==", "pending"))
                         .order_by("requested_at")
                         .limit(10)
                         .stream()
@@ -418,6 +425,7 @@ class FirestoreClient:
             {"uid1": [operations...], "uid2": [operations...]}
         """
         db = self._get_db()
+        from google.cloud.firestore_v1.base_query import FieldFilter
         result: dict[str, list[dict]] = {}
 
         for user_doc in db.collection("users").stream():
@@ -425,7 +433,7 @@ class FirestoreClient:
             try:
                 docs = (
                     db.collection("users").document(uid).collection("operation_requests")
-                    .where("status", "==", "pending")
+                    .where(filter=FieldFilter("status", "==", "pending"))
                     .order_by("requested_at")
                     .limit(10)
                     .stream()
