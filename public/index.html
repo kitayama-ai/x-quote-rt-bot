@@ -3812,30 +3812,85 @@ async function loadOpHistory() {
       'pending': '<span style="color:var(--accent-amber);">⏳ 待機中</span>',
       'running': '<span style="color:var(--accent-blue);">🔄 実行中</span>',
       'completed': '<span style="color:var(--accent-green);">✅ 完了</span>',
-      'failed': '<span style="color:var(--accent-red);">❌ 失敗</span>'
+      'failed': '<span style="color:var(--accent-red);">❌ 失敗</span>',
+      'cancelled': '<span style="color:var(--text-muted);">🚫 キャンセル</span>'
     };
 
+    let hasPending = false;
     let html = '<div style="display:flex;flex-direction:column;gap:8px;">';
     snapshot.forEach(doc => {
       const d = doc.data();
+      const docId = doc.id;
       const time = d.requested_at ? new Date(d.requested_at.seconds * 1000).toLocaleString('ja-JP', {
         month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'
       }) : '--';
       const label = commandLabels[d.command] || d.command;
       const status = statusLabels[d.status] || d.status;
       const extra = d.tweet_url ? ' — ' + escapeHtml(d.tweet_url) : '';
+      const cancelBtn = d.status === 'pending'
+        ? `<button onclick="cancelOperation('${docId}')" style="margin-left:auto;padding:3px 10px;font-size:11px;color:var(--accent-red);background:var(--accent-red-dim);border:1px solid rgba(239,68,68,0.3);border-radius:6px;cursor:pointer;font-family:var(--font-sans);white-space:nowrap;">✕ キャンセル</button>`
+        : '';
+      if (d.status === 'pending') hasPending = true;
       html += `<div style="display:flex;align-items:center;gap:12px;padding:8px 12px;background:var(--bg-card);border:1px solid var(--border);border-radius:8px;">
         <span style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);min-width:85px;">${time}</span>
         <span style="font-weight:500;min-width:80px;">${label}</span>
         ${status}
-        <span style="font-size:11px;color:var(--text-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${extra}</span>
+        <span style="font-size:11px;color:var(--text-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;">${extra}</span>
+        ${cancelBtn}
       </div>`;
     });
     html += '</div>';
+    if (hasPending) {
+      html += `<button onclick="cancelAllPending()" style="margin-top:12px;padding:6px 16px;font-size:12px;color:var(--accent-red);background:var(--accent-red-dim);border:1px solid rgba(239,68,68,0.3);border-radius:8px;cursor:pointer;font-family:var(--font-sans);">🗑 待機中をすべてキャンセル</button>`;
+    }
     container.innerHTML = html;
   } catch (err) {
     container.textContent = '履歴の読み込みに失敗しました';
     console.error(err);
+  }
+}
+
+// Cancel a single pending operation
+async function cancelOperation(docId) {
+  if (!window.__fb || !window.__fb.auth.currentUser) return;
+  const db = window.__fb.db;
+  const uid = window.__fb.auth.currentUser.uid;
+  try {
+    await db.collection('users').doc(uid).collection('operation_requests').doc(docId).update({
+      status: 'cancelled',
+      cancelled_at: firebase.firestore.FieldValue.serverTimestamp(),
+    });
+    if (window.showToast) showToast('キャンセルしました', 'success');
+    loadOpHistory();
+  } catch (err) {
+    console.error('Cancel error:', err);
+    if (window.showToast) showToast('キャンセルに失敗しました', 'error');
+  }
+}
+
+// Cancel all pending operations
+async function cancelAllPending() {
+  if (!window.__fb || !window.__fb.auth.currentUser) return;
+  if (!confirm('待機中のリクエストをすべてキャンセルしますか？')) return;
+  const db = window.__fb.db;
+  const uid = window.__fb.auth.currentUser.uid;
+  try {
+    const snapshot = await db.collection('users').doc(uid).collection('operation_requests')
+      .where('status', '==', 'pending')
+      .get();
+    const batch = db.batch();
+    snapshot.forEach(doc => {
+      batch.update(doc.ref, {
+        status: 'cancelled',
+        cancelled_at: firebase.firestore.FieldValue.serverTimestamp(),
+      });
+    });
+    await batch.commit();
+    if (window.showToast) showToast(snapshot.size + '件キャンセルしました', 'success');
+    loadOpHistory();
+  } catch (err) {
+    console.error('Cancel all error:', err);
+    if (window.showToast) showToast('キャンセルに失敗しました', 'error');
   }
 }
 

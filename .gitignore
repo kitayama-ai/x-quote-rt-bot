@@ -43,3 +43,6 @@ token.json
 .pytest_cache/
 htmlcov/
 .coverage
+
+# Firebase service account (sensitive)
+config/firebase-service-account.json
