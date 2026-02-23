@@ -295,15 +295,25 @@ def _get_daily_post_limit(config, queue):
 
 
 def _verify_poster(poster):
-    """X APIアカウントを確認し、ユーザー名を返す。失敗時はNone"""
+    """
+    X APIアカウントを確認し、ユーザー名を返す。
+
+    X API Freeプランでは GET /2/users/me が制限されるため、
+    失敗しても投稿自体（POST /2/tweets）は別の認証フローで動作する可能性がある。
+    失敗時は設定上のハンドル名をフォールバックとして返す。
+    """
     try:
         me = poster.verify_credentials()
         username = me["username"]
         print(f"✅ アカウント確認: @{username}")
         return username
     except Exception as e:
-        print(f"❌ アカウント確認失敗: {e}")
-        return None
+        print(f"⚠️ アカウント確認失敗（X API Freeプランの可能性）: {e}")
+        # Freeプランでは GET /2/users/me が401/403になる場合がある。
+        # POST /2/tweets は OAuth1Session で別途動作するため続行。
+        fallback = poster.config.account_handle.lstrip("@")
+        print(f"⚠️ 設定上のアカウント: @{fallback} で続行します")
+        return fallback or "unknown"
 
 
 def cmd_curate_post(args):
@@ -321,10 +331,8 @@ def cmd_curate_post(args):
 
     print(f"📤 引用RT投稿チェック — {config.account_name}")
 
-    # アカウント確認
-    if not _verify_poster(poster):
-        notifier.notify_error("アカウント確認失敗", "verify_credentials() failed")
-        sys.exit(1)
+    # アカウント確認（失敗してもPOST /2/tweetsは動作する可能性があるため続行）
+    _verify_poster(poster)
 
     # 生成済みの投稿を取得
     generated = queue.get_generated()
@@ -398,9 +406,8 @@ def cmd_post_one(args):
     tweet_id = args.tweet_id
     print(f"📤 即時投稿（1件）— tweet_id: {tweet_id}")
 
-    # アカウント確認
-    if not _verify_poster(poster):
-        sys.exit(1)
+    # アカウント確認（失敗してもPOST /2/tweetsは動作する可能性があるため続行）
+    _verify_poster(poster)
 
     # 1日の投稿上限チェック
     daily_limit, posted_today = _get_daily_post_limit(config, queue)

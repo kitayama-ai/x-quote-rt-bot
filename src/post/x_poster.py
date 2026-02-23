@@ -53,42 +53,41 @@ class XPoster:
 
     def verify_credentials(self) -> dict:
         """
-        アカウント確認（誤投稿防止）
-        期待するアカウントと実際の認証アカウントの一致も確認する。
+        アカウント確認（OAuth1Session版 — tweepy不要）
+        GET /2/users/me でアカウントを確認する。
+        X API Freeプランでは 401/403 になる場合があるため、
+        呼び出し元で適切にハンドリングすること。
 
         Returns:
             {"id": str, "name": str, "username": str}
+
+        Raises:
+            RuntimeError: 認証失敗時
         """
-        import tweepy
-        client = tweepy.Client(
-            consumer_key=self.config.x_api_key,
-            consumer_secret=self.config.x_api_secret,
-            access_token=self.config.x_access_token,
-            access_token_secret=self.config.x_access_secret,
-            wait_on_rate_limit=True
-        )
-        me = client.get_me()
-        if not me or not me.data:
-            raise RuntimeError("アカウント確認に失敗しました")
+        resp = self.session.get(f"{self.BASE_URL}/users/me")
 
-        result = {
-            "id": me.data.id,
-            "name": me.data.name,
-            "username": me.data.username
-        }
-
-        # アカウント情報をログに表示（マルチユーザー対応のため警告のみ）
-        expected_handle = self.config.account_handle.lstrip("@").lower()
-        actual_handle = me.data.username.lower()
-        if expected_handle and actual_handle != expected_handle:
-            print(
-                f"  ℹ️ 認証アカウント: @{me.data.username}"
-                f"（設定上のデフォルト: @{expected_handle}）"
-            )
+        if resp.status_code == 200:
+            data = resp.json().get("data", {})
+            username = data.get("username", "")
+            result = {
+                "id": str(data.get("id", "")),
+                "name": data.get("name", ""),
+                "username": username,
+            }
+            expected_handle = self.config.account_handle.lstrip("@").lower()
+            actual_handle = username.lower()
+            if expected_handle and actual_handle != expected_handle:
+                print(
+                    f"  ℹ️ 認証アカウント: @{username}"
+                    f"（設定上のデフォルト: @{expected_handle}）"
+                )
+            else:
+                print(f"  ✅ 認証アカウント: @{username}")
+            return result
         else:
-            print(f"  ✅ 認証アカウント: @{me.data.username}")
-
-        return result
+            raise RuntimeError(
+                f"アカウント確認に失敗しました: {resp.status_code} {resp.text[:300]}"
+            )
 
     def post_tweet(
         self,

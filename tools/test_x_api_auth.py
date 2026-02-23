@@ -114,19 +114,54 @@ def main():
         print(f"  ❌ API Key/Secret エラー: {e}")
         print(f"     → API KeyとSecretが間違っているか、アプリが無効化されている可能性")
 
+    # ---- Step 6: OAuth1Session で POST /2/tweets（認証テスト） ----
+    print("\n--- Step 6: OAuth1Session で POST /2/tweets（認証のみ確認、空テストで判定） ---")
+    print("  ℹ️ 空テキストで送信 → 401=認証失敗, 400=認証OK（内容エラー）, 403=権限不足")
+    try:
+        from requests_oauthlib import OAuth1Session
+        session6 = OAuth1Session(
+            keys["X_API_KEY"],
+            client_secret=keys["X_API_SECRET"],
+            resource_owner_key=keys["X_ACCOUNT_1_ACCESS_TOKEN"],
+            resource_owner_secret=keys["X_ACCOUNT_1_ACCESS_SECRET"],
+        )
+        resp6 = session6.post(
+            "https://api.twitter.com/2/tweets",
+            json={"text": ""},  # 意図的に空 → 認証OKなら400が返る
+        )
+        print(f"  HTTP {resp6.status_code}: {resp6.text[:200]}")
+        if resp6.status_code == 401:
+            print("  ❌ POST 401: OAuth1.0a 認証失敗 → APIキー/アクセストークンを確認してください")
+        elif resp6.status_code == 403:
+            print("  ❌ POST 403: アクセス権限なし → X Developer Portal のアプリ権限を確認")
+        elif resp6.status_code == 400:
+            print("  ✅ POST 認証OK！（空テキスト 400エラー）→ 実際の投稿は動作します")
+        elif resp6.status_code in (200, 201):
+            print(f"  ✅ POST 成功（空ツイートが投稿された可能性）: {resp6.text[:100]}")
+        else:
+            print(f"  ？ HTTP {resp6.status_code} — 詳細: {resp6.text[:200]}")
+    except Exception as e:
+        print(f"  ❌ 予期しないエラー: {e}")
+
     print("\n" + "=" * 60)
     print("📊 診断完了")
     print("=" * 60)
     print("""
 【よくある原因と対処】
-  401 on step2/3 + ✅ on step5 → Access Token/Secret が失効
+  401 on step2/3/6 + ✅ on step5 → Access Token/Secret が失効
     → X Developer Portal でトークンを Regenerate して GitHub Secrets を更新
 
-  401 on step2/3/5 → API Key/Secret が無効
+  401 on step2/3/5/6 → API Key/Secret が無効
     → X Developer Portal で App の Key/Secret を確認・再生成
 
   401 on step4 → Bearer Token が無効または未設定
     → X Developer Portal の Bearer Token を確認
+
+  ✅ on step6 + ❌ on step2/3 → GET制限（X API Freeプランで正常）
+    → 投稿（POST /2/tweets）は動作している。verify_credentials()スキップで解決済み。
+
+  ❌ on step5 (request_token 401) → OAuth 1.0aコールバックURL未設定の可能性
+    → X Developer Portal > User Authentication Settings > Callback URI を確認
 """)
 
 
