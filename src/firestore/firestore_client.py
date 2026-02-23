@@ -383,37 +383,55 @@ class FirestoreClient:
         results = []
 
         if uid:
-            docs = (
-                db.collection("users").document(uid).collection("operation_requests")
-                .where(filter=FieldFilter("status", "==", "pending"))
-                .order_by("requested_at")
-                .limit(10)
-                .stream()
-            )
-            for doc in docs:
-                data = doc.to_dict()
-                data["id"] = doc.id
-                data["uid"] = uid
-                results.append(data)
+            try:
+                docs = (
+                    db.collection("users").document(uid).collection("operation_requests")
+                    .where(filter=FieldFilter("status", "==", "pending"))
+                    .limit(10)
+                    .stream()
+                )
+                for doc in docs:
+                    data = doc.to_dict()
+                    data["id"] = doc.id
+                    data["uid"] = uid
+                    results.append(data)
+            except Exception as e:
+                print(f"⚠️ UID {uid} の操作リクエスト取得エラー: {e}")
         else:
-            # 全ユーザーをイテレート
-            for user_doc in db.collection("users").stream():
-                user_uid = user_doc.id
-                try:
-                    docs = (
-                        db.collection("users").document(user_uid).collection("operation_requests")
-                        .where(filter=FieldFilter("status", "==", "pending"))
-                        .order_by("requested_at")
-                        .limit(10)
-                        .stream()
-                    )
-                    for doc in docs:
-                        data = doc.to_dict()
-                        data["id"] = doc.id
-                        data["uid"] = user_uid
-                        results.append(data)
-                except Exception as e:
-                    print(f"  ⚠️ ユーザー {user_uid} の操作リクエスト取得スキップ: {e}")
+            # 全ユーザーをコレクショングループで取得
+            try:
+                docs = (
+                    db.collection_group("operation_requests")
+                    .where(filter=FieldFilter("status", "==", "pending"))
+                    .limit(20)
+                    .stream()
+                )
+                for doc in docs:
+                    data = doc.to_dict()
+                    data["id"] = doc.id
+                    # パスから uid を抽出: users/{uid}/operation_requests/{doc_id}
+                    path_parts = doc.reference.path.split("/")
+                    data["uid"] = path_parts[1] if len(path_parts) >= 2 else ""
+                    results.append(data)
+            except Exception as e:
+                print(f"⚠️ コレクショングループクエリエラー（インデックス未作成の可能性）: {e}")
+                # フォールバック: usersコレクションをイテレート
+                for user_doc in db.collection("users").stream():
+                    user_uid = user_doc.id
+                    try:
+                        fallback_docs = (
+                            db.collection("users").document(user_uid).collection("operation_requests")
+                            .where(filter=FieldFilter("status", "==", "pending"))
+                            .limit(10)
+                            .stream()
+                        )
+                        for doc in fallback_docs:
+                            data = doc.to_dict()
+                            data["id"] = doc.id
+                            data["uid"] = user_uid
+                            results.append(data)
+                    except Exception as e2:
+                        print(f"⚠️ ユーザー {user_uid} の操作リクエスト取得エラー: {e2}")
 
         return results
 

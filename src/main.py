@@ -1114,9 +1114,10 @@ def cmd_process_operations(args):
         print(f"❌ Firebase初期化エラー: {e}")
         return
 
-    # 全ユーザーの未処理リクエストを走査（マルチユーザー対応）
-    pending = fc.get_pending_operations()
-
+    firebase_uid = os.environ.get("FIREBASE_UID", "")
+    if firebase_uid:
+        print(f"🔍 FIREBASE_UID={firebase_uid} のリクエストを確認")
+    pending = fc.get_pending_operations(uid=firebase_uid)  # UID指定or全ユーザー
     if not pending:
         print("📭 未処理のリクエストはありません")
         return
