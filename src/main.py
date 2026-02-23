@@ -1137,9 +1137,19 @@ def cmd_process_operations(args):
 
         fc.update_operation_status(doc_id, "running", uid=op_uid)
 
-        # ユーザー別のX API認証情報をFirestoreから取得し、subprocess環境変数に注入
+        # ユーザー別の設定・認証情報をFirestoreから取得し、subprocess環境変数に注入
         sub_env = os.environ.copy()
         if op_uid:
+            # (1) ユーザープロファイル（Xハンドル名など）をFirestoreから取得
+            user_profile = fc.get_user_profile(op_uid)
+            if user_profile:
+                tw_handle = user_profile.get("twitterUsername", "")
+                if tw_handle:
+                    sub_env["X_ACCOUNT_HANDLE"] = f"@{tw_handle}" if not tw_handle.startswith("@") else tw_handle
+                    sub_env["X_ACCOUNT_NAME"] = user_profile.get("displayName", tw_handle)
+                    print(f"  👤 ユーザー: @{tw_handle.lstrip('@')}")
+
+            # (2) X API認証情報をFirestoreから取得
             user_creds = fc.get_user_x_credentials(op_uid)
             if user_creds:
                 cred_map = {
@@ -1149,15 +1159,16 @@ def cmd_process_operations(args):
                     "X_ACCOUNT_1_ACCESS_SECRET": user_creds.get("access_token_secret", ""),
                     "TWITTER_BEARER_TOKEN": user_creds.get("bearer_token", ""),
                 }
-                # 空でない値のみ上書き（Firestore未設定の項目はGitHub Secretsにフォールバック）
+                injected = 0
                 for k, v in cred_map.items():
                     if v:
                         sub_env[k] = v
-                print(f"  🔑 ユーザー {op_uid} のX API認証情報をFirestoreから取得")
+                        injected += 1
+                print(f"  🔑 X API認証情報をFirestoreから取得（{injected}項目）")
             else:
-                print(f"  ⚠️ ユーザー {op_uid} のAPI設定がFirestoreにありません。GitHub Secretsを使用")
+                print(f"  ℹ️ ユーザー個別のX API設定なし → GitHub Secrets使用")
 
-            # Gemini/Discord もユーザー設定があれば上書き
+            # (3) Gemini/Discord もユーザー設定があれば上書き
             user_keys = fc.get_api_keys(op_uid)
             if user_keys:
                 if user_keys.get("gemini_api_key"):

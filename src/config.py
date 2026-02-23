@@ -113,11 +113,15 @@ class Config:
 
     @property
     def account_name(self) -> str:
-        return self._account["name"]
+        """環境変数 X_ACCOUNT_NAME が設定されていれば優先（マルチユーザー対応）"""
+        override = os.getenv("X_ACCOUNT_NAME", "")
+        return override if override else self._account["name"]
 
     @property
     def account_handle(self) -> str:
-        return self._account["handle"]
+        """環境変数 X_ACCOUNT_HANDLE が設定されていれば優先（マルチユーザー対応）"""
+        override = os.getenv("X_ACCOUNT_HANDLE", "")
+        return override if override else self._account["handle"]
 
     @property
     def account_theme(self) -> str:

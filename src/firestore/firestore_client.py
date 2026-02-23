@@ -122,6 +122,32 @@ class FirestoreClient:
         return users
 
     # ========================================
+    # ユーザープロファイル
+    # ========================================
+
+    def get_user_profile(self, uid: str) -> dict | None:
+        """
+        ユーザープロファイルを取得（X OAuthログイン時に保存されたデータ）
+
+        Args:
+            uid: Firebase Auth UID
+
+        Returns:
+            {
+                "twitterUsername": "handle_without_at",
+                "displayName": "...",
+                "email": "...",
+                "role": "admin|client",
+                ...
+            } or None
+        """
+        db = self._get_db()
+        doc = db.collection("users").document(uid).get()
+        if doc.exists:
+            return doc.to_dict()
+        return None
+
+    # ========================================
     # APIキー管理
     # ========================================
 
@@ -162,19 +188,23 @@ class FirestoreClient:
                 "bearer_token": "...",
                 "access_token": "...",
                 "access_token_secret": "...",
-            } or None
+            } or None（X API関連フィールドが1つもない場合）
         """
         keys = self.get_api_keys(uid)
         if not keys:
             return None
 
-        return {
+        result = {
             "api_key": keys.get("x_api_key", ""),
             "api_secret": keys.get("x_api_secret", ""),
             "bearer_token": keys.get("x_bearer_token", ""),
             "access_token": keys.get("x_access_token", ""),
             "access_token_secret": keys.get("x_access_token_secret", ""),
         }
+        # X API関連フィールドが1つも実値を持たない場合はNoneを返す
+        if not any(result.values()):
+            return None
+        return result
 
     def get_user_socialdata_key(self, uid: str) -> str:
         """SocialData APIキーを取得"""
