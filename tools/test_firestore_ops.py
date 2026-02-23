@@ -65,123 +65,63 @@ def main():
 
     # ---- Step 3: users コレクション確認 ----
     print("\n--- Step 3: users コレクション ---")
+    user_uids = []
     try:
         users = list(db.collection("users").stream())
         print(f"📋 users コレクション: {len(users)} ドキュメント")
         for u in users:
             data = u.to_dict()
+            user_uids.append(u.id)
             print(f"  - {u.id} (role={data.get('role', '?')}, display={data.get('displayName', '?')})")
     except Exception as e:
         print(f"❌ users 取得エラー: {e}")
 
-    # ---- Step 4: FIREBASE_UID のサブコレクション確認 ----
-    if firebase_uid:
-        print(f"\n--- Step 4: users/{firebase_uid} のサブコレクション ---")
-
-        # ドキュメント自体の存在確認
+    # ---- Step 4: 全ユーザーの operation_requests を確認 ----
+    print(f"\n--- Step 4: 全ユーザーの operation_requests ---")
+    for uid in user_uids:
         try:
-            user_doc = db.collection("users").document(firebase_uid).get()
-            if user_doc.exists:
-                print(f"✅ users/{firebase_uid} ドキュメント存在: {user_doc.to_dict()}")
-            else:
-                print(f"⚠️ users/{firebase_uid} ドキュメントは存在しない（phantomの可能性）")
-        except Exception as e:
-            print(f"❌ ドキュメント確認エラー: {e}")
-
-        # operation_requests 全件取得（フィルタなし）
-        print(f"\n--- Step 5: operation_requests 全件（フィルタなし） ---")
-        try:
-            all_ops = list(
-                db.collection("users").document(firebase_uid)
+            ops = list(
+                db.collection("users").document(uid)
                 .collection("operation_requests")
                 .limit(20)
                 .stream()
             )
-            print(f"📋 operation_requests: {len(all_ops)} 件")
-            for doc in all_ops:
-                data = doc.to_dict()
-                print(f"  - id={doc.id}, status={data.get('status')}, cmd={data.get('command')}, at={data.get('requested_at')}")
+            if ops:
+                print(f"\n  👤 {uid}: {len(ops)} 件")
+                for doc in ops:
+                    data = doc.to_dict()
+                    print(f"    - id={doc.id}, status={data.get('status')}, cmd={data.get('command')}, by={data.get('requested_by')}, at={data.get('requested_at')}")
+            else:
+                print(f"  👤 {uid}: 0 件")
         except Exception as e:
-            print(f"❌ 全件取得エラー: {e}")
+            print(f"  ❌ {uid}: エラー: {e}")
 
-        # pending のみ（where フィルタ）
-        print(f"\n--- Step 6: operation_requests (status=pending) ---")
-        try:
-            pending_ops = list(
-                db.collection("users").document(firebase_uid)
-                .collection("operation_requests")
-                .where("status", "==", "pending")
-                .limit(10)
-                .stream()
-            )
-            print(f"📋 pending: {len(pending_ops)} 件")
-            for doc in pending_ops:
-                data = doc.to_dict()
-                print(f"  - id={doc.id}, cmd={data.get('command')}, by={data.get('requested_by')}")
-        except Exception as e:
-            print(f"❌ pending取得エラー: {e}")
-
-        # FieldFilter 版（新API）
-        print(f"\n--- Step 7: FieldFilter版 (status=pending) ---")
-        try:
-            from google.cloud.firestore_v1.base_query import FieldFilter
-            pending_ff = list(
-                db.collection("users").document(firebase_uid)
-                .collection("operation_requests")
-                .where(filter=FieldFilter("status", "==", "pending"))
-                .limit(10)
-                .stream()
-            )
-            print(f"📋 FieldFilter pending: {len(pending_ff)} 件")
-        except Exception as e:
-            print(f"❌ FieldFilter版エラー: {e}")
-
-        # order_by 付き（インデックス必要）
-        print(f"\n--- Step 8: order_by付き (status=pending + order_by requested_at) ---")
-        try:
-            ordered = list(
-                db.collection("users").document(firebase_uid)
-                .collection("operation_requests")
-                .where("status", "==", "pending")
-                .order_by("requested_at")
-                .limit(10)
-                .stream()
-            )
-            print(f"📋 ordered pending: {len(ordered)} 件")
-        except Exception as e:
-            print(f"❌ order_by版エラー（インデックス不足の可能性）: {e}")
-
-        # collection_group 版
-        print(f"\n--- Step 9: collection_group版 ---")
-        try:
-            cg_ops = list(
-                db.collection_group("operation_requests")
-                .where("status", "==", "pending")
-                .limit(10)
-                .stream()
-            )
-            print(f"📋 collection_group pending: {len(cg_ops)} 件")
-            for doc in cg_ops:
-                path = doc.reference.path
-                print(f"  - path={path}, cmd={doc.to_dict().get('command')}")
-        except Exception as e:
-            print(f"❌ collection_group版エラー: {e}")
-
-    # ---- テスト書き込み＆読み戻し ----
+    # ---- Step 5: FIREBASE_UID と実データの一致確認 ----
     if firebase_uid:
-        print(f"\n--- Step 10: テスト書き込み＆読み戻し ---")
+        print(f"\n--- Step 5: FIREBASE_UID 確認 ---")
+        print(f"  GitHub Secrets FIREBASE_UID = {firebase_uid}")
+        if firebase_uid in user_uids:
+            print(f"  ✅ users コレクションに存在")
+        else:
+            print(f"  ❌ users コレクションに存在しない！")
+
+    # ---- Step 6: テスト書き込み＆読み戻し（最初のユーザーで） ----
+    test_uid = firebase_uid or (user_uids[0] if user_uids else "")
+    if test_uid:
+        print(f"\n--- Step 6: テスト書き込み＆読み戻し (uid={test_uid}) ---")
         try:
             from google.cloud import firestore as fs_module
             test_ref = (
-                db.collection("users").document(firebase_uid)
+                db.collection("users").document(test_uid)
                 .collection("operation_requests")
-                .document("__test__")
+                .document("test_doc_001")
             )
             test_ref.set({
-                "command": "__test__",
+                "command": "export-dashboard",
                 "status": "pending",
                 "requested_at": fs_module.SERVER_TIMESTAMP,
                 "requested_by": "test_script",
+                "requested_by_uid": test_uid,
             })
             print("✅ テストドキュメント書き込み成功")
 
@@ -192,15 +132,16 @@ def main():
             else:
                 print("❌ 書き込んだのに読み戻せない")
 
-            # pendingとして取得できるか
+            # pendingとして取得できるか（FieldFilter版）
+            from google.cloud.firestore_v1.base_query import FieldFilter
             pending_after = list(
-                db.collection("users").document(firebase_uid)
+                db.collection("users").document(test_uid)
                 .collection("operation_requests")
-                .where("status", "==", "pending")
+                .where(filter=FieldFilter("status", "==", "pending"))
                 .limit(10)
                 .stream()
             )
-            found = any(d.id == "__test__" for d in pending_after)
+            found = any(d.id == "test_doc_001" for d in pending_after)
             print(f"{'✅' if found else '❌'} pending クエリで{'見つかった' if found else '見つからなかった'}")
 
             # 削除
@@ -208,7 +149,6 @@ def main():
             print("🗑️ テストドキュメント削除完了")
         except Exception as e:
             print(f"❌ テスト書き込みエラー: {e}")
-            # 念のため削除試行
             try:
                 test_ref.delete()
             except Exception:
