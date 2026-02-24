@@ -1,0 +1,15 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "operation_requests",
+      "queryScope": "COLLECTION_GROUP",
+      "fields": [
+        {
+          "fieldPath": "status",
+          "order": "ASCENDING"
+        }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}

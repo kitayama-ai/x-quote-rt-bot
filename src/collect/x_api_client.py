@@ -1,7 +1,7 @@
 """
 X Auto Post System — X API v2 クライアント
 
-tweepy を使って X API v2 経由でバズツイートを検索・取得する。
+requests を使って X API v2 経由でバズツイートを検索・取得する。
 従量課金プラン ($0.005/読み取り) を前提とした実装。
 
 環境変数:
@@ -12,7 +12,7 @@ import time
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
-import tweepy
+import requests
 
 JST = ZoneInfo("Asia/Tokyo")
 
@@ -20,7 +20,7 @@ DEFAULT_MIN_LIKES = 500
 DEFAULT_LANG = "en"
 DEFAULT_MAX_RESULTS = 50
 
-# tweepy が返すレスポンスを SocialData 互換 dict に変換するためのフィールド
+# X API v2 JSON レスポンスを SocialData 互換 dict に変換するためのフィールド
 TWEET_FIELDS = ["created_at", "public_metrics", "author_id", "lang", "text"]
 USER_FIELDS = ["username", "name"]
 EXPANSIONS = ["author_id"]
@@ -35,7 +35,7 @@ class XAPIError(Exception):
 
 
 class XAPIClient:
-    """X API v2 クライアント (tweepy ラッパー)"""
+    """X API v2 クライアント (requests ダイレクト実装)"""
 
     def __init__(self, bearer_token: str = ""):
         self.bearer_token = bearer_token or os.getenv("TWITTER_BEARER_TOKEN", "")
@@ -44,10 +44,6 @@ class XAPIClient:
                 "TWITTER_BEARER_TOKEN が未設定です。\n"
                 ".env に TWITTER_BEARER_TOKEN=your_token を追加してください。"
             )
-        self.client = tweepy.Client(
-            bearer_token=self.bearer_token,
-            wait_on_rate_limit=True,
-        )
         # ユーザー名キャッシュ (author_id -> {username, name})
         self._user_cache: dict[str, dict] = {}
 
@@ -73,34 +69,53 @@ class XAPIClient:
         # X API v2 は max_results 10-100 の範囲
         per_page = min(max_results, 100)
 
-        try:
-            response = self.client.search_recent_tweets(
-                query=query,
-                max_results=per_page,
-                tweet_fields=TWEET_FIELDS,
-                user_fields=USER_FIELDS,
-                expansions=EXPANSIONS,
-                sort_order=sort_order,
-            )
-        except tweepy.errors.TooManyRequests:
-            raise XAPIError(429, "レート制限に達しました。しばらく待ってから再試行してください。")
-        except tweepy.errors.Unauthorized:
-            raise XAPIError(401, "Bearer Token が無効です。TWITTER_BEARER_TOKEN を確認してください。")
-        except tweepy.errors.Forbidden as e:
-            raise XAPIError(403, f"アクセスが拒否されました: {e}")
-        except tweepy.errors.TweepyException as e:
-            raise XAPIError(0, f"API エラー: {e}")
+        base_url = "https://api.twitter.com/2/tweets/search/recent"
+        headers = {"Authorization": f"Bearer {self.bearer_token}"}
+        params = {
+            "query": query,
+            "max_results": per_page,
+            "tweet.fields": ",".join(TWEET_FIELDS),
+            "user.fields": ",".join(USER_FIELDS),
+            "expansions": ",".join(EXPANSIONS),
+            "sort_order": sort_order,
+        }
 
-        if not response.data:
+        try:
+            resp = requests.get(base_url, headers=headers, params=params, timeout=30)
+        except requests.RequestException as e:
+            raise XAPIError(0, f"ネットワークエラー: {e}")
+
+        if resp.status_code == 429:
+            raise XAPIError(429, "レート制限に達しました。しばらく待ってから再試行してください。")
+        elif resp.status_code == 401:
+            raise XAPIError(401, "Bearer Token が無効です。TWITTER_BEARER_TOKEN を確認してください。")
+        elif resp.status_code == 403:
+            raise XAPIError(403, "アクセスが拒否されました。")
+        elif resp.status_code != 200:
+            raise XAPIError(resp.status_code, f"API エラー: {resp.text[:200]}")
+
+        try:
+            data = resp.json()
+        except ValueError as e:
+            raise XAPIError(0, f"JSON パースエラー: {e}")
+
+        tweets_data = data.get("data", [])
+        if not tweets_data:
             return []
 
-        # expansions からユーザー情報を取得してキャッシュ
-        self._cache_users_from_includes(response)
+        # includes からユーザー情報を取得してキャッシュ
+        includes = data.get("includes", {})
+        users = includes.get("users", [])
+        for user in users:
+            self._user_cache[str(user.get("id"))] = {
+                "username": user.get("username", ""),
+                "name": user.get("name", ""),
+            }
 
         # SocialData 互換形式に変換
         tweets = []
-        for tweet in response.data:
-            tweets.append(self._to_compat_dict(tweet))
+        for tweet_obj in tweets_data:
+            tweets.append(self._to_compat_dict_from_json(tweet_obj))
 
         return tweets[:max_results]
 
@@ -114,21 +129,43 @@ class XAPIClient:
         Returns:
             SocialData 互換の dict
         """
-        try:
-            response = self.client.get_tweet(
-                id=tweet_id,
-                tweet_fields=TWEET_FIELDS,
-                user_fields=USER_FIELDS,
-                expansions=EXPANSIONS,
-            )
-        except tweepy.errors.TweepyException as e:
-            raise XAPIError(0, f"ツイート取得エラー: {e}")
+        base_url = f"https://api.twitter.com/2/tweets/{tweet_id}"
+        headers = {"Authorization": f"Bearer {self.bearer_token}"}
+        params = {
+            "tweet.fields": ",".join(TWEET_FIELDS),
+            "user.fields": ",".join(USER_FIELDS),
+            "expansions": ",".join(EXPANSIONS),
+        }
 
-        if not response.data:
+        try:
+            resp = requests.get(base_url, headers=headers, params=params, timeout=30)
+        except requests.RequestException as e:
+            raise XAPIError(0, f"ネットワークエラー: {e}")
+
+        if resp.status_code == 404:
+            raise XAPIError(404, f"ツイートが見つかりません: {tweet_id}")
+        elif resp.status_code != 200:
+            raise XAPIError(resp.status_code, f"API エラー: {resp.text[:200]}")
+
+        try:
+            data = resp.json()
+        except ValueError as e:
+            raise XAPIError(0, f"JSON パースエラー: {e}")
+
+        tweet_obj = data.get("data")
+        if not tweet_obj:
             raise XAPIError(404, f"ツイートが見つかりません: {tweet_id}")
 
-        self._cache_users_from_includes(response)
-        return self._to_compat_dict(response.data)
+        # includes からユーザー情報を取得してキャッシュ
+        includes = data.get("includes", {})
+        users = includes.get("users", [])
+        for user in users:
+            self._user_cache[str(user.get("id"))] = {
+                "username": user.get("username", ""),
+                "name": user.get("name", ""),
+            }
+
+        return self._to_compat_dict_from_json(tweet_obj)
 
     def get_user_tweets(
         self,
@@ -146,38 +183,66 @@ class XAPIClient:
             SocialData 互換の dict リスト
         """
         # まずユーザーIDを取得
-        try:
-            user_resp = self.client.get_user(username=username)
-        except tweepy.errors.TweepyException as e:
-            raise XAPIError(0, f"ユーザー取得エラー (@{username}): {e}")
-
-        if not user_resp.data:
-            raise XAPIError(404, f"ユーザーが見つかりません: @{username}")
-
-        user_id = user_resp.data.id
-        self._user_cache[str(user_id)] = {
-            "username": user_resp.data.username,
-            "name": user_resp.data.name or "",
+        base_url = f"https://api.twitter.com/2/users/by/username/{username}"
+        headers = {"Authorization": f"Bearer {self.bearer_token}"}
+        params = {
+            "user.fields": ",".join(USER_FIELDS),
         }
 
-        per_page = min(max_results, 100)
+        try:
+            resp = requests.get(base_url, headers=headers, params=params, timeout=30)
+        except requests.RequestException as e:
+            raise XAPIError(0, f"ネットワークエラー: {e}")
+
+        if resp.status_code == 404:
+            raise XAPIError(404, f"ユーザーが見つかりません: @{username}")
+        elif resp.status_code != 200:
+            raise XAPIError(resp.status_code, f"API エラー: {resp.text[:200]}")
 
         try:
-            response = self.client.get_users_tweets(
-                id=user_id,
-                max_results=per_page,
-                tweet_fields=TWEET_FIELDS,
-                exclude=["retweets", "replies"],
-            )
-        except tweepy.errors.TweepyException as e:
-            raise XAPIError(0, f"ツイート取得エラー (@{username}): {e}")
+            data = resp.json()
+        except ValueError as e:
+            raise XAPIError(0, f"JSON パースエラー: {e}")
 
-        if not response.data:
+        user_obj = data.get("data")
+        if not user_obj:
+            raise XAPIError(404, f"ユーザーが見つかりません: @{username}")
+
+        user_id = user_obj.get("id")
+        self._user_cache[str(user_id)] = {
+            "username": user_obj.get("username", ""),
+            "name": user_obj.get("name", ""),
+        }
+
+        # ユーザーのツイートを取得
+        per_page = min(max_results, 100)
+        base_url = f"https://api.twitter.com/2/users/{user_id}/tweets"
+        params = {
+            "max_results": per_page,
+            "tweet.fields": ",".join(TWEET_FIELDS),
+            "exclude": "retweets,replies",
+        }
+
+        try:
+            resp = requests.get(base_url, headers=headers, params=params, timeout=30)
+        except requests.RequestException as e:
+            raise XAPIError(0, f"ネットワークエラー: {e}")
+
+        if resp.status_code != 200:
+            raise XAPIError(resp.status_code, f"ツイート取得エラー: {resp.text[:200]}")
+
+        try:
+            data = resp.json()
+        except ValueError as e:
+            raise XAPIError(0, f"JSON パースエラー: {e}")
+
+        tweets_data = data.get("data", [])
+        if not tweets_data:
             return []
 
         tweets = []
-        for tweet in response.data:
-            tweets.append(self._to_compat_dict(tweet, fallback_username=username))
+        for tweet_obj in tweets_data:
+            tweets.append(self._to_compat_dict_from_json(tweet_obj, fallback_username=username))
 
         return tweets[:max_results]
 
@@ -232,42 +297,38 @@ class XAPIClient:
 
     # ── internal helpers ──────────────────────────────────────────
 
-    def _cache_users_from_includes(self, response) -> None:
-        """レスポンスの includes.users をキャッシュに追加"""
-        if hasattr(response, "includes") and response.includes:
-            users = response.includes.get("users", [])
-            for user in users:
-                self._user_cache[str(user.id)] = {
-                    "username": user.username,
-                    "name": user.name or "",
-                }
-
-    def _to_compat_dict(self, tweet, fallback_username: str = "") -> dict:
+    def _to_compat_dict_from_json(self, tweet_obj: dict, fallback_username: str = "") -> dict:
         """
-        tweepy.Tweet を SocialData 互換の dict に変換
+        X API v2 JSON レスポンスを SocialData 互換の dict に変換
 
         既存の tweet_parser.py の from_api_data() が期待するフォーマットに合わせる。
         """
-        metrics = tweet.public_metrics or {}
-        author_id = str(getattr(tweet, "author_id", ""))
+        tweet_id = tweet_obj.get("id", "")
+        text = tweet_obj.get("text", "")
+        metrics = tweet_obj.get("public_metrics", {})
+        author_id = str(tweet_obj.get("author_id", ""))
+        created_at_str = tweet_obj.get("created_at", "")
+        lang = tweet_obj.get("lang", "")
 
         # ユーザー情報をキャッシュから取得
         user_info = self._user_cache.get(author_id, {})
         username = user_info.get("username", fallback_username)
         name = user_info.get("name", "")
 
-        # created_at を文字列に変換 (SocialData 形式)
-        created_at = getattr(tweet, "created_at", None)
-        if isinstance(created_at, datetime):
-            created_at_str = created_at.strftime("%a %b %d %H:%M:%S %z %Y")
-        else:
-            created_at_str = str(created_at) if created_at else ""
+        # created_at は ISO 8601 形式から SocialData 形式に変換
+        # X API: "2026-02-20T02:14:30.000Z" -> SocialData: "Thu Feb 20 02:14:30 +0000 2026"
+        if created_at_str:
+            try:
+                dt = datetime.fromisoformat(created_at_str.replace('Z', '+00:00'))
+                created_at_str = dt.strftime("%a %b %d %H:%M:%S %z %Y")
+            except (ValueError, TypeError):
+                pass  # パースできない場合はそのまま使用
 
         return {
-            "id": tweet.id,
-            "id_str": str(tweet.id),
-            "text": tweet.text or "",
-            "full_text": tweet.text or "",
+            "id": tweet_id,
+            "id_str": str(tweet_id),
+            "text": text,
+            "full_text": text,
             "user": {
                 "screen_name": username,
                 "name": name,
@@ -278,7 +339,7 @@ class XAPIClient:
             "reply_count": metrics.get("reply_count", 0),
             "quote_count": metrics.get("quote_count", 0),
             "bookmark_count": 0,  # X API v2 では取得不可
-            "lang": getattr(tweet, "lang", "") or "",
+            "lang": lang,
             "in_reply_to_status_id": None,
             "retweeted_status": None,
         }
