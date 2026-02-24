@@ -1,8 +1,8 @@
 {
-  "updated_at": "2026-02-24T05:49:20.297091",
+  "updated_at": "2026-02-24T06:39:54.619803",
   "stats": {
     "pending": 0,
-    "approved": 1,
+    "approved": 2,
     "skipped": 0,
     "posted_total": 0,
     "posted_today": 0
@@ -35,6 +35,33 @@
         "total": 2,
         "rank": "C"
       },
+      "skip_reason": "",
+      "feedback_note": ""
+    },
+    {
+      "tweet_id": "2026155359652786227",
+      "author_username": "sako_brain",
+      "author_name": "",
+      "text": "",
+      "lang": "",
+      "likes": 0,
+      "retweets": 0,
+      "replies": 0,
+      "quotes": 0,
+      "bookmarks": 0,
+      "url": "https://x.com/sako_brain/status/2026155359652786227",
+      "collected_at": "2026-02-24T15:39:54.089689+09:00",
+      "source": "manual",
+      "tags": [],
+      "memo": "",
+      "preference_match_score": 0.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "status": "approved",
+      "added_at": "2026-02-24T15:39:54.090560+09:00",
+      "generated_text": "",
+      "template_id": "",
+      "score": null,
       "skip_reason": "",
       "feedback_note": ""
     }
