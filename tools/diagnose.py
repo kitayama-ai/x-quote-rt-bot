@@ -1,213 +1,115 @@
 #!/usr/bin/env python3
 """
-ミニマム診断ツール — 全コンポーネントを独立テスト
-各テストは他の結果に依存しない。全部実行して一覧表示する。
+投稿403エラー特定診断
 """
-import os
-import json
-import sys
+import os, json, base64
 
-RESULTS = []
+print("🏥 X API 投稿403 — 詳細診断")
+print("=" * 60)
 
-def test(name):
-    """テスト結果を記録するデコレータ"""
-    def decorator(func):
-        def wrapper():
-            print(f"\n{'='*60}")
-            print(f"🧪 {name}")
-            print(f"{'='*60}")
-            try:
-                result = func()
-                RESULTS.append(("✅", name, result or "OK"))
-                print(f"  → ✅ {result or 'OK'}")
-            except Exception as e:
-                RESULTS.append(("❌", name, str(e)))
-                print(f"  → ❌ {e}")
-        return wrapper
-    return decorator
+# 1. OAuth1Session の詳細チェック
+print("\n[1] OAuth1Session 認証詳細")
+from requests_oauthlib import OAuth1Session
+session = OAuth1Session(
+    os.getenv("X_API_KEY"),
+    client_secret=os.getenv("X_API_SECRET"),
+    resource_owner_key=os.getenv("X_ACCOUNT_1_ACCESS_TOKEN"),
+    resource_owner_secret=os.getenv("X_ACCOUNT_1_ACCESS_SECRET"),
+)
 
+# GET /2/users/me
+resp = session.get("https://api.twitter.com/2/users/me")
+print(f"  GET /2/users/me → {resp.status_code}")
+if resp.status_code == 200:
+    me = resp.json().get("data", {})
+    print(f"  ユーザー: @{me.get('username')} (ID: {me.get('id')})")
+    print(f"  名前: {me.get('name')}")
 
-# ===== TEST 1: 環境変数チェック =====
-@test("環境変数チェック")
-def test_env():
-    required = [
-        "X_API_KEY", "X_API_SECRET",
-        "X_ACCOUNT_1_ACCESS_TOKEN", "X_ACCOUNT_1_ACCESS_SECRET",
-        "FIREBASE_CREDENTIALS_BASE64", "FIREBASE_UID",
-        "TWITTER_BEARER_TOKEN",
-    ]
-    missing = [k for k in required if not os.getenv(k)]
-    present = [k for k in required if os.getenv(k)]
-    for k in present:
-        val = os.getenv(k, "")
-        print(f"  ✅ {k} = {val[:8]}...")
-    if missing:
-        raise RuntimeError(f"未設定: {', '.join(missing)}")
-    return f"{len(present)}/{len(required)} 全て設定済み"
-
-
-# ===== TEST 2: Firebase Admin SDK 初期化 =====
-@test("Firebase Admin SDK 初期化")
-def test_firebase_init():
-    import firebase_admin
-    from firebase_admin import credentials, firestore
-    cred_b64 = os.getenv("FIREBASE_CREDENTIALS_BASE64", "")
-    cred_json = json.loads(base64.b64decode(cred_b64).decode())
-    cred = credentials.Certificate(cred_json)
-    app = firebase_admin.initialize_app(cred)
-    db = firestore.client()
-    return f"プロジェクト: {cred_json.get('project_id', '?')}"
-
-
-# ===== TEST 3: Firestore — usersコレクション内のドキュメント一覧 =====
-@test("Firestore: usersコレクション ドキュメント一覧")
-def test_firestore_users():
-    from firebase_admin import firestore
-    db = firestore.client()
-    users = list(db.collection("users").stream())
-    if not users:
-        print("  ⚠️ usersコレクションにドキュメントが0件")
-        print("  → サブコレクションのみ存在している可能性")
-    for u in users:
-        data = u.to_dict()
-        print(f"  📄 {u.id}: {json.dumps(data, ensure_ascii=False, default=str)[:150]}")
-    return f"{len(users)}件のユーザードキュメント"
-
-
-# ===== TEST 4: Firestore — FIREBASE_UID のサブコレクション =====
-@test("Firestore: FIREBASE_UID直下のoperation_requests")
-def test_firestore_uid_ops():
-    from firebase_admin import firestore
-    db = firestore.client()
-    uid = os.getenv("FIREBASE_UID", "")
-    docs = list(db.collection("users").document(uid).collection("operation_requests").limit(10).stream())
-    for d in docs:
-        data = d.to_dict()
-        print(f"  📄 {d.id}: status={data.get('status')}, command={data.get('command')}, requested_at={data.get('requested_at')}")
-    if not docs:
-        print(f"  ⚠️ users/{uid}/operation_requests にドキュメントなし")
-    return f"{len(docs)}件 (UID: {uid[:8]}...)"
-
-
-# ===== TEST 5: Firestore — 全ユーザーのoperation_requests探索 =====
-@test("Firestore: 全サブコレクション探索（collection_group代替）")
-def test_firestore_all_ops():
-    from firebase_admin import firestore
-    db = firestore.client()
-    # Firebase Admin SDKはセキュリティルール無視なので直接アクセス可能
-    # まず collection_group を試す（インデックス有無に関わらず Admin SDK ならいける場合あり）
-    found_uids = set()
-    try:
-        all_ops = list(db.collection_group("operation_requests").limit(20).stream())
-        for doc in all_ops:
-            path = doc.reference.path
-            data = doc.to_dict()
-            uid_from_path = path.split("/")[1] if len(path.split("/")) > 1 else "?"
-            found_uids.add(uid_from_path)
-            print(f"  📄 [{uid_from_path[:8]}...] {doc.id}: status={data.get('status')}, command={data.get('command')}")
-        env_uid = os.getenv("FIREBASE_UID", "")
-        if found_uids and env_uid not in found_uids:
-            print(f"\n  🚨 FIREBASE_UID ({env_uid[:8]}...) が見つかったUID群 ({[u[:8] for u in found_uids]}) に含まれていない！")
-            print(f"  → GitHubシークレット FIREBASE_UID を以下のいずれかに更新する必要あり:")
-            for u in found_uids:
-                print(f"     {u}")
-        return f"{len(all_ops)}件 / {len(found_uids)}ユーザー"
-    except Exception as e:
-        print(f"  ⚠️ collection_group失敗: {e}")
-        return f"collection_groupクエリ失敗（インデックス要）"
-
-
-# ===== TEST 6: X API — OAuth1Session で POST 可能か =====
-@test("X API: OAuth1Session 認証テスト (POST可能か)")
-def test_x_oauth():
-    from requests_oauthlib import OAuth1Session
-    session = OAuth1Session(
-        os.getenv("X_API_KEY"),
-        client_secret=os.getenv("X_API_SECRET"),
-        resource_owner_key=os.getenv("X_ACCOUNT_1_ACCESS_TOKEN"),
-        resource_owner_secret=os.getenv("X_ACCOUNT_1_ACCESS_SECRET"),
-    )
-    # GET /2/users/me を試す（Freeプランだと401になるかも）
-    resp = session.get("https://api.twitter.com/2/users/me")
-    print(f"  GET /2/users/me → {resp.status_code}")
-    if resp.status_code == 200:
-        data = resp.json().get("data", {})
-        return f"認証OK: @{data.get('username', '?')}"
-    elif resp.status_code in (401, 403):
-        # Freeプラン制限。でもPOSTは動く可能性あり
-        print(f"  → Freeプラン制限 ({resp.status_code}). POST /2/tweets は別途テスト")
-        return f"GET制限 ({resp.status_code}) — Freeプラン想定内"
-    else:
-        raise RuntimeError(f"予期しないレスポンス: {resp.status_code} {resp.text[:200]}")
-
-
-# ===== TEST 7: X API — Bearer Token =====
-@test("X API: Bearer Token テスト")
-def test_x_bearer():
-    import tweepy
-    token = os.getenv("TWITTER_BEARER_TOKEN", "")
-    client = tweepy.Client(bearer_token=token)
-    # 公開ツイートを1件取得テスト (Elon Musk's pinned tweet)
-    tweet = client.get_tweet("1585841080431321088")
+# 2. アプリ情報確認（Bearer Token経由）
+print("\n[2] Bearer Token での読み取りテスト")
+import tweepy
+bt = os.getenv("TWITTER_BEARER_TOKEN", "")
+client = tweepy.Client(bearer_token=bt)
+try:
+    tweet = client.get_tweet("1585841080431321088", tweet_fields=["public_metrics"])
     if tweet and tweet.data:
-        return f"Bearer Token有効: tweet取得OK"
-    raise RuntimeError("ツイート取得失敗")
+        print(f"  ✅ Bearer Token有効 (ツイート読み取りOK)")
+except Exception as e:
+    print(f"  ❌ Bearer Token: {e}")
 
+# 3. 投稿テスト（実際にPOSTリクエストを送るが、テスト用テキスト）
+print("\n[3] POST /2/tweets テスト（ドライラン）")
+# まず空payloadでレスポンスを見る
+resp_empty = session.post("https://api.twitter.com/2/tweets", json={})
+print(f"  空payload → {resp_empty.status_code}: {resp_empty.text[:300]}")
 
-# ===== TEST 8: Firestore Auth設定確認 =====
-@test("Firestore: Auth設定（Xログインプロバイダー）")
-def test_firebase_auth_users():
-    from firebase_admin import auth
-    # 最近のユーザーを列挙
-    page = auth.list_users(max_results=10)
-    users_info = []
-    for user in page.users:
-        providers = [p.provider_id for p in user.provider_data]
-        users_info.append({
-            "uid": user.uid,
-            "email": user.email or "なし",
-            "providers": providers,
-            "display_name": user.display_name or "なし",
-        })
-        print(f"  👤 UID={user.uid[:12]}... providers={providers} email={user.email or 'なし'} name={user.display_name or 'なし'}")
-    
-    env_uid = os.getenv("FIREBASE_UID", "")
-    match = any(u["uid"] == env_uid for u in users_info)
-    if not match:
-        print(f"\n  🚨 FIREBASE_UID ({env_uid[:8]}...) がAuth上のどのユーザーとも一致しない！")
-    else:
-        print(f"\n  ✅ FIREBASE_UID ({env_uid[:8]}...) はAuth上に存在")
-    return f"{len(users_info)}ユーザー, FIREBASE_UID一致={'✅' if match else '❌'}"
+# テキスト付き（実際に投稿はしない - テスト用テキストを送る）
+import time
+test_text = f"🧪 診断テスト投稿 {int(time.time())} — このツイートは自動削除されます"
+print(f"  テストテキスト: {test_text}")
+resp_post = session.post("https://api.twitter.com/2/tweets", json={"text": test_text})
+print(f"  POST結果 → {resp_post.status_code}")
+print(f"  レスポンス: {resp_post.text[:500]}")
 
+if resp_post.status_code in (200, 201):
+    tweet_data = resp_post.json().get("data", {})
+    tweet_id = tweet_data.get("id", "")
+    print(f"  ✅ 投稿成功! tweet_id={tweet_id}")
+    # 自動削除
+    del_resp = session.delete(f"https://api.twitter.com/2/tweets/{tweet_id}")
+    print(f"  🗑️ 自動削除 → {del_resp.status_code}")
+elif resp_post.status_code == 403:
+    print(f"  ❌ 403 Forbidden — 詳細分析:")
+    try:
+        err = resp_post.json()
+        print(f"     detail: {err.get('detail', 'なし')}")
+        print(f"     title: {err.get('title', 'なし')}")
+        print(f"     type: {err.get('type', 'なし')}")
+        # 403の一般的な原因
+        print(f"\n  💡 考えられる原因:")
+        print(f"     1. Access Token のスコープが Read-only")
+        print(f"        → X Developer Portal で Token 再生成が必要")
+        print(f"     2. アカウントが制限/凍結されている")
+        print(f"     3. X API Freeプランの月間投稿上限に達している")
+    except:
+        pass
+else:
+    print(f"  ⚠️ 予期しないステータス: {resp_post.status_code}")
 
-# ===== 実行 =====
-import base64
+# 4. tweepy Client経由でも試す
+print("\n[4] tweepy.Client (OAuth 1.0a User Context) でのPOSTテスト")
+try:
+    user_client = tweepy.Client(
+        consumer_key=os.getenv("X_API_KEY"),
+        consumer_secret=os.getenv("X_API_SECRET"),
+        access_token=os.getenv("X_ACCOUNT_1_ACCESS_TOKEN"),
+        access_token_secret=os.getenv("X_ACCOUNT_1_ACCESS_SECRET"),
+    )
+    test_text2 = f"🧪 tweepy診断 {int(time.time())}"
+    result = user_client.create_tweet(text=test_text2)
+    if result and result.data:
+        tweet_id2 = result.data["id"]
+        print(f"  ✅ tweepy投稿成功! tweet_id={tweet_id2}")
+        user_client.delete_tweet(tweet_id2)
+        print(f"  🗑️ 自動削除完了")
+except tweepy.errors.Forbidden as e:
+    print(f"  ❌ tweepy 403: {e}")
+except Exception as e:
+    print(f"  ❌ tweepy エラー: {e}")
 
-print("🏥 X Quote RT Bot — ミニマム診断ツール")
-print(f"{'='*60}")
+# 5. 引用RTテスト
+print("\n[5] 引用RT POST テスト")
+resp_qt = session.post("https://api.twitter.com/2/tweets", json={
+    "text": f"🧪 引用RTテスト {int(time.time())}",
+    "quote_tweet_id": "1585841080431321088"
+})
+print(f"  引用RT POST → {resp_qt.status_code}")
+print(f"  レスポンス: {resp_qt.text[:300]}")
+if resp_qt.status_code in (200, 201):
+    qt_id = resp_qt.json().get("data", {}).get("id", "")
+    print(f"  ✅ 引用RT成功! tweet_id={qt_id}")
+    del_resp2 = session.delete(f"https://api.twitter.com/2/tweets/{qt_id}")
+    print(f"  🗑️ 自動削除 → {del_resp2.status_code}")
 
-tests = [
-    test_env,
-    test_firebase_init,
-    test_firestore_users,
-    test_firestore_uid_ops,
-    test_firestore_all_ops,
-    test_x_oauth,
-    test_x_bearer,
-    test_firebase_auth_users,
-]
-
-for t in tests:
-    t()
-
-# サマリー
-print(f"\n\n{'='*60}")
-print("📋 診断サマリー")
-print(f"{'='*60}")
-for icon, name, result in RESULTS:
-    print(f"  {icon} {name}")
-    print(f"     {result}")
-
-passed = sum(1 for r in RESULTS if r[0] == "✅")
-failed = sum(1 for r in RESULTS if r[0] == "❌")
-print(f"\n  結果: {passed}✅ / {failed}❌")
+print("\n" + "=" * 60)
+print("診断完了")
