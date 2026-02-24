@@ -1121,8 +1121,12 @@ def cmd_process_operations(args):
         print(f"❌ Firebase初期化エラー: {e}")
         return
 
-    # 全ユーザーの未処理リクエストを走査（ダッシュボードのログインUIDはX認証で不定）
-    pending = fc.get_pending_operations()  # uid無し=全ユーザースキャン
+    # FIREBASE_UIDが設定されていればそのユーザーのみ直接クエリ（インデックス不要）
+    # 未設定の場合はcollection_groupクエリを試みる（インデックス要）
+    admin_uid = os.getenv("FIREBASE_UID", "")
+    if admin_uid:
+        print(f"  👤 FIREBASE_UID でクエリ: {admin_uid[:8]}...")
+    pending = fc.get_pending_operations(uid=admin_uid)
     if not pending:
         print("📭 未処理のリクエストはありません")
         return
