@@ -180,38 +180,52 @@ class XPoster:
         """
         自分の最近のツイートを取得（重複チェック用）
 
+        X API Freeプランでは GET /2/users/me が制限されるため、
+        401/403 の場合は空リストを返して処理を続行する。
+
         Returns:
             [{"id": str, "text": str, "created_at": datetime}]
         """
         import tweepy
-        client = tweepy.Client(
-            consumer_key=self.config.x_api_key,
-            consumer_secret=self.config.x_api_secret,
-            access_token=self.config.x_access_token,
-            access_token_secret=self.config.x_access_secret,
-            wait_on_rate_limit=True,
-        )
-        me = client.get_me()
-        if not me or not me.data:
+        try:
+            client = tweepy.Client(
+                consumer_key=self.config.x_api_key,
+                consumer_secret=self.config.x_api_secret,
+                access_token=self.config.x_access_token,
+                access_token_secret=self.config.x_access_secret,
+                wait_on_rate_limit=True,
+            )
+            me = client.get_me()
+            if not me or not me.data:
+                return []
+
+            tweets = client.get_users_tweets(
+                me.data.id,
+                max_results=max_results,
+                tweet_fields=["created_at"],
+            )
+
+            if not tweets or not tweets.data:
+                return []
+
+            return [
+                {
+                    "id": str(t.id),
+                    "text": t.text,
+                    "created_at": t.created_at,
+                }
+                for t in tweets.data
+            ]
+        except tweepy.errors.Unauthorized:
+            # X API Freeプランでは読み取りエンドポイントが制限されている
+            print("  ⚠️ get_recent_tweets: 401 Unauthorized (X API Freeプランの制限)")
             return []
-
-        tweets = client.get_users_tweets(
-            me.data.id,
-            max_results=max_results,
-            tweet_fields=["created_at"],
-        )
-
-        if not tweets or not tweets.data:
+        except tweepy.errors.Forbidden:
+            print("  ⚠️ get_recent_tweets: 403 Forbidden (X API Freeプランの制限)")
             return []
-
-        return [
-            {
-                "id": str(t.id),
-                "text": t.text,
-                "created_at": t.created_at,
-            }
-            for t in tweets.data
-        ]
+        except Exception as e:
+            print(f"  ⚠️ get_recent_tweets: {e}")
+            return []
 
     def get_tweet_metrics(self, tweet_id: str) -> dict:
         """
