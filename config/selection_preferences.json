@@ -1,26 +1,34 @@
 {
   "description": "クライアントのツイート選定プリファレンス — PDCAで自動調整される",
   "version": 1,
-  "updated_at": "",
-  "updated_by": "manual",
-
+  "updated_at": "2026-02-24",
+  "updated_by": "firebase_sync",
   "weekly_focus": {
     "directive": "",
     "focus_keywords": [],
     "focus_accounts": []
   },
-
   "topic_preferences": {
-    "preferred": ["AI agents", "product launches", "coding AI"],
-    "neutral": ["research papers", "AI regulation", "tech industry"],
-    "avoid": ["AI doomerism", "crypto", "politics"]
+    "preferred": [
+      "AI agents",
+      "product launches",
+      "coding AI"
+    ],
+    "neutral": [
+      "research papers",
+      "AI regulation",
+      "tech industry"
+    ],
+    "avoid": [
+      "AI doomerism",
+      "crypto",
+      "politics"
+    ]
   },
-
   "account_overrides": {
     "boosted": [],
     "blocked": []
   },
-
   "keyword_weights": {
     "AI agent": 2.0,
     "autonomous": 1.5,
@@ -33,17 +41,81 @@
     "safety": 0.5,
     "regulation": 0.3
   },
-
-  "threshold_overrides": {},
-
+  "threshold_overrides": {
+    "min_likes": 700,
+    "max_age_hours": 48,
+    "max_tweets": 100
+  },
   "topic_clusters": {
-    "AI agents": ["agent", "autonomous", "agentic", "multi-agent", "tool use", "function calling", "MCP"],
-    "product launches": ["launch", "release", "announce", "introducing", "new feature", "update", "shipping"],
-    "coding AI": ["code", "coding", "developer", "IDE", "copilot", "cursor", "programming", "engineer"],
-    "research papers": ["paper", "arxiv", "benchmark", "evaluation", "study", "findings", "methodology"],
-    "AI regulation": ["regulation", "policy", "governance", "safety", "alignment", "risk", "ban"],
-    "AI doomerism": ["doomer", "existential", "extinction", "apocalypse", "takeover"],
-    "crypto": ["crypto", "bitcoin", "blockchain", "web3", "NFT", "token"],
-    "tech industry": ["startup", "funding", "valuation", "acquisition", "IPO", "layoff"]
-  }
+    "AI agents": [
+      "agent",
+      "autonomous",
+      "agentic",
+      "multi-agent",
+      "tool use",
+      "function calling",
+      "MCP"
+    ],
+    "product launches": [
+      "launch",
+      "release",
+      "announce",
+      "introducing",
+      "new feature",
+      "update",
+      "shipping"
+    ],
+    "coding AI": [
+      "code",
+      "coding",
+      "developer",
+      "IDE",
+      "copilot",
+      "cursor",
+      "programming",
+      "engineer"
+    ],
+    "research papers": [
+      "paper",
+      "arxiv",
+      "benchmark",
+      "evaluation",
+      "study",
+      "findings",
+      "methodology"
+    ],
+    "AI regulation": [
+      "regulation",
+      "policy",
+      "governance",
+      "safety",
+      "alignment",
+      "risk",
+      "ban"
+    ],
+    "AI doomerism": [
+      "doomer",
+      "existential",
+      "extinction",
+      "apocalypse",
+      "takeover"
+    ],
+    "crypto": [
+      "crypto",
+      "bitcoin",
+      "blockchain",
+      "web3",
+      "NFT",
+      "token"
+    ],
+    "tech industry": [
+      "startup",
+      "funding",
+      "valuation",
+      "acquisition",
+      "IPO",
+      "layoff"
+    ]
+  },
+  "prompt_overrides": {}
 }
