@@ -36,6 +36,7 @@ jobs:
           X_API_SECRET: ${{ secrets.X_API_SECRET }}
           X_ACCOUNT_1_ACCESS_TOKEN: ${{ secrets.X_ACCOUNT_1_ACCESS_TOKEN }}
           X_ACCOUNT_1_ACCESS_SECRET: ${{ secrets.X_ACCOUNT_1_ACCESS_SECRET }}
+          TWITTER_BEARER_TOKEN: ${{ secrets.TWITTER_BEARER_TOKEN }}
           DISCORD_WEBHOOK_METRICS: ${{ secrets.DISCORD_WEBHOOK_METRICS }}
           DISCORD_WEBHOOK_GENERAL: ${{ secrets.DISCORD_WEBHOOK_GENERAL }}
         run: |
@@ -46,6 +47,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/output/analysis/
+          git add -f data/output/analysis/
           git diff --staged --quiet || git commit -m "📊 Metrics collected [$(date +%Y-%m-%d)]"
+          git pull --rebase origin main || true
           git push || echo "Nothing to push"
