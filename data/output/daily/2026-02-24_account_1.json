@@ -1,0 +1,96 @@
+[
+  {
+    "text": "💥【衝撃】マジで言ってる？「AIは仕事を奪う」は幻想だ。💰\n\n本当にヤバいのはAIを使えない人間。AIは新たな「富の源泉」となる。\n\n・既存業務はAIが担い、人間はより創造的な領域へシフトする。\n・AIは『生産性の爆増』を意味し、新たな産業と雇用を生む。\n・この波に乗れるか否か。それが今後の『格差』📉を決定づける。\n\n乗り遅れる者、容赦なく淘汰される💀。それが現実だ。",
+    "type": "反常識",
+    "time": "07:08",
+    "slot": "morning",
+    "date": "2026-02-24",
+    "account_id": "account_1",
+    "score": {
+      "total": 3,
+      "rank": "C",
+      "hook": 0,
+      "specificity": 0,
+      "humanity": 1,
+      "structure": 1,
+      "cta": 1,
+      "details": {
+        "hook": "フック弱い",
+        "specificity": "具体性不足",
+        "humanity": "カジュアル1個, AI感0個",
+        "structure": "177字, 6行 — OK",
+        "cta": "CTA検出",
+        "penalty": "なし"
+      }
+    },
+    "safety": {
+      "is_safe": true,
+      "violations": [],
+      "warnings": [
+        "絵文字4個 (推奨3個以下)"
+      ]
+    }
+  },
+  {
+    "text": "💥【激震】AI副業で「3時間→30分」に時短！マジでこれ知らずに消耗はぶっちゃけ致命的だ。\n毎日SNS投稿に時間溶かしてた奴、集合。Claude Codeをマジで使い倒せば、時間効率は桁違いに爆上がりする。\n\n・AIによる「投稿自動生成」はもはや常識。コピペで高品質な記事量産。\n・GASで「自動投稿システム」構築。完全放置で収益化の仕組み。\n・「テンプレ活用」で、AI感ゼロのパーソナルな発信が可能に。\n\nこの波に乗れない者は、確実に市場から淘汰される。今すぐ行動しろ。",
+    "type": "リスト",
+    "time": "12:10",
+    "slot": "noon",
+    "date": "2026-02-24",
+    "account_id": "account_1",
+    "score": {
+      "total": 6,
+      "rank": "A",
+      "hook": 0,
+      "specificity": 2,
+      "humanity": 2,
+      "structure": 1,
+      "cta": 1,
+      "details": {
+        "hook": "フック弱い",
+        "specificity": "数字2個, 比較表現あり",
+        "humanity": "カジュアル表現3個, AI感ゼロ",
+        "structure": "229字, 6行 — OK",
+        "cta": "CTA検出",
+        "penalty": "なし"
+      }
+    },
+    "safety": {
+      "is_safe": true,
+      "violations": [],
+      "warnings": []
+    }
+  },
+  {
+    "text": "💥【衝撃】AIがWeb3を「進化」させる鍵。市場が未だ測りきれない「10兆ドル規模」の変革が始まる。\nWeb3の未来は「AIの掌握」にかかっている。既に巨大な富が動いている🔥。\n\n・AIは「セキュリティ監査」を自動化、脆弱性を根絶🛡️。\n・DeFiの「リスク管理」はAIで新次元へ📈。\n・トークン経済圏の「最適化」もAIが担う。非効率モデルは淘汰💀。\n\n今、この「真実」を見抜けない投資家に未来はない。",
+    "type": "気づき",
+    "time": "20:59",
+    "slot": "evening",
+    "date": "2026-02-24",
+    "account_id": "account_1",
+    "score": {
+      "total": 2,
+      "rank": "C",
+      "hook": 0,
+      "specificity": 0,
+      "humanity": 0,
+      "structure": 1,
+      "cta": 1,
+      "details": {
+        "hook": "フック弱い",
+        "specificity": "具体性不足",
+        "humanity": "人間味不足 (カジュアル0, AI感0)",
+        "structure": "194字, 6行 — OK",
+        "cta": "CTA検出",
+        "penalty": "なし"
+      }
+    },
+    "safety": {
+      "is_safe": true,
+      "violations": [],
+      "warnings": [
+        "絵文字6個 (推奨3個以下)"
+      ]
+    }
+  }
+]
