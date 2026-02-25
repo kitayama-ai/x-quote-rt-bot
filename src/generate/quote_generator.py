@@ -427,7 +427,7 @@ class QuoteGenerator:
 ━━━━━━━━━━━━━━━━━━
 ■ 出力
 ━━━━━━━━━━━━━━━━━━
-ツイート本文だけを出力しろ。余計な説明は一切不要。250字以内。
+ツイート本文だけを出力しろ。余計な説明は一切不要。必ず120字以内（X APIの日本語文字カウント制限）。
 """
 
         from src.utils import retry_with_backoff
@@ -441,6 +441,10 @@ class QuoteGenerator:
             text = re.sub(r'^```.*?\n', '', text)
             text = re.sub(r'\n```$', '', text)
             text = text.strip('"\'`')
+            # X API: 日本語は1文字=2カウント。quote_tweet_id分(23)含め280以内
+            # 安全上限: 120文字（120×2+23=263カウント ≤ 280）
+            if len(text) > 120:
+                text = text[:117] + "..."
             return text
 
         try:
