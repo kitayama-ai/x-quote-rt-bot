@@ -152,7 +152,7 @@ class XPoster:
 
     def upload_media(self, file_path: str) -> str:
         """
-        メディアをアップロード（v1.1 API使用）
+        メディアをアップロード（v1.1 API — requests-oauthlib版）
 
         Args:
             file_path: メディアファイルのパス
@@ -160,16 +160,14 @@ class XPoster:
         Returns:
             media_id (str)
         """
-        import tweepy
-        auth = tweepy.OAuth1UserHandler(
-            consumer_key=self.config.x_api_key,
-            consumer_secret=self.config.x_api_secret,
-            access_token=self.config.x_access_token,
-            access_token_secret=self.config.x_access_secret,
-        )
-        api = tweepy.API(auth, wait_on_rate_limit=True)
-        media = api.media_upload(file_path)
-        return str(media.media_id)
+        upload_url = "https://upload.twitter.com/1.1/media/upload.json"
+        with open(file_path, "rb") as f:
+            resp = self.session.post(upload_url, files={"media": f})
+        if resp.status_code not in (200, 201, 202):
+            raise RuntimeError(
+                f"メディアアップロード失敗: {resp.status_code} {resp.text[:300]}"
+            )
+        return str(resp.json().get("media_id_string", ""))
 
     def post_with_image(self, text: str, image_path: str) -> dict:
         """テキスト + 画像を投稿"""
@@ -178,82 +176,83 @@ class XPoster:
 
     def get_recent_tweets(self, max_results: int = 10) -> list[dict]:
         """
-        自分の最近のツイートを取得（重複チェック用）
+        自分の最近のツイートを取得（重複チェック用 — requests-oauthlib版）
 
         X API Freeプランでは GET /2/users/me が制限されるため、
         401/403 の場合は空リストを返して処理を続行する。
 
         Returns:
-            [{"id": str, "text": str, "created_at": datetime}]
+            [{"id": str, "text": str, "created_at": str}]
         """
-        import tweepy
         try:
-            client = tweepy.Client(
-                consumer_key=self.config.x_api_key,
-                consumer_secret=self.config.x_api_secret,
-                access_token=self.config.x_access_token,
-                access_token_secret=self.config.x_access_secret,
-                wait_on_rate_limit=True,
-            )
-            me = client.get_me()
-            if not me or not me.data:
+            # 1. 自分のユーザーID取得
+            me_resp = self.session.get(f"{self.BASE_URL}/users/me")
+            if me_resp.status_code != 200:
+                print(f"  ⚠️ get_recent_tweets: GET /users/me → {me_resp.status_code}")
+                return []
+            user_id = me_resp.json().get("data", {}).get("id", "")
+            if not user_id:
                 return []
 
-            tweets = client.get_users_tweets(
-                me.data.id,
-                max_results=max_results,
-                tweet_fields=["created_at"],
+            # 2. ツイート取得
+            params = {
+                "max_results": min(max_results, 100),
+                "tweet.fields": "created_at,text",
+            }
+            tweets_resp = self.session.get(
+                f"{self.BASE_URL}/users/{user_id}/tweets", params=params
             )
-
-            if not tweets or not tweets.data:
+            if tweets_resp.status_code != 200:
+                print(f"  ⚠️ get_recent_tweets: GET /users/{{id}}/tweets → {tweets_resp.status_code}")
                 return []
 
+            tweets = tweets_resp.json().get("data", [])
             return [
                 {
-                    "id": str(t.id),
-                    "text": t.text,
-                    "created_at": t.created_at,
+                    "id": t.get("id", ""),
+                    "text": t.get("text", ""),
+                    "created_at": t.get("created_at", ""),
                 }
-                for t in tweets.data
+                for t in tweets
             ]
-        except tweepy.errors.Unauthorized:
-            # X API Freeプランでは読み取りエンドポイントが制限されている
-            print("  ⚠️ get_recent_tweets: 401 Unauthorized (X API Freeプランの制限)")
-            return []
-        except tweepy.errors.Forbidden:
-            print("  ⚠️ get_recent_tweets: 403 Forbidden (X API Freeプランの制限)")
-            return []
         except Exception as e:
             print(f"  ⚠️ get_recent_tweets: {e}")
             return []
 
     def get_tweet_metrics(self, tweet_id: str) -> dict:
         """
-        ツイートのエンゲージメントを取得
+        ツイートのエンゲージメントを取得（requests版 — tweepy不要）
 
         Returns:
             {"likes": int, "retweets": int, "replies": int, ...}
         """
-        import tweepy
-        client = tweepy.Client(
-            bearer_token=os.getenv("TWITTER_BEARER_TOKEN", ""),
-            wait_on_rate_limit=True,
-        )
-        tweet = client.get_tweet(
-            tweet_id,
-            tweet_fields=["public_metrics", "created_at"],
-        )
-
-        if not tweet or not tweet.data:
+        bearer = os.getenv("TWITTER_BEARER_TOKEN", "")
+        if not bearer:
+            print("  ⚠️ get_tweet_metrics: TWITTER_BEARER_TOKEN 未設定")
             return {}
 
-        metrics = tweet.data.public_metrics or {}
-        return {
-            "likes": metrics.get("like_count", 0),
-            "retweets": metrics.get("retweet_count", 0),
-            "replies": metrics.get("reply_count", 0),
-            "impressions": metrics.get("impression_count", 0),
-            "quotes": metrics.get("quote_count", 0),
-            "bookmarks": metrics.get("bookmark_count", 0),
-            "created_at": str(tweet.data.created_at) if tweet.data.created_at else "",
-        }
+        headers = {"Authorization": f"Bearer {bearer}"}
+        params = {"tweet.fields": "public_metrics,created_at"}
+        try:
+            resp = requests.get(
+                f"{self.BASE_URL}/tweets/{tweet_id}",
+                headers=headers, params=params, timeout=30,
+            )
+            if resp.status_code != 200:
+                print(f"  ⚠️ get_tweet_metrics: {resp.status_code}")
+                return {}
+
+            data = resp.json().get("data", {})
+            metrics = data.get("public_metrics", {})
+            return {
+                "likes": metrics.get("like_count", 0),
+                "retweets": metrics.get("retweet_count", 0),
+                "replies": metrics.get("reply_count", 0),
+                "impressions": metrics.get("impression_count", 0),
+                "quotes": metrics.get("quote_count", 0),
+                "bookmarks": metrics.get("bookmark_count", 0),
+                "created_at": data.get("created_at", ""),
+            }
+        except Exception as e:
+            print(f"  ⚠️ get_tweet_metrics: {e}")
+            return {}
