@@ -1,0 +1,96 @@
+[
+  {
+    "text": "🚨【警告】AI規制、暗号資産市場を直撃か？ 市場全体で「-30%」以上の暴落リスクが現実味を帯びる。\n欧米で加速するAI法案は、Web3とDeFiに「予期せぬ」規制の津波をもたらす。これは単なるAIの問題ではない。\n・AIによるDEXでの価格操作リスクへの懸念が臨界点に達する。\n・「RNDR」や「FET」など、特定のAI関連トークンが実体なきバブルと断罪される可能性。\n・GAFAによるAI覇権が、Web3の「分散」思想と根本から衝突。市場の自由は奪われる。\n今後6ヶ月で投資家の多くが「規制の津波」に飲み込まれる。\n幻想は打ち砕かれる。警戒を怠るな。",
+    "type": "問題提起",
+    "time": "06:56",
+    "slot": "morning",
+    "date": "2026-02-25",
+    "account_id": "account_1",
+    "score": {
+      "total": 5,
+      "rank": "B",
+      "hook": 0,
+      "specificity": 2,
+      "humanity": 1,
+      "structure": 1,
+      "cta": 1,
+      "details": {
+        "hook": "フック弱い",
+        "specificity": "数字1個, 比較表現あり",
+        "humanity": "カジュアル1個, AI感0個",
+        "structure": "271字, 7行 — OK",
+        "cta": "CTA検出",
+        "penalty": "なし"
+      }
+    },
+    "safety": {
+      "is_safe": true,
+      "violations": [],
+      "warnings": []
+    }
+  },
+  {
+    "text": "💥【衝撃】副業の「作業時間」が激減するAI自動化の真実。\nこれを知らずに消耗してるなら、マジで「時間泥棒」に遭ってる。ぶっちゃけ、AIを「使い倒すか」で副業の未来は決まる。\n\n🚨「Claude Code」が投稿を「自動生成」。AI感ゼロでフォロワー爆増だ。\n📈「思考時間ゼロ」で高品質な記事が完成。コピペで即運用は可能。\n🚀朝3時間かかっていた作業が「10分」に。生産性「18倍」の衝撃。\n🔥生まれた時間で「新事業」や「本業集中」。もう「忙しい」とは言わせない。\n\nこれは「保存必須」のテンプレ。あなたの副業を「進化」させろ。",
+    "type": "How to（保存狙い）",
+    "time": "11:48",
+    "slot": "noon",
+    "date": "2026-02-25",
+    "account_id": "account_1",
+    "score": {
+      "total": 6,
+      "rank": "A",
+      "hook": 0,
+      "specificity": 2,
+      "humanity": 2,
+      "structure": 1,
+      "cta": 1,
+      "details": {
+        "hook": "フック弱い",
+        "specificity": "数字3個, 比較表現あり",
+        "humanity": "カジュアル表現3個, AI感ゼロ",
+        "structure": "255字, 7行 — OK",
+        "cta": "CTA検出",
+        "penalty": "なし"
+      }
+    },
+    "safety": {
+      "is_safe": true,
+      "violations": [],
+      "warnings": [
+        "絵文字5個 (推奨3個以下)"
+      ]
+    }
+  },
+  {
+    "text": "🩸【破滅】旧型AI頼みで「億り人」の夢が散った。Web3投資におけるAI活用、その「甘い罠」を暴く。💀\n\n我々はかつて、GPT-3.5での市場予測を盲信し、資産の「30%」を溶かした。📉\n\n・AI出力の「鮮度」を見極めろ。旧モデルは市場変化に対応不能だ。\n・「過度な自動化」は危険。AIはあくまで「ツール」に過ぎない。\n・複数AIでの「クロスチェック」は必須。単一モデルの「断定」を鵜呑みにするな。\n\nAIの「限界」を知らずに突っ込めば、市場は容赦なく「破滅」を突きつける。🚨",
+    "type": "失敗談",
+    "time": "21:05",
+    "slot": "evening",
+    "date": "2026-02-25",
+    "account_id": "account_1",
+    "score": {
+      "total": 3,
+      "rank": "C",
+      "hook": 0,
+      "specificity": 2,
+      "humanity": 0,
+      "structure": 1,
+      "cta": 0,
+      "details": {
+        "hook": "フック弱い",
+        "specificity": "数字1個, 比較表現あり",
+        "humanity": "人間味不足 (カジュアル0, AI感0)",
+        "structure": "230字, 6行 — OK",
+        "cta": "CTAなし",
+        "penalty": "なし"
+      }
+    },
+    "safety": {
+      "is_safe": true,
+      "violations": [],
+      "warnings": [
+        "絵文字4個 (推奨3個以下)"
+      ]
+    }
+  }
+]
