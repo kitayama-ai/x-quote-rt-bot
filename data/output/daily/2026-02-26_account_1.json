@@ -1,0 +1,94 @@
+[
+  {
+    "text": "💥【激震】ゴールドマン・サックスがBTC「20万ドル」到達を断定！機関資金の『圧倒的』流入が加速、新たな時代への号砲が鳴り響く🚀\n\n伝統金融の牙城GSが強気姿勢へ大転換。これは単なる予測ではない。\n\n・伝統金融が本気で「デジタルゴールド」を認めた証左🏛️\n・機関投資家マネーの『巨大な波』が、BTC市場へ猛烈に押し寄せる📈\n・個人投資家もこの動きに追随する「半端ない」勢い。\n・今後の暗号資産業界全体への『神風』となる✨\n\nこの波に乗るか、見送るか。選択は迫られている。",
+    "type": "権威引用",
+    "time": "07:13",
+    "slot": "morning",
+    "date": "2026-02-26",
+    "account_id": "account_1",
+    "score": {
+      "total": 5,
+      "rank": "B",
+      "hook": 0,
+      "specificity": 2,
+      "humanity": 1,
+      "structure": 1,
+      "cta": 1,
+      "details": {
+        "hook": "フック弱い",
+        "specificity": "数字1個, 比較表現あり",
+        "humanity": "カジュアル1個, AI感0個",
+        "structure": "226字, 7行 — OK",
+        "cta": "CTA検出",
+        "penalty": "なし"
+      }
+    },
+    "safety": {
+      "is_safe": true,
+      "violations": [],
+      "warnings": [
+        "絵文字6個 (推奨3個以下)"
+      ]
+    }
+  },
+  {
+    "text": "💥【激震】AIが副業界を「完全破壊」！2026年、マジで稼げる『AI自動化ツール』BEST3がこれだ。\n\nAIの進化速度は想像を遥かに超える。もう人間が手を動かす時代ではない。富の再分配が加速する中、知らぬ間に乗り遅れる投資家も多数だ。\n\n・「Claude Code」による市場データ分析、瞬時の投資判断をサポート。圧倒的な情報戦を制する。\n・「GAS」と連携した自動売買システム構築。機会損失を徹底排除し、利益を最大化する。\n・「DeFiプロトコル」との自動接続。複利運用までAIが全自動化、あなたの時間を解放する。\n\nこれが次の富裕層を生む『決定打』となる。乗り遅れるな。",
+    "type": "リスト（保存狙い）",
+    "time": "11:55",
+    "slot": "noon",
+    "date": "2026-02-26",
+    "account_id": "account_1",
+    "score": {
+      "total": 4,
+      "rank": "B",
+      "hook": 0,
+      "specificity": 1,
+      "humanity": 1,
+      "structure": 1,
+      "cta": 1,
+      "details": {
+        "hook": "フック弱い",
+        "specificity": "数字0個 / ツール名2個",
+        "humanity": "カジュアル1個, AI感0個",
+        "structure": "280字, 6行 — OK",
+        "cta": "CTA検出",
+        "penalty": "なし"
+      }
+    },
+    "safety": {
+      "is_safe": true,
+      "violations": [],
+      "warnings": []
+    }
+  },
+  {
+    "text": "💥【激震】「NVIDIA」株価が「3ヶ月で+150%」爆騰。AIバブルの狂乱が、Web3市場を喰らい尽くす。\n\nこの異常な資金集中は、暗号資産界に💀「壊滅的」なインパクトを与え始めた。市場は完全にAIに傾倒。\n\n・ NVIDIAの歴史的急騰は、AIへの「過剰な投機熱」の証明。\n・ 当然、この資金はDeFiやレイヤー2から「流出」している現実。\n・ 次の半減期前、弱体化するBTCは「AI投資」の巨大な波に飲まれる。\n・ 覚悟を決めろ。時代は「AI」か「死」か。投資家は選択を迫られている。\n\nこれが、資本主義の現実だ。",
+    "type": "振り返り",
+    "time": "20:54",
+    "slot": "evening",
+    "date": "2026-02-26",
+    "account_id": "account_1",
+    "score": {
+      "total": 4,
+      "rank": "B",
+      "hook": 0,
+      "specificity": 2,
+      "humanity": 0,
+      "structure": 1,
+      "cta": 1,
+      "details": {
+        "hook": "フック弱い",
+        "specificity": "数字1個, 比較表現あり",
+        "humanity": "人間味不足 (カジュアル0, AI感0)",
+        "structure": "251字, 7行 — OK",
+        "cta": "CTA検出",
+        "penalty": "なし"
+      }
+    },
+    "safety": {
+      "is_safe": true,
+      "violations": [],
+      "warnings": []
+    }
+  }
+]
