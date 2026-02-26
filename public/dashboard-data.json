@@ -1,13 +1,86 @@
 {
-  "updated_at": "2026-02-26T03:08:24.796438",
+  "updated_at": "2026-02-26T04:30:41.475626",
   "stats": {
     "pending": 0,
-    "approved": 0,
+    "approved": 2,
     "skipped": 0,
     "posted_total": 0,
     "posted_today": 0
   },
-  "queue": [],
+  "queue": [
+    {
+      "tweet_id": "2024895359236051274",
+      "author_username": "birdabo",
+      "author_name": "Bird",
+      "text": "Discord年齢認証のPersonaがハッキング。データ流出。OpenAIと米政府が昨年11月から本人確認を通じてユーザーをID監視していた事実も判明。プライバシーが壊滅。Web3が目指すプライバシーと自己主権型アイデンティティの理想が揺らいでいる。",
+      "lang": "ja",
+      "likes": 1200,
+      "retweets": 450,
+      "replies": 120,
+      "quotes": 89,
+      "bookmarks": 200,
+      "url": "https://x.com/birdabo/status/2024895359236051274",
+      "collected_at": "2026-02-26T03:00:00+09:00",
+      "source": "manual",
+      "tags": [
+        "privacy",
+        "web3"
+      ],
+      "memo": "テスト用ツイート",
+      "preference_match_score": 0.95,
+      "matched_topics": [
+        "privacy",
+        "web3"
+      ],
+      "matched_keywords": [],
+      "status": "approved",
+      "added_at": "2026-02-26T03:00:00+09:00",
+      "generated_text": "",
+      "template_id": "",
+      "score": {
+        "total": 8,
+        "rank": "A"
+      },
+      "skip_reason": "",
+      "feedback_note": ""
+    },
+    {
+      "tweet_id": "2025274123560362347",
+      "author_username": "rohanpaul_ai",
+      "author_name": "Rohan Paul",
+      "text": "Demis Hassabis's 'Einstein test' for defining AGI: Train a model on all human knowledge but cut it off at 1911, then see if it can independently discover general relativity (as Einstein did by 1915). Genius.",
+      "lang": "en",
+      "likes": 11875,
+      "retweets": 819,
+      "replies": 234,
+      "quotes": 156,
+      "bookmarks": 450,
+      "url": "https://x.com/rohanpaul_ai/status/2025274123560362347",
+      "collected_at": "2026-02-26T03:00:00+09:00",
+      "source": "manual",
+      "tags": [
+        "ai",
+        "agi"
+      ],
+      "memo": "テスト用ツイート",
+      "preference_match_score": 0.98,
+      "matched_topics": [
+        "ai",
+        "agi"
+      ],
+      "matched_keywords": [],
+      "status": "approved",
+      "added_at": "2026-02-26T03:00:00+09:00",
+      "generated_text": "",
+      "template_id": "",
+      "score": {
+        "total": 9,
+        "rank": "A"
+      },
+      "skip_reason": "",
+      "feedback_note": ""
+    }
+  ],
   "recent_posted": [],
   "metrics": [],
   "pdca_insights": {
