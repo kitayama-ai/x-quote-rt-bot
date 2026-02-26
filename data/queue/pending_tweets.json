@@ -20,8 +20,8 @@
     "matched_keywords": [],
     "status": "approved",
     "added_at": "2026-02-26T03:00:00+09:00",
-    "generated_text": "",
-    "template_id": "",
+    "generated_text": "Discord年齢認証ベンダーPersonaがハッキング。OpenAIと米政府が昨年11月から身元監視に利用か。認証済ユーザーは追跡可能に。Web3の匿名性は脆いのか。中央集権の影が迫る中、暗号資産プライバシー技術の重要性は高まる。",
+    "template_id": "dark_alert",
     "score": {
       "total": 8,
       "rank": "A"
@@ -50,8 +50,8 @@
     "matched_keywords": [],
     "status": "approved",
     "added_at": "2026-02-26T03:00:00+09:00",
-    "generated_text": "",
-    "template_id": "",
+    "generated_text": "DeepMindハサビス氏のAGI「アインシュタインテスト」が話題だ。1911年までの知識で学習後、一般相対性理論を独自発見できればAGI。真の知性実現はAI関連トークンやWeb3経済圏に計り知れない進化をもたらすだろう。",
+    "template_id": "summary_points",
     "score": {
       "total": 9,
       "rank": "A"
