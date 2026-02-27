@@ -1,0 +1,94 @@
+[
+  {
+    "text": "💥【衝撃】ウォール街の年間利益、AIが80%食い潰した。個人が「億」を稼ぐ新常識が来る。\n\n「AI投資は機関向け」は幻想だ。マジで。米大手証券のレポートが、高精度AI「AlphaPredict」が市場を席巻する未来を断定。これは革命だ。\n\n・「AlphaPredict」級AIが数秒で市場を読み、最適ポジションを自動構築。\n・年間リターン平均+30%超の実績が、個人に「億」の夢を見せる。\n・ぶっちゃけ、高額情報商材よりAIツールの方がガチ。\n・情報格差は崩壊。今や「AI使いこなせるか」だけが勝敗を分ける。\n\n旧来の常識にしがみつく愚か者は、市場の養分となる。",
+    "type": "反常識",
+    "time": "07:12",
+    "slot": "morning",
+    "date": "2026-02-27",
+    "account_id": "account_1",
+    "score": {
+      "total": 6,
+      "rank": "A",
+      "hook": 0,
+      "specificity": 2,
+      "humanity": 2,
+      "structure": 1,
+      "cta": 1,
+      "details": {
+        "hook": "フック弱い",
+        "specificity": "数字2個, 比較表現あり",
+        "humanity": "カジュアル表現4個, AI感ゼロ",
+        "structure": "272字, 7行 — OK",
+        "cta": "CTA検出",
+        "penalty": "なし"
+      }
+    },
+    "safety": {
+      "is_safe": true,
+      "violations": [],
+      "warnings": []
+    }
+  },
+  {
+    "text": "💥【激震】9割が知らない！AIが暴く「仮想通貨」”爆上げ銘柄”のサイン。\n\nAIの市場解析力は、個人の投資パフォーマンスを「劇的に」変える。\nノイズを排除し、本質を抽出するAIプロンプトが「勝ち筋」だ。\n\n・🚨「重要イベント」察知：ファンダメンタルズ変化を”最速”把握、先行者利益確保。\n・📈「大口の動き」可視化：価格操作予兆を掴み、暴騰・暴落の「本質」を見抜け。\n\nAIこそ「未来の富」を掴む武器。乗り遅れるな。「淘汰」が待つ。",
+    "type": "How to",
+    "time": "12:13",
+    "slot": "noon",
+    "date": "2026-02-27",
+    "account_id": "account_1",
+    "score": {
+      "total": 2,
+      "rank": "C",
+      "hook": 0,
+      "specificity": 0,
+      "humanity": 0,
+      "structure": 1,
+      "cta": 1,
+      "details": {
+        "hook": "フック弱い",
+        "specificity": "具体性不足",
+        "humanity": "人間味不足 (カジュアル0, AI感0)",
+        "structure": "207字, 6行 — OK",
+        "cta": "CTA検出",
+        "penalty": "なし"
+      }
+    },
+    "safety": {
+      "is_safe": true,
+      "violations": [],
+      "warnings": []
+    }
+  },
+  {
+    "text": "💥【激震】市場は「制御不能」へ突入！今週、AIと暗号資産が示した「現実」を直視せよ。\n\nボラティリティは極限。情報弱者は「全て」を失う🚨\n\n・【AI】「GPT-X」が金融ツールを刷新。市場を「破壊」する💀影響力。\n・【Web3】各国がデジタル通貨導入を加速。「監視社会」への警鐘鳴る。\n・【暗号資産】「AIトークン」が週次500%爆騰！だが、潜む「罠」を見抜け。\n\nこの「激動」を制する者だけが、次の富を🚀掴む。",
+    "type": "今週のまとめ",
+    "time": "21:02",
+    "slot": "evening",
+    "date": "2026-02-27",
+    "account_id": "account_1",
+    "score": {
+      "total": 3,
+      "rank": "C",
+      "hook": 0,
+      "specificity": 1,
+      "humanity": 0,
+      "structure": 1,
+      "cta": 1,
+      "details": {
+        "hook": "フック弱い",
+        "specificity": "数字1個 / ツール名0個",
+        "humanity": "人間味不足 (カジュアル0, AI感0)",
+        "structure": "198字, 6行 — OK",
+        "cta": "CTA検出",
+        "penalty": "なし"
+      }
+    },
+    "safety": {
+      "is_safe": true,
+      "violations": [],
+      "warnings": [
+        "絵文字4個 (推奨3個以下)"
+      ]
+    }
+  }
+]
