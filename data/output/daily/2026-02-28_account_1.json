@@ -1,0 +1,100 @@
+[
+  {
+    "text": "💥【衝撃】AIマネーが仮想通貨を「破壊的に高騰」させる。\nGAFA級企業がWeb3へ怒涛の参入、市場に「数兆円」規模の資金流入が決定だ。🔥\n\nこれまでAIとWeb3は別物だった。\nだが、大手AI企業の戦略的動きにより、その壁は今、完全に崩壊する。🚀\n\n・AI技術を組み込んだWeb3プロジェクトへの「機関投資家マネー」の集中が始まる。\n・特に「AI×データ管理」領域のトークンが爆発的成長を遂げる。💰\n・市場の常識が書き換えられ、新たな「バブル」の波が不可避。\n・乗り遅れる者は、この「歴史的シフト」から取り残されるのみ。✨\n\nこの流れはもう止められない。\n仮想通貨の未来はAIによって描かれる。",
+    "type": "ストーリー",
+    "time": "06:47",
+    "slot": "morning",
+    "date": "2026-02-28",
+    "account_id": "account_1",
+    "score": {
+      "total": 0,
+      "rank": "C",
+      "hook": 0,
+      "specificity": 0,
+      "humanity": 0,
+      "structure": 0,
+      "cta": 1,
+      "details": {
+        "hook": "フック弱い",
+        "specificity": "具体性不足",
+        "humanity": "人間味不足 (カジュアル0, AI感0)",
+        "structure": "286字, 10行 — 要改善",
+        "cta": "CTA検出",
+        "penalty": [
+          "文字数超過(286字)"
+        ]
+      }
+    },
+    "safety": {
+      "is_safe": false,
+      "violations": [
+        "文字数超過: 286字 (最大280字)"
+      ],
+      "warnings": [
+        "絵文字5個 (推奨3個以下)"
+      ]
+    }
+  },
+  {
+    "text": "💥【激震】マジでヤバいAIツール判明。SNS投稿に消耗する者は今すぐコレを使え。\n\nぶっちゃけ、毎日3時間かけてた投稿作業が全自動化する時代が来た。もう手書きは不要。\n\n・コンテンツの企画から執筆までAIが完結。時間創出の極致。\n・フォロワーの反応をAIが分析。次にバズるネタを予測する精度。\n・記事のクオリティも半端ない。AIにAI感はもう無い。\n\nこのツールを知らない奴は、マジで損する未来しかない。確実に。",
+    "type": "ツール紹介",
+    "time": "12:08",
+    "slot": "noon",
+    "date": "2026-02-28",
+    "account_id": "account_1",
+    "score": {
+      "total": 6,
+      "rank": "A",
+      "hook": 0,
+      "specificity": 2,
+      "humanity": 2,
+      "structure": 1,
+      "cta": 1,
+      "details": {
+        "hook": "フック弱い",
+        "specificity": "数字1個, 比較表現あり",
+        "humanity": "カジュアル表現2個, AI感ゼロ",
+        "structure": "198字, 6行 — OK",
+        "cta": "CTA検出",
+        "penalty": "なし"
+      }
+    },
+    "safety": {
+      "is_safe": true,
+      "violations": [],
+      "warnings": []
+    }
+  },
+  {
+    "text": "💥【激震】SEC、AIトークン「厳格規制」へ。市場は最大30%暴落、「地獄絵図」到来か🚨\n米規制当局の動きは、数兆円規模のAI市場に「死刑宣告」。投資家は「防御策」を急げ。\n\n・「証券性」判断強化: AIトークン「全滅」の危機。\n・資金流出加速: 不安から「売り殺到」。\n・Web3への波及: NFT, DeFiも「荒波」突入不可避。\n\nこの規制は、市場の「大淘汰」だ。甘い見方は、全てを失う。💀🔥",
+    "type": "自由枠",
+    "time": "20:52",
+    "slot": "evening",
+    "date": "2026-02-28",
+    "account_id": "account_1",
+    "score": {
+      "total": 3,
+      "rank": "C",
+      "hook": 0,
+      "specificity": 2,
+      "humanity": 0,
+      "structure": 1,
+      "cta": 0,
+      "details": {
+        "hook": "フック弱い",
+        "specificity": "数字1個, 比較表現あり",
+        "humanity": "人間味不足 (カジュアル0, AI感0)",
+        "structure": "192字, 6行 — OK",
+        "cta": "CTAなし",
+        "penalty": "なし"
+      }
+    },
+    "safety": {
+      "is_safe": true,
+      "violations": [],
+      "warnings": [
+        "絵文字4個 (推奨3個以下)"
+      ]
+    }
+  }
+]
