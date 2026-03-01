@@ -475,13 +475,11 @@ def cmd_curate_pipeline(args):
             print(f"    ⛔ 安全チェック不合格: {safety.violations}")
             continue
 
-        # 投稿（403時はURL埋め込みにフォールバック）
+        # 投稿（URL埋め込み方式 — Free プランでは quote_tweet_id が使えないため）
         quote_url = f"https://x.com/{author}/status/{tweet_id}"
         try:
             print(f"    📤 投稿中...")
-            result = poster.post_tweet(
-                text=text, quote_tweet_id=tweet_id, quote_url=quote_url,
-            )
+            result = poster.post_tweet(text=text, quote_url=quote_url)
             posted_tweet_id = result.get("id")
             if not posted_tweet_id:
                 raise ValueError(f"X APIからツイートIDが返りませんでした: {result}")
@@ -497,9 +495,6 @@ def cmd_curate_pipeline(args):
         except Exception as e:
             error_msg = str(e)
             print(f"    ❌ 投稿エラー: {error_msg}")
-            if "403" in error_msg:
-                print(f"    ⚠️ 引用RT制限あり。次のツイートを試します。")
-                continue
             notifier.notify_error("引用RT投稿エラー", error_msg)
 
     # ── 結果 ──────────────────────────────────────────
@@ -569,9 +564,11 @@ def cmd_curate_post(args):
             print(f"  🔒 スコア{score_total}は閾値未満。手動承認が必要。")
             continue
 
-        # 投稿実行
+        # 投稿実行（URL埋め込み方式）
+        author_username = item.get("author_username", "unknown")
+        quote_url = f"https://x.com/{author_username}/status/{tweet_id}"
         try:
-            result = poster.post_tweet(text=text, quote_tweet_id=tweet_id)
+            result = poster.post_tweet(text=text, quote_url=quote_url)
             posted_tweet_id = result.get("id")
             if not posted_tweet_id:
                 raise ValueError(f"X APIからツイートIDが返りませんでした: {result}")
@@ -628,9 +625,11 @@ def cmd_post_one(args):
         print(f"⛔ 安全チェック不合格: {safety.violations}")
         sys.exit(1)
 
-    # 投稿実行
+    # 投稿実行（URL埋め込み方式）
+    author_username = target.get("author_username", "unknown")
+    quote_url = f"https://x.com/{author_username}/status/{tweet_id}"
     try:
-        result = poster.post_tweet(text=text, quote_tweet_id=tweet_id)
+        result = poster.post_tweet(text=text, quote_url=quote_url)
         posted_tweet_id = result.get("id")
         if not posted_tweet_id:
             raise ValueError(f"X APIからツイートIDが返りませんでした: {result}")
