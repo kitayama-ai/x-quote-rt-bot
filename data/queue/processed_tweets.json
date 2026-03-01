@@ -96,5 +96,76 @@
     "feedback_note": "",
     "posted_tweet_id": "2027962695983722617",
     "posted_at": "2026-03-01T13:22:39.266713+09:00"
+  },
+  {
+    "tweet_id": "2027950365682110921",
+    "author_username": "pantheonsceo",
+    "author_name": "Kartik",
+    "text": "This is exactly where AI coding is headed. Not one agent writing code. Multiple agents competing, testing, iterating in parallel. The \"single cursor in a file\" era is ending fast. I've been running multi-agent setups on smaller projects and the speed difference is brutal. Solo https://t.co/mZECSLN7dd",
+    "lang": "en",
+    "likes": 0,
+    "retweets": 0,
+    "replies": 0,
+    "quotes": 0,
+    "bookmarks": 0,
+    "url": "https://x.com/pantheonsceo/status/2027950365682110921",
+    "collected_at": "2026-03-01T12:35:36.653519+09:00",
+    "source": "x_api_v2",
+    "tags": [],
+    "memo": "",
+    "preference_match_score": 4.2,
+    "matched_topics": [
+      "AI agents",
+      "coding AI"
+    ],
+    "matched_keywords": [
+      "coding"
+    ],
+    "status": "posted",
+    "added_at": "2026-03-01T12:35:36.668842+09:00",
+    "generated_text": "🚨【激震】AIコード開発、「マルチエージェント」時代へ激変！\n\n複数AIが競い、開発は「超爆速」へ。単一AIの時代は終焉だ。🏛️✨\n・Web3企業のAI導入が急加速。コストは激減。\n・市場は「破壊的」に変わる。乗るか死ぬか、覚悟しろ。",
+    "template_id": "translate_comment",
+    "score": {
+      "total": 2,
+      "rank": "C"
+    },
+    "skip_reason": "",
+    "feedback_note": "",
+    "posted_tweet_id": "2027987427399291090",
+    "posted_at": "2026-03-01T15:00:55.703369+09:00"
+  },
+  {
+    "tweet_id": "2027950003164229650",
+    "author_username": "Saniarai932",
+    "author_name": "Sania Rai",
+    "text": "Sources: U.S. military's strikes on Iran still used Anthropic's AI tools\n\nAccording to a report by The Wall Street Journal citing informed sources, intelligence agencies worldwide—including the U.S. Central Command—are using Anthropic’s Claude AI tool.\nHowever, just hours before",
+    "lang": "en",
+    "likes": 0,
+    "retweets": 0,
+    "replies": 0,
+    "quotes": 0,
+    "bookmarks": 0,
+    "url": "https://x.com/Saniarai932/status/2027950003164229650",
+    "collected_at": "2026-03-01T12:35:36.653530+09:00",
+    "source": "x_api_v2",
+    "tags": [],
+    "memo": "",
+    "preference_match_score": 2.5,
+    "matched_topics": [],
+    "matched_keywords": [
+      "Claude"
+    ],
+    "status": "posted",
+    "added_at": "2026-03-01T12:35:36.671618+09:00",
+    "generated_text": "💥【伝説】米軍、AI兵器「実戦投入」の歴史的瞬間！\n\nAnthropicのClaudeがイラン攻撃に利用。ついにAIが戦場を支配した時代へ。🏛️🔥\n・AI開発は「最終局面」へ突入。兵器利用は不可逆。\n・軍事AI市場は爆発拡大、関連銘柄...",
+    "template_id": "legend_moment",
+    "score": {
+      "total": 2,
+      "rank": "C"
+    },
+    "skip_reason": "",
+    "feedback_note": "",
+    "posted_tweet_id": "2027987613093597300",
+    "posted_at": "2026-03-01T15:01:40.005294+09:00"
   }
 ]
