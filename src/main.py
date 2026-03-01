@@ -381,9 +381,11 @@ def cmd_curate_pipeline(args):
             return
         print(f"📋 既存キュー {len(existing)}件を使用します")
 
-    # ── STEP 2: 生成 ──────────────────────────────────────────
+    # ── STEP 2 & 3: 生成→投稿（一体型） ────────────────────────
+    # 1件ずつ「生成→投稿」を試み、403なら次のツイートへ。
+    # max_posts 件投稿成功するまでキュー全体を回す。
     print(f"\n{'='*50}")
-    print("🤖 STEP 2: 引用RTコメント生成")
+    print("🤖 STEP 2: 生成→投稿（一体型パイプライン）")
     print(f"{'='*50}")
 
     generator = QuoteGenerator(config)
@@ -394,64 +396,18 @@ def cmd_curate_pipeline(args):
         print("📭 承認済みツイートがありません")
         return
 
-    print(f"📋 対象: {len(approved)}件（上位{max_posts}件を処理）")
-
-    generated_items = []
-    for i, item in enumerate(approved[:max_posts], 1):
-        if not item.get("text"):
-            print(f"  ⚠️ [{i}] テキストなし。スキップ")
-            continue
-
-        print(f"  🔄 [{i}] @{item.get('author_username', '?')}: {item['text'][:60]}...")
-
-        gen_result = generator.generate(
-            original_text=item["text"],
-            author_username=item.get("author_username", ""),
-            author_name=item.get("author_name", ""),
-            likes=item.get("likes", 0),
-            retweets=item.get("retweets", 0),
-            past_posts=[g["generated_text"] for g in generated_items],
-        )
-
-        if gen_result.get("text"):
-            score_dict = None
-            if gen_result.get("score"):
-                score_dict = {
-                    "total": gen_result["score"].total,
-                    "rank": gen_result["score"].rank,
-                }
-            queue.set_generated(
-                tweet_id=item["tweet_id"],
-                text=gen_result["text"],
-                template_id=gen_result["template_id"],
-                score=score_dict,
-            )
-            generated_items.append({
-                "tweet_id": item["tweet_id"],
-                "generated_text": gen_result["text"],
-                "template_id": gen_result["template_id"],
-                "score": score_dict,
-                "author_username": item.get("author_username", ""),
-            })
-            score_str = f"スコア: {gen_result['score'].total}" if gen_result.get("score") else "?"
-            print(f"    ✅ 生成完了 [{gen_result['template_id']}] {score_str}")
-            print(f"    📝 {gen_result['text'][:80]}...")
-        else:
-            print(f"    ❌ 生成失敗")
-
-    if not generated_items:
-        print("❌ コメントが1件も生成できませんでした")
-        return
-
-    # ── STEP 3: 投稿 ──────────────────────────────────────────
-    print(f"\n{'='*50}")
-    print("📤 STEP 3: 引用RT投稿")
-    print(f"{'='*50}")
-
     if dry_run:
-        print("🔒 ドライラン: 投稿はスキップ")
-        for g in generated_items:
-            print(f"  📎 @{g['author_username']} → {g['generated_text'][:60]}...")
+        print(f"🔒 ドライラン: {len(approved)}件を生成のみ（投稿しない）")
+        for i, item in enumerate(approved[:max_posts], 1):
+            if not item.get("text"):
+                continue
+            gen_result = generator.generate(
+                original_text=item["text"],
+                author_username=item.get("author_username", ""),
+                author_name=item.get("author_name", ""),
+            )
+            if gen_result.get("text"):
+                print(f"  [{i}] @{item.get('author_username','?')} → {gen_result['text'][:60]}...")
         return
 
     if config.mode == "manual_approval":
@@ -459,8 +415,6 @@ def cmd_curate_pipeline(args):
         return
 
     poster = XPoster(config)
-
-    # アカウント確認（失敗しても投稿は続行）
     _verify_poster(poster)
 
     # 1日の投稿上限チェック
@@ -472,44 +426,76 @@ def cmd_curate_pipeline(args):
 
     notifier = DiscordNotifier(config.discord_webhook_account or config.discord_webhook_general)
     posted_count = 0
+    tried_count = 0
+    past_posts = []
 
-    for i, item in enumerate(generated_items[:remaining], 1):
-        text = item["generated_text"]
+    print(f"📋 キュー: {len(approved)}件 / 目標: {max_posts}件 / 残枠: {remaining}件")
+
+    for item in approved:
+        if posted_count >= max_posts or posted_count >= remaining:
+            break
+
+        if not item.get("text"):
+            continue
+
+        tried_count += 1
+        author = item.get("author_username", "?")
+        print(f"\n  [{tried_count}] @{author}: {item['text'][:60]}...")
+
+        # 生成
+        gen_result = generator.generate(
+            original_text=item["text"],
+            author_username=author,
+            author_name=item.get("author_name", ""),
+            likes=item.get("likes", 0),
+            retweets=item.get("retweets", 0),
+            past_posts=past_posts,
+        )
+
+        if not gen_result.get("text"):
+            print(f"    ❌ 生成失敗。次へ。")
+            continue
+
+        text = gen_result["text"]
         tweet_id = item["tweet_id"]
+        score_str = f"スコア: {gen_result['score'].total}" if gen_result.get("score") else "?"
+        print(f"    ✅ 生成完了 [{gen_result['template_id']}] {score_str}")
+        print(f"    📝 {text[:80]}...")
+
+        # キューに保存
+        score_dict = None
+        if gen_result.get("score"):
+            score_dict = {"total": gen_result["score"].total, "rank": gen_result["score"].rank}
+        queue.set_generated(tweet_id=tweet_id, text=text,
+                            template_id=gen_result["template_id"], score=score_dict)
 
         # 安全チェック
         safety = safety_checker.check(text, is_quote_rt=True)
         if not safety.is_safe:
-            print(f"  ⛔ [{i}] 安全チェック不合格: {safety.violations}")
+            print(f"    ⛔ 安全チェック不合格: {safety.violations}")
             continue
 
-        # スコア判定（semi_autoモード）
-        score_total = item.get("score", {}).get("total", 0) if item.get("score") else 0
-        if config.mode == "semi_auto" and score_total < config.auto_post_min_score:
-            print(f"  🔒 [{i}] スコア{score_total}は閾値未満。スキップ。")
-            continue
-
-        # 投稿実行
+        # 投稿
         try:
-            print(f"  📤 [{i}] 投稿中... @{item['author_username']}")
+            print(f"    📤 投稿中...")
             result = poster.post_tweet(text=text, quote_tweet_id=tweet_id)
             posted_tweet_id = result.get("id")
             if not posted_tweet_id:
                 raise ValueError(f"X APIからツイートIDが返りませんでした: {result}")
             queue.mark_posted(tweet_id, posted_tweet_id)
-            print(f"  ✅ [{i}] 投稿成功! https://x.com/i/status/{posted_tweet_id}")
+            print(f"    ✅ 投稿成功! https://x.com/i/status/{posted_tweet_id}")
             posted_count += 1
+            past_posts.append(text)
 
-            # 連投防止（5秒待機）
-            if i < len(generated_items):
-                print(f"  ⏳ 連投防止: 5秒待機...")
+            # 連投防止
+            if posted_count < max_posts:
+                print(f"    ⏳ 連投防止: 5秒待機...")
                 time.sleep(5)
         except Exception as e:
             error_msg = str(e)
-            print(f"  ❌ [{i}] 投稿エラー: {error_msg}")
-            # 403 "Quoting not allowed" の場合はスキップして次へ
+            print(f"    ❌ 投稿エラー: {error_msg}")
             if "403" in error_msg:
-                print(f"  ⚠️ この元ツイートは引用RT制限あり。次へ進みます。")
+                print(f"    ⚠️ 引用RT制限あり。次のツイートを試します。")
                 continue
             notifier.notify_error("引用RT投稿エラー", error_msg)
 
