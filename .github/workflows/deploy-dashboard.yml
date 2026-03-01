@@ -27,6 +27,7 @@ jobs:
           echo "$FIREBASE_CREDENTIALS_BASE64" | tr -d '\n\r ' | base64 -d > /tmp/firebase-sa.json
         env:
           FIREBASE_CREDENTIALS_BASE64: ${{ secrets.FIREBASE_CREDENTIALS_BASE64 }}
+          DATA_UID: ${{ secrets.DATA_UID }}
 
       - name: Verify credentials
         run: |

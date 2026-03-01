@@ -48,6 +48,7 @@ jobs:
         env:
           FIREBASE_CREDENTIALS_BASE64: ${{ secrets.FIREBASE_CREDENTIALS_BASE64 }}
           FIREBASE_UID: ${{ secrets.FIREBASE_UID }}
+          DATA_UID: ${{ secrets.DATA_UID }}
         run: python -m src.main sync-from-firebase --quiet
         continue-on-error: true
 

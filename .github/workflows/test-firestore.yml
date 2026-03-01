@@ -22,4 +22,5 @@ jobs:
         env:
           FIREBASE_CREDENTIALS_BASE64: ${{ secrets.FIREBASE_CREDENTIALS_BASE64 }}
           FIREBASE_UID: ${{ secrets.FIREBASE_UID }}
+          DATA_UID: ${{ secrets.DATA_UID }}
         run: python tools/test_firestore_ops.py

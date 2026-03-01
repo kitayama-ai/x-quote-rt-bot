@@ -3,82 +3,108 @@ service cloud.firestore {
   match /databases/{database}/documents {
 
     // ============================
-    // Users collection
+    // ヘルパー関数
     // ============================
-    // ユーザーは自分のドキュメントのみ読み書き可能
+    // ログインユーザーの account_access ドキュメントを取得
+    function getAccess() {
+      return get(/databases/$(database)/documents/account_access/$(request.auth.token.email));
+    }
+
+    // docId が自分の data_uid と一致するか
+    function hasAccess(docId) {
+      return request.auth != null && getAccess().data.data_uid == docId;
+    }
+
+    // docId に対して指定ロールを持つか
+    function hasRole(docId, roles) {
+      let access = getAccess();
+      return request.auth != null
+        && access.data.data_uid == docId
+        && access.data.role in roles;
+    }
+
+    // ============================
+    // Users collection (Google Auth ユーザープロフィール)
+    // ============================
     match /users/{userId} {
+      // 自分のプロフィールは読み書き可
       allow read: if request.auth != null && request.auth.uid == userId;
-      allow create: if request.auth != null && request.auth.uid == userId;
-      allow update: if request.auth != null && request.auth.uid == userId;
-      // 削除は不可
+      allow create, update: if request.auth != null && request.auth.uid == userId;
       allow delete: if false;
 
-      // ============================
-      // Queue Decisions (per-user subcollection)
-      // ============================
-      // ユーザーは自分のキュー決定のみ読み書き可能
+      // Queue Decisions — dataUid 配下のサブコレクション
       match /queue_decisions/{tweetId} {
-        allow read: if request.auth != null && request.auth.uid == userId;
-        allow create, update: if request.auth != null && request.auth.uid == userId;
-        allow delete: if false; // Admin SDKのみ
+        allow read: if hasAccess(userId);
+        allow create, update: if hasRole(userId, ['admin', 'operator']);
+        allow delete: if false; // Admin SDK のみ
       }
 
-      // ============================
-      // Operation Requests (per-user subcollection)
-      // ============================
-      // ユーザーは自分の操作リクエストのみ読み書き可能
+      // Operation Requests — dataUid 配下のサブコレクション
       match /operation_requests/{opId} {
-        allow read: if request.auth != null && request.auth.uid == userId;
-        allow create: if request.auth != null && request.auth.uid == userId;
-        // ユーザーは自分のリクエストを「キャンセル」に変更可能
-        // running/completed/failed への更新は Admin SDK のみ
-        allow update: if request.auth != null
-                      && request.auth.uid == userId
+        allow read: if hasAccess(userId);
+        allow create: if hasRole(userId, ['admin', 'operator']);
+        allow update: if hasRole(userId, ['admin', 'operator'])
                       && request.resource.data.status == 'cancelled';
         allow delete: if false;
       }
     }
 
     // ============================
-    // API Keys collection
+    // API Keys — admin のみ書き込み可
     // ============================
-    // ユーザーは自分のAPIキーのみ読み書き可能
-    match /api_keys/{userId} {
-      allow read: if request.auth != null && request.auth.uid == userId;
-      allow write: if request.auth != null && request.auth.uid == userId;
-      // 削除は不可
+    match /api_keys/{docId} {
+      allow read: if hasAccess(docId);
+      allow write: if hasRole(docId, ['admin']);
       allow delete: if false;
     }
 
     // ============================
-    // Dashboard Data collection
+    // Dashboard Data — 読み取りのみ（書き込みは Admin SDK）
     // ============================
-    // ユーザーは自分のダッシュボードデータのみ読み取り可能
-    // 書き込みはサーバーサイド（Admin SDK）のみ
-    match /dashboard_data/{userId} {
-      allow read: if request.auth != null && request.auth.uid == userId;
-      allow write: if false; // Admin SDKのみ
+    match /dashboard_data/{docId} {
+      allow read: if hasAccess(docId);
+      allow write: if false;
     }
 
     // ============================
-    // Persona Profiles collection
+    // Persona Profiles — 読み取りのみ（書き込みは Admin SDK）
     // ============================
-    // ユーザーは自分のペルソナプロファイルのみ読み取り可能
-    // 書き込みはサーバーサイド（Admin SDK）のみ
-    match /persona_profiles/{userId} {
-      allow read: if request.auth != null && request.auth.uid == userId;
-      allow write: if false; // Admin SDKのみ
+    match /persona_profiles/{docId} {
+      allow read: if hasAccess(docId);
+      allow write: if false;
     }
 
     // ============================
-    // Selection Preferences collection
+    // Selection Preferences — operator 以上が書き込み可
     // ============================
-    // ダッシュボードからの選定設定
-    // ユーザーは自分の設定のみ読み書き可能
-    match /selection_preferences/{userId} {
-      allow read: if request.auth != null && request.auth.uid == userId;
-      allow create, update: if request.auth != null && request.auth.uid == userId;
+    match /selection_preferences/{docId} {
+      allow read: if hasAccess(docId);
+      allow create, update: if hasRole(docId, ['admin', 'operator']);
       allow delete: if false;
+    }
+
+    // ============================
+    // X Accounts — メンバー一覧管理
+    // ============================
+    match /x_accounts/{accountId} {
+      // メンバーのみ読み取り可
+      allow read: if request.auth != null
+        && request.auth.token.email in resource.data.allowed_emails;
+      // admin のみ更新可（作成は Admin SDK / セットアップスクリプト）
+      allow update: if request.auth != null
+        && resource.data.member_roles[request.auth.token.email] == 'admin';
+      allow create, delete: if false;
+    }
+
+    // ============================
+    // Account Access — メール→アカウント対応
+    // ============================
+    match /account_access/{email} {
+      // 自分のアクセス情報のみ読み取り可
+      allow read: if request.auth != null && request.auth.token.email == email;
+      // admin のみ他人のアクセスを管理可
+      allow create, update, delete: if request.auth != null
+        && getAccess().data.role == 'admin';
     }
 
     // デフォルト: 全て拒否

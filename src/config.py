@@ -19,6 +19,49 @@ class Config:
         self._accounts_config = self._load_json("config/accounts.json")
         self._safety_rules = self._load_json("config/safety_rules.json")
         self._account = self._get_account(account_id)
+        self._firestore_keys: dict = {}
+        self._load_firestore_keys()
+
+    def _load_firestore_keys(self):
+        """DATA_UID が設定されていれば Firestore から API キーを読み込む
+
+        Firestore の api_keys/{DATA_UID} に保存されたキーを取得し、
+        未設定の環境変数に注入する。既存の環境変数は上書きしない。
+        """
+        data_uid = os.getenv("DATA_UID") or os.getenv("FIREBASE_UID", "")
+        if not data_uid:
+            return
+
+        try:
+            from src.firestore.firestore_client import FirestoreClient
+            fc = FirestoreClient()
+            keys = fc.get_api_keys(data_uid)
+            if not keys:
+                return
+            self._firestore_keys = keys
+
+            # Firestore キー名 → 環境変数名のマッピング
+            env_map = {
+                "gemini_api_key": "GEMINI_API_KEY",
+                "x_api_key": "X_API_KEY",
+                "x_api_secret": "X_API_SECRET",
+                "x_access_token": f"{self._account['env_prefix']}_ACCESS_TOKEN",
+                "x_access_token_secret": f"{self._account['env_prefix']}_ACCESS_SECRET",
+                "x_bearer_token": "TWITTER_BEARER_TOKEN",
+                "discord_webhook_url": f"DISCORD_WEBHOOK_{self._account['env_prefix']}",
+            }
+
+            injected = 0
+            for fs_key, env_key in env_map.items():
+                val = keys.get(fs_key, "")
+                if val and not os.getenv(env_key):
+                    os.environ[env_key] = val
+                    injected += 1
+
+            if injected:
+                print(f"🔑 Firestore API キー読み込み: {injected}項目 (DATA_UID: {data_uid[:8]}...)")
+        except Exception as e:
+            print(f"⚠️ Firestore API キー読み込みスキップ: {e}")
 
     # === ファクトリ ===
 
@@ -38,7 +81,7 @@ class Config:
 
     @property
     def gemini_api_key(self) -> str:
-        return os.getenv("GEMINI_API_KEY", "")
+        return os.getenv("GEMINI_API_KEY", "") or self._firestore_keys.get("gemini_api_key", "")
 
     @property
     def gemini_model(self) -> str:
@@ -48,27 +91,27 @@ class Config:
 
     @property
     def x_api_key(self) -> str:
-        return os.getenv("X_API_KEY", "")
+        return os.getenv("X_API_KEY", "") or self._firestore_keys.get("x_api_key", "")
 
     @property
     def x_api_secret(self) -> str:
-        return os.getenv("X_API_SECRET", "")
+        return os.getenv("X_API_SECRET", "") or self._firestore_keys.get("x_api_secret", "")
 
     @property
     def x_access_token(self) -> str:
         prefix = self._account["env_prefix"]
-        return os.getenv(f"{prefix}_ACCESS_TOKEN", "")
+        return os.getenv(f"{prefix}_ACCESS_TOKEN", "") or self._firestore_keys.get("x_access_token", "")
 
     @property
     def x_access_secret(self) -> str:
         prefix = self._account["env_prefix"]
-        return os.getenv(f"{prefix}_ACCESS_SECRET", "")
+        return os.getenv(f"{prefix}_ACCESS_SECRET", "") or self._firestore_keys.get("x_access_token_secret", "")
 
     # === Discord ===
 
     @property
     def discord_webhook_account(self) -> str:
-        return os.getenv(f"DISCORD_WEBHOOK_{self._account['env_prefix']}", "")
+        return os.getenv(f"DISCORD_WEBHOOK_{self._account['env_prefix']}", "") or self._firestore_keys.get("discord_webhook_url", "")
 
     @property
     def discord_webhook_general(self) -> str:

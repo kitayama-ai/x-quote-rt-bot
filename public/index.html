@@ -801,15 +801,15 @@ tr:hover td { background: var(--bg-card-hover); }
 }
 
 /* X (Twitter) Login Button */
-.x-login-btn {
+.google-login-btn {
   display: inline-flex;
   align-items: center;
   gap: 12px;
   padding: 13px 28px;
   border-radius: var(--radius-sm);
-  background: #000;
-  color: #fff;
-  border: 1px solid #333;
+  background: #fff;
+  color: #333;
+  border: 1px solid #dadce0;
   font-size: 14px;
   font-weight: 600;
   font-family: var(--font-sans);
@@ -820,24 +820,22 @@ tr:hover td { background: var(--bg-card-hover); }
   margin-top: 10px;
 }
 
-.x-login-btn:hover {
-  box-shadow: 0 4px 24px rgba(255,255,255,0.08);
+.google-login-btn:hover {
+  box-shadow: 0 4px 24px rgba(66,133,244,0.15);
   transform: translateY(-1px);
-  border-color: #555;
+  border-color: #4285f4;
 }
 
-.x-login-btn:active { transform: translateY(0); }
+.google-login-btn:active { transform: translateY(0); }
 
-.x-login-btn:focus-visible {
+.google-login-btn:focus-visible {
   outline: 2px solid var(--accent-blue);
   outline-offset: 2px;
 }
 
-.x-login-btn svg {
-  width: 18px;
-  height: 18px;
-  fill: #fff;
-}
+/* Role badge variants */
+.role-badge.operator { background: var(--accent-blue); color: #fff; }
+.role-badge.viewer { background: var(--bg-input); color: var(--text-muted); }
 
 /* ===========================================
    QUEUE DETAIL MODAL
@@ -1617,12 +1615,12 @@ textarea.form-input {
 <!-- ===== LOGIN OVERLAY ===== -->
 <div class="login-overlay" id="loginOverlay">
   <div class="login-card">
-    <div class="login-logo"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></div>
+    <div class="login-logo"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width:48px;height:48px;"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg></div>
     <h2 class="login-title">キュー管理ダッシュボード</h2>
-    <p class="login-subtitle">ログインしてダッシュボードにアクセス</p>
-    <button class="x-login-btn" id="xLoginBtn">
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-      X でログイン
+    <p class="login-subtitle">Google アカウントでログイン</p>
+    <button class="google-login-btn" id="googleLoginBtn">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width:20px;height:20px;"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+      Google でログイン
     </button>
     <p class="login-error" id="loginError"></p>
     <div class="login-loading" id="loginLoading">
@@ -2058,6 +2056,23 @@ textarea.form-input {
       </div>
     </div>
 
+    <!-- Member Management (Admin Only) -->
+    <div class="settings-section" id="memberManagementSection" style="display:none;">
+      <h3>メンバー管理</h3>
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;">このXアカウントにアクセスできるメンバーを管理します。</p>
+      <div style="display:flex;gap:8px;margin-bottom:16px;">
+        <input type="email" class="form-input" id="newMemberEmail" placeholder="メールアドレス" style="flex:1;">
+        <select class="form-input" id="newMemberRole" style="width:140px;">
+          <option value="operator">Operator</option>
+          <option value="viewer">Viewer</option>
+          <option value="admin">Admin</option>
+        </select>
+        <button class="save-btn" id="addMemberBtn">追加</button>
+      </div>
+      <div class="save-msg" id="memberMsg" style="display:none;"></div>
+      <div id="memberList"></div>
+    </div>
+
     <!-- API Keys -->
     <div class="settings-section">
       <h3>APIキー設定</h3>
@@ -2323,32 +2338,26 @@ textarea.form-input {
   };
 
   // ============================
-  // Admin UID (あなた) — Firestoreに依存しないフォールバック
-  // ============================
-  // Admin判定用 — X (Twitter) UID またはメールアドレス
-  const ADMIN_UIDS = [];
-  const ADMIN_EMAILS = [];
-
-  // ============================
   // Initialize Firebase
   // ============================
   firebase.initializeApp(firebaseConfig);
   const auth = firebase.auth();
   const db = firebase.firestore();
 
-  // Expose for settings tab
-  window.__fb = { auth, db };
+  // Expose for settings tab and second script block
+  window.__fb = { auth, db, dataUid: null, accountId: null, currentUserRole: null };
 
   // DOM Elements
   const overlay = document.getElementById('loginOverlay');
   const appEl = document.querySelector('.app');
-  const xBtn = document.getElementById('xLoginBtn');
+  const googleBtn = document.getElementById('googleLoginBtn');
   const loginError = document.getElementById('loginError');
   const loginLoading = document.getElementById('loginLoading');
 
   let currentUser = null;
   let currentUserRole = null;
-  let twitterUsername = '';  // @ユーザー名（signInWithPopupから取得）
+  let dataUid = null;      // 既存データのUID（全Firestoreデータ読み書きに使用）
+  let accountId = null;    // x_accounts のドキュメントID
 
   // ============================
   // Auth State Listener
@@ -2356,74 +2365,80 @@ textarea.form-input {
   auth.onAuthStateChanged(async (user) => {
     if (user) {
       try {
-        // Check/create user doc in Firestore
-        const userRef = db.collection('users').doc(user.uid);
-        const userDoc = await userRef.get();
-
-        if (!userDoc.exists) {
-          // First login — check if admin
-          const isAdmin = ADMIN_UIDS.includes(user.uid) || ADMIN_EMAILS.includes(user.email);
-          await userRef.set({
-            email: user.email || '',
-            displayName: user.displayName || '',
-            photoURL: user.photoURL || '',
-            twitterUsername: twitterUsername || '',
-            provider: user.providerData[0]?.providerId || 'unknown',
-            role: isAdmin ? 'admin' : 'client',
-            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-            lastLoginAt: firebase.firestore.FieldValue.serverTimestamp(),
-          });
-          currentUserRole = isAdmin ? 'admin' : 'client';
-        } else {
-          const data = userDoc.data();
-          currentUserRole = data.role || 'client';
-          // Firestoreに保存済みのtwitterUsernameを復元
-          if (data.twitterUsername) twitterUsername = data.twitterUsername;
-          // Update last login
-          const updateData = {
-            lastLoginAt: firebase.firestore.FieldValue.serverTimestamp(),
-            displayName: user.displayName || data.displayName,
-            photoURL: user.photoURL || data.photoURL,
-          };
-          // signInWithPopupで新たにusernameが取れた場合は上書き保存
-          if (twitterUsername) updateData.twitterUsername = twitterUsername;
-          userRef.update(updateData);
+        const email = user.email;
+        if (!email) {
+          showLoginError('メールアドレスが取得できません。別のGoogleアカウントをお試しください。');
+          auth.signOut();
+          return;
         }
 
+        // account_access からアクセス権を確認
+        const accessDoc = await db.collection('account_access').doc(email).get();
+        if (!accessDoc.exists) {
+          showLoginError('アクセス権限がありません。管理者にメールアドレスの追加を依頼してください。');
+          auth.signOut();
+          return;
+        }
+
+        const access = accessDoc.data();
+        dataUid = access.data_uid;
+        accountId = access.account_id;
+        currentUserRole = access.role || 'viewer';
         currentUser = user;
+
+        // Expose to second script block
+        window.__fb.dataUid = dataUid;
+        window.__fb.accountId = accountId;
+        window.__fb.currentUserRole = currentUserRole;
+
+        // Google ユーザープロフィールを保存（監査用）
+        await db.collection('users').doc(user.uid).set({
+          email: email,
+          displayName: user.displayName || '',
+          photoURL: user.photoURL || '',
+          provider: 'google',
+          role: currentUserRole,
+          data_uid: dataUid,
+          account_id: accountId,
+          lastLoginAt: firebase.firestore.FieldValue.serverTimestamp(),
+        }, { merge: true });
 
         // Show dashboard
         overlay.style.display = 'none';
         appEl.style.display = 'block';
         addUserInfo(user);
         updateSettingsProfile(user);
+        applyRoleRestrictions(currentUserRole);
 
-        // Load API key status
-        loadApiKeyStatus(user.uid);
+        // Load API key status & settings
+        loadApiKeyStatus(dataUid);
+        loadCollectionSettings(dataUid);
+        loadOperationMode(dataUid);
+
+        // Load member management (admin only)
+        if (currentUserRole === 'admin') {
+          document.getElementById('memberManagementSection').style.display = '';
+          loadMembers();
+        }
 
         // Load dashboard data
         if (typeof initDashboard === 'function') {
           initDashboard();
         }
       } catch (err) {
-        console.error('Firestore error:', err);
-        // Firestore が未設定でもフォールバック — admin emailならログイン許可
-        if (ADMIN_UIDS.includes(user.uid) || ADMIN_EMAILS.includes(user.email)) {
-          currentUser = user;
-          currentUserRole = 'admin';
-          overlay.style.display = 'none';
-          appEl.style.display = 'block';
-          addUserInfo(user);
-          if (typeof initDashboard === 'function') initDashboard();
-        } else {
-          showLoginError('アクセス権限の確認に失敗しました。管理者にお問い合わせください。');
-          auth.signOut();
-        }
+        console.error('Auth error:', err);
+        showLoginError('アクセス権限の確認に失敗しました。管理者にお問い合わせください。');
+        auth.signOut();
       }
     } else {
       // Not authenticated
       currentUser = null;
       currentUserRole = null;
+      dataUid = null;
+      accountId = null;
+      window.__fb.dataUid = null;
+      window.__fb.accountId = null;
+      window.__fb.currentUserRole = null;
       overlay.style.display = 'flex';
       appEl.style.display = 'none';
       showLoginButtons();
@@ -2431,49 +2446,140 @@ textarea.form-input {
   });
 
   // ============================
-  // X (Twitter) Login
+  // Google Login
   // ============================
-  xBtn.addEventListener('click', () => loginWith('twitter'));
-
-  async function loginWith(providerName) {
+  googleBtn.addEventListener('click', async () => {
     loginError.style.display = 'none';
-    xBtn.style.display = 'none';
+    googleBtn.style.display = 'none';
     loginLoading.style.display = 'block';
 
     try {
-      const provider = new firebase.auth.TwitterAuthProvider();
-      const result = await auth.signInWithPopup(provider);
-      // Twitter @username をキャプチャ（signInWithPopupでのみ取得可能）
-      if (result.additionalUserInfo && result.additionalUserInfo.username) {
-        twitterUsername = result.additionalUserInfo.username;
-        // Firestoreにも保存
-        try {
-          await db.collection('users').doc(result.user.uid).set({
-            twitterUsername: twitterUsername,
-          }, { merge: true });
-        } catch (e) { console.warn('Twitter username save failed:', e); }
-      }
+      const provider = new firebase.auth.GoogleAuthProvider();
+      await auth.signInWithPopup(provider);
     } catch (err) {
       if (err.code === 'auth/popup-blocked') {
         try {
-          const provider = new firebase.auth.TwitterAuthProvider();
+          const provider = new firebase.auth.GoogleAuthProvider();
           await auth.signInWithRedirect(provider);
           return;
         } catch (redirectErr) {
           showLoginError('ログインに失敗しました: ' + redirectErr.message);
         }
-      } else if (err.code === 'auth/operation-not-allowed') {
-        showLoginError('X（Twitter）ログインは現在無効です。管理者が Firebase Console で有効化する必要があります。');
       } else if (err.code === 'auth/cancelled-popup-request') {
-        // 複数ポップアップが開かれた場合、無視
+        // ignore
       } else if (err.code === 'auth/network-request-failed') {
         showLoginError('ネットワークエラーが発生しました。インターネット接続を確認してください。');
       } else if (err.code !== 'auth/popup-closed-by-user') {
         showLoginError('ログインに失敗しました: ' + err.message);
       }
-      xBtn.style.display = 'inline-flex';
+      googleBtn.style.display = 'inline-flex';
       loginLoading.style.display = 'none';
     }
+  });
+
+  // ============================
+  // Role-based UI restrictions
+  // ============================
+  function applyRoleRestrictions(role) {
+    // viewer: 操作ボタンを非表示
+    if (role === 'viewer') {
+      document.querySelectorAll('.op-btn, #saveApiKeys, #saveCollectionSettings, #savePrefBtn, #saveMode').forEach(el => {
+        el.style.display = 'none';
+      });
+      const qBar = document.getElementById('quickActionsBar');
+      if (qBar) qBar.style.display = 'none';
+    }
+    // operator: APIキー編集を非表示
+    if (role !== 'admin') {
+      const apiSection = document.getElementById('saveApiKeys');
+      if (apiSection) apiSection.closest('.settings-section')?.querySelectorAll('input, button.save-btn').forEach(el => {
+        if (el.tagName === 'INPUT') el.disabled = true;
+        if (el.tagName === 'BUTTON') el.style.display = 'none';
+      });
+    }
+  }
+
+  // ============================
+  // Member Management (Admin only)
+  // ============================
+  async function loadMembers() {
+    if (currentUserRole !== 'admin' || !accountId) return;
+    try {
+      const doc = await db.collection('x_accounts').doc(accountId).get();
+      if (!doc.exists) return;
+      const data = doc.data();
+      const emails = data.allowed_emails || [];
+      const roles = data.member_roles || {};
+      const container = document.getElementById('memberList');
+      container.innerHTML = emails.map(function(em) {
+        var r = roles[em] || 'viewer';
+        var badge = '<span class="role-badge ' + r + '">' + r + '</span>';
+        var del = em !== currentUser.email
+          ? '<button onclick="removeMember(\'' + em + '\')" style="background:none;border:none;color:var(--accent-red);cursor:pointer;font-size:12px;">削除</button>'
+          : '<span style="font-size:11px;color:var(--text-muted);">あなた</span>';
+        return '<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--bg-input);border-radius:8px;margin-bottom:6px;">' +
+          '<span style="font-family:var(--font-mono);font-size:13px;">' + em + '</span>' +
+          '<div style="display:flex;align-items:center;gap:8px;">' + badge + del + '</div></div>';
+      }).join('');
+    } catch (err) {
+      console.warn('loadMembers error:', err);
+    }
+  }
+
+  // グローバルに公開（onclickから呼べるように）
+  window.removeMember = async function(email) {
+    if (!confirm(email + ' のアクセスを取り消しますか？')) return;
+    try {
+      var batch = db.batch();
+      batch.update(db.collection('x_accounts').doc(accountId), {
+        allowed_emails: firebase.firestore.FieldValue.arrayRemove(email),
+        ['member_roles.' + email]: firebase.firestore.FieldValue.delete(),
+        updated_at: firebase.firestore.FieldValue.serverTimestamp(),
+      });
+      batch.delete(db.collection('account_access').doc(email));
+      await batch.commit();
+      loadMembers();
+      if (window.showToast) showToast(email + ' を削除しました', 'success');
+    } catch (err) {
+      console.error('removeMember error:', err);
+      if (window.showToast) showToast('削除に失敗しました: ' + err.message, 'error');
+    }
+  };
+
+  var addMemberBtn = document.getElementById('addMemberBtn');
+  if (addMemberBtn) {
+    addMemberBtn.addEventListener('click', async function() {
+      var emailInput = document.getElementById('newMemberEmail');
+      var roleSelect = document.getElementById('newMemberRole');
+      var email = emailInput.value.trim().toLowerCase();
+      var role = roleSelect.value;
+      if (!email || !email.includes('@')) {
+        if (window.showToast) showToast('有効なメールアドレスを入力してください', 'error');
+        return;
+      }
+      try {
+        var batch = db.batch();
+        batch.update(db.collection('x_accounts').doc(accountId), {
+          allowed_emails: firebase.firestore.FieldValue.arrayUnion(email),
+          ['member_roles.' + email]: role,
+          updated_at: firebase.firestore.FieldValue.serverTimestamp(),
+        });
+        batch.set(db.collection('account_access').doc(email), {
+          data_uid: dataUid,
+          account_id: accountId,
+          role: role,
+          granted_at: firebase.firestore.FieldValue.serverTimestamp(),
+          granted_by: currentUser.email,
+        });
+        await batch.commit();
+        emailInput.value = '';
+        loadMembers();
+        if (window.showToast) showToast(email + ' を追加しました', 'success');
+      } catch (err) {
+        console.error('addMember error:', err);
+        if (window.showToast) showToast('追加に失敗しました: ' + err.message, 'error');
+      }
+    });
   }
 
   // ============================
@@ -2487,7 +2593,7 @@ textarea.form-input {
   }
 
   function showLoginButtons() {
-    xBtn.style.display = 'inline-flex';
+    googleBtn.style.display = 'inline-flex';
   }
 
   function addUserInfo(user) {
@@ -2499,7 +2605,7 @@ textarea.form-input {
     div.className = 'user-info';
 
     const photoUrl = user.photoURL || '';
-    const displayName = twitterUsername ? ('@' + twitterUsername) : (user.displayName || user.email || '');
+    const displayName = user.displayName || user.email || '';
 
     div.innerHTML =
       (photoUrl ? '<img class="user-avatar" src="' + photoUrl + '" alt="" onerror="this.style.display=\'none\'">' : '') +
@@ -2522,10 +2628,11 @@ textarea.form-input {
 
     if (avatar) avatar.src = user.photoURL || '';
     if (name) name.textContent = user.displayName || user.email || '-';
-    if (email) email.textContent = twitterUsername ? ('@' + twitterUsername) : (user.email || user.uid);
+    if (email) email.textContent = user.email || '';
     if (badge) {
-      badge.textContent = currentUserRole || 'client';
-      badge.className = 'role-badge ' + (currentUserRole === 'admin' ? 'admin' : 'client');
+      const roleLabels = { admin: 'Admin', operator: 'Operator', viewer: 'Viewer' };
+      badge.textContent = roleLabels[currentUserRole] || currentUserRole || 'viewer';
+      badge.className = 'role-badge ' + (currentUserRole || 'viewer');
     }
   }
 
@@ -2596,9 +2703,8 @@ textarea.form-input {
         }
 
         updates.updatedAt = firebase.firestore.FieldValue.serverTimestamp();
-        updates.uid = currentUser.uid;
 
-        await db.collection('api_keys').doc(currentUser.uid).set(updates, { merge: true });
+        await db.collection('api_keys').doc(dataUid).set(updates, { merge: true });
 
         // Clear inputs & refresh status
         API_KEY_FIELDS.forEach(f => {
@@ -2606,7 +2712,7 @@ textarea.form-input {
           if (input) input.value = '';
         });
 
-        await loadApiKeyStatus(currentUser.uid);
+        await loadApiKeyStatus(dataUid);
 
         saveMsg.textContent = 'APIキーを保存しました';
         saveMsg.className = 'save-msg success';
@@ -2686,10 +2792,9 @@ textarea.form-input {
           min_likes_override: String(parseInt(cfgMinLikes.value) || 500),
           max_age_hours_override: String(parseInt(cfgMaxAgeHours.value) || 48),
           updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
-          uid: currentUser.uid,
         };
 
-        await db.collection('selection_preferences').doc(currentUser.uid).set(updates, { merge: true });
+        await db.collection('selection_preferences').doc(dataUid).set(updates, { merge: true });
 
         if (saveCfgMsg) {
           saveCfgMsg.textContent = '収集設定を保存しました（次回収集から反映）';
@@ -2709,13 +2814,8 @@ textarea.form-input {
     });
   }
 
-  // Load collection settings after auth
-  auth.onAuthStateChanged(function(u) {
-    if (u) {
-      loadCollectionSettings(u.uid);
-      loadOperationMode(u.uid);
-    }
-  });
+  // NOTE: loadCollectionSettings / loadOperationMode は
+  // メイン auth handler (onAuthStateChanged) 内で dataUid を使って呼ばれる
 
   // ============================
   // Operation Mode Switcher
@@ -2747,7 +2847,7 @@ textarea.form-input {
   async function saveOperationMode(mode) {
     if (!currentUser) return;
     try {
-      await db.collection('selection_preferences').doc(currentUser.uid).set({
+      await db.collection('selection_preferences').doc(dataUid).set({
         operation_mode: mode,
         mode_updated_at: firebase.firestore.FieldValue.serverTimestamp(),
       }, { merge: true });
@@ -2856,7 +2956,7 @@ async function loadData() {
     let loaded = false;
     if (window.__fb && window.__fb.auth.currentUser) {
       try {
-        const uid = window.__fb.auth.currentUser.uid;
+        const uid = window.__fb.dataUid;
         const doc = await window.__fb.db.collection('dashboard_data').doc(uid).get();
         if (doc.exists) {
           dashboardData = doc.data();
@@ -3113,7 +3213,7 @@ async function generateJpSummary(text) {
   // Firestoreからユーザーの Gemini API Key を取得して翻訳
   try {
     if (!window.__fb || !window.__fb.auth.currentUser) throw new Error('no auth');
-    const uid = window.__fb.auth.currentUser.uid;
+    const uid = window.__fb.dataUid;
     const doc = await window.__fb.db.collection('api_keys').doc(uid).get();
     if (!doc.exists || !doc.data().gemini_api_key) throw new Error('no key');
     const apiKey = doc.data().gemini_api_key;
@@ -3327,7 +3427,7 @@ async function queueAction(action, tweetId, reason) {
 
   if (!window.__fb || !window.__fb.auth.currentUser) return;
 
-  const uid = window.__fb.auth.currentUser.uid;
+  const uid = window.__fb.dataUid;
   const db = window.__fb.db;
 
   try {
@@ -3336,7 +3436,7 @@ async function queueAction(action, tweetId, reason) {
       tweet_id: tweetId,
       action: action,
       skip_reason: reason || '',
-      decided_by: uid,
+      decided_by: window.__fb.auth.currentUser.email || uid,
       decided_at: firebase.firestore.FieldValue.serverTimestamp(),
     });
 
@@ -3408,7 +3508,7 @@ function renderPreferences() {
 async function loadPromptSettings() {
   if (!window.__fb || !window.__fb.auth.currentUser) return;
   try {
-    var uid = window.__fb.auth.currentUser.uid;
+    var uid = window.__fb.dataUid;
     var doc = await window.__fb.db.collection('selection_preferences').doc(uid).get();
     if (!doc.exists) return;
     var d = doc.data();
@@ -3465,7 +3565,7 @@ function renderTags(containerId, items, className) {
     msg.className = 'save-msg';
     msg.style.display = 'none';
 
-    const uid = window.__fb.auth.currentUser.uid;
+    const uid = window.__fb.dataUid;
     const db = window.__fb.db;
 
     try {
@@ -3695,17 +3795,11 @@ async function requestOperation(command) {
     const db = window.__fb.db;
     const user = window.__fb.auth.currentUser;
 
-    // 親ドキュメントを確保（バックエンドのusers.stream()で検出されるように）
-    await db.collection('users').doc(user.uid).set({
-      displayName: user.displayName || '',
-      lastActive: firebase.firestore.FieldValue.serverTimestamp(),
-    }, { merge: true });
-
-    await db.collection('users').doc(user.uid).collection('operation_requests').add({
+    await db.collection('users').doc(window.__fb.dataUid).collection('operation_requests').add({
       command: command,
       status: 'pending',
-      requested_by: user.displayName || user.uid,
-      requested_by_uid: user.uid,
+      requested_by: user.displayName || user.email,
+      requested_by_email: user.email,
       requested_at: firebase.firestore.FieldValue.serverTimestamp(),
     });
 
@@ -3809,17 +3903,12 @@ async function requestPostOne(tweetId) {
     const db = window.__fb.db;
     const user = window.__fb.auth.currentUser;
 
-    await db.collection('users').doc(user.uid).set({
-      displayName: user.displayName || '',
-      lastActive: firebase.firestore.FieldValue.serverTimestamp(),
-    }, { merge: true });
-
-    await db.collection('users').doc(user.uid).collection('operation_requests').add({
+    await db.collection('users').doc(window.__fb.dataUid).collection('operation_requests').add({
       command: 'post-one',
       tweet_id: tweetId,
       status: 'pending',
-      requested_by: user.displayName || user.uid,
-      requested_by_uid: user.uid,
+      requested_by: user.displayName || user.email,
+      requested_by_email: user.email,
       requested_at: firebase.firestore.FieldValue.serverTimestamp(),
     });
 
@@ -3870,12 +3959,12 @@ async function addManualTweet() {
   try {
     const db = window.__fb.db;
     const user = window.__fb.auth.currentUser;
-    await db.collection('users').doc(user.uid).collection('operation_requests').add({
+    await db.collection('users').doc(window.__fb.dataUid).collection('operation_requests').add({
       command: 'add-tweet',
       tweet_url: url,
       status: 'pending',
-      requested_by: user.displayName || user.uid,
-      requested_by_uid: user.uid,
+      requested_by: user.displayName || user.email,
+      requested_by_email: user.email,
       requested_at: firebase.firestore.FieldValue.serverTimestamp(),
     });
 
@@ -3895,7 +3984,7 @@ async function loadOpHistory() {
 
   try {
     const db = window.__fb.db;
-    const uid = window.__fb.auth.currentUser.uid;
+    const uid = window.__fb.dataUid;
     const snapshot = await db.collection('users').doc(uid).collection('operation_requests')
       .orderBy('requested_at', 'desc')
       .limit(10)
@@ -3962,7 +4051,7 @@ async function loadOpHistory() {
 async function cancelOperation(docId) {
   if (!window.__fb || !window.__fb.auth.currentUser) return;
   const db = window.__fb.db;
-  const uid = window.__fb.auth.currentUser.uid;
+  const uid = window.__fb.dataUid;
   try {
     await db.collection('users').doc(uid).collection('operation_requests').doc(docId).update({
       status: 'cancelled',
@@ -3981,7 +4070,7 @@ async function cancelAllPending() {
   if (!window.__fb || !window.__fb.auth.currentUser) return;
   if (!confirm('待機中のリクエストをすべてキャンセルしますか？')) return;
   const db = window.__fb.db;
-  const uid = window.__fb.auth.currentUser.uid;
+  const uid = window.__fb.dataUid;
   try {
     const snapshot = await db.collection('users').doc(uid).collection('operation_requests')
       .where('status', '==', 'pending')
@@ -4047,7 +4136,7 @@ async function queueDelete(tweetId) {
   if (!window.__fb || !window.__fb.auth.currentUser) return;
   if (!confirm('このアイテムをキューから削除しますか？')) return;
 
-  const uid = window.__fb.auth.currentUser.uid;
+  const uid = window.__fb.dataUid;
   const db = window.__fb.db;
 
   try {
@@ -4055,7 +4144,7 @@ async function queueDelete(tweetId) {
     await db.collection('users').doc(uid).collection('queue_decisions').doc(tweetId).set({
       tweet_id: tweetId,
       action: 'delete',
-      decided_by: uid,
+      decided_by: window.__fb.auth.currentUser.email || uid,
       decided_at: firebase.firestore.FieldValue.serverTimestamp(),
     });
 

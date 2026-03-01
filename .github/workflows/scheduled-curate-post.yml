@@ -43,6 +43,10 @@ jobs:
 
       - name: Run curate-pipeline
         env:
+          # Firestore からの API キー自動読み込み用
+          FIREBASE_CREDENTIALS_BASE64: ${{ secrets.FIREBASE_CREDENTIALS_BASE64 }}
+          DATA_UID: ${{ secrets.DATA_UID }}
+          # フォールバック: Firestore に未設定の場合は GitHub Secrets を使用
           X_API_KEY: ${{ secrets.X_API_KEY }}
           X_API_SECRET: ${{ secrets.X_API_SECRET }}
           X_ACCOUNT_1_ACCESS_TOKEN: ${{ secrets.X_ACCOUNT_1_ACCESS_TOKEN }}
