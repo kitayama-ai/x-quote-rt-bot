@@ -86,17 +86,22 @@ class AutoCollector:
             {"fetched", "filtered", "added", "skipped_dup", "tweets"}
         """
         # 優先順位: CLI引数 > ダッシュボード設定(threshold_overrides) > quote_rt_rules
-        _min_likes = (
-            min_likes
-            or self.threshold_overrides.get("min_likes")
-            or self.buzz_thresholds.get("likes_min", 500)
-        )
+        # ※ min_likes=0 を有効にするため `is not None` で判定（0 は falsy なので `or` チェーン不可）
+        if min_likes is not None:
+            _min_likes = min_likes
+        elif self.threshold_overrides.get("min_likes") is not None:
+            _min_likes = self.threshold_overrides["min_likes"]
+        else:
+            _min_likes = self.buzz_thresholds.get("likes_min", 0)
+
         _lang = lang or self.buzz_thresholds.get("lang", ["en"])[0]
-        _max_age = (
-            max_age_hours
-            or self.threshold_overrides.get("max_age_hours")
-            or self.buzz_thresholds.get("age_max_hours", 48)
-        )
+
+        if max_age_hours is not None:
+            _max_age = max_age_hours
+        elif self.threshold_overrides.get("max_age_hours") is not None:
+            _max_age = self.threshold_overrides["max_age_hours"]
+        else:
+            _max_age = self.buzz_thresholds.get("age_max_hours", 48)
         # max_tweets: CLI引数がデフォルト(50)ならダッシュボード設定を優先
         _max_tweets = max_tweets
         if max_tweets == 50 and self.threshold_overrides.get("max_tweets"):
