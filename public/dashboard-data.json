@@ -1,11 +1,11 @@
 {
-  "updated_at": "2026-03-01T23:57:07.802699",
+  "updated_at": "2026-03-02T00:00:12.605595",
   "stats": {
     "pending": 0,
     "approved": 77,
     "skipped": 0,
     "posted_total": 5,
-    "posted_today": 5
+    "posted_today": 0
   },
   "queue": [
     {
