@@ -20,10 +20,10 @@
     "matched_keywords": [],
     "status": "approved",
     "added_at": "2026-03-01T12:35:36.661166+09:00",
-    "generated_text": "🚨【衝撃】LLM訓練「30%短縮」が実現！\n\nこの効率化はAI市場に「激震」を起こす。🏛️🚀\n・NVIDIAなどAIチップの需要を「猛烈に加速」。\n・開発競争は「新フェーズ」へ突入。\n\nAI投資の「最終決戦」が始まった。未来は近い。✨",
-    "template_id": "breaking_news",
+    "generated_text": "🚨【LLM訓練30%減は衝撃】\n\nAI開発ボトルネック崩壊。効率化で市場は激変だ。🏛️🚀\n・$NVDA/$AMD等、AIチップ需要の爆発は確実。\n・Web3×AI融合も加速。今すぐ仕込め。\n\n見逃しは許されない。",
+    "template_id": "translate_comment",
     "score": {
-      "total": 2,
+      "total": 3,
       "rank": "C"
     },
     "skip_reason": "",
@@ -52,10 +52,10 @@
     ],
     "status": "approved",
     "added_at": "2026-03-01T12:35:36.663626+09:00",
-    "generated_text": "💥【激震】Claude、LLM切り替えで情報ロスなしの「神機能」実装。\n\nこれは生成AIの「エコシステム」を根本から変える一撃だ。🏛️📊\n・ユーザーは「モデル縛り」から解放され、最適LLMを自由に選択。\n・LLM間の競争が「性能と連携...",
-    "template_id": "practice_report",
+    "generated_text": "💥【伝説】Claudeがヤバい新機能！AIが\"脳みそ\"を瞬時切り替えだ！🏛️✨\n\nもう「忘れっぽいAI」とは言わせない。\n・異なるLLMの強みを活かせる。生産性が劇的に向上。\n・AIモデル選びのストレスは過去の話。Web3開発も爆速化...",
+    "template_id": "legend_moment",
     "score": {
-      "total": 3,
+      "total": 2,
       "rank": "C"
     },
     "skip_reason": "",
@@ -86,10 +86,10 @@
     ],
     "status": "approved",
     "added_at": "2026-03-01T12:35:36.666172+09:00",
-    "generated_text": "🚨【警告】AIエージェントが「自律行動」へ覚醒！🏛️🔥\n2026年、AIは「指示待ち」を卒業し「行動」する。これは知能ではなく【自律性】の革命だ。\n・LLMは応答。エージェントは行動。\n・既存ビジネスは崩壊。今すぐ適応せよ。\n乗り遅れるな。",
-    "template_id": "question_prompt",
+    "generated_text": "💥【独占】2026年、AIエージェント「始動」。\n\nデモは終わり。自律AIが市場「破壊」へ。🏛️💎\n・AIは「応答」から「行動」へ。富の地殻変動が始動。\n・Web3融合で既存産業は「一掃」される。乗るか、沈むか。",
+    "template_id": "exclusive_report",
     "score": {
-      "total": 3,
+      "total": 2,
       "rank": "C"
     },
     "skip_reason": "",
@@ -116,9 +116,12 @@
     "matched_keywords": [],
     "status": "approved",
     "added_at": "2026-03-01T12:35:36.674423+09:00",
-    "generated_text": "",
-    "template_id": "",
-    "score": null,
+    "generated_text": "🚨【警告】AIプロジェクトの9割は「ゴミ」と化す。\n\nハイプに踊らされるな。実用性なきAIトークンは無価値だ。🏛️🔥\n・【真の強者】は利用→収益→買戻し→希少性、この循環。\n・使われないAIは「エアドロ」と同じ。価値はゼロ。💀\n\n今す...",
+    "template_id": "question_prompt",
+    "score": {
+      "total": 1,
+      "rank": "C"
+    },
     "skip_reason": "",
     "feedback_note": ""
   },
@@ -143,9 +146,12 @@
     "matched_keywords": [],
     "status": "approved",
     "added_at": "2026-03-01T12:35:36.677339+09:00",
-    "generated_text": "",
-    "template_id": "",
-    "score": null,
+    "generated_text": "🚨【AIスキル無料解放】\n\n神企画爆誕！有料級AI講座がタダ。未来へのパスポートだ🏛️🚀✨\n・AI人材が爆増、市場は猛烈に加速する。\n・スキルこそ「未来の資産」。今すぐ掴め。\nこのビッグウェーブに乗れ。",
+    "template_id": "translate_comment",
+    "score": {
+      "total": 2,
+      "rank": "C"
+    },
     "skip_reason": "",
     "feedback_note": ""
   },
@@ -170,9 +176,12 @@
     "matched_keywords": [],
     "status": "approved",
     "added_at": "2026-03-01T12:35:36.680351+09:00",
-    "generated_text": "",
-    "template_id": "",
-    "score": null,
+    "generated_text": "💥【速報】AI音楽、遂に「聴く時代」へ！Suno 2がガチで市場を支配する！🏛️🚀\n・数千万人が毎日AI音楽を消費！「ギミック」から「本物」へ転換。\n・既存の音楽産業は崩壊。クリエイター経済圏が大激変だ。\n・この「AI音楽革命」に乗る...",
+    "template_id": "summary_points",
+    "score": {
+      "total": 2,
+      "rank": "C"
+    },
     "skip_reason": "",
     "feedback_note": ""
   },
@@ -201,9 +210,12 @@
     ],
     "status": "approved",
     "added_at": "2026-03-01T12:35:36.683445+09:00",
-    "generated_text": "",
-    "template_id": "",
-    "score": null,
+    "generated_text": "💥【伝説】AI「効率化神話」、ついに終焉。\n\n開発者の「錯覚」が、歴史に刻む。🏛️✨\n・AIツールは速く感じさせても、出荷は19%遅延が判明。\n・「雰囲気コーディング」は、ただの先延ばしだ。\n\nAI過信は滅ぶ。投資家よ、現実を見ろ。",
+    "template_id": "legend_moment",
+    "score": {
+      "total": 4,
+      "rank": "B"
+    },
     "skip_reason": "",
     "feedback_note": ""
   },

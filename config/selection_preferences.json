@@ -1,7 +1,7 @@
 {
   "description": "クライアントのツイート選定プリファレンス — PDCAで自動調整される",
   "version": 1,
-  "updated_at": "2026-02-27",
+  "updated_at": "2026-03-01",
   "updated_by": "firebase_sync",
   "weekly_focus": {
     "directive": "",
@@ -42,9 +42,9 @@
     "regulation": 0.3
   },
   "threshold_overrides": {
-    "min_likes": 0,
-    "max_age_hours": 24,
-    "max_tweets": 50
+    "min_likes": 700,
+    "max_age_hours": 48,
+    "max_tweets": 100
   },
   "topic_clusters": {
     "AI agents": [
