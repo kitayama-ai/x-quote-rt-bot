@@ -1,11 +1,11 @@
 {
-  "updated_at": "2026-03-01T05:22:42.275688",
+  "updated_at": "2026-03-01T06:05:45.975979",
   "stats": {
     "pending": 0,
-    "approved": 40,
+    "approved": 38,
     "skipped": 0,
-    "posted_total": 3,
-    "posted_today": 3
+    "posted_total": 5,
+    "posted_today": 5
   },
   "queue": [
     {
@@ -29,9 +29,12 @@
       "matched_keywords": [],
       "status": "approved",
       "added_at": "2026-03-01T12:35:36.661166+09:00",
-      "generated_text": "",
-      "template_id": "",
-      "score": null,
+      "generated_text": "🚨【衝撃】LLM訓練「30%短縮」が実現！\n\nこの効率化はAI市場に「激震」を起こす。🏛️🚀\n・NVIDIAなどAIチップの需要を「猛烈に加速」。\n・開発競争は「新フェーズ」へ突入。\n\nAI投資の「最終決戦」が始まった。未来は近い。✨",
+      "template_id": "breaking_news",
+      "score": {
+        "total": 2,
+        "rank": "C"
+      },
       "skip_reason": "",
       "feedback_note": ""
     },
@@ -58,9 +61,12 @@
       ],
       "status": "approved",
       "added_at": "2026-03-01T12:35:36.663626+09:00",
-      "generated_text": "",
-      "template_id": "",
-      "score": null,
+      "generated_text": "💥【激震】Claude、LLM切り替えで情報ロスなしの「神機能」実装。\n\nこれは生成AIの「エコシステム」を根本から変える一撃だ。🏛️📊\n・ユーザーは「モデル縛り」から解放され、最適LLMを自由に選択。\n・LLM間の競争が「性能と連携...",
+      "template_id": "practice_report",
+      "score": {
+        "total": 3,
+        "rank": "C"
+      },
       "skip_reason": "",
       "feedback_note": ""
     },
@@ -89,70 +95,12 @@
       ],
       "status": "approved",
       "added_at": "2026-03-01T12:35:36.666172+09:00",
-      "generated_text": "",
-      "template_id": "",
-      "score": null,
-      "skip_reason": "",
-      "feedback_note": ""
-    },
-    {
-      "tweet_id": "2027950365682110921",
-      "author_username": "pantheonsceo",
-      "author_name": "Kartik",
-      "text": "This is exactly where AI coding is headed. Not one agent writing code. Multiple agents competing, testing, iterating in parallel. The \"single cursor in a file\" era is ending fast. I've been running multi-agent setups on smaller projects and the speed difference is brutal. Solo https://t.co/mZECSLN7dd",
-      "lang": "en",
-      "likes": 0,
-      "retweets": 0,
-      "replies": 0,
-      "quotes": 0,
-      "bookmarks": 0,
-      "url": "https://x.com/pantheonsceo/status/2027950365682110921",
-      "collected_at": "2026-03-01T12:35:36.653519+09:00",
-      "source": "x_api_v2",
-      "tags": [],
-      "memo": "",
-      "preference_match_score": 4.2,
-      "matched_topics": [
-        "AI agents",
-        "coding AI"
-      ],
-      "matched_keywords": [
-        "coding"
-      ],
-      "status": "approved",
-      "added_at": "2026-03-01T12:35:36.668842+09:00",
-      "generated_text": "",
-      "template_id": "",
-      "score": null,
-      "skip_reason": "",
-      "feedback_note": ""
-    },
-    {
-      "tweet_id": "2027950003164229650",
-      "author_username": "Saniarai932",
-      "author_name": "Sania Rai",
-      "text": "Sources: U.S. military's strikes on Iran still used Anthropic's AI tools\n\nAccording to a report by The Wall Street Journal citing informed sources, intelligence agencies worldwide—including the U.S. Central Command—are using Anthropic’s Claude AI tool.\nHowever, just hours before",
-      "lang": "en",
-      "likes": 0,
-      "retweets": 0,
-      "replies": 0,
-      "quotes": 0,
-      "bookmarks": 0,
-      "url": "https://x.com/Saniarai932/status/2027950003164229650",
-      "collected_at": "2026-03-01T12:35:36.653530+09:00",
-      "source": "x_api_v2",
-      "tags": [],
-      "memo": "",
-      "preference_match_score": 2.5,
-      "matched_topics": [],
-      "matched_keywords": [
-        "Claude"
-      ],
-      "status": "approved",
-      "added_at": "2026-03-01T12:35:36.671618+09:00",
-      "generated_text": "",
-      "template_id": "",
-      "score": null,
+      "generated_text": "🚨【警告】AIエージェントが「自律行動」へ覚醒！🏛️🔥\n2026年、AIは「指示待ち」を卒業し「行動」する。これは知能ではなく【自律性】の革命だ。\n・LLMは応答。エージェントは行動。\n・既存ビジネスは崩壊。今すぐ適応せよ。\n乗り遅れるな。",
+      "template_id": "question_prompt",
+      "score": {
+        "total": 3,
+        "rank": "C"
+      },
       "skip_reason": "",
       "feedback_note": ""
     },
@@ -1163,6 +1111,77 @@
     }
   ],
   "recent_posted": [
+    {
+      "tweet_id": "2027950003164229650",
+      "author_username": "Saniarai932",
+      "author_name": "Sania Rai",
+      "text": "Sources: U.S. military's strikes on Iran still used Anthropic's AI tools\n\nAccording to a report by The Wall Street Journal citing informed sources, intelligence agencies worldwide—including the U.S. Central Command—are using Anthropic’s Claude AI tool.\nHowever, just hours before",
+      "lang": "en",
+      "likes": 0,
+      "retweets": 0,
+      "replies": 0,
+      "quotes": 0,
+      "bookmarks": 0,
+      "url": "https://x.com/Saniarai932/status/2027950003164229650",
+      "collected_at": "2026-03-01T12:35:36.653530+09:00",
+      "source": "x_api_v2",
+      "tags": [],
+      "memo": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "status": "posted",
+      "added_at": "2026-03-01T12:35:36.671618+09:00",
+      "generated_text": "💥【伝説】米軍、AI兵器「実戦投入」の歴史的瞬間！\n\nAnthropicのClaudeがイラン攻撃に利用。ついにAIが戦場を支配した時代へ。🏛️🔥\n・AI開発は「最終局面」へ突入。兵器利用は不可逆。\n・軍事AI市場は爆発拡大、関連銘柄...",
+      "template_id": "legend_moment",
+      "score": {
+        "total": 2,
+        "rank": "C"
+      },
+      "skip_reason": "",
+      "feedback_note": "",
+      "posted_tweet_id": "2027987613093597300",
+      "posted_at": "2026-03-01T15:01:40.005294+09:00"
+    },
+    {
+      "tweet_id": "2027950365682110921",
+      "author_username": "pantheonsceo",
+      "author_name": "Kartik",
+      "text": "This is exactly where AI coding is headed. Not one agent writing code. Multiple agents competing, testing, iterating in parallel. The \"single cursor in a file\" era is ending fast. I've been running multi-agent setups on smaller projects and the speed difference is brutal. Solo https://t.co/mZECSLN7dd",
+      "lang": "en",
+      "likes": 0,
+      "retweets": 0,
+      "replies": 0,
+      "quotes": 0,
+      "bookmarks": 0,
+      "url": "https://x.com/pantheonsceo/status/2027950365682110921",
+      "collected_at": "2026-03-01T12:35:36.653519+09:00",
+      "source": "x_api_v2",
+      "tags": [],
+      "memo": "",
+      "preference_match_score": 4.2,
+      "matched_topics": [
+        "AI agents",
+        "coding AI"
+      ],
+      "matched_keywords": [
+        "coding"
+      ],
+      "status": "posted",
+      "added_at": "2026-03-01T12:35:36.668842+09:00",
+      "generated_text": "🚨【激震】AIコード開発、「マルチエージェント」時代へ激変！\n\n複数AIが競い、開発は「超爆速」へ。単一AIの時代は終焉だ。🏛️✨\n・Web3企業のAI導入が急加速。コストは激減。\n・市場は「破壊的」に変わる。乗るか死ぬか、覚悟しろ。",
+      "template_id": "translate_comment",
+      "score": {
+        "total": 2,
+        "rank": "C"
+      },
+      "skip_reason": "",
+      "feedback_note": "",
+      "posted_tweet_id": "2027987427399291090",
+      "posted_at": "2026-03-01T15:00:55.703369+09:00"
+    },
     {
       "tweet_id": "2027949418771562669",
       "author_username": "peaxe001",
