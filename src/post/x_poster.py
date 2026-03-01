@@ -95,9 +95,13 @@ class XPoster:
         media_ids: list[str] | None = None,
         quote_tweet_id: str | None = None,
         reply_to_id: str | None = None,
+        quote_url: str | None = None,
     ) -> dict:
         """
         テキストツイートを投稿（引用RT・リプライ対応）
+
+        quote_tweet_id で403「引用RT制限」が返った場合、
+        quote_url が指定されていれば自動的にURL埋め込み方式にフォールバック。
         Cloudflare ブロック時は最大3回リトライ。
 
         Args:
@@ -105,6 +109,7 @@ class XPoster:
             media_ids: メディアID（任意）
             quote_tweet_id: 引用RT対象のツイートID（任意）
             reply_to_id: リプライ対象のツイートID（任意）
+            quote_url: フォールバック用の元ツイートURL（任意）
 
         Returns:
             {"id": str, "text": str}
@@ -153,7 +158,41 @@ class XPoster:
             except (ValueError, KeyError):
                 error_body = response.text[:300]
 
-            # 403でX APIからの明確なエラー（引用RT制限など）はリトライしない
+            # 403「引用RT制限」→ URL埋め込みフォールバック
+            if (response.status_code == 403
+                    and isinstance(error_body, dict)
+                    and "Quoting" in error_body.get("detail", "")):
+                if quote_url and quote_tweet_id:
+                    print(f"    ↪ 引用RT制限 → URL埋め込み方式にフォールバック")
+                    fallback_text = f"{text}\n{quote_url}"
+                    fallback_payload = {"text": fallback_text}
+                    if media_ids:
+                        fallback_payload["media"] = {"media_ids": media_ids}
+                    _time.sleep(3)
+                    self._session = None
+                    fb_resp = self.session.post(
+                        f"{self.BASE_URL}/tweets", json=fallback_payload,
+                    )
+                    if fb_resp.status_code in (200, 201):
+                        try:
+                            fb_data = fb_resp.json().get("data", {})
+                        except (ValueError, KeyError):
+                            raise RuntimeError(
+                                f"フォールバック応答のJSONパース失敗: {fb_resp.text[:300]}"
+                            )
+                        return {
+                            "id": fb_data.get("id", ""),
+                            "text": fb_data.get("text", fallback_text),
+                        }
+                    raise RuntimeError(
+                        f"フォールバック投稿も失敗: {fb_resp.status_code} {fb_resp.text[:300]}"
+                    )
+                # quote_url未指定 or フォールバック不可
+                raise RuntimeError(
+                    f"投稿に失敗しました: {response.status_code} {error_body}"
+                )
+
+            # その他の403（認証エラー等）はリトライしない
             if response.status_code == 403 and isinstance(error_body, dict):
                 raise RuntimeError(
                     f"投稿に失敗しました: {response.status_code} {error_body}"

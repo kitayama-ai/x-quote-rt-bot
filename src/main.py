@@ -475,10 +475,13 @@ def cmd_curate_pipeline(args):
             print(f"    ⛔ 安全チェック不合格: {safety.violations}")
             continue
 
-        # 投稿
+        # 投稿（403時はURL埋め込みにフォールバック）
+        quote_url = f"https://x.com/{author}/status/{tweet_id}"
         try:
             print(f"    📤 投稿中...")
-            result = poster.post_tweet(text=text, quote_tweet_id=tweet_id)
+            result = poster.post_tweet(
+                text=text, quote_tweet_id=tweet_id, quote_url=quote_url,
+            )
             posted_tweet_id = result.get("id")
             if not posted_tweet_id:
                 raise ValueError(f"X APIからツイートIDが返りませんでした: {result}")
@@ -501,7 +504,7 @@ def cmd_curate_pipeline(args):
 
     # ── 結果 ──────────────────────────────────────────
     print(f"\n{'='*50}")
-    print(f"🎉 パイプライン完了: {posted_count}/{len(generated_items)}件投稿成功")
+    print(f"🎉 パイプライン完了: {posted_count}/{tried_count}件投稿成功")
     print(f"📊 本日累計: {posted_today + posted_count}/{daily_limit}件")
     print(f"{'='*50}")
 
