@@ -90,7 +90,11 @@ class XAPIClient:
         elif resp.status_code == 401:
             raise XAPIError(401, "Bearer Token が無効です。TWITTER_BEARER_TOKEN を確認してください。")
         elif resp.status_code == 403:
-            raise XAPIError(403, "アクセスが拒否されました。")
+            # Cloudflare ブロック（HTML）と API 正規 403（JSON）を区別
+            body = resp.text[:300]
+            if "<html" in body.lower() or "Just a moment" in body:
+                raise XAPIError(403, f"Cloudflare にブロックされました（GitHub Actions IP）。body={body[:150]}")
+            raise XAPIError(403, f"アクセスが拒否されました。body={body[:200]}")
         elif resp.status_code != 200:
             raise XAPIError(resp.status_code, f"API エラー: {resp.text[:200]}")
 

@@ -3,8 +3,8 @@ name: Daily Collect (バズツイート自動収集)
 # 毎朝 6:00 JST (21:00 UTC) にX API v2でバズツイートを収集
 # → 6:30 の daily-curate で引用RTコメント生成
 on:
-  schedule:
-    - cron: '0 21 * * *'  # 6:00 JST
+  # schedule: Oracle Cloud VM の cron に移行済み (2026-03-01)
+  # JST 06:00 → VM cron に移行
   workflow_dispatch:  # 手動実行可能
     inputs:
       dry_run:

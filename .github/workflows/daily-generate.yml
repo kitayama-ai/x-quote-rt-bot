@@ -1,9 +1,8 @@
 name: 📝 日次投稿生成
 
 on:
-  schedule:
-    # 毎朝 6:30 JST (21:30 UTC)
-    - cron: "30 21 * * *"
+  # schedule: Oracle Cloud VM の cron に移行済み (2026-03-01)
+  # JST 06:30 → VM cron に移行
   workflow_dispatch:
     inputs:
       account:

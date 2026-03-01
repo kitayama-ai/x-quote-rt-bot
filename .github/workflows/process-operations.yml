@@ -3,8 +3,8 @@ name: Process Dashboard Operations (操作リクエスト処理)
 # ダッシュボードの「操作」タブからのリクエストを処理
 # 3分おきにFirestoreをチェックして未処理リクエストを実行
 on:
-  schedule:
-    - cron: '*/3 * * * *'  # 3分おき
+  # schedule: Oracle Cloud VM の cron に移行済み (2026-03-01)
+  # 3分おき → VM cron に移行
   workflow_dispatch:  # 手動実行可能
 
 jobs:

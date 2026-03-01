@@ -1,9 +1,8 @@
 name: 📈 週次PDCA
 
 on:
-  schedule:
-    # 毎週月曜 9:00 JST (0:00 UTC)
-    - cron: "0 0 * * 1"
+  # schedule: Oracle Cloud VM の cron に移行済み (2026-03-01)
+  # 毎週月曜 JST 09:00 → VM cron に移行
   workflow_dispatch:
     inputs:
       account:

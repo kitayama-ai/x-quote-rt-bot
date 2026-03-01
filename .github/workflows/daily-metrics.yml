@@ -1,9 +1,8 @@
 name: 📊 日次メトリクス収集
 
 on:
-  schedule:
-    # 毎晩 23:00 JST (14:00 UTC)
-    - cron: "0 14 * * *"
+  # schedule: Oracle Cloud VM の cron に移行済み (2026-03-01)
+  # JST 23:00 → VM cron に移行
   workflow_dispatch:
     inputs:
       account:

@@ -2,8 +2,8 @@ name: Daily Curate (引用RT生成)
 
 # 毎朝 6:30 JST (21:30 UTC) にキューの引用RT投稿文を生成
 on:
-  schedule:
-    - cron: '30 21 * * *'  # 6:30 JST
+  # schedule: Oracle Cloud VM の cron に移行済み (2026-03-01)
+  # JST 06:30 → VM cron に移行
   workflow_dispatch:  # 手動実行可能
 
 jobs:

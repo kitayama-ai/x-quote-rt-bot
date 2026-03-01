@@ -4,11 +4,8 @@ name: 引用RTパイプライン（収集→生成→投稿）
 # 旧: 3ワークフロー分離（daily-collect → daily-curate → curate-post）で失敗
 # 新: curate-pipeline で収集→生成→投稿を1コマンドで完結
 on:
-  schedule:
-    # 1日3回に絞る（X API Free プランのクレジット節約）
-    - cron: "20 23 * * *" # JST 08:20
-    - cron: "0 5 * * *"   # JST 14:00
-    - cron: "50 11 * * *"  # JST 20:50
+  # schedule: Oracle Cloud VM の cron に移行済み (2026-03-01)
+  # JST 08:20 / 14:00 / 20:50 → VM cron に移行
   workflow_dispatch:
     inputs:
       max_posts:

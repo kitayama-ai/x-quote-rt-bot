@@ -1,11 +1,8 @@
 name: 📤 予約投稿チェック
 
 on:
-  schedule:
-    # 毎時実行（JST 7:00, 12:00, 21:00 前後にヒットする）
-    - cron: "50 21 * * *" # JST 06:50 → morning スロット
-    - cron: "50 2 * * *" # JST 11:50 → noon スロット
-    - cron: "50 11 * * *" # JST 20:50 → evening スロット
+  # schedule: Oracle Cloud VM の cron に移行済み (2026-03-01)
+  # JST 06:50 / 11:50 / 20:50 → VM cron に移行
   workflow_dispatch:
     inputs:
       account:
