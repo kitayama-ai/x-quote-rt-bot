@@ -2,7 +2,7 @@
   "description": "引用RT投稿のルール設定",
   "quote_rt": {
     "min_comment_length": 30,
-    "max_comment_length": 250,
+    "max_comment_length": 120,
     "max_same_source_daily": 1,
     "max_consecutive_quotes": 2,
     "min_delay_from_original_minutes": 120,
@@ -25,9 +25,9 @@
     "last_post_type": "flexible"
   },
   "buzz_thresholds": {
-    "likes_min": 500,
-    "retweets_min": 100,
-    "age_max_hours": 48,
+    "likes_min": 0,
+    "retweets_min": 0,
+    "age_max_hours": 24,
     "lang": ["en"]
   },
   "templates": [

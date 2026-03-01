@@ -1,33 +1,36 @@
-name: Scheduled Curate Post (引用RT投稿)
+name: 引用RTパイプライン（収集→生成→投稿）
 
-# 1日10回のスケジュールで引用RT投稿を実行
-# ※GitHub Actions cronの最小間隔は5分。実際の投稿はScheduler/MixPlannerが制御
+# テストツール(copy-secrets.yml)と同じ一気通貫アーキテクチャ
+# 旧: 3ワークフロー分離（daily-collect → daily-curate → curate-post）で失敗
+# 新: curate-pipeline で収集→生成→投稿を1コマンドで完結
 on:
   schedule:
-    # 朝〜夜の投稿スロットに対応（UTC）
-    - cron: "50 21 * * *" # JST 06:50 → slot_01 (07:00 original)
-    - cron: "20 23 * * *" # JST 08:20 → slot_02 (08:30 quote_rt)
-    - cron: "0 1 * * *" # JST 10:00 → slot_03 (10:15 quote_rt)
-    - cron: "50 2 * * *" # JST 11:50 → slot_04 (12:00 original)
-    - cron: "0 5 * * *" # JST 14:00 → slot_05 (14:15 quote_rt)
-    - cron: "50 6 * * *" # JST 15:50 → slot_06 (16:00 quote_rt)
-    - cron: "50 8 * * *" # JST 17:50 → slot_07 (18:00 quote_rt)
-    - cron: "30 10 * * *" # JST 19:30 → slot_08 (19:45 original)
-    - cron: "50 11 * * *" # JST 20:50 → slot_09 (21:00 quote_rt)
-    - cron: "20 13 * * *" # JST 22:20 → slot_10 (22:30 flexible)
-  workflow_dispatch: # 手動実行可能
+    # 1日3回に絞る（X API Free プランのクレジット節約）
+    - cron: "20 23 * * *" # JST 08:20
+    - cron: "0 5 * * *"   # JST 14:00
+    - cron: "50 11 * * *"  # JST 20:50
+  workflow_dispatch:
+    inputs:
+      max_posts:
+        description: "最大投稿数"
+        required: false
+        default: "2"
+      dry_run:
+        description: "ドライラン（true/false）"
+        required: false
+        default: "false"
 
 jobs:
-  post:
+  pipeline:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 10
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Pull latest
-        run: git pull --rebase
+        run: git pull --rebase origin main || true
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -38,23 +41,33 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Execute curate post
+      - name: Run curate-pipeline
         env:
           X_API_KEY: ${{ secrets.X_API_KEY }}
           X_API_SECRET: ${{ secrets.X_API_SECRET }}
           X_ACCOUNT_1_ACCESS_TOKEN: ${{ secrets.X_ACCOUNT_1_ACCESS_TOKEN }}
           X_ACCOUNT_1_ACCESS_SECRET: ${{ secrets.X_ACCOUNT_1_ACCESS_SECRET }}
+          TWITTER_BEARER_TOKEN: ${{ secrets.TWITTER_BEARER_TOKEN }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           DISCORD_WEBHOOK_GENERAL: ${{ secrets.DISCORD_WEBHOOK_GENERAL }}
           DISCORD_WEBHOOK_ACCOUNT_1: ${{ secrets.DISCORD_WEBHOOK_ACCOUNT_1 }}
-          MODE: ${{ vars.MODE || 'manual_approval' }}
-          AUTO_POST_MIN_SCORE: ${{ vars.AUTO_POST_MIN_SCORE || '8' }}
-        run: python -m src.main curate-post --account 1
+          MODE: ${{ vars.MODE || 'auto' }}
+          AUTO_POST_MIN_SCORE: ${{ vars.AUTO_POST_MIN_SCORE || '5' }}
+        run: |
+          MAX_POSTS="${{ github.event.inputs.max_posts || '2' }}"
+          DRY_RUN="${{ github.event.inputs.dry_run || 'false' }}"
 
-      - name: Commit post status
+          if [ "$DRY_RUN" = "true" ]; then
+            python -m src.main curate-pipeline --account 1 --max-posts "$MAX_POSTS" --dry-run
+          else
+            python -m src.main curate-pipeline --account 1 --max-posts "$MAX_POSTS"
+          fi
+
+      - name: Commit queue updates
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add data/queue/
-          git diff --staged --quiet || git commit -m "chore: update post status $(date +'%Y-%m-%d %H:%M')"
+          git add data/queue/ 2>/dev/null || true
+          git diff --staged --quiet || git commit -m "chore: pipeline post $(date +'%Y-%m-%d %H:%M')"
           git pull --rebase origin main || true
           git push origin main || true

@@ -316,6 +316,209 @@ def _verify_poster(poster):
         return fallback or "unknown"
 
 
+def cmd_curate_pipeline(args):
+    """引用RTパイプライン: 収集→生成→投稿を1コマンドで実行
+
+    テストツール(copy-secrets.yml)と同じ一気通貫アーキテクチャ。
+    - X API Free プランでは public_metrics が0で返るため min_likes=0 で収集
+    - 新鮮なツイートをその場で生成・投稿（古いキューに依存しない）
+    """
+    import time
+    from src.collect.auto_collector import AutoCollector
+    from src.collect.queue_manager import QueueManager
+    from src.generate.quote_generator import QuoteGenerator
+    from src.post.x_poster import XPoster
+    from src.post.safety_checker import SafetyChecker
+    from src.notify.discord_notifier import DiscordNotifier
+
+    config = Config(f"account_{args.account}")
+    queue = QueueManager()
+    safety_checker = SafetyChecker(config.safety_rules)
+
+    max_posts = getattr(args, "max_posts", 2)
+    dry_run = getattr(args, "dry_run", False)
+
+    print("╔══════════════════════════════════════════════╗")
+    print("║  引用RTパイプライン（収集→生成→投稿）       ║")
+    print("╚══════════════════════════════════════════════╝")
+    print(f"📋 モード: {config.mode} / 最大投稿数: {max_posts}")
+
+    # ── STEP 1: 収集 ──────────────────────────────────────────
+    print(f"\n{'='*50}")
+    print("📡 STEP 1: バズツイート収集")
+    print(f"{'='*50}")
+
+    try:
+        collector = AutoCollector()
+    except ValueError as e:
+        print(f"❌ {e}")
+        return
+
+    # X API Free プランは public_metrics=0 を返すため min_likes=0 で全件取得
+    # relevancy ソートで品質を担保
+    result = collector.collect(
+        min_likes=0,
+        max_tweets=30,
+        auto_approve=True,
+        dry_run=dry_run,
+    )
+
+    print(f"  📥 API取得: {result['fetched']}件")
+    print(f"  🔎 フィルタ後: {result['filtered']}件")
+    print(f"  ✅ キュー追加: {result['added']}件")
+
+    if result["added"] == 0 and not dry_run:
+        print("❌ 新規ツイートが収集できませんでした")
+        # 既存の承認済みキューがあればそちらを使う
+        existing = queue.get_approved()
+        if not existing:
+            print("📭 キューにも承認済みツイートがありません。終了します。")
+            return
+        print(f"📋 既存キュー {len(existing)}件を使用します")
+
+    # ── STEP 2: 生成 ──────────────────────────────────────────
+    print(f"\n{'='*50}")
+    print("🤖 STEP 2: 引用RTコメント生成")
+    print(f"{'='*50}")
+
+    generator = QuoteGenerator(config)
+
+    # 承認済みツイートを取得（STEP 1 で auto_approve=True なので即利用可能）
+    approved = queue.get_approved()
+    if not approved:
+        print("📭 承認済みツイートがありません")
+        return
+
+    print(f"📋 対象: {len(approved)}件（上位{max_posts}件を処理）")
+
+    generated_items = []
+    for i, item in enumerate(approved[:max_posts], 1):
+        if not item.get("text"):
+            print(f"  ⚠️ [{i}] テキストなし。スキップ")
+            continue
+
+        print(f"  🔄 [{i}] @{item.get('author_username', '?')}: {item['text'][:60]}...")
+
+        gen_result = generator.generate(
+            original_text=item["text"],
+            author_username=item.get("author_username", ""),
+            author_name=item.get("author_name", ""),
+            likes=item.get("likes", 0),
+            retweets=item.get("retweets", 0),
+            past_posts=[g["generated_text"] for g in generated_items],
+        )
+
+        if gen_result.get("text"):
+            score_dict = None
+            if gen_result.get("score"):
+                score_dict = {
+                    "total": gen_result["score"].total,
+                    "rank": gen_result["score"].rank,
+                }
+            queue.set_generated(
+                tweet_id=item["tweet_id"],
+                text=gen_result["text"],
+                template_id=gen_result["template_id"],
+                score=score_dict,
+            )
+            generated_items.append({
+                "tweet_id": item["tweet_id"],
+                "generated_text": gen_result["text"],
+                "template_id": gen_result["template_id"],
+                "score": score_dict,
+                "author_username": item.get("author_username", ""),
+            })
+            score_str = f"スコア: {gen_result['score'].total}" if gen_result.get("score") else "?"
+            print(f"    ✅ 生成完了 [{gen_result['template_id']}] {score_str}")
+            print(f"    📝 {gen_result['text'][:80]}...")
+        else:
+            print(f"    ❌ 生成失敗")
+
+    if not generated_items:
+        print("❌ コメントが1件も生成できませんでした")
+        return
+
+    # ── STEP 3: 投稿 ──────────────────────────────────────────
+    print(f"\n{'='*50}")
+    print("📤 STEP 3: 引用RT投稿")
+    print(f"{'='*50}")
+
+    if dry_run:
+        print("🔒 ドライラン: 投稿はスキップ")
+        for g in generated_items:
+            print(f"  📎 @{g['author_username']} → {g['generated_text'][:60]}...")
+        return
+
+    if config.mode == "manual_approval":
+        print("🔒 手動承認モード: 投稿はスキップ。MODE=auto に変更してください。")
+        return
+
+    poster = XPoster(config)
+
+    # アカウント確認（失敗しても投稿は続行）
+    _verify_poster(poster)
+
+    # 1日の投稿上限チェック
+    daily_limit, posted_today = _get_daily_post_limit(config, queue)
+    remaining = daily_limit - posted_today
+    if remaining <= 0:
+        print(f"⛔ 本日の投稿上限（{daily_limit}件）に達しています")
+        return
+
+    notifier = DiscordNotifier(config.discord_webhook_account or config.discord_webhook_general)
+    posted_count = 0
+
+    for i, item in enumerate(generated_items[:remaining], 1):
+        text = item["generated_text"]
+        tweet_id = item["tweet_id"]
+
+        # 安全チェック
+        safety = safety_checker.check(text, is_quote_rt=True)
+        if not safety.is_safe:
+            print(f"  ⛔ [{i}] 安全チェック不合格: {safety.violations}")
+            continue
+
+        # スコア判定（semi_autoモード）
+        score_total = item.get("score", {}).get("total", 0) if item.get("score") else 0
+        if config.mode == "semi_auto" and score_total < config.auto_post_min_score:
+            print(f"  🔒 [{i}] スコア{score_total}は閾値未満。スキップ。")
+            continue
+
+        # 投稿実行
+        try:
+            print(f"  📤 [{i}] 投稿中... @{item['author_username']}")
+            result = poster.post_tweet(text=text, quote_tweet_id=tweet_id)
+            posted_tweet_id = result.get("id")
+            if not posted_tweet_id:
+                raise ValueError(f"X APIからツイートIDが返りませんでした: {result}")
+            queue.mark_posted(tweet_id, posted_tweet_id)
+            print(f"  ✅ [{i}] 投稿成功! https://x.com/i/status/{posted_tweet_id}")
+            posted_count += 1
+
+            # 連投防止（5秒待機）
+            if i < len(generated_items):
+                print(f"  ⏳ 連投防止: 5秒待機...")
+                time.sleep(5)
+        except Exception as e:
+            error_msg = str(e)
+            print(f"  ❌ [{i}] 投稿エラー: {error_msg}")
+            # 403 "Quoting not allowed" の場合はスキップして次へ
+            if "403" in error_msg:
+                print(f"  ⚠️ この元ツイートは引用RT制限あり。次へ進みます。")
+                continue
+            notifier.notify_error("引用RT投稿エラー", error_msg)
+
+    # ── 結果 ──────────────────────────────────────────
+    print(f"\n{'='*50}")
+    print(f"🎉 パイプライン完了: {posted_count}/{len(generated_items)}件投稿成功")
+    print(f"📊 本日累計: {posted_today + posted_count}/{daily_limit}件")
+    print(f"{'='*50}")
+
+    if posted_count == 0:
+        print("⚠️ 1件も投稿できませんでした")
+        sys.exit(1)
+
+
 def cmd_curate_post(args):
     """引用RT投稿を実行（生成済みキューから）"""
     from src.collect.queue_manager import QueueManager
@@ -1376,6 +1579,13 @@ def main():
     # curate-post
     add_account_arg(subparsers.add_parser("curate-post", help="引用RT投稿を実行（生成済みキューから）"))
 
+    # curate-pipeline (収集→生成→投稿 一気通貫)
+    pipeline_parser = add_account_arg(
+        subparsers.add_parser("curate-pipeline", help="引用RTパイプライン（収集→生成→投稿を1コマンドで）")
+    )
+    pipeline_parser.add_argument("--dry-run", action="store_true", help="ドライラン（投稿しない）")
+    pipeline_parser.add_argument("--max-posts", type=int, default=2, help="最大投稿数（デフォルト: 2）")
+
     # post-one (ダッシュボード選択式投稿)
     post_one_parser = add_account_arg(
         subparsers.add_parser("post-one", help="指定した1件の引用RTを即時投稿")
@@ -1476,6 +1686,7 @@ def main():
         "post": cmd_post,
         "curate": cmd_curate,
         "curate-post": cmd_curate_post,
+        "curate-pipeline": cmd_curate_pipeline,
         "post-one": cmd_post_one,
         "collect": cmd_collect,
         "notify-test": cmd_notify_test,
