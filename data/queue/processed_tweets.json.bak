@@ -1,0 +1,36 @@
+[
+  {
+    "tweet_id": "2027949071332254039",
+    "author_username": "trishlaostwal",
+    "author_name": "Trishla Ostwal",
+    "text": "Within hours of declaring that the federal government will end its use of AI tools made by tech company @AnthropicAI President Trump launched a major air attack in Iran with the help of those very same tools.\n\nhttps://t.co/uIn1Aj4bHj https://t.co/s761Z2CH0g",
+    "lang": "en",
+    "likes": 2,
+    "retweets": 0,
+    "replies": 0,
+    "quotes": 0,
+    "bookmarks": 0,
+    "url": "https://x.com/trishlaostwal/status/2027949071332254039",
+    "collected_at": "2026-03-01T12:35:36.653495+09:00",
+    "source": "x_api_v2",
+    "tags": [],
+    "memo": "",
+    "preference_match_score": 2.0,
+    "matched_topics": [
+      "product launches"
+    ],
+    "matched_keywords": [],
+    "status": "posted",
+    "added_at": "2026-03-01T12:35:36.654094+09:00",
+    "generated_text": "🚨【衝撃】トランプ、AI規制宣言直後にAnthropicAIでイラン空爆！\n\n裏切りか、それとも現実か？AI兵器時代の「見せかけ」が露呈だ。🏛️🇺🇸\n・公約は建前。AIは国家戦略の「心臓部」へ不可逆の進化。\n・この矛盾こそAI軍拡競争...",
+    "template_id": "breaking_news",
+    "score": {
+      "total": 1,
+      "rank": "C"
+    },
+    "skip_reason": "",
+    "feedback_note": "",
+    "posted_tweet_id": "2027951094567940312",
+    "posted_at": "2026-03-01T12:36:33.304711+09:00"
+  }
+]
