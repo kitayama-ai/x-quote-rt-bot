@@ -98,6 +98,7 @@ class XPoster:
     ) -> dict:
         """
         テキストツイートを投稿（引用RT・リプライ対応）
+        Cloudflare ブロック時は最大3回リトライ。
 
         Args:
             text: 投稿テキスト (280字以内)
@@ -108,6 +109,8 @@ class XPoster:
         Returns:
             {"id": str, "text": str}
         """
+        import time as _time
+
         payload: dict = {"text": text}
 
         if media_ids:
@@ -117,21 +120,50 @@ class XPoster:
         if reply_to_id:
             payload["reply"] = {"in_reply_to_tweet_id": reply_to_id}
 
-        response = self.session.post(
-            f"{self.BASE_URL}/tweets",
-            json=payload,
-        )
+        last_error = None
+        for attempt in range(3):
+            if attempt > 0:
+                wait = 5 * (2 ** attempt)  # 10s, 20s
+                print(f"  ⏳ リトライ {attempt + 1}/3（{wait}秒待機）...")
+                _time.sleep(wait)
+                # セッションをリセット（Cloudflare対策）
+                self._session = None
 
-        if response.status_code not in (200, 201):
-            raise RuntimeError(
-                f"投稿に失敗しました: {response.status_code} {response.json()}"
+            response = self.session.post(
+                f"{self.BASE_URL}/tweets",
+                json=payload,
             )
 
-        data = response.json().get("data", {})
-        return {
-            "id": data.get("id", ""),
-            "text": data.get("text", text),
-        }
+            # 成功
+            if response.status_code in (200, 201):
+                try:
+                    data = response.json().get("data", {})
+                except (ValueError, KeyError):
+                    raise RuntimeError(
+                        f"レスポンスのJSONパースに失敗: {response.status_code} {response.text[:300]}"
+                    )
+                return {
+                    "id": data.get("id", ""),
+                    "text": data.get("text", text),
+                }
+
+            # JSONレスポンスか確認
+            try:
+                error_body = response.json()
+            except (ValueError, KeyError):
+                error_body = response.text[:300]
+
+            # 403でX APIからの明確なエラー（引用RT制限など）はリトライしない
+            if response.status_code == 403 and isinstance(error_body, dict):
+                raise RuntimeError(
+                    f"投稿に失敗しました: {response.status_code} {error_body}"
+                )
+
+            # Cloudflareブロック（HTML応答）やその他のエラーはリトライ
+            last_error = f"投稿に失敗しました: {response.status_code} {error_body}"
+            print(f"  ⚠️ 投稿エラー（attempt {attempt + 1}）: {response.status_code}")
+
+        raise RuntimeError(last_error)
 
     def delete_tweet(self, tweet_id: str) -> bool:
         """

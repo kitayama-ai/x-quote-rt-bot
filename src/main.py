@@ -367,6 +367,11 @@ def cmd_curate_pipeline(args):
     print(f"  🔎 フィルタ後: {result['filtered']}件")
     print(f"  ✅ キュー追加: {result['added']}件")
 
+    # Cloudflare CDN対策: 収集API呼び出し後に待機してから投稿API呼び出し
+    if not dry_run:
+        print("  ⏳ API冷却待機: 10秒...")
+        time.sleep(10)
+
     if result["added"] == 0 and not dry_run:
         print("❌ 新規ツイートが収集できませんでした")
         # 既存の承認済みキューがあればそちらを使う
