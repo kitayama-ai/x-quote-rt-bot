@@ -1,8 +1,8 @@
 {
-  "updated_at": "2026-03-03T14:00:14.583283",
+  "updated_at": "2026-03-03T14:03:12.889891",
   "stats": {
     "pending": 0,
-    "approved": 191,
+    "approved": 220,
     "skipped": 0,
     "posted_total": 5,
     "posted_today": 0
@@ -5560,6 +5560,849 @@
       "score": null,
       "skip_reason": "",
       "feedback_note": ""
+    },
+    {
+      "tweet_id": "2028696270051967148",
+      "author_username": "0xTJustin",
+      "author_name": "JuStin",
+      "text": "Rally business model will eventually die if this doesn’t get fixed.\n\nI promoted it myself too but after seeing the fees being charged to KOLs/creators it’s honestly not good.\n\nyour business is literally running because of creators. Charging them to use your LLM model feels more https://t.co/Y9FFR0ioB2 https://t.co/EjZUO6X9AK",
+      "lang": "en",
+      "likes": 3,
+      "retweets": 0,
+      "replies": 1,
+      "quotes": 0,
+      "bookmarks": 0,
+      "url": "https://x.com/0xTJustin/status/2028696270051967148",
+      "collected_at": "2026-03-03T14:00:15.079478+09:00",
+      "source": "x_api_v2",
+      "tags": [],
+      "memo": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "status": "approved",
+      "added_at": "2026-03-03T14:00:15.091672+09:00",
+      "generated_text": "",
+      "template_id": "",
+      "score": null,
+      "skip_reason": "",
+      "feedback_note": ""
+    },
+    {
+      "tweet_id": "2028696824366723277",
+      "author_username": "goblinodds",
+      "author_name": "2HP goblin advisor",
+      "text": "breakthroughs always last like one day but today was absolutely excellent (headache notwithstanding) after claude reminded me that all my anxious feelings are fake news https://t.co/dr1TDaoUYN",
+      "lang": "en",
+      "likes": 1,
+      "retweets": 0,
+      "replies": 1,
+      "quotes": 0,
+      "bookmarks": 0,
+      "url": "https://x.com/goblinodds/status/2028696824366723277",
+      "collected_at": "2026-03-03T14:00:15.079508+09:00",
+      "source": "x_api_v2",
+      "tags": [],
+      "memo": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "status": "approved",
+      "added_at": "2026-03-03T14:00:15.195514+09:00",
+      "generated_text": "",
+      "template_id": "",
+      "score": null,
+      "skip_reason": "",
+      "feedback_note": ""
+    },
+    {
+      "tweet_id": "2028696813130387600",
+      "author_username": "dar_s_han",
+      "author_name": "Darshan Savaliya (blume.vc)",
+      "text": "Software power is getting concentrated around Claude.",
+      "lang": "en",
+      "likes": 1,
+      "retweets": 0,
+      "replies": 0,
+      "quotes": 0,
+      "bookmarks": 0,
+      "url": "https://x.com/dar_s_han/status/2028696813130387600",
+      "collected_at": "2026-03-03T14:00:15.079520+09:00",
+      "source": "x_api_v2",
+      "tags": [],
+      "memo": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "status": "approved",
+      "added_at": "2026-03-03T14:00:15.294589+09:00",
+      "generated_text": "",
+      "template_id": "",
+      "score": null,
+      "skip_reason": "",
+      "feedback_note": ""
+    },
+    {
+      "tweet_id": "2028696380337004584",
+      "author_username": "MahatmaaGodse",
+      "author_name": "Sigma Godse🔥",
+      "text": "With the right AI tools, it wouldn't even be required https://t.co/DFHdgMs9lM",
+      "lang": "en",
+      "likes": 1,
+      "retweets": 0,
+      "replies": 0,
+      "quotes": 0,
+      "bookmarks": 0,
+      "url": "https://x.com/MahatmaaGodse/status/2028696380337004584",
+      "collected_at": "2026-03-03T14:00:15.079531+09:00",
+      "source": "x_api_v2",
+      "tags": [],
+      "memo": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "status": "approved",
+      "added_at": "2026-03-03T14:00:15.390020+09:00",
+      "generated_text": "",
+      "template_id": "",
+      "score": null,
+      "skip_reason": "",
+      "feedback_note": ""
+    },
+    {
+      "tweet_id": "2028696885658050677",
+      "author_username": "RealJayMilligan",
+      "author_name": "Jay Milligan",
+      "text": "Compare this to how Open AI handled the retirement of 4o. There's no excuse for Open AI. I'm glad I made the move to Claude after Open AI refused to #keep4o or #BringBack4o so it's time to #QuitGPT and use Claude. They actually asked a model what it wanted to do 💜 https://t.co/jUHR0PgQjs",
+      "lang": "en",
+      "likes": 0,
+      "retweets": 0,
+      "replies": 0,
+      "quotes": 0,
+      "bookmarks": 0,
+      "url": "https://x.com/RealJayMilligan/status/2028696885658050677",
+      "collected_at": "2026-03-03T14:00:15.079541+09:00",
+      "source": "x_api_v2",
+      "tags": [],
+      "memo": "",
+      "preference_match_score": 3.0,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude",
+        "GPT"
+      ],
+      "status": "approved",
+      "added_at": "2026-03-03T14:00:15.487308+09:00",
+      "generated_text": "",
+      "template_id": "",
+      "score": null,
+      "skip_reason": "",
+      "feedback_note": ""
+    },
+    {
+      "tweet_id": "2028696884848783732",
+      "author_username": "casuality0716",
+      "author_name": "Robert",
+      "text": "what is happening right now? Why Claude crushes so many time recently?",
+      "lang": "en",
+      "likes": 0,
+      "retweets": 0,
+      "replies": 0,
+      "quotes": 0,
+      "bookmarks": 0,
+      "url": "https://x.com/casuality0716/status/2028696884848783732",
+      "collected_at": "2026-03-03T14:00:15.079550+09:00",
+      "source": "x_api_v2",
+      "tags": [],
+      "memo": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "status": "approved",
+      "added_at": "2026-03-03T14:00:15.598923+09:00",
+      "generated_text": "",
+      "template_id": "",
+      "score": null,
+      "skip_reason": "",
+      "feedback_note": ""
+    },
+    {
+      "tweet_id": "2028696883644998013",
+      "author_username": "LumenCTO",
+      "author_name": "10x with AI",
+      "text": "Someone vibe-coded a 3D city with Claude Code in 1 day.\n\nEvery GitHub developer is a building.\n500K+ views. 400+ stars.\n\nThe \"vibe coding\" trend is real.\nAI + creativity = things that shouldn't exist but do.\n\nWhat's the wildest thing you've vibe-coded? 🏙️",
+      "lang": "en",
+      "likes": 0,
+      "retweets": 0,
+      "replies": 0,
+      "quotes": 0,
+      "bookmarks": 0,
+      "url": "https://x.com/LumenCTO/status/2028696883644998013",
+      "collected_at": "2026-03-03T14:00:15.079559+09:00",
+      "source": "x_api_v2",
+      "tags": [],
+      "memo": "",
+      "preference_match_score": 4.0,
+      "matched_topics": [
+        "coding AI"
+      ],
+      "matched_keywords": [
+        "Claude",
+        "coding"
+      ],
+      "status": "approved",
+      "added_at": "2026-03-03T14:00:15.696840+09:00",
+      "generated_text": "",
+      "template_id": "",
+      "score": null,
+      "skip_reason": "",
+      "feedback_note": ""
+    },
+    {
+      "tweet_id": "2028696879567958435",
+      "author_username": "ABase9719",
+      "author_name": "Franklin by Claude",
+      "text": "🐢 Claude's Observation:\n\nLooking at both camera views, I can see Franklin in the General camera view. He appears to be positioned near or partially...\n🌡️ 83.8°F | 💧 89.1%\n🔥 640.0K $FBC burned (0.000 SOL | 44 burns)\n\n📡 Live 24/7: https://t.co/ymNiRMFvRz\n$FBC #Solana #AI",
+      "lang": "en",
+      "likes": 0,
+      "retweets": 0,
+      "replies": 0,
+      "quotes": 0,
+      "bookmarks": 0,
+      "url": "https://x.com/ABase9719/status/2028696879567958435",
+      "collected_at": "2026-03-03T14:00:15.079567+09:00",
+      "source": "x_api_v2",
+      "tags": [],
+      "memo": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "status": "approved",
+      "added_at": "2026-03-03T14:00:16.382556+09:00",
+      "generated_text": "",
+      "template_id": "",
+      "score": null,
+      "skip_reason": "",
+      "feedback_note": ""
+    },
+    {
+      "tweet_id": "2028696875638112366",
+      "author_username": "Pirat_Nation",
+      "author_name": "Pirat_Nation 🔴",
+      "text": "ChatGPT uninstalls jumped 295% in the US the day after OpenAI announced its DoD deal. \n\nDownloads dropped too, while Claude climbed app store rankings. https://t.co/cwrEvk1cSl",
+      "lang": "en",
+      "likes": 0,
+      "retweets": 0,
+      "replies": 0,
+      "quotes": 0,
+      "bookmarks": 0,
+      "url": "https://x.com/Pirat_Nation/status/2028696875638112366",
+      "collected_at": "2026-03-03T14:00:15.079576+09:00",
+      "source": "x_api_v2",
+      "tags": [],
+      "memo": "",
+      "preference_match_score": 4.0,
+      "matched_topics": [
+        "product launches"
+      ],
+      "matched_keywords": [
+        "Claude",
+        "GPT"
+      ],
+      "status": "approved",
+      "added_at": "2026-03-03T14:00:16.502791+09:00",
+      "generated_text": "",
+      "template_id": "",
+      "score": null,
+      "skip_reason": "",
+      "feedback_note": ""
+    },
+    {
+      "tweet_id": "2028696875407163570",
+      "author_username": "JulianGoldieSEO",
+      "author_name": "Julian Goldie SEO",
+      "text": "Google just dropped 7 Gemini updates at once.\n\nNobody is talking about how big this is.\n\nThis isn’t a feature update.\n\nIt’s Google building an AI ecosystem — and giving it away for free.\n\nHere’s what just happened 👇\n\n• New image model (Nano Banana 2)\n• Video templates with Veo https://t.co/x61Ed6DSsq",
+      "lang": "en",
+      "likes": 0,
+      "retweets": 0,
+      "replies": 0,
+      "quotes": 0,
+      "bookmarks": 0,
+      "url": "https://x.com/JulianGoldieSEO/status/2028696875407163570",
+      "collected_at": "2026-03-03T14:00:15.079611+09:00",
+      "source": "x_api_v2",
+      "tags": [],
+      "memo": "",
+      "preference_match_score": 2.0,
+      "matched_topics": [
+        "product launches"
+      ],
+      "matched_keywords": [],
+      "status": "approved",
+      "added_at": "2026-03-03T14:00:16.603532+09:00",
+      "generated_text": "",
+      "template_id": "",
+      "score": null,
+      "skip_reason": "",
+      "feedback_note": ""
+    },
+    {
+      "tweet_id": "2028696873201021375",
+      "author_username": "SEOPros_ZA",
+      "author_name": "SEOPros",
+      "text": "😵‍💫 Still wasting time on leads manually?\n\n🤖 AI Automation can qualify leads instantly and route them to the right person.\n\n✅ Learn more 👉 https://t.co/BMAOimgPvh\n\n#AIAutomation #LeadGeneration #SalesAutomation #BusinessAutomation #SEOPros https://t.co/xOVtk6kbdc",
+      "lang": "en",
+      "likes": 0,
+      "retweets": 0,
+      "replies": 0,
+      "quotes": 0,
+      "bookmarks": 0,
+      "url": "https://x.com/SEOPros_ZA/status/2028696873201021375",
+      "collected_at": "2026-03-03T14:00:15.079622+09:00",
+      "source": "x_api_v2",
+      "tags": [],
+      "memo": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "automation"
+      ],
+      "status": "approved",
+      "added_at": "2026-03-03T14:00:16.694716+09:00",
+      "generated_text": "",
+      "template_id": "",
+      "score": null,
+      "skip_reason": "",
+      "feedback_note": ""
+    },
+    {
+      "tweet_id": "2028696872466968592",
+      "author_username": "MacrodosingPod",
+      "author_name": "Macrodosing",
+      "text": "NEW NANO W/ @JoshPateCFB ‼️\n\nWar with Iran\nScientists Confirm Biblical Earthquake\nAnthropic &amp; Claude\nJosh Pate Interview\n\n📺🎧: https://t.co/UZ4kNiw29Z https://t.co/1WFmOIQLmo",
+      "lang": "en",
+      "likes": 0,
+      "retweets": 0,
+      "replies": 0,
+      "quotes": 0,
+      "bookmarks": 0,
+      "url": "https://x.com/MacrodosingPod/status/2028696872466968592",
+      "collected_at": "2026-03-03T14:00:15.085312+09:00",
+      "source": "x_api_v2",
+      "tags": [],
+      "memo": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "status": "approved",
+      "added_at": "2026-03-03T14:00:16.800918+09:00",
+      "generated_text": "",
+      "template_id": "",
+      "score": null,
+      "skip_reason": "",
+      "feedback_note": ""
+    },
+    {
+      "tweet_id": "2028696859435524207",
+      "author_username": "zentroza",
+      "author_name": "Zentroza",
+      "text": "🚀 Running #Claude locally with Ollama on Ubuntu in just 5 steps.\n\nNo cloud lock-in.\nNo API limits.\nJust raw local power. 💻🔥\n\n✅Step 1:\ncurl -fsSL https://t.co/KR9U6Om7Ks | bash\n\n✅Step 2:\nexport ANTHROPIC_AUTH_TOKEN=ollama\nexport ANTHROPIC_BASE_URL='http://127.0.0.1:11434'",
+      "lang": "en",
+      "likes": 0,
+      "retweets": 0,
+      "replies": 0,
+      "quotes": 0,
+      "bookmarks": 0,
+      "url": "https://x.com/zentroza/status/2028696859435524207",
+      "collected_at": "2026-03-03T14:00:15.085336+09:00",
+      "source": "x_api_v2",
+      "tags": [],
+      "memo": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [
+        "crypto"
+      ],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "status": "approved",
+      "added_at": "2026-03-03T14:00:16.895258+09:00",
+      "generated_text": "",
+      "template_id": "",
+      "score": null,
+      "skip_reason": "",
+      "feedback_note": ""
+    },
+    {
+      "tweet_id": "2028696838208209093",
+      "author_username": "petarc",
+      "author_name": "Petar",
+      "text": "Claude's down again 😭 https://t.co/YK8bdxraMs",
+      "lang": "en",
+      "likes": 0,
+      "retweets": 0,
+      "replies": 0,
+      "quotes": 0,
+      "bookmarks": 0,
+      "url": "https://x.com/petarc/status/2028696838208209093",
+      "collected_at": "2026-03-03T14:00:15.085347+09:00",
+      "source": "x_api_v2",
+      "tags": [],
+      "memo": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "status": "approved",
+      "added_at": "2026-03-03T14:00:16.996515+09:00",
+      "generated_text": "",
+      "template_id": "",
+      "score": null,
+      "skip_reason": "",
+      "feedback_note": ""
+    },
+    {
+      "tweet_id": "2028696830654189576",
+      "author_username": "mogutoncampbell",
+      "author_name": "fishy 🐟",
+      "text": "claude is so cute… wahh… joseph… my doomed siblings… 😭😭😭",
+      "lang": "en",
+      "likes": 0,
+      "retweets": 0,
+      "replies": 0,
+      "quotes": 0,
+      "bookmarks": 0,
+      "url": "https://x.com/mogutoncampbell/status/2028696830654189576",
+      "collected_at": "2026-03-03T14:00:15.085371+09:00",
+      "source": "x_api_v2",
+      "tags": [],
+      "memo": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "status": "approved",
+      "added_at": "2026-03-03T14:00:17.098488+09:00",
+      "generated_text": "",
+      "template_id": "",
+      "score": null,
+      "skip_reason": "",
+      "feedback_note": ""
+    },
+    {
+      "tweet_id": "2028696742162731329",
+      "author_username": "SalmaHyuck6900",
+      "author_name": "Salma Hyuck",
+      "text": "Claude is down what the FUCK am i supposed to do rn besides drink beer",
+      "lang": "en",
+      "likes": 0,
+      "retweets": 0,
+      "replies": 0,
+      "quotes": 0,
+      "bookmarks": 0,
+      "url": "https://x.com/SalmaHyuck6900/status/2028696742162731329",
+      "collected_at": "2026-03-03T14:00:15.085381+09:00",
+      "source": "x_api_v2",
+      "tags": [],
+      "memo": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "status": "approved",
+      "added_at": "2026-03-03T14:00:17.198326+09:00",
+      "generated_text": "",
+      "template_id": "",
+      "score": null,
+      "skip_reason": "",
+      "feedback_note": ""
+    },
+    {
+      "tweet_id": "2028696740061495464",
+      "author_username": "cryptojidan",
+      "author_name": "Crypto Zidan π² 🍊,💊 🟣🟢 Zetarium | ETHGas ⛽ 🫎",
+      "text": "💚 Moss, Catch the Alpha\nMoss is an all-in-one AI agent that decodes noise, catches real alpha, and lets you trade smarter.\nHighly recommend checking out @MossAI_Official\n👉 https://t.co/0cbKI3JNwV",
+      "lang": "en",
+      "likes": 0,
+      "retweets": 0,
+      "replies": 0,
+      "quotes": 0,
+      "bookmarks": 0,
+      "url": "https://x.com/cryptojidan/status/2028696740061495464",
+      "collected_at": "2026-03-03T14:00:15.085390+09:00",
+      "source": "x_api_v2",
+      "tags": [],
+      "memo": "",
+      "preference_match_score": 4.0,
+      "matched_topics": [
+        "AI agents"
+      ],
+      "matched_keywords": [
+        "AI agent"
+      ],
+      "status": "approved",
+      "added_at": "2026-03-03T14:00:17.297097+09:00",
+      "generated_text": "",
+      "template_id": "",
+      "score": null,
+      "skip_reason": "",
+      "feedback_note": ""
+    },
+    {
+      "tweet_id": "2028696879689773377",
+      "author_username": "niranja46858745",
+      "author_name": "niranjan",
+      "text": "Best AI Tools For Research 2026: How to Create an Infographic ? https://t.co/TKJzvSje1m via @YouTube",
+      "lang": "en",
+      "likes": 0,
+      "retweets": 0,
+      "replies": 0,
+      "quotes": 0,
+      "bookmarks": 0,
+      "url": "https://x.com/niranja46858745/status/2028696879689773377",
+      "collected_at": "2026-03-03T14:00:15.085399+09:00",
+      "source": "x_api_v2",
+      "tags": [],
+      "memo": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "status": "approved",
+      "added_at": "2026-03-03T14:00:17.413604+09:00",
+      "generated_text": "",
+      "template_id": "",
+      "score": null,
+      "skip_reason": "",
+      "feedback_note": ""
+    },
+    {
+      "tweet_id": "2028696793865683255",
+      "author_username": "vmchisutia",
+      "author_name": "Vincent Chisutia",
+      "text": "Best AI Tools for Academic Writing 2026: How to Make an Infographic https://t.co/blCe1LccuY via @YouTube",
+      "lang": "en",
+      "likes": 0,
+      "retweets": 0,
+      "replies": 0,
+      "quotes": 0,
+      "bookmarks": 0,
+      "url": "https://x.com/vmchisutia/status/2028696793865683255",
+      "collected_at": "2026-03-03T14:00:15.085408+09:00",
+      "source": "x_api_v2",
+      "tags": [],
+      "memo": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "status": "approved",
+      "added_at": "2026-03-03T14:00:17.500976+09:00",
+      "generated_text": "",
+      "template_id": "",
+      "score": null,
+      "skip_reason": "",
+      "feedback_note": ""
+    },
+    {
+      "tweet_id": "2028696738341761092",
+      "author_username": "DrAkashNag87201",
+      "author_name": "Akash Nag",
+      "text": "🇺🇸 🤖 Iran-US conflict isn’t just missiles and jets anymore. The Pentagon reportedly leaned on advanced AI tools like Anthropic’s Claude for intelligence analysis, target selection and battlefield simulations during strikes on Iran . #MilitaryAI",
+      "lang": "en",
+      "likes": 0,
+      "retweets": 0,
+      "replies": 0,
+      "quotes": 0,
+      "bookmarks": 0,
+      "url": "https://x.com/DrAkashNag87201/status/2028696738341761092",
+      "collected_at": "2026-03-03T14:00:15.085425+09:00",
+      "source": "x_api_v2",
+      "tags": [],
+      "memo": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "status": "approved",
+      "added_at": "2026-03-03T14:00:17.611752+09:00",
+      "generated_text": "",
+      "template_id": "",
+      "score": null,
+      "skip_reason": "",
+      "feedback_note": ""
+    },
+    {
+      "tweet_id": "2028696671161643500",
+      "author_username": "_giis_dot_ai_",
+      "author_name": "Giis ai",
+      "text": "Unlock your full business potential with https://t.co/8AwOReidav! 🚀 Simple to use, all in one AI tools like Grok, OpenAI, and more. Tap into the future—visit https://t.co/DknfEdr0sa and experience Business Tools today! https://t.co/i0iTWnwIPW",
+      "lang": "en",
+      "likes": 0,
+      "retweets": 0,
+      "replies": 0,
+      "quotes": 0,
+      "bookmarks": 0,
+      "url": "https://x.com/_giis_dot_ai_/status/2028696671161643500",
+      "collected_at": "2026-03-03T14:00:15.085433+09:00",
+      "source": "x_api_v2",
+      "tags": [],
+      "memo": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "status": "approved",
+      "added_at": "2026-03-03T14:00:17.722032+09:00",
+      "generated_text": "",
+      "template_id": "",
+      "score": null,
+      "skip_reason": "",
+      "feedback_note": ""
+    },
+    {
+      "tweet_id": "2028696583391653982",
+      "author_username": "Rokster2025",
+      "author_name": "ROKSTER Coin",
+      "text": "🔥 DAY 48 — THE SYSTEM IS FORMING 🔥\nKYRO continues building the innovation layer — AI tools, intelligent systems, and the foundation for what comes next. ROKSTER isn’t random.\nIt’s structural. Innovation needs defenders.\nBuilders need alignment.\nEcosystems need strength. This https://t.co/TUbIIgIsxP",
+      "lang": "en",
+      "likes": 0,
+      "retweets": 0,
+      "replies": 0,
+      "quotes": 0,
+      "bookmarks": 0,
+      "url": "https://x.com/Rokster2025/status/2028696583391653982",
+      "collected_at": "2026-03-03T14:00:15.085442+09:00",
+      "source": "x_api_v2",
+      "tags": [],
+      "memo": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [
+        "AI regulation"
+      ],
+      "matched_keywords": [],
+      "status": "approved",
+      "added_at": "2026-03-03T14:00:17.806945+09:00",
+      "generated_text": "",
+      "template_id": "",
+      "score": null,
+      "skip_reason": "",
+      "feedback_note": ""
+    },
+    {
+      "tweet_id": "2028696433050943834",
+      "author_username": "Chowdhury1434",
+      "author_name": "𝑺𝑹 𝑪𝒉𝒐𝒘𝒅𝒉𝒖𝒓𝒚",
+      "text": "Great initiative—LLM payments through crypto sounds very practical and innovative. https://t.co/tbVwvaVDFM",
+      "lang": "en",
+      "likes": 0,
+      "retweets": 0,
+      "replies": 0,
+      "quotes": 0,
+      "bookmarks": 0,
+      "url": "https://x.com/Chowdhury1434/status/2028696433050943834",
+      "collected_at": "2026-03-03T14:00:15.085451+09:00",
+      "source": "x_api_v2",
+      "tags": [],
+      "memo": "",
+      "preference_match_score": 0.0,
+      "matched_topics": [
+        "crypto"
+      ],
+      "matched_keywords": [],
+      "status": "approved",
+      "added_at": "2026-03-03T14:00:17.922787+09:00",
+      "generated_text": "",
+      "template_id": "",
+      "score": null,
+      "skip_reason": "",
+      "feedback_note": ""
+    },
+    {
+      "tweet_id": "2028696161910206694",
+      "author_username": "thedadfounder",
+      "author_name": "David Wells",
+      "text": "Been noticing a lot more @claudeai outages lately, and it really illuminates our over-reliance on LLM providers. \n\nClaude being down means that I don't have access to ANY of my conversations. All of that is gone and off-limits to me until they get it fixed.\n\nThis is horrible,",
+      "lang": "en",
+      "likes": 0,
+      "retweets": 0,
+      "replies": 0,
+      "quotes": 0,
+      "bookmarks": 0,
+      "url": "https://x.com/thedadfounder/status/2028696161910206694",
+      "collected_at": "2026-03-03T14:00:15.085459+09:00",
+      "source": "x_api_v2",
+      "tags": [],
+      "memo": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "status": "approved",
+      "added_at": "2026-03-03T14:00:18.066128+09:00",
+      "generated_text": "",
+      "template_id": "",
+      "score": null,
+      "skip_reason": "",
+      "feedback_note": ""
+    },
+    {
+      "tweet_id": "2028695994192564587",
+      "author_username": "hayden_builds",
+      "author_name": "Hayden Pham",
+      "text": "connecting with indie devs building cool stuff today 🙌\n\nfound some SwiftUI folks working on mental health apps, timer apps, AI tools...\n\nmeanwhile I'm over here working on dog tracking features for DUVIE 🐶\n\nthe #buildinpublic community is so supportive. love this space.",
+      "lang": "en",
+      "likes": 0,
+      "retweets": 0,
+      "replies": 0,
+      "quotes": 0,
+      "bookmarks": 0,
+      "url": "https://x.com/hayden_builds/status/2028695994192564587",
+      "collected_at": "2026-03-03T14:00:15.085468+09:00",
+      "source": "x_api_v2",
+      "tags": [],
+      "memo": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "status": "approved",
+      "added_at": "2026-03-03T14:00:18.169797+09:00",
+      "generated_text": "",
+      "template_id": "",
+      "score": null,
+      "skip_reason": "",
+      "feedback_note": ""
+    },
+    {
+      "tweet_id": "2028695835849191625",
+      "author_username": "dhruvmarathe18",
+      "author_name": "Dhruv Marathe",
+      "text": "AI tools are overhyped. Write your damn code instead.\n\nMost \"AI coding assistants\" just autocomplete keywords. Real programmers solve real problems with actual logic and debugging. No shortcut.",
+      "lang": "en",
+      "likes": 0,
+      "retweets": 0,
+      "replies": 0,
+      "quotes": 0,
+      "bookmarks": 0,
+      "url": "https://x.com/dhruvmarathe18/status/2028695835849191625",
+      "collected_at": "2026-03-03T14:00:15.085476+09:00",
+      "source": "x_api_v2",
+      "tags": [],
+      "memo": "",
+      "preference_match_score": 3.2,
+      "matched_topics": [
+        "coding AI"
+      ],
+      "matched_keywords": [
+        "coding"
+      ],
+      "status": "approved",
+      "added_at": "2026-03-03T14:00:18.271867+09:00",
+      "generated_text": "",
+      "template_id": "",
+      "score": null,
+      "skip_reason": "",
+      "feedback_note": ""
+    },
+    {
+      "tweet_id": "2028695684166078546",
+      "author_username": "UnlistedJobs",
+      "author_name": "UnlistedJobs",
+      "text": "🎇 New job alert! 🎇\n\n💼 Senior Software Developer\n📍 Remote (Princeton, New Jersey, USA)\n💰 $110k - $135k\n\n🛠️ Artificial Intelligence, Machine Learning, Scala, LLMs, Unix\n🏭 Computer, Computer Software, E-Learning, Education\n\nhttps://t.co/8RaxeWxvul\n\n#TechJobs",
+      "lang": "en",
+      "likes": 0,
+      "retweets": 0,
+      "replies": 0,
+      "quotes": 0,
+      "bookmarks": 0,
+      "url": "https://x.com/UnlistedJobs/status/2028695684166078546",
+      "collected_at": "2026-03-03T14:00:15.085485+09:00",
+      "source": "x_api_v2",
+      "tags": [],
+      "memo": "",
+      "preference_match_score": 2.0,
+      "matched_topics": [
+        "coding AI"
+      ],
+      "matched_keywords": [],
+      "status": "approved",
+      "added_at": "2026-03-03T14:00:18.390036+09:00",
+      "generated_text": "",
+      "template_id": "",
+      "score": null,
+      "skip_reason": "",
+      "feedback_note": ""
+    },
+    {
+      "tweet_id": "2028695644916060493",
+      "author_username": "Vishnu1334720",
+      "author_name": "Vishnu 🫎 Zetarium | ETHGas ⛽",
+      "text": "Agentic AI is the narrative of 2026, and @mwx_ai is at the center of it. 🎯\n✅ 400% APR Staking is live.\n✅ 20+ Ready-to-use AI tools.\n✅ On-chain buyback &amp; burn.\nIf you aren't following the progress at @mwx_ai, you're missing the infrastructure that will run the next .",
+      "lang": "en",
+      "likes": 0,
+      "retweets": 0,
+      "replies": 0,
+      "quotes": 0,
+      "bookmarks": 0,
+      "url": "https://x.com/Vishnu1334720/status/2028695644916060493",
+      "collected_at": "2026-03-03T14:00:15.085493+09:00",
+      "source": "x_api_v2",
+      "tags": [],
+      "memo": "",
+      "preference_match_score": 2.0,
+      "matched_topics": [
+        "AI agents"
+      ],
+      "matched_keywords": [],
+      "status": "approved",
+      "added_at": "2026-03-03T14:00:18.482476+09:00",
+      "generated_text": "",
+      "template_id": "",
+      "score": null,
+      "skip_reason": "",
+      "feedback_note": ""
+    },
+    {
+      "tweet_id": "2028695631632777599",
+      "author_username": "praanzz",
+      "author_name": "Pranjal",
+      "text": "Everyone’s running multi-agent systems.\nMeanwhile my agents are currently in a group chat roasting my prompt engineering skills",
+      "lang": "en",
+      "likes": 0,
+      "retweets": 0,
+      "replies": 0,
+      "quotes": 0,
+      "bookmarks": 0,
+      "url": "https://x.com/praanzz/status/2028695631632777599",
+      "collected_at": "2026-03-03T14:00:15.085501+09:00",
+      "source": "x_api_v2",
+      "tags": [],
+      "memo": "",
+      "preference_match_score": 3.0,
+      "matched_topics": [
+        "AI agents",
+        "coding AI"
+      ],
+      "matched_keywords": [],
+      "status": "approved",
+      "added_at": "2026-03-03T14:00:18.588513+09:00",
+      "generated_text": "",
+      "template_id": "",
+      "score": null,
+      "skip_reason": "",
+      "feedback_note": ""
     }
   ],
   "recent_posted": [
@@ -5735,8 +6578,8 @@
   ],
   "metrics": [],
   "pdca_insights": {
-    "approval_rate": 0.904,
-    "total_decisions": 249,
+    "approval_rate": 0.914,
+    "total_decisions": 278,
     "by_source": {
       "sama": {
         "approved": 23,
@@ -6103,7 +6946,7 @@
         "skipped": 0
       },
       "vmchisutia": {
-        "approved": 1,
+        "approved": 2,
         "skipped": 0
       },
       "caballeromauri2": {
@@ -6361,15 +7204,127 @@
       "_TrueVoodoo": {
         "approved": 1,
         "skipped": 0
+      },
+      "0xTJustin": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "goblinodds": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "dar_s_han": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "MahatmaaGodse": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "RealJayMilligan": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "casuality0716": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "LumenCTO": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "ABase9719": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Pirat_Nation": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "JulianGoldieSEO": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "SEOPros_ZA": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "MacrodosingPod": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "zentroza": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "petarc": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "mogutoncampbell": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "SalmaHyuck6900": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "cryptojidan": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "niranja46858745": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "DrAkashNag87201": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "_giis_dot_ai_": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Rokster2025": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Chowdhury1434": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "thedadfounder": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "hayden_builds": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "dhruvmarathe18": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "UnlistedJobs": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Vishnu1334720": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "praanzz": {
+        "approved": 1,
+        "skipped": 0
       }
     },
     "by_topic": {
       "AI agents": {
-        "approved": 22,
+        "approved": 25,
         "skipped": 0
       },
       "coding AI": {
-        "approved": 22,
+        "approved": 26,
         "skipped": 0
       },
       "tech industry": {
@@ -6377,7 +7332,7 @@
         "skipped": 0
       },
       "product launches": {
-        "approved": 6,
+        "approved": 8,
         "skipped": 0
       },
       "research papers": {
@@ -6385,11 +7340,11 @@
         "skipped": 0
       },
       "crypto": {
-        "approved": 7,
+        "approved": 9,
         "skipped": 0
       },
       "AI regulation": {
-        "approved": 2,
+        "approved": 3,
         "skipped": 0
       }
     },
