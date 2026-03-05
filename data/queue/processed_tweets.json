@@ -365,5 +365,39 @@
     "feedback_note": "",
     "posted_tweet_id": "2029560693561966923",
     "posted_at": "2026-03-05T23:12:31.646422+09:00"
+  },
+  {
+    "tweet_id": "2028966502662382074",
+    "author_username": "gudanglifehack",
+    "author_name": "Tips Excel",
+    "text": "🚨BREAKING: Claude can now build a complete YouTube growth strategy that takes channels from 0 to monetization in 90 days.\n\n7 prompts to go from unknown creator to trusted authority in your niche:\n\n(Save this before it goes viral)￼ https://t.co/EZTF08pv8H",
+    "lang": "en",
+    "likes": 27780,
+    "retweets": 3023,
+    "replies": 188,
+    "quotes": 219,
+    "bookmarks": 53940,
+    "url": "https://x.com/gudanglifehack/status/2028966502662382074",
+    "collected_at": "2026-03-05T23:18:54.029191+09:00",
+    "source": "socialdata",
+    "tags": [],
+    "memo": "",
+    "preference_match_score": 2.5,
+    "matched_topics": [],
+    "matched_keywords": [
+      "Claude"
+    ],
+    "status": "posted",
+    "added_at": "2026-03-05T23:18:54.030015+09:00",
+    "generated_text": "🚨【警告】ClaudeがYouTubeを90日で「爆速収益化」！\n\nAIがコンテンツ市場の常識を破壊。あなたの収益が激変する。🏛️🔥\n・プロンプト一つでチャンネル成長戦略を自動生成。\n・AI活用できないクリエイターは「死ぬ」時代。\n\n...",
+    "template_id": "question_prompt",
+    "score": {
+      "total": 2,
+      "rank": "C"
+    },
+    "skip_reason": "",
+    "feedback_note": "",
+    "posted_tweet_id": "2029562643644912039",
+    "posted_at": "2026-03-05T23:20:16.636653+09:00"
   }
 ]
