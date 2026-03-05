@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-03-05T20:51:06.297434",
+  "updated_at": "2026-03-05T20:54:06.499769",
   "stats": {
     "pending": 0,
     "approved": 403,
@@ -61,10 +61,10 @@
       ],
       "status": "approved",
       "added_at": "2026-03-01T12:35:36.663626+09:00",
-      "generated_text": "🚨【衝撃】Claudeが「LLM間スイッチ」実装！\nこれはAI利用の常識を覆す革命🏛️✨\n・特定のAIに縛られず、常に最適モデルを選べる時代へ。\n・AI投資は「統合力」が鍵。市場の勢力図が完全に激変する。",
+      "generated_text": "🚨【衝撃】Claude、AI「囲い込み」を破壊する神機能リリース！\n\nもうAIベンダーに縛られない。🏛️✨\n・作業効率は劇的向上へ。\n・マルチAI時代がガチで到来だ。\n\nこれはAIの歴史を変える転換点となる。",
       "template_id": "breaking_news",
       "score": {
-        "total": 4,
+        "total": 5,
         "rank": "B"
       },
       "skip_reason": "",
@@ -95,8 +95,8 @@
       ],
       "status": "approved",
       "added_at": "2026-03-01T12:35:36.666172+09:00",
-      "generated_text": "💥【激震】AIエージェント、2026年に「製品」として本格始動へ🏛️📊\n\n「知能」より「自律性」が肝だ。\n・LLMは「応答」、エージェントは「行動」。この差が、市場を激変させる。\n・自律型AI×Web3が、2026年に本格始動。既存モ...",
-      "template_id": "practice_report",
+      "generated_text": "💥【伝説】AIが「応答」から「行動」へ。2026年、人類の歴史が変わる。\n\nもはやデモではない。自律するAIが市場を支配する。🏛️✨\n・LLMはただの「反応」。エージェントは自ら「行動」し、富を創造。\n・この本質を掴んだ投資家だけが、...",
+      "template_id": "legend_moment",
       "score": {
         "total": 1,
         "rank": "C"
