@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-03-05T23:03:12.997585",
+  "updated_at": "2026-03-05T23:06:12.774661",
   "stats": {
     "pending": 0,
     "approved": 468,
@@ -13906,8 +13906,8 @@
   ],
   "metrics": [],
   "pdca_insights": {
-    "approval_rate": 0.955,
-    "total_decisions": 531,
+    "approval_rate": 0.954,
+    "total_decisions": 520,
     "by_source": {
       "sama": {
         "approved": 23,
@@ -15584,50 +15584,6 @@
       "consainsights": {
         "approved": 1,
         "skipped": 0
-      },
-      "gudanglifehack": {
-        "approved": 1,
-        "skipped": 0
-      },
-      "MpiloKhumalo_": {
-        "approved": 1,
-        "skipped": 0
-      },
-      "klara_sjo": {
-        "approved": 1,
-        "skipped": 0
-      },
-      "travelingflying": {
-        "approved": 1,
-        "skipped": 0
-      },
-      "translatingTXT": {
-        "approved": 1,
-        "skipped": 0
-      },
-      "ns123abc": {
-        "approved": 1,
-        "skipped": 0
-      },
-      "pubity": {
-        "approved": 1,
-        "skipped": 0
-      },
-      "GoogleDeepMind": {
-        "approved": 1,
-        "skipped": 0
-      },
-      "GeminiTayMC": {
-        "approved": 1,
-        "skipped": 0
-      },
-      "PenTitan": {
-        "approved": 1,
-        "skipped": 0
-      },
-      "Gemini": {
-        "approved": 1,
-        "skipped": 0
       }
     },
     "by_topic": {
@@ -15636,7 +15592,7 @@
         "skipped": 0
       },
       "coding AI": {
-        "approved": 60,
+        "approved": 59,
         "skipped": 0
       },
       "tech industry": {
