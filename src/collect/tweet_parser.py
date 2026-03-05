@@ -29,6 +29,8 @@ class ParsedTweet:
     source: str = "manual"  # "manual" | "x_api_v2" | "socialdata"
     tags: list[str] = field(default_factory=list)
     memo: str = ""  # 収集時のメモ
+    # 画像URL（引用元ツイートの画像を投稿に添付するために使用）
+    image_urls: list[str] = field(default_factory=list)
     # プリファレンスマッチ情報（選定PDCAで使用）
     preference_match_score: float = 0.0
     matched_topics: list[str] = field(default_factory=list)
@@ -51,6 +53,7 @@ class ParsedTweet:
             "source": self.source,
             "tags": self.tags,
             "memo": self.memo,
+            "image_urls": self.image_urls,
             "preference_match_score": self.preference_match_score,
             "matched_topics": self.matched_topics,
             "matched_keywords": self.matched_keywords,
@@ -148,6 +151,18 @@ class TweetParser:
         # テキスト取得 (SocialData は full_text, X API v2 は text)
         text = data.get("full_text") or data.get("text") or ""
 
+        # 画像URL抽出 (SocialData: extended_entities.media)
+        image_urls: list[str] = []
+        media_list = (
+            (data.get("extended_entities") or {}).get("media", [])
+            or (data.get("entities") or {}).get("media", [])
+        )
+        for media in media_list:
+            if (media.get("type") or "") == "photo":
+                url = media.get("media_url_https") or media.get("media_url", "")
+                if url:
+                    image_urls.append(url)
+
         return ParsedTweet(
             tweet_id=tweet_id,
             author_username=str(author.get("screen_name") or author.get("username") or ""),
@@ -165,6 +180,7 @@ class TweetParser:
             ),
             collected_at=datetime.now(JST).isoformat(),
             source=source,
+            image_urls=image_urls[:4],
         )
 
 

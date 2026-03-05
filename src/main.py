@@ -514,7 +514,30 @@ def cmd_curate_pipeline(args):
         quote_url = f"https://x.com/{author}/status/{tweet_id}"
         try:
             print(f"    📤 投稿中...")
-            result = poster.post_tweet(text=text, quote_url=quote_url)
+
+            # 引用元の画像をダウンロードしてアップロード
+            media_ids = None
+            image_urls = item.get("image_urls", [])
+            if image_urls:
+                try:
+                    from src.post.image_downloader import download_image, cleanup_temp_images
+                    temp_paths = []
+                    uploaded_ids = []
+                    for img_url in image_urls[:1]:  # 最大1枚（引用RTなので控えめに）
+                        tmp_path = download_image(img_url)
+                        if tmp_path:
+                            temp_paths.append(tmp_path)
+                            mid = poster.upload_media(tmp_path)
+                            if mid:
+                                uploaded_ids.append(mid)
+                                print(f"    🖼️ 画像アップロード完了")
+                    if uploaded_ids:
+                        media_ids = uploaded_ids
+                    cleanup_temp_images(temp_paths)
+                except Exception as img_err:
+                    print(f"    ⚠️ 画像添付スキップ: {img_err}")
+
+            result = poster.post_tweet(text=text, quote_url=quote_url, media_ids=media_ids)
             posted_tweet_id = result.get("id")
             if not posted_tweet_id:
                 raise ValueError(f"X APIからツイートIDが返りませんでした: {result}")
