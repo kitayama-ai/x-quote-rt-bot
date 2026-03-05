@@ -319,11 +319,11 @@ def _verify_poster(poster):
 def cmd_curate_pipeline(args):
     """引用RTパイプライン: 収集→生成→投稿を1コマンドで実行
 
-    テストツール(copy-secrets.yml)と同じ一気通貫アーキテクチャ。
-    - X API Free プランでは public_metrics が0で返るため min_likes=0 で収集
-    - 新鮮なツイートをその場で生成・投稿（古いキューに依存しない）
+    Firestore の selection_preferences（ダッシュボード設定）を読み込み、
+    min_likes / max_tweets / max_age_hours を反映して収集→生成→投稿する。
     """
     import time
+    import os as _os
     from src.collect.auto_collector import AutoCollector
     from src.collect.queue_manager import QueueManager
     from src.generate.quote_generator import QuoteGenerator
@@ -343,6 +343,25 @@ def cmd_curate_pipeline(args):
     print("╚══════════════════════════════════════════════╝")
     print(f"📋 モード: {config.mode} / 最大投稿数: {max_posts}")
 
+    # ── Firestore からダッシュボード設定を取得 ──
+    collect_min_likes = 0
+    collect_max_tweets = 30
+    collect_max_age = 48
+    try:
+        data_uid = _os.getenv("DATA_UID", "")
+        if data_uid:
+            from src.firestore.firestore_client import FirestoreClient
+            fc = FirestoreClient()
+            prefs = fc._db.collection("selection_preferences").document(data_uid).get()
+            if prefs.exists:
+                p = prefs.to_dict()
+                collect_min_likes = int(p.get("min_likes_override", 0))
+                collect_max_tweets = int(p.get("max_tweets_override", 30))
+                collect_max_age = int(p.get("max_age_hours_override", 48))
+                print(f"🔧 ダッシュボード設定: min_likes={collect_min_likes}, max_tweets={collect_max_tweets}, max_age={collect_max_age}h")
+    except Exception as e:
+        print(f"⚠️ ダッシュボード設定読み込みスキップ: {e}")
+
     # ── STEP 1: 収集 ──────────────────────────────────────────
     print(f"\n{'='*50}")
     print("📡 STEP 1: バズツイート収集")
@@ -354,11 +373,10 @@ def cmd_curate_pipeline(args):
         print(f"❌ {e}")
         return
 
-    # X API Free プランは public_metrics=0 を返すため min_likes=0 で全件取得
-    # relevancy ソートで品質を担保
     result = collector.collect(
-        min_likes=0,
-        max_tweets=30,
+        min_likes=collect_min_likes,
+        max_tweets=collect_max_tweets,
+        max_age_hours=collect_max_age,
         auto_approve=True,
         dry_run=dry_run,
     )
