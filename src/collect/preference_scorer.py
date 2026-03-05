@@ -40,7 +40,7 @@ class PreferenceScorer:
         """設定を再読み込み"""
         self._load_preferences()
 
-    def score(self, tweet_text: str, author_username: str = "") -> dict:
+    def score(self, tweet_text: str | None, author_username: str = "") -> dict:
         """
         ツイートをプリファレンスに基づいてスコアリング
 
@@ -57,6 +57,8 @@ class PreferenceScorer:
                 "is_focus_match": bool,
             }
         """
+        tweet_text = str(tweet_text or "")
+        author_username = str(author_username or "")
         text_lower = tweet_text.lower()
 
         # ブロックチェック

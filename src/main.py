@@ -730,21 +730,58 @@ def cmd_collect(args):
     except Exception as e:
         print(f"⚠️ Firebase同期スキップ: {e}")
 
-    # CLI引数がなければシート設定を使用
-    effective_min_likes = args.min_likes or sheet_settings.get("min_likes")
+    # --- パラメータ決定 (CLI > Firestore > Sheets) ---
+    effective_min_likes = args.min_likes
+    effective_max_tweets = args.max_tweets if args.max_tweets != 50 else None
+    effective_max_age = args.max_age_hours
+    socialdata_api_key = ""
+
+    # Firestore から最新設定を取得
+    try:
+        from src.firestore.firestore_client import FirestoreClient
+        data_uid = _os.getenv("DATA_UID", "")
+        if data_uid:
+            fc = FirestoreClient()
+            db = fc._get_db()
+            
+            # 閾値上書き
+            prefs_doc = db.collection("selection_preferences").document(data_uid).get()
+            if prefs_doc.exists:
+                p = prefs_doc.to_dict()
+                if effective_min_likes is None:
+                    effective_min_likes = int(p.get("min_likes_override", 0))
+                if effective_max_tweets is None:
+                    effective_max_tweets = int(p.get("max_tweets_override", 50))
+                if effective_max_age is None:
+                    effective_max_age = int(p.get("max_age_hours_override", 48))
+
+            # APIキー
+            api_keys_doc = db.collection("api_keys").document(data_uid).get()
+            if api_keys_doc.exists:
+                socialdata_api_key = api_keys_doc.to_dict().get("socialdata_api_key", "")
+    except Exception as e:
+        print(f"⚠️ Firestore設定取得エラー: {e}")
+
+    # Sheets フォールバック (Firestore になければ)
+    if effective_min_likes is None:
+        effective_min_likes = sheet_settings.get("min_likes", 500)
+    if effective_max_tweets is None:
+        effective_max_tweets = sheet_settings.get("max_tweets", 50)
+    if effective_max_age is None:
+        effective_max_age = 48
+
     effective_auto_approve = args.auto_approve or sheet_settings.get("auto_approve", False)
-    effective_max_tweets = args.max_tweets if args.max_tweets != 50 else sheet_settings.get("max_tweets", 50)
 
     try:
-        collector = AutoCollector()
+        collector = AutoCollector(socialdata_api_key=socialdata_api_key)
     except ValueError as e:
         print(f"❌ {e}")
-        print("💡 .env に TWITTER_BEARER_TOKEN=your_token を追加してください")
         return
 
     result = collector.collect(
         min_likes=effective_min_likes,
         max_tweets=effective_max_tweets,
+        max_age_hours=effective_max_age,
         auto_approve=effective_auto_approve,
         dry_run=args.dry_run,
     )

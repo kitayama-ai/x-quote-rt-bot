@@ -142,22 +142,25 @@ class TweetParser:
             source: データソース名
         """
         # 各APIの形式に対応するため柔軟にマッピング
-        tweet_id = str(data.get("id", data.get("tweet_id", "")))
-        author = data.get("user", data.get("author", {}))
+        tweet_id = str(data.get("id_str") or data.get("id") or data.get("tweet_id", ""))
+        author = data.get("user") or data.get("author") or {}
+
+        # テキスト取得 (SocialData は full_text, X API v2 は text)
+        text = data.get("full_text") or data.get("text") or ""
 
         return ParsedTweet(
             tweet_id=tweet_id,
-            author_username=author.get("screen_name", author.get("username", "")),
-            author_name=author.get("name", ""),
-            text=data.get("text", data.get("full_text", "")),
-            lang=data.get("lang", ""),
-            likes=data.get("favorite_count", data.get("like_count", 0)),
-            retweets=data.get("retweet_count", 0),
-            replies=data.get("reply_count", 0),
-            quotes=data.get("quote_count", 0),
-            bookmarks=data.get("bookmark_count", 0),
+            author_username=str(author.get("screen_name") or author.get("username") or ""),
+            author_name=str(author.get("name") or ""),
+            text=str(text),
+            lang=str(data.get("lang") or ""),
+            likes=int(data.get("favorite_count") or data.get("like_count") or 0),
+            retweets=int(data.get("retweet_count") or 0),
+            replies=int(data.get("reply_count") or 0),
+            quotes=int(data.get("quote_count") or 0),
+            bookmarks=int(data.get("bookmark_count") or 0),
             url=TweetParser.build_url(
-                author.get("screen_name", author.get("username", "unknown")),
+                str(author.get("screen_name") or author.get("username") or "unknown"),
                 tweet_id
             ),
             collected_at=datetime.now(JST).isoformat(),
