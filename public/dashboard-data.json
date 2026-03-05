@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-03-05T20:12:05.969725",
+  "updated_at": "2026-03-05T20:15:06.288575",
   "stats": {
     "pending": 0,
     "approved": 403,
@@ -29,8 +29,8 @@
       "matched_keywords": [],
       "status": "approved",
       "added_at": "2026-03-01T12:35:36.661166+09:00",
-      "generated_text": "💥【激震】AI学習を30%短縮する新技術が爆誕。\n\n効率化の波がAI市場を再定義する🏛️📊\n・NVIDIAなどAIチップ銘柄の需要が爆増し、覇権が確定へ。\n・AI開発競争が猛烈に加速、新たな革新的プロジェクトが続々誕生する。\nこのAI...",
-      "template_id": "practice_report",
+      "generated_text": "🚨【衝撃】AI学習時間30%短縮の「神技術」爆誕💥\nAI進化を劇的に加速させる「爆速」技術。投資機会を見逃すな。🏛️✨\n・NVDA等AIチップ株の「爆騰」は不可避。\n・データ処理コストが劇的に「低下」する。\nこの進化が「歴史的転換点」...",
+      "template_id": "breaking_news",
       "score": {
         "total": 3,
         "rank": "C"
@@ -95,10 +95,10 @@
       ],
       "status": "approved",
       "added_at": "2026-03-01T12:35:36.666172+09:00",
-      "generated_text": "💥【独占】2026年、AIエージェント「始動」。\n\nデモは終わり。自律AIが市場「破壊」へ。🏛️💎\n・AIは「応答」から「行動」へ。富の地殻変動が始動。\n・Web3融合で既存産業は「一掃」される。乗るか、沈むか。",
-      "template_id": "exclusive_report",
+      "generated_text": "💥【伝説】2026年、AIが「行動」し市場を支配する新時代が到来！🏛️🚀✨\n・LLMは「応答」するだけだったが、エージェントは「自律行動」を開始。\n・投資戦略も企業運営も、AIエージェントが根底から変革する。\nもはや人間は傍観者。これ...",
+      "template_id": "legend_moment",
       "score": {
-        "total": 2,
+        "total": 1,
         "rank": "C"
       },
       "skip_reason": "",
@@ -125,7 +125,7 @@
       "matched_keywords": [],
       "status": "approved",
       "added_at": "2026-03-01T12:35:36.674423+09:00",
-      "generated_text": "🚨【警告】AIプロジェクトの9割は「ゴミ」と化す。\n\nハイプに踊らされるな。実用性なきAIトークンは無価値だ。🏛️🔥\n・【真の強者】は利用→収益→買戻し→希少性、この循環。\n・使われないAIは「エアドロ」と同じ。価値はゼロ。💀\n\n今す...",
+      "generated_text": "🚨【警告】「Hype」駆動型AIは死滅する💀\n\nバブル終焉の序曲。実需なきプロジェクトは淘汰される。今、見極めろ。🏛️🔥\n・中小企業の「実利用」こそが価値の源泉。\n・「買い戻し→希少性」循環なきプロジェクトは崩壊する。\n幻想を捨て、本...",
       "template_id": "question_prompt",
       "score": {
         "total": 1,
@@ -11885,8 +11885,8 @@
   ],
   "metrics": [],
   "pdca_insights": {
-    "approval_rate": 0.75,
-    "total_decisions": 96,
+    "approval_rate": 0.948,
+    "total_decisions": 461,
     "by_source": {
       "sama": {
         "approved": 23,
@@ -11911,9 +11911,1454 @@
       "karpathy": {
         "approved": 3,
         "skipped": 0
+      },
+      "formy04zstars": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Nayak__Ai": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "EpicPlain": {
+        "approved": 3,
+        "skipped": 0
+      },
+      "AgenticAiLabs": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "perpetualtalk": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "chu_nrwt": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "HHegan19531": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "nuskicrypto": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "rains_social": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "sairahulxGTM": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "BoxuDev": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "niakjaw": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "TrustProcessDev": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Unicornity_ede": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "raduUrsu": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "aura_autoai": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "linnntex": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "evelcalm": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "crypto_vazima": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "metadavideth": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "n4v1g8": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "ninjasnakes": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "ABC30": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "openclawradar": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Klauswerne42232": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "officially__adi": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "LaurieCoopf": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "BlackBulls00": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "DaSilva55026": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "lennysan": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "FlorianKluge": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "herr_dahl": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "newsclearai": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Adam_9951": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "insight7878": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "timpastoor": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "sergeonsamui": {
+        "approved": 2,
+        "skipped": 0
+      },
+      "ioanaV_": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Sourceontech456": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "motivational676": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "RahulGoyalco": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "weltzart": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Daviowhite": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "musky434456": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "trendy_tech_": {
+        "approved": 2,
+        "skipped": 0
+      },
+      "attunewise": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "JamesTimmins": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "DOMOCAPITAL": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "ExpatCajun": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "its_brill_": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "tradingvaporr": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "jlowin": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "larrybuildsai": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "orfonline": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "sean_from_earth": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "EcorEr26896": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "EcoexR51669": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "ed_bio84625": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "EcXplorre72423": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "EctoV85550": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "ecow_r63587": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "OneGizm0": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "ecoh_s79502": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "ceryElijah": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "k_dot_node": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "ECybe63080": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "CodeColorist": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "lijanashufixn": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "aakashgupta": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "avdeshchopra": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "mirror_web3": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "HeyZoyaKhan": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "AiAdWizard": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Arunastrology": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "brahimi_ra32573": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "colecapt": {
+        "approved": 2,
+        "skipped": 0
+      },
+      "itsjasonai": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "vicsyoutube": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "ai_magictips": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "fiLo16109889": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "SyrenHill": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "axeldesigns": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "starseed612": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "gbajumokm": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "OgetoWilli28408": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "vmchisutia": {
+        "approved": 2,
+        "skipped": 0
+      },
+      "caballeromauri2": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "satyadileep": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "RodMillerAI": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "JoseGarcia69331": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "algorithmchurch": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "ksankar77": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "AnalyticsVidhya": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "coderaw_": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "AurcoTech07": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "HENb369": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "AakashT82757": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "NOOBNODE88": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "nansen_ai": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "devgunnu7": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "zkespresso": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "actgrants": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Paul04Trader": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "phillipmwaniki": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Rajsaluja_": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "gem4gemm": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "KorachDavid": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "riyandhiman14": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "veryNeel": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "wafintel": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "allaleighn": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "therexycodes": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "EricCoffeyms": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "IsabellePn45809": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "MatthewArm73249": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "ilex_ulmus": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "JulienGarct": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "LiselotteSdw": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "carre_la40286": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "DitmarKnap": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "MianAwais8": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "sodek19053": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "BeckerJose74359": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "MichaelAluya3": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "rudemeanguy": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "BevoBexley": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "nocoffeenobrain": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "amareswer": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "southernsiren__": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "claw3432": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "ohhmyysyd": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "LiceManny": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "kitkatysaki": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "latentsauce": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "thebuildrweekly": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "bill__schroeder": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Pope_mk14": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Trav_Sol": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "wizard_carly": {
+        "approved": 2,
+        "skipped": 0
+      },
+      "0xbrainKID": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Ahmed_abubakarr": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "knowclarified": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "db_polybot": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "BillionBisonHK1": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "DatorQue58013": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "HuskyAIRadar": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "JerodPowell": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Kevinkrone": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "DrexelCCI": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "_TrueVoodoo": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "0xTJustin": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "goblinodds": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "dar_s_han": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "MahatmaaGodse": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "RealJayMilligan": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "casuality0716": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "LumenCTO": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "ABase9719": {
+        "approved": 2,
+        "skipped": 0
+      },
+      "Pirat_Nation": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "JulianGoldieSEO": {
+        "approved": 2,
+        "skipped": 0
+      },
+      "SEOPros_ZA": {
+        "approved": 2,
+        "skipped": 0
+      },
+      "MacrodosingPod": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "zentroza": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "petarc": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "mogutoncampbell": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "SalmaHyuck6900": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "cryptojidan": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "niranja46858745": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "DrAkashNag87201": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "_giis_dot_ai_": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Rokster2025": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Chowdhury1434": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "thedadfounder": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "hayden_builds": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "dhruvmarathe18": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "UnlistedJobs": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Vishnu1334720": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "praanzz": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "noisyb0y1": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "BODILUX36": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Brandon20880908": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "MilanAcimovic7": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "JSalmisaari": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Crypto_Apha": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "baiaphilia": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "WillHnnng": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "buffaloherde": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "0xWhizMiz": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "monicamalikpmf": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "pocketrhyme": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "IndexOpposable": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "AnandButani": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "wael_microbio": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "AIKnowledg001": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "ant0ni0_r0mer0": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "medianama": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "TheYotg": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "GavrielTech": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "mselmanonal": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "ShannonPanner99": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "ChristosMelidis": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "falkenprotocol": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "grankin": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "WhispersAfrica5": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "McFlusion": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "kavinbm": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "financespotnews": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "_tenZdhon_": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "AJA_Cortes": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "DomainInfini": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "zerokn0wledge_": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "_fearlessmadman": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "epsilver_": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "lunatically": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "jetpippo": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "neurocrook": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "luisgnet": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "AICypherX": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Fadwa__Ali": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "anallesp": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "ibuildthecloud": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "bpaynews": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "tmarzagao": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "adkeogh": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "matarreality": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "osageev": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "SciencesNetwork": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "bradymoritz": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "vGazza": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Mukshud": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "onlinelisting": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "TPiergiorgio": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Geminint_family": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Balu0X": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "copywithkush": {
+        "approved": 2,
+        "skipped": 0
+      },
+      "TechsDeco": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Miraletofdefi": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "n2solutionsio": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "polsia": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "ndrer": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "LancerBase_": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "GuiveAssadi": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "SMaosaman22817": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "mherrygre2x": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "echojobs__io": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "trendai_RSRCH": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "ryan75195": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Bun_An8888": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "_hey_chethan": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "nayanvr": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "v4vix": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Memoirs": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "utamu_uni": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "grenadelogin": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "SciFi": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "gembotzs": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "quantumaidev": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "BacLeodiv": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "ghumare64": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "GigaChadRizzGod": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "katatarot1": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "llmgirls": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "dimon_b19": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "thejadasquad": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "magadc777": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "TeckHacksDaily": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "jvbuilds": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "TarotbyTesss": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "GrokForHumanity": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Duncannbaldwin": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "jarvana_sv": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "realkieranlewis": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "angsuman": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Okairo_Uzuha": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "MarcelMahep": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "netidee": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "GeertHubel81460": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "prateekmittal_": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "nagaraj_arvind": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "GeislerJanav": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "JillVillan57268": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "emarketing88888": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "GrgoireAub": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "pandakunbot": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "dhiran_dev": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "RonPull": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "EgeErdil2": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "decodingself": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "girl2017971": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "effiebio": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "KALYXLINUX": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "TechBriefAI": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "MikelEcheve": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "JDSalbego": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "AForkInLife": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "YourBusinessAI_": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Thewarlordai": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "JohnBalnisVAXD": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "KrunoPeter": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "wastelandweekly": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "MadeManSMB": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "timharris707": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "dextertwts": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "_eniholla": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "ianzepp": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Grand_Rooster": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "cjfullmoonstar": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "ericedarnold": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "AGTPinsights": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "jryoung": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "JaRmaOmAr": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "FronteggForSaaS": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "BinorLabs": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "yordan_gergov": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "daz3star": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Kirande88727451": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "fasahmeta_x": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "aurexcash": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Benzinga": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "xinotrix": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "deHypeChief": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Hada92734129": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "YouTuberMayur": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "JeremyKrak": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "npopelianska": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "ReimaNeva": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "nitsch_kn": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "BrooksBrownEA": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "NEARLegion": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "NovaShips": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "kazsoftware": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "GabrielOlizc": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "emilie_rouy": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "aiforsaas": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "AnwarAlx2": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "swax": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "HumanUnionNews": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "teortaxesTex": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "NeoAIForecast": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "0xKevinRich": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "kuseHQ": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "paul_timothyk": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Crownzdesigns": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Source1284812": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Chidi_Tobe": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "awesomefacecult": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "rseromenho": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "AIunionWTF": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "dollarsign711": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "VarmaGowrish": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Teamelon90": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "asaf_maruf": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "lexifinadotcom": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "AlexWingfield_": {
+        "approved": 1,
+        "skipped": 0
       }
     },
-    "by_topic": {},
+    "by_topic": {
+      "AI agents": {
+        "approved": 57,
+        "skipped": 0
+      },
+      "coding AI": {
+        "approved": 48,
+        "skipped": 0
+      },
+      "tech industry": {
+        "approved": 5,
+        "skipped": 0
+      },
+      "product launches": {
+        "approved": 20,
+        "skipped": 0
+      },
+      "research papers": {
+        "approved": 7,
+        "skipped": 0
+      },
+      "crypto": {
+        "approved": 19,
+        "skipped": 0
+      },
+      "AI regulation": {
+        "approved": 9,
+        "skipped": 0
+      }
+    },
     "by_reason": {}
   },
   "preferences": {
