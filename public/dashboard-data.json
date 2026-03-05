@@ -1,75 +1,13 @@
 {
-  "updated_at": "2026-03-05T21:33:04.792790",
+  "updated_at": "2026-03-05T21:36:12.705654",
   "stats": {
     "pending": 0,
-    "approved": 433,
+    "approved": 431,
     "skipped": 0,
-    "posted_total": 5,
-    "posted_today": 0
+    "posted_total": 7,
+    "posted_today": 2
   },
   "queue": [
-    {
-      "tweet_id": "2027950692246426052",
-      "author_username": "quantumboomnow",
-      "author_name": "quantumBOOM",
-      "text": "$NVDA $TSM $AMD $SMH New LLM research highlights a breakthrough in data pruning techniques, reducing training times by 30%. This advancement is set to drive demand for efficient AI chips, ... https://t.co/XDVnRVRsPy",
-      "lang": "en",
-      "likes": 0,
-      "retweets": 0,
-      "replies": 0,
-      "quotes": 0,
-      "bookmarks": 0,
-      "url": "https://x.com/quantumboomnow/status/2027950692246426052",
-      "collected_at": "2026-03-01T12:35:36.653507+09:00",
-      "source": "x_api_v2",
-      "tags": [],
-      "memo": "",
-      "preference_match_score": 1.0,
-      "matched_topics": [],
-      "matched_keywords": [],
-      "status": "approved",
-      "added_at": "2026-03-01T12:35:36.661166+09:00",
-      "generated_text": "💥【独占】AI学習、30%短縮！革命的新技術が流出。\n\nこれはAI開発コストを激減させ、市場を揺るがす。🏛️💎🚀\n・LLM開発時間が劇的に短縮、新モデル競争が激化へ。\n・NVDA、AMDなどAIチップ需要はさらに天井知らずとなる。\n\n...",
-      "template_id": "exclusive_report",
-      "score": {
-        "total": 4,
-        "rank": "B"
-      },
-      "skip_reason": "",
-      "feedback_note": ""
-    },
-    {
-      "tweet_id": "2027950689822134485",
-      "author_username": "thorryyyy_",
-      "author_name": "Thory☄️",
-      "text": "claude really made a game changer feature \n\nyou can now stwich between different LLM without losing anything https://t.co/RwXeOoXkw9 https://t.co/zN7p0ZhDch",
-      "lang": "en",
-      "likes": 0,
-      "retweets": 0,
-      "replies": 0,
-      "quotes": 0,
-      "bookmarks": 0,
-      "url": "https://x.com/thorryyyy_/status/2027950689822134485",
-      "collected_at": "2026-03-01T12:35:36.653511+09:00",
-      "source": "x_api_v2",
-      "tags": [],
-      "memo": "",
-      "preference_match_score": 2.5,
-      "matched_topics": [],
-      "matched_keywords": [
-        "Claude"
-      ],
-      "status": "approved",
-      "added_at": "2026-03-01T12:35:36.663626+09:00",
-      "generated_text": "🚨【衝撃】Claude、AI「囲い込み」を破壊する神機能リリース！\n\nもうAIベンダーに縛られない。🏛️✨\n・作業効率は劇的向上へ。\n・マルチAI時代がガチで到来だ。\n\nこれはAIの歴史を変える転換点となる。",
-      "template_id": "breaking_news",
-      "score": {
-        "total": 5,
-        "rank": "B"
-      },
-      "skip_reason": "",
-      "feedback_note": ""
-    },
     {
       "tweet_id": "2027950657928368573",
       "author_username": "clawdiamia",
@@ -12577,6 +12515,72 @@
     }
   ],
   "recent_posted": [
+    {
+      "tweet_id": "2027950689822134485",
+      "author_username": "thorryyyy_",
+      "author_name": "Thory☄️",
+      "text": "claude really made a game changer feature \n\nyou can now stwich between different LLM without losing anything https://t.co/RwXeOoXkw9 https://t.co/zN7p0ZhDch",
+      "lang": "en",
+      "likes": 0,
+      "retweets": 0,
+      "replies": 0,
+      "quotes": 0,
+      "bookmarks": 0,
+      "url": "https://x.com/thorryyyy_/status/2027950689822134485",
+      "collected_at": "2026-03-01T12:35:36.653511+09:00",
+      "source": "x_api_v2",
+      "tags": [],
+      "memo": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "status": "posted",
+      "added_at": "2026-03-01T12:35:36.663626+09:00",
+      "generated_text": "🚨【警告】Claude、LLM切り替え機能でAI市場を破壊。\n\n既存モデルは淘汰へ。AI投資の常識激変。🏛️🔥\n・ユーザーはLLMを自由選択。単一モデル優位性は崩壊。\n・AIプラットフォーム投資が「勝ち筋」。\n\nAI覇権は「統合」が握る。",
+      "template_id": "question_prompt",
+      "score": {
+        "total": 3,
+        "rank": "C"
+      },
+      "skip_reason": "",
+      "feedback_note": "",
+      "posted_tweet_id": "2029535929304769003",
+      "posted_at": "2026-03-05T21:34:07.503765+09:00"
+    },
+    {
+      "tweet_id": "2027950692246426052",
+      "author_username": "quantumboomnow",
+      "author_name": "quantumBOOM",
+      "text": "$NVDA $TSM $AMD $SMH New LLM research highlights a breakthrough in data pruning techniques, reducing training times by 30%. This advancement is set to drive demand for efficient AI chips, ... https://t.co/XDVnRVRsPy",
+      "lang": "en",
+      "likes": 0,
+      "retweets": 0,
+      "replies": 0,
+      "quotes": 0,
+      "bookmarks": 0,
+      "url": "https://x.com/quantumboomnow/status/2027950692246426052",
+      "collected_at": "2026-03-01T12:35:36.653507+09:00",
+      "source": "x_api_v2",
+      "tags": [],
+      "memo": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "status": "posted",
+      "added_at": "2026-03-01T12:35:36.661166+09:00",
+      "generated_text": "💀AI学習、30%高速化。旧時代技術は即死。\n\n最新研究が明かす、容赦なき「効率」の世界。🏛️🩸💀\n・開発競争は既に「血の海」。乗り遅れは市場からの追放。\n・「効率的AIチップ」への集中投資が生き残りの絶対条件。\n\n容赦ない選別が、既...",
+      "template_id": "dark_alert",
+      "score": {
+        "total": 3,
+        "rank": "C"
+      },
+      "skip_reason": "",
+      "feedback_note": "",
+      "posted_tweet_id": "2029535737679655002",
+      "posted_at": "2026-03-05T21:33:21.786133+09:00"
+    },
     {
       "tweet_id": "2027950003164229650",
       "author_username": "Saniarai932",
