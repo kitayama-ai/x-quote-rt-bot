@@ -352,7 +352,8 @@ def cmd_curate_pipeline(args):
         if data_uid:
             from src.firestore.firestore_client import FirestoreClient
             fc = FirestoreClient()
-            prefs = fc._db.collection("selection_preferences").document(data_uid).get()
+            db = fc._get_db()
+            prefs = db.collection("selection_preferences").document(data_uid).get()
             if prefs.exists:
                 p = prefs.to_dict()
                 collect_min_likes = int(p.get("min_likes_override", 0))
