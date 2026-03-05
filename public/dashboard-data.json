@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-03-05T20:18:10.892758",
+  "updated_at": "2026-03-05T20:21:06.194477",
   "stats": {
     "pending": 0,
     "approved": 403,
@@ -29,8 +29,8 @@
       "matched_keywords": [],
       "status": "approved",
       "added_at": "2026-03-01T12:35:36.661166+09:00",
-      "generated_text": "🚨【衝撃】AI学習時間30%短縮の「神技術」爆誕💥\nAI進化を劇的に加速させる「爆速」技術。投資機会を見逃すな。🏛️✨\n・NVDA等AIチップ株の「爆騰」は不可避。\n・データ処理コストが劇的に「低下」する。\nこの進化が「歴史的転換点」...",
-      "template_id": "breaking_news",
+      "generated_text": "🚨【警告】AI学習30%加速！チップ市場「激震」へ。\n\nこの技術革新、投資家は即座に反応すべき。🏛️🔥\n・LLM訓練効率化が、AIチップ需要を根底から変える。\n・NVIDIA/AMD覇権は「効率」で決まる時代へ。\n\n次の波に乗れ。生存...",
+      "template_id": "question_prompt",
       "score": {
         "total": 3,
         "rank": "C"
