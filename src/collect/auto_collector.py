@@ -100,6 +100,28 @@ class AutoCollector:
         except (FileNotFoundError, json.JSONDecodeError):
             self.threshold_overrides = {}
 
+        # ── Firestore から検索キーワードを上書き ──
+        try:
+            import os
+            data_uid = os.getenv("DATA_UID", "")
+            if data_uid:
+                from src.firestore.firestore_client import FirestoreClient
+                fc = FirestoreClient()
+                db = fc._get_db()
+                kw_doc = db.collection("search_settings").document(data_uid).get()
+                if kw_doc.exists:
+                    kw_data = kw_doc.to_dict()
+                    fs_keywords = kw_data.get("keywords", [])
+                    fs_excluded = kw_data.get("excluded_terms", [])
+                    if fs_keywords:
+                        self.keywords = fs_keywords
+                        print(f"  📋 Firestore検索キーワード: {len(fs_keywords)}件")
+                    if fs_excluded:
+                        self.excluded_terms = fs_excluded
+                        print(f"  📋 Firestore除外ワード: {len(fs_excluded)}件")
+        except Exception as e:
+            pass  # Firestore が使えない環境ではローカル設定にフォールバック
+
     # ──────────────────────────────────────────────────────────────
     # Public: collect
     # ──────────────────────────────────────────────────────────────

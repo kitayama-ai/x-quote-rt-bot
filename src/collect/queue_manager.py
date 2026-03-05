@@ -79,13 +79,29 @@ class QueueManager:
         if tweet.tweet_id in all_ids:
             return False
 
+        # デフォルトの投稿予定時刻を計算（最後のスケジュール + 1時間）
+        from datetime import timedelta
+        now = datetime.now(JST)
+        last_scheduled = now + timedelta(hours=1)  # デフォルト: 1時間後
+        for item in reversed(pending):
+            if item.get("scheduled_at"):
+                try:
+                    last_dt = datetime.fromisoformat(item["scheduled_at"])
+                    next_dt = last_dt + timedelta(hours=1)
+                    if next_dt > now:
+                        last_scheduled = next_dt
+                    break
+                except (ValueError, TypeError):
+                    pass
+
         # キューに追加
         entry = tweet.to_dict()
         entry["status"] = "pending"  # pending → approved → posted / skipped
-        entry["added_at"] = datetime.now(JST).isoformat()
+        entry["added_at"] = now.isoformat()
         entry["generated_text"] = ""  # 生成後に埋める
         entry["template_id"] = ""     # 使用テンプレートID
         entry["score"] = None         # スコアリング結果
+        entry["scheduled_at"] = last_scheduled.isoformat()
         # 選定PDCAフィードバック用
         entry["skip_reason"] = ""
         entry["feedback_note"] = ""

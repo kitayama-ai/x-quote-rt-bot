@@ -1901,59 +1901,34 @@
       </div>
     </div>
 
-    <!-- ===== LOGIN OVERLAY ===== -->
     <div class="login-overlay" id="loginOverlay">
       <div class="login-card">
         <div class="login-logo">
-          <svg
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-            style="width: 48px; height: 48px"
-          >
-            <path
-              d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"
-              fill="#4285F4"
-            />
-            <path
-              d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-              fill="#34A853"
-            />
-            <path
-              d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
-              fill="#FBBC05"
-            />
-            <path
-              d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
-              fill="#EA4335"
-            />
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width: 32px; height: 32px" fill="white">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
           </svg>
         </div>
         <h2 class="login-title">キュー管理ダッシュボード</h2>
-        <p class="login-subtitle">Google アカウントでログイン</p>
-        <button class="google-login-btn" id="googleLoginBtn">
-          <svg
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-            style="width: 20px; height: 20px"
-          >
-            <path
-              d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"
-              fill="#4285F4"
-            />
-            <path
-              d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-              fill="#34A853"
-            />
-            <path
-              d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
-              fill="#FBBC05"
-            />
-            <path
-              d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
-              fill="#EA4335"
-            />
+        <p class="login-subtitle">メールアドレスでログイン</p>
+
+        <div style="text-align: left; margin-top: 20px;">
+          <div class="form-group" style="margin-bottom: 14px;">
+            <label class="form-label" style="font-size: 13px; color: var(--text-secondary);">メールアドレス</label>
+            <input type="email" class="form-input" id="loginEmail" placeholder="your@email.com"
+              style="background: var(--bg-input); border: 1px solid var(--border); color: var(--text-primary); padding: 12px; border-radius: 8px; width: 100%; box-sizing: border-box;" />
+          </div>
+          <div class="form-group" style="margin-bottom: 20px;">
+            <label class="form-label" style="font-size: 13px; color: var(--text-secondary);">パスワード</label>
+            <input type="password" class="form-input" id="loginPassword" placeholder="••••••••"
+              style="background: var(--bg-input); border: 1px solid var(--border); color: var(--text-primary); padding: 12px; border-radius: 8px; width: 100%; box-sizing: border-box;" />
+          </div>
+        </div>
+
+        <button class="google-login-btn" id="emailLoginBtn" style="background: var(--accent-blue); color: #fff; border: none;">
+          <svg viewBox="0 0 24 24" style="width: 18px; height: 18px" fill="currentColor">
+            <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
           </svg>
-          Google でログイン
+          ログイン
         </button>
         <p class="login-error" id="loginError"></p>
         <div class="login-loading" id="loginLoading">
@@ -2265,6 +2240,7 @@
                   <th>エンゲージメント</th>
                   <th>マッチ</th>
                   <th>追加日時</th>
+                  <th>予定時刻</th>
                   <th>アクション</th>
                 </tr>
               </thead>
@@ -3164,6 +3140,51 @@
           <div class="save-msg" id="saveCfgMsg"></div>
         </div>
 
+        <!-- Search Keywords -->
+        <div class="settings-section">
+          <h3>🔍 検索キーワード設定</h3>
+          <p>
+            バズツイート収集に使用する検索キーワードを管理します。キーワードに合致するツイートが自動収集の対象となります。
+          </p>
+
+          <div class="form-group">
+            <label class="form-label">検索キーワード（1行に1つ）</label>
+            <textarea
+              class="form-input"
+              id="cfgSearchKeywords"
+              rows="8"
+              style="resize: vertical; font-family: var(--font-mono); font-size: 13px; line-height: 1.6"
+              placeholder="AI agent&#10;GPT-5&#10;Claude AI&#10;..."
+            ></textarea>
+            <div class="form-hint">
+              各キーワードは OR 結合で検索されます。「Claude」のような汎用的な語は「Claude AI」に変えると精度が上がります。
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">除外ワード（1行に1つ）</label>
+            <textarea
+              class="form-input"
+              id="cfgExcludedTerms"
+              rows="4"
+              style="resize: vertical; font-family: var(--font-mono); font-size: 13px; line-height: 1.6"
+              placeholder="giveaway&#10;airdrop&#10;presale&#10;..."
+            ></textarea>
+            <div class="form-hint">
+              これらの語を含むツイートは収集から除外されます。
+            </div>
+          </div>
+
+          <button class="save-btn" id="saveSearchKeywords">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z" />
+              <polyline points="17 21 17 13 7 13 7 21" />
+              <polyline points="7 3 7 8 15 8" />
+            </svg>
+            キーワードを保存
+          </button>
+          <div class="save-msg" id="saveKeywordsMsg"></div>
+        </div>
         <!-- Operation Mode -->
         <div class="settings-section">
           <h3>⚙️ 運用モード</h3>
@@ -3549,9 +3570,11 @@
         // DOM Elements
         const overlay = document.getElementById("loginOverlay");
         const appEl = document.querySelector(".app");
-        const googleBtn = document.getElementById("googleLoginBtn");
+        const emailLoginBtn = document.getElementById("emailLoginBtn");
         const loginError = document.getElementById("loginError");
         const loginLoading = document.getElementById("loginLoading");
+        const loginEmailInput = document.getElementById("loginEmail");
+        const loginPasswordInput = document.getElementById("loginPassword");
 
         let currentUser = null;
         let currentUserRole = null;
@@ -3567,7 +3590,7 @@
               const email = user.email;
               if (!email) {
                 showLoginError(
-                  "メールアドレスが取得できません。別のGoogleアカウントをお試しください。",
+                  "メールアドレスが取得できません。",
                 );
                 auth.signOut();
                 return;
@@ -3597,16 +3620,16 @@
               window.__fb.accountId = accountId;
               window.__fb.currentUserRole = currentUserRole;
 
-              // Google ユーザープロフィールを保存（監査用）
+              // ユーザープロフィールを保存（監査用）
               await db
                 .collection("users")
                 .doc(user.uid)
                 .set(
                   {
                     email: email,
-                    displayName: user.displayName || "",
+                    displayName: user.displayName || email.split("@")[0],
                     photoURL: user.photoURL || "",
-                    provider: "google",
+                    provider: "email",
                     role: currentUserRole,
                     data_uid: dataUid,
                     account_id: accountId,
@@ -3627,6 +3650,7 @@
               loadApiKeyStatus(dataUid);
               loadCollectionSettings(dataUid);
               loadOperationMode(dataUid);
+              loadSearchKeywords(dataUid);
 
               // Load member management (admin only)
               if (currentUserRole === "admin") {
@@ -3663,39 +3687,41 @@
         });
 
         // ============================
-        // Google Login
+        // Email/Password Login
         // ============================
-        googleBtn.addEventListener("click", async () => {
+        emailLoginBtn.addEventListener("click", async () => {
+          const email = loginEmailInput.value.trim();
+          const password = loginPasswordInput.value;
+
+          if (!email || !password) {
+            showLoginError("メールアドレスとパスワードを入力してください。");
+            return;
+          }
+
           loginError.style.display = "none";
-          googleBtn.style.display = "none";
+          emailLoginBtn.style.display = "none";
           loginLoading.style.display = "block";
 
           try {
-            const provider = new firebase.auth.GoogleAuthProvider();
-            await auth.signInWithPopup(provider);
+            await auth.signInWithEmailAndPassword(email, password);
           } catch (err) {
-            if (err.code === "auth/popup-blocked") {
-              try {
-                const provider = new firebase.auth.GoogleAuthProvider();
-                await auth.signInWithRedirect(provider);
-                return;
-              } catch (redirectErr) {
-                showLoginError(
-                  "ログインに失敗しました: " + redirectErr.message,
-                );
-              }
-            } else if (err.code === "auth/cancelled-popup-request") {
-              // ignore
+            if (err.code === "auth/user-not-found" || err.code === "auth/wrong-password" || err.code === "auth/invalid-credential") {
+              showLoginError("メールアドレスまたはパスワードが正しくありません。");
+            } else if (err.code === "auth/too-many-requests") {
+              showLoginError("ログイン試行回数が多すぎます。しばらく待ってから再試行してください。");
             } else if (err.code === "auth/network-request-failed") {
-              showLoginError(
-                "ネットワークエラーが発生しました。インターネット接続を確認してください。",
-              );
-            } else if (err.code !== "auth/popup-closed-by-user") {
+              showLoginError("ネットワークエラーが発生しました。");
+            } else {
               showLoginError("ログインに失敗しました: " + err.message);
             }
-            googleBtn.style.display = "inline-flex";
+            emailLoginBtn.style.display = "inline-flex";
             loginLoading.style.display = "none";
           }
+        });
+
+        // Enter キーでログイン
+        loginPasswordInput.addEventListener("keydown", (e) => {
+          if (e.key === "Enter") emailLoginBtn.click();
         });
 
         // ============================
@@ -3840,7 +3866,7 @@
         }
 
         function showLoginButtons() {
-          googleBtn.style.display = "inline-flex";
+          emailLoginBtn.style.display = "inline-flex";
         }
 
         function addUserInfo(user) {
@@ -4124,7 +4150,75 @@
           });
         }
 
-        // NOTE: loadCollectionSettings / loadOperationMode は
+        // ============================
+        // Search Keywords Settings
+        // ============================
+        const cfgSearchKeywords = document.getElementById("cfgSearchKeywords");
+        const cfgExcludedTerms = document.getElementById("cfgExcludedTerms");
+        const saveKeywordsBtn = document.getElementById("saveSearchKeywords");
+        const saveKeywordsMsg = document.getElementById("saveKeywordsMsg");
+
+        async function loadSearchKeywords(uid) {
+          try {
+            const doc = await db.collection("search_settings").doc(uid).get();
+            if (doc.exists) {
+              const data = doc.data();
+              if (data.keywords && cfgSearchKeywords) {
+                cfgSearchKeywords.value = (data.keywords || []).join("\n");
+              }
+              if (data.excluded_terms && cfgExcludedTerms) {
+                cfgExcludedTerms.value = (data.excluded_terms || []).join("\n");
+              }
+            }
+          } catch (err) {
+            console.warn("Search keywords load failed:", err);
+          }
+        }
+
+        if (saveKeywordsBtn) {
+          saveKeywordsBtn.addEventListener("click", async function () {
+            if (!currentUser) return;
+            saveKeywordsBtn.disabled = true;
+            if (saveKeywordsMsg) {
+              saveKeywordsMsg.className = "save-msg";
+              saveKeywordsMsg.style.display = "none";
+            }
+
+            try {
+              const keywords = cfgSearchKeywords.value
+                .split("\n")
+                .map(s => s.trim())
+                .filter(s => s.length > 0);
+              const excludedTerms = cfgExcludedTerms.value
+                .split("\n")
+                .map(s => s.trim())
+                .filter(s => s.length > 0);
+
+              await db.collection("search_settings").doc(dataUid).set({
+                keywords: keywords,
+                excluded_terms: excludedTerms,
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+              }, { merge: true });
+
+              if (saveKeywordsMsg) {
+                saveKeywordsMsg.textContent = `キーワードを保存しました（${keywords.length}件 / 除外${excludedTerms.length}件）`;
+                saveKeywordsMsg.className = "save-msg success";
+              }
+              if (window.showToast) showToast("キーワードを保存しました", "success");
+            } catch (err) {
+              console.error("Save search keywords error:", err);
+              if (saveKeywordsMsg) {
+                saveKeywordsMsg.textContent = "保存に失敗しました: " + err.message;
+                saveKeywordsMsg.className = "save-msg error";
+              }
+              if (window.showToast) showToast("保存に失敗しました", "error");
+            }
+
+            saveKeywordsBtn.disabled = false;
+          });
+        }
+
+        // NOTE: loadCollectionSettings / loadOperationMode / loadSearchKeywords は
         // メイン auth handler (onAuthStateChanged) 内で dataUid を使って呼ばれる
 
         // ============================
@@ -4447,6 +4541,12 @@
       <td><div class="tweet-metrics"><span><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-2px;opacity:0.7"><path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z"/></svg> ${formatNum(likes)}</span><span><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-2px;opacity:0.7"><path d="M19.902 4.098a3.75 3.75 0 00-5.304 0l-4.5 4.5a3.75 3.75 0 001.035 6.037.75.75 0 01-.646 1.353 5.25 5.25 0 01-1.449-8.45l4.5-4.5a5.25 5.25 0 117.424 7.424l-1.757 1.757a.75.75 0 11-1.06-1.06l1.757-1.757a3.75 3.75 0 000-5.304zm-7.389 4.267a.75.75 0 011-.353 5.25 5.25 0 011.449 8.45l-4.5 4.5a5.25 5.25 0 11-7.424-7.424l1.757-1.757a.75.75 0 111.06 1.06l-1.757 1.757a3.75 3.75 0 105.304 5.304l4.5-4.5a3.75 3.75 0 00-1.035-6.037.75.75 0 01-.354-1z"/></svg> ${formatNum(rts)}</span></div></td>
       <td><span class="match-score ${scoreClass}" title="プリファレンスマッチスコア">⚡ ${scoreDisplay}</span></td>
       <td><span class="tweet-meta">${addedAt}</span></td>
+      <td>${(() => {
+        const sa = item.scheduled_at || "";
+        if (!sa) return '<span style="color:var(--text-muted);font-size:11px;">未設定</span>';
+        const d = new Date(sa);
+        return `<span style="font-size:11px;font-weight:600;color:var(--accent-blue);">${d.getHours().toString().padStart(2,'0')}:${d.getMinutes().toString().padStart(2,'0')}</span>`;
+      })()}</td>
       <td>${actionHtml}</td>
     </tr>`;
           })
@@ -4500,7 +4600,23 @@
           metricsHtml += `<div class="modal-metric"><span class="metric-icon">🔗</span><span class="metric-val">${formatNum(quotes)}</span><span class="metric-label">引用</span></div>`;
         if (bookmarks > 0)
           metricsHtml += `<div class="modal-metric"><span class="metric-icon">🔖</span><span class="metric-val">${formatNum(bookmarks)}</span><span class="metric-label">ブクマ</span></div>`;
-        document.getElementById("modalMetrics").innerHTML = metricsHtml;
+
+        // 投稿予定時刻
+        const scheduledAt = item.scheduled_at || "";
+        let scheduleHtml = "";
+        if (scheduledAt) {
+          const sDate = new Date(scheduledAt);
+          const localIso = new Date(sDate.getTime() - sDate.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+          scheduleHtml = `<div class="modal-metric" style="grid-column:1/-1;border-top:1px solid var(--border);padding-top:8px;margin-top:4px;">
+            <span class="metric-icon">⏰</span>
+            <span class="metric-label" style="margin-right:8px;">投稿予定</span>
+            <input type="datetime-local" id="modalScheduleInput" value="${localIso}"
+              style="background:var(--bg-input);border:1px solid var(--border);color:var(--text-primary);padding:4px 8px;border-radius:6px;font-size:13px;"
+              onchange="updateSchedule('${item.tweet_id}', this.value)" />
+          </div>`;
+        }
+
+        document.getElementById("modalMetrics").innerHTML = metricsHtml + scheduleHtml;
 
         // Original text
         const originalText = item.original_text || item.text || "";
@@ -4898,6 +5014,39 @@
             .forEach((d) => d.classList.remove("show"));
         }
       });
+
+      // 投稿予定時刻を更新
+      async function updateSchedule(tweetId, localDateTimeStr) {
+        try {
+          const uid = window.__fb.dataUid;
+          if (!uid) return;
+
+          const scheduled = new Date(localDateTimeStr).toISOString();
+
+          // dashboard_data のキュー内で該当アイテムを更新
+          if (dashboardData && dashboardData.queue) {
+            const item = dashboardData.queue.find(i => i.tweet_id === tweetId);
+            if (item) {
+              item.scheduled_at = scheduled;
+            }
+          }
+
+          // Firestore に保存 (queue_updates コレクション)
+          await window.__fb.db.collection("queue_updates").doc(uid).set({
+            updates: firebase.firestore.FieldValue.arrayUnion({
+              tweet_id: tweetId,
+              scheduled_at: scheduled,
+              updated_at: new Date().toISOString(),
+            })
+          }, { merge: true });
+
+          if (window.showToast) showToast("投稿予定を更新しました", "success");
+          renderQueue();
+        } catch (err) {
+          console.error("Schedule update failed:", err);
+          if (window.showToast) showToast("更新に失敗しました", "error");
+        }
+      }
 
       async function queueAction(action, tweetId, reason) {
         // Close any open dropdown
