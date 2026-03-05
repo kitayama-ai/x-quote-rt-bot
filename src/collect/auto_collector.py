@@ -1,72 +1,108 @@
 """
-X Auto Post System — 自動バズツイート収集（パターンB）
+X Auto Post System — 自動バズツイート収集
 
-X API v2 (tweepy) を使って、target_accounts.json に登録された
-海外AIアカウントのバズツイートを自動収集し、キューに追加する。
+SocialData API（優先）または X API v2（フォールバック）を使って
+AI 界隈のバズツイートを自動収集し、キューに追加する。
+
+SocialData API: いいね・RT・インプレッション・ブックマーク全取得可。
+X API v2:       public_metrics が 0 で返るため min_likes フィルタ不可。
 
 Usage:
     python -m src.main collect --account 1 [--dry-run]
 """
+from __future__ import annotations
+
 import json
+import logging
+import os
 from datetime import datetime, timedelta
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
-from src.collect.x_api_client import XAPIClient, XAPIError
 from src.collect.tweet_parser import TweetParser, ParsedTweet
 from src.collect.queue_manager import QueueManager
 from src.collect.preference_scorer import PreferenceScorer
 from src.config import PROJECT_ROOT
 
+logger = logging.getLogger(__name__)
 JST = ZoneInfo("Asia/Tokyo")
 
-# 1回の検索クエリに含めるアカウント数の上限
-# OR結合が多すぎるとAPI側で弾かれる場合がある
-MAX_ACCOUNTS_PER_QUERY = 8
+# 1 クエリに含めるキーワード/アカウント数の上限
+_KEYWORDS_PER_QUERY = 5
+_MAX_ACCOUNTS_PER_QUERY = 8
 
 
 class AutoCollector:
-    """バズツイートを自動収集してキューに追加"""
+    """バズツイートを自動収集してキューに追加する。
+
+    SocialData API キーが設定されている場合はそちらを使用（メトリクス取得可）。
+    未設定の場合は X API v2 にフォールバック（メトリクスは 0）。
+    """
 
     def __init__(
         self,
         bearer_token: str = "",
+        socialdata_api_key: str = "",
         queue: QueueManager | None = None,
-    ):
-        self.client = XAPIClient(bearer_token=bearer_token)
+    ) -> None:
         self.queue = queue or QueueManager()
         self.preference_scorer = PreferenceScorer()
+
+        # ── データソース選択 ──
+        self._use_socialdata = False
+        self._sd_client = None
+        self._x_client = None
+
+        sd_key = socialdata_api_key or os.getenv("SOCIALDATA_API_KEY", "")
+        if sd_key:
+            from src.collect.socialdata_client import SocialDataClient
+            self._sd_client = SocialDataClient(api_key=sd_key)
+            self._use_socialdata = True
+            print("📡 データソース: SocialData API（メトリクス取得可）")
+        else:
+            from src.collect.x_api_client import XAPIClient
+            self._x_client = XAPIClient(bearer_token=bearer_token)
+            print("📡 データソース: X API v2（メトリクス取得不可 — SocialData 推奨）")
+
         self._load_config()
 
-    def _load_config(self):
+    # ──────────────────────────────────────────────────────────────
+    # 設定読み込み
+    # ──────────────────────────────────────────────────────────────
+
+    def _load_config(self) -> None:
         """設定ファイル読み込み"""
-        # ターゲットアカウント
+        # ── target_accounts.json ──
         path = PROJECT_ROOT / "config" / "target_accounts.json"
         with open(path, "r", encoding="utf-8") as f:
             data = json.load(f)
-        self.target_accounts = data.get("accounts", [])
-        self.keywords = data.get("keywords", [])
 
-        # 検索設定（verified, min_followers, スパム除外）
+        self.target_accounts: list[dict] = data.get("accounts", [])
+        self.keywords: list[str] = data.get("keywords", [])
+
         ss = data.get("search_settings", {})
-        self.require_verified = ss.get("require_verified", True)
-        self.min_followers = ss.get("min_followers", 1000)
-        self.excluded_terms = ss.get("excluded_terms", [])
+        self.require_verified: bool = ss.get("require_verified", False)
+        self.min_followers: int = ss.get("min_followers", 1000)
+        self.excluded_terms: list[str] = ss.get("excluded_terms", [])
 
-        # 引用RTルール（バズ閾値）
+        # ── quote_rt_rules.json ──
         rules_path = PROJECT_ROOT / "config" / "quote_rt_rules.json"
         with open(rules_path, "r", encoding="utf-8") as f:
             rules = json.load(f)
-        self.buzz_thresholds = rules.get("buzz_thresholds", {})
+        self.buzz_thresholds: dict = rules.get("buzz_thresholds", {})
 
-        # ダッシュボード/PDCA からの閾値上書き
+        # ── selection_preferences.json（ダッシュボード設定の上書き）──
         prefs_path = PROJECT_ROOT / "config" / "selection_preferences.json"
         try:
             with open(prefs_path, "r", encoding="utf-8") as f:
                 prefs = json.load(f)
-            self.threshold_overrides = prefs.get("threshold_overrides", {})
+            self.threshold_overrides: dict = prefs.get("threshold_overrides", {})
         except (FileNotFoundError, json.JSONDecodeError):
             self.threshold_overrides = {}
+
+    # ──────────────────────────────────────────────────────────────
+    # Public: collect
+    # ──────────────────────────────────────────────────────────────
 
     def collect(
         self,
@@ -78,44 +114,46 @@ class AutoCollector:
         dry_run: bool = False,
     ) -> dict:
         """
-        バズツイートを収集してキューに追加
+        バズツイートを収集してキューに追加する。
 
         Args:
-            min_likes: 最低いいね数（None=設定ファイルから）
-            lang: 言語フィルタ
-            max_age_hours: 最大ツイート経過時間
-            max_tweets: 最大取得件数
-            auto_approve: 自動承認するか
-            dry_run: True=キューに追加しない
+            min_likes: 最低いいね数。None の場合は設定ファイルから取得。
+                       SocialData 使用時は API レベルで min_faves フィルタ適用。
+                       X API v2 使用時は 0 固定（メトリクス取得不可のため）。
+            lang: 言語フィルタ（デフォルト: "en"）。
+            max_age_hours: 最大ツイート経過時間（デフォルト: 48h）。
+            max_tweets: 最大取得件数。
+            auto_approve: True の場合、キュー追加時に自動承認。
+            dry_run: True の場合、キューに追加しない。
 
         Returns:
             {"fetched", "filtered", "added", "skipped_dup", "tweets"}
         """
-        # 優先順位: CLI引数 > ダッシュボード設定(threshold_overrides) > quote_rt_rules
-        # ※ min_likes=0 を有効にするため `is not None` で判定（0 は falsy なので `or` チェーン不可）
-        if min_likes is not None:
-            _min_likes = min_likes
-        elif self.threshold_overrides.get("min_likes") is not None:
-            _min_likes = self.threshold_overrides["min_likes"]
-        else:
-            _min_likes = self.buzz_thresholds.get("likes_min", 0)
-
+        # ── パラメータ解決（CLI > ダッシュボード > デフォルト）──
+        _min_likes = self._resolve_param(
+            cli_value=min_likes,
+            override_key="min_likes",
+            default_key="likes_min",
+            fallback=0,
+        )
         _lang = lang or self.buzz_thresholds.get("lang", ["en"])[0]
+        _max_age = self._resolve_param(
+            cli_value=max_age_hours,
+            override_key="max_age_hours",
+            default_key="age_max_hours",
+            fallback=48,
+        )
+        _max_tweets = self._resolve_param(
+            cli_value=max_tweets if max_tweets != 50 else None,
+            override_key="max_tweets",
+            default_key=None,
+            fallback=50,
+        )
 
-        if max_age_hours is not None:
-            _max_age = max_age_hours
-        elif self.threshold_overrides.get("max_age_hours") is not None:
-            _max_age = self.threshold_overrides["max_age_hours"]
-        else:
-            _max_age = self.buzz_thresholds.get("age_max_hours", 48)
-        # max_tweets: CLI引数がデフォルト(50)ならダッシュボード設定を優先
-        _max_tweets = max_tweets
-        if max_tweets == 50 and self.threshold_overrides.get("max_tweets"):
-            _max_tweets = self.threshold_overrides["max_tweets"]
+        print(f"🔍 収集設定: min_likes={_min_likes}, lang={_lang}, "
+              f"max_age={_max_age}h, max_tweets={_max_tweets}")
 
-        print(f"🔍 収集設定: min_likes={_min_likes}, lang={_lang}, max_age={_max_age}h, max_tweets={_max_tweets}")
-
-        # ── STEP 1: API検索 ──────────────────────────────────────────
+        # ── STEP 1: API 検索 ──
         raw_tweets = self._fetch_tweets(
             min_likes=_min_likes,
             lang=_lang,
@@ -123,7 +161,7 @@ class AutoCollector:
         )
         print(f"📥 API取得: {len(raw_tweets)}件")
 
-        # ── STEP 2: フィルタリング ────────────────────────────────────
+        # ── STEP 2: フィルタリング ──
         filtered = self._filter_tweets(
             raw_tweets,
             min_likes=_min_likes,
@@ -131,16 +169,17 @@ class AutoCollector:
         )
         print(f"🔎 フィルタ後: {len(filtered)}件 ({len(raw_tweets) - len(filtered)}件除外)")
 
-        # ── STEP 3: ParsedTweetに変換 ────────────────────────────────
-        parsed_tweets = []
+        # ── STEP 3: ParsedTweet 変換 ──
+        source_name = "socialdata" if self._use_socialdata else "x_api_v2"
+        parsed_tweets: list[ParsedTweet] = []
         for tweet_data in filtered:
             try:
-                parsed = TweetParser.from_api_data(tweet_data, source="x_api_v2")
+                parsed = TweetParser.from_api_data(tweet_data, source=source_name)
                 parsed_tweets.append(parsed)
-            except Exception as e:
-                print(f"  ⚠️ パースエラー: {e}")
+            except Exception as exc:
+                logger.warning("パースエラー: %s", exc)
 
-        # ── STEP 3.5: プリファレンススコアリング ─────────────────────
+        # ── STEP 3.5: プリファレンススコアリング ──
         for tweet in parsed_tweets:
             pref_result = self.preference_scorer.score(
                 tweet_text=tweet.text,
@@ -150,14 +189,15 @@ class AutoCollector:
             tweet.matched_topics = pref_result["matched_topics"]
             tweet.matched_keywords = pref_result["matched_keywords"]
 
-        # プリファレンスでブロックされたツイートを除外
-        before_pref = len(parsed_tweets)
+        # ブロックアカウント除外
+        before_block = len(parsed_tweets)
         parsed_tweets = [
             t for t in parsed_tweets
             if not self.preference_scorer.is_account_blocked(t.author_username)
         ]
-        if before_pref != len(parsed_tweets):
-            print(f"🚫 ブロックアカウント除外: {before_pref - len(parsed_tweets)}件")
+        blocked_count = before_block - len(parsed_tweets)
+        if blocked_count > 0:
+            print(f"🚫 ブロックアカウント除外: {blocked_count}件")
 
         # ブレンドスコア（エンゲージメント × プリファレンス）で再ソート
         parsed_tweets.sort(
@@ -168,7 +208,7 @@ class AutoCollector:
         pref_matched = sum(1 for t in parsed_tweets if t.preference_match_score > 1.0)
         print(f"🎯 プリファレンスマッチ: {pref_matched}/{len(parsed_tweets)}件")
 
-        # ── STEP 4: キューに追加 ──────────────────────────────────────
+        # ── STEP 4: キューに追加 ──
         added = 0
         skipped_dup = 0
 
@@ -191,58 +231,118 @@ class AutoCollector:
             "tweets": parsed_tweets,
         }
 
+    # ──────────────────────────────────────────────────────────────
+    # Internal: _fetch_tweets
+    # ──────────────────────────────────────────────────────────────
+
     def _fetch_tweets(
         self,
         min_likes: int,
         lang: str,
         max_tweets: int,
     ) -> list[dict]:
-        """キーワード検索でバズツイートを収集（sort_order=relevancyで人気順）"""
-        all_tweets = []
+        """キーワード検索でバズツイートを収集する。
+
+        SocialData API 使用時: min_faves クエリでバズ判定（API レベル）。
+        X API v2 使用時: sort_order=relevancy で人気順取得（メトリクスなし）。
+        """
+        if self._use_socialdata:
+            return self._fetch_via_socialdata(min_likes, lang, max_tweets)
+        return self._fetch_via_x_api(min_likes, lang, max_tweets)
+
+    def _fetch_via_socialdata(
+        self,
+        min_likes: int,
+        lang: str,
+        max_tweets: int,
+    ) -> list[dict]:
+        """SocialData API 経由でバズツイートを検索する。"""
+        from src.collect.socialdata_client import SocialDataClient, SocialDataError
+
+        assert self._sd_client is not None
+
+        all_tweets: list[dict] = []
 
         if not self.keywords:
-            print("  ⚠️ キーワードが未設定です。config/target_accounts.json の keywords を確認してください。")
+            print("  ⚠️ キーワードが未設定です。")
             return []
 
-        # キーワードを複数グループに分けて検索（1クエリに詰め込みすぎない）
-        KEYWORDS_PER_QUERY = 5
         chunks = [
-            self.keywords[i : i + KEYWORDS_PER_QUERY]
-            for i in range(0, len(self.keywords), KEYWORDS_PER_QUERY)
+            self.keywords[i : i + _KEYWORDS_PER_QUERY]
+            for i in range(0, len(self.keywords), _KEYWORDS_PER_QUERY)
         ]
-
         per_chunk = max(max_tweets // len(chunks), 10)
 
         for chunk in chunks:
-            query = self.client.build_search_query(
+            query = self._sd_client.build_search_query(
+                keywords=chunk,
+                min_faves=min_likes,
+                lang=lang,
+                exclude_replies=True,
+                exclude_retweets=True,
+            )
+            print(f"  🔍 SocialData検索: {query[:80]}...")
+
+            try:
+                tweets = self._sd_client.search(
+                    query,
+                    search_type="Top",
+                    max_results=per_chunk,
+                )
+                all_tweets.extend(tweets)
+                print(f"     → {len(tweets)}件取得")
+            except SocialDataError as exc:
+                print(f"     ❌ SocialDataエラー: {exc}")
+
+        return self._deduplicate(all_tweets)
+
+    def _fetch_via_x_api(
+        self,
+        min_likes: int,
+        lang: str,
+        max_tweets: int,
+    ) -> list[dict]:
+        """X API v2 経由でバズツイートを検索する（フォールバック）。"""
+        from src.collect.x_api_client import XAPIError
+
+        assert self._x_client is not None
+
+        all_tweets: list[dict] = []
+
+        if not self.keywords:
+            print("  ⚠️ キーワードが未設定です。")
+            return []
+
+        chunks = [
+            self.keywords[i : i + _KEYWORDS_PER_QUERY]
+            for i in range(0, len(self.keywords), _KEYWORDS_PER_QUERY)
+        ]
+        per_chunk = max(max_tweets // len(chunks), 10)
+
+        for chunk in chunks:
+            query = self._x_client.build_search_query(
                 keywords=chunk,
                 min_likes=min_likes,
                 lang=lang,
             )
-            print(f"  🔍 キーワード検索: {query[:80]}...")
+            print(f"  🔍 X API検索: {query[:80]}...")
 
             try:
-                # relevancy（人気順）で検索
-                tweets = self.client.search_tweets(
+                tweets = self._x_client.search_tweets(
                     query=query,
                     max_results=per_chunk,
                     tweet_type="Top",
                 )
                 all_tweets.extend(tweets)
                 print(f"     → {len(tweets)}件取得")
-            except XAPIError as e:
-                print(f"     ❌ APIエラー: {e}")
+            except XAPIError as exc:
+                print(f"     ❌ X APIエラー: {exc}")
 
-        # 重複排除（同じtweet_idが複数クエリで取れる場合）
-        seen_ids = set()
-        unique = []
-        for t in all_tweets:
-            tid = str(t.get("id_str", t.get("id", "")))
-            if tid and tid not in seen_ids:
-                seen_ids.add(tid)
-                unique.append(t)
+        return self._deduplicate(all_tweets)
 
-        return unique
+    # ──────────────────────────────────────────────────────────────
+    # Internal: _filter_tweets
+    # ──────────────────────────────────────────────────────────────
 
     def _filter_tweets(
         self,
@@ -250,13 +350,24 @@ class AutoCollector:
         min_likes: int,
         max_age_hours: int,
     ) -> list[dict]:
-        """ツイートをフィルタリング（verified + フォロワー数 + スパム除外）"""
+        """ツイートをフィルタリングする。
+
+        フィルタ項目:
+            - 重複（キューに既存の tweet_id）
+            - いいね数（SocialData 使用時のみ有効）
+            - フォロワー数（min_followers 未満を除外）
+            - スパムテキスト（excluded_terms に含まれるワード）
+            - 言語（en / und 以外を除外）
+            - リプライ / RT
+            - 同一ソース制限（1著者1日1件）
+            - 経過時間（max_age_hours 超過）
+        """
         now = datetime.now(JST)
         cutoff = now - timedelta(hours=max_age_hours)
-        filtered = []
 
-        # キューにある既存ツイートIDを取得（重複防止）
-        existing_ids = set()
+        # ── 既存ツイート ID を収集（重複防止）──
+        existing_ids: set[str] = set()
+        all_pending: list[dict] = []
         try:
             all_pending = self.queue.get_all_pending()
             existing_ids = {item["tweet_id"] for item in all_pending}
@@ -265,8 +376,8 @@ class AutoCollector:
         except Exception:
             pass
 
-        # 同一ソース制限: 今日すでに追加済みのソース
-        today_sources = set()
+        # ── 今日すでに追加済みの著者（同一ソース制限）──
+        today_sources: set[str] = set()
         try:
             today_str = now.date().isoformat()
             for item in all_pending:
@@ -276,93 +387,166 @@ class AutoCollector:
         except Exception:
             pass
 
-        # スパム除外ワード（小文字化して比較）
         excluded_lower = [t.lower() for t in self.excluded_terms]
 
-        skipped_reasons = {"dup": 0, "verified": 0, "followers": 0, "spam": 0, "lang": 0, "reply": 0, "rt": 0, "source": 0, "age": 0}
+        # フィルタ統計
+        stats = {
+            "dup": 0, "likes": 0, "followers": 0, "spam": 0,
+            "lang": 0, "reply": 0, "rt": 0, "source": 0, "age": 0,
+        }
+
+        filtered: list[dict] = []
 
         for tweet in tweets:
             tid = str(tweet.get("id_str", tweet.get("id", "")))
 
-            # 既存チェック
+            # 1. 重複チェック
             if tid in existing_ids:
-                skipped_reasons["dup"] += 1
+                stats["dup"] += 1
                 continue
 
             user = tweet.get("user", {})
             username = user.get("screen_name", "")
-            text_lower = tweet.get("full_text", tweet.get("text", "")).lower()
+            full_text = tweet.get("full_text", tweet.get("text", ""))
+            text_lower = full_text.lower()
 
-            # ブルーバッジチェック
-            if self.require_verified:
-                verified = user.get("verified", False)
-                if not verified:
-                    skipped_reasons["verified"] += 1
-                    continue
+            # 2. いいね数チェック（SocialData 使用時のみ意味がある）
+            likes = tweet.get("favorite_count", 0)
+            if self._use_socialdata and likes < min_likes:
+                stats["likes"] += 1
+                continue
 
-            # フォロワー数チェック
+            # 3. フォロワー数チェック
             followers = user.get("followers_count", 0)
             if followers < self.min_followers:
-                skipped_reasons["followers"] += 1
+                stats["followers"] += 1
                 continue
 
-            # スパムテキスト除外
+            # 4. スパムテキスト除外
             if any(term in text_lower for term in excluded_lower):
-                skipped_reasons["spam"] += 1
+                stats["spam"] += 1
                 continue
 
-            # 言語チェック
-            lang = tweet.get("lang", "")
-            if lang and lang not in ("en", "und"):
-                skipped_reasons["lang"] += 1
+            # 5. 言語チェック
+            tweet_lang = tweet.get("lang", "")
+            if tweet_lang and tweet_lang not in ("en", "und"):
+                stats["lang"] += 1
                 continue
 
-            # リプライ除外
-            if tweet.get("in_reply_to_status_id") or tweet.get("in_reply_to_status_id_str"):
-                skipped_reasons["reply"] += 1
+            # 6. リプライ除外
+            if (tweet.get("in_reply_to_status_id")
+                    or tweet.get("in_reply_to_status_id_str")):
+                stats["reply"] += 1
                 continue
 
-            # RT除外
-            if tweet.get("retweeted_status") or str(tweet.get("full_text", "")).startswith("RT @"):
-                skipped_reasons["rt"] += 1
+            # 7. RT 除外
+            if tweet.get("retweeted_status") or full_text.startswith("RT @"):
+                stats["rt"] += 1
                 continue
 
-            # 同一ソース制限（1日1件まで）
+            # 8. 同一ソース制限（1著者1日1件）
             if username in today_sources:
-                skipped_reasons["source"] += 1
+                stats["source"] += 1
                 continue
 
-            # 経過時間チェック
-            created_at_str = tweet.get("created_at", "")
+            # 9. 経過時間チェック
+            created_at_str = (
+                tweet.get("tweet_created_at", "")         # SocialData 形式
+                or tweet.get("created_at", "")             # X API v2 形式
+            )
             if created_at_str:
-                try:
-                    created_at = datetime.strptime(
-                        created_at_str, "%a %b %d %H:%M:%S %z %Y"
-                    )
-                    if created_at < cutoff:
-                        skipped_reasons["age"] += 1
-                        continue
-                except (ValueError, TypeError):
-                    pass
+                created_at = self._parse_created_at(created_at_str)
+                if created_at is not None and created_at < cutoff:
+                    stats["age"] += 1
+                    continue
 
             filtered.append(tweet)
             today_sources.add(username)
 
-        # フィルタ理由を表示
-        reasons_str = ", ".join(f"{k}={v}" for k, v in skipped_reasons.items() if v > 0)
-        if reasons_str:
-            print(f"  📊 除外内訳: {reasons_str}")
+        # ── 統計表示 ──
+        reasons = ", ".join(f"{k}={v}" for k, v in stats.items() if v > 0)
+        if reasons:
+            print(f"  📊 除外内訳: {reasons}")
 
-        # フォロワー数の降順でソート（いいね数が取れないためフォロワー数で代替）
-        filtered.sort(
-            key=lambda t: t.get("user", {}).get("followers_count", 0),
-            reverse=True,
-        )
+        # ── ソート: いいね数降順（SocialData）/ フォロワー数降順（X API）──
+        if self._use_socialdata:
+            filtered.sort(
+                key=lambda t: t.get("favorite_count", 0),
+                reverse=True,
+            )
+        else:
+            filtered.sort(
+                key=lambda t: t.get("user", {}).get("followers_count", 0),
+                reverse=True,
+            )
 
         return filtered
 
+    # ──────────────────────────────────────────────────────────────
+    # Internal: helpers
+    # ──────────────────────────────────────────────────────────────
+
+    def _resolve_param(
+        self,
+        *,
+        cli_value: int | None,
+        override_key: str,
+        default_key: str | None,
+        fallback: int,
+    ) -> int:
+        """パラメータの優先順位を解決する。
+
+        優先順位: CLI 引数 > ダッシュボード設定 > quote_rt_rules > fallback
+        """
+        if cli_value is not None:
+            return cli_value
+        if self.threshold_overrides.get(override_key) is not None:
+            return int(self.threshold_overrides[override_key])
+        if default_key and self.buzz_thresholds.get(default_key) is not None:
+            return int(self.buzz_thresholds[default_key])
+        return fallback
+
+    @staticmethod
+    def _parse_created_at(value: str) -> datetime | None:
+        """ツイートの作成日時をパースする。
+
+        SocialData 形式: "2026-03-05T12:34:56.000000Z"
+        X API v2 形式:   "Thu Mar 05 12:34:56 +0000 2026"
+        """
+        # SocialData 形式（ISO 8601）
+        for fmt in (
+            "%Y-%m-%dT%H:%M:%S.%fZ",    # SocialData
+            "%Y-%m-%dT%H:%M:%SZ",        # SocialData (秒なし)
+            "%a %b %d %H:%M:%S %z %Y",   # X API v2 互換
+        ):
+            try:
+                dt = datetime.strptime(value, fmt)
+                if dt.tzinfo is None:
+                    from datetime import timezone
+                    dt = dt.replace(tzinfo=timezone.utc)
+                return dt
+            except ValueError:
+                continue
+        return None
+
+    @staticmethod
+    def _deduplicate(tweets: list[dict]) -> list[dict]:
+        """tweet_id で重複を排除する。"""
+        seen: set[str] = set()
+        unique: list[dict] = []
+        for t in tweets:
+            tid = str(t.get("id_str", t.get("id", "")))
+            if tid and tid not in seen:
+                seen.add(tid)
+                unique.append(t)
+        return unique
+
+    # ──────────────────────────────────────────────────────────────
+    # Public: format_result
+    # ──────────────────────────────────────────────────────────────
+
     def format_result(self, result: dict) -> str:
-        """収集結果をフォーマット"""
+        """収集結果を人間が読みやすい文字列にフォーマットする。"""
         lines = [
             "📊 収集結果:",
             f"  API取得:    {result['fetched']}件",
@@ -376,7 +560,7 @@ class AutoCollector:
             lines.append("  📝 追加されたツイート:")
             for t in result["tweets"][:10]:
                 lines.append(
-                    f"    @{t.author_username} ({t.likes:,}❤) "
+                    f"    @{t.author_username} ({t.likes:,}❤ {t.retweets:,}🔁) "
                     f"{t.text[:50]}..."
                 )
 

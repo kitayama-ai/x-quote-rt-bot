@@ -343,26 +343,39 @@ def cmd_curate_pipeline(args):
     print("╚══════════════════════════════════════════════╝")
     print(f"📋 モード: {config.mode} / 最大投稿数: {max_posts}")
 
-    # ── Firestore からダッシュボード設定を取得 ──
-    # 注意: X API v2 では public_metrics (いいね数) が常に0で返るため、
-    # min_likes によるフィルタは機能しない。min_likes=0 で全件取得し、
-    # プリファレンススコアとテキスト品質で選別する。
-    collect_min_likes = 0  # API制限のため固定
+    # ── Firestore からダッシュボード設定・API キーを取得 ──
+    collect_min_likes = 0
     collect_max_tweets = 100
     collect_max_age = 48
+    socialdata_api_key = ""
     try:
         data_uid = _os.getenv("DATA_UID", "")
         if data_uid:
             from src.firestore.firestore_client import FirestoreClient
             fc = FirestoreClient()
             db = fc._get_db()
+
+            # selection_preferences
             prefs = db.collection("selection_preferences").document(data_uid).get()
             if prefs.exists:
                 p = prefs.to_dict()
+                collect_min_likes = int(p.get("min_likes_override", 0))
                 collect_max_tweets = int(p.get("max_tweets_override", 100))
                 collect_max_age = int(p.get("max_age_hours_override", 48))
+
+            # api_keys から SocialData API キーを取得
+            api_keys_doc = db.collection("api_keys").document(data_uid).get()
+            if api_keys_doc.exists:
+                api_keys = api_keys_doc.to_dict()
+                socialdata_api_key = api_keys.get("socialdata_api_key", "")
+
+            if socialdata_api_key:
+                print(f"🔧 ダッシュボード設定: min_likes={collect_min_likes}, "
+                      f"max_tweets={collect_max_tweets}, max_age={collect_max_age}h")
+            else:
+                collect_min_likes = 0  # X API v2 ではメトリクス取得不可
                 print(f"🔧 ダッシュボード設定: max_tweets={collect_max_tweets}, max_age={collect_max_age}h")
-                print(f"  ℹ️ min_likes=0 固定（X API v2 では public_metrics が取得不可のため）")
+                print(f"  ℹ️ min_likes=0 固定（SocialData API キー未設定のため）")
     except Exception as e:
         print(f"⚠️ ダッシュボード設定読み込みスキップ: {e}")
 
@@ -372,7 +385,7 @@ def cmd_curate_pipeline(args):
     print(f"{'='*50}")
 
     try:
-        collector = AutoCollector()
+        collector = AutoCollector(socialdata_api_key=socialdata_api_key)
     except ValueError as e:
         print(f"❌ {e}")
         return

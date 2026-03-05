@@ -1,178 +1,151 @@
 """
-X Auto Post System — SocialData APIクライアント（パターンB）
+X Auto Post System — SocialData API クライアント
 
-SocialData API (https://socialdata.tools) を使って
-海外AIバズツイートを自動収集する。
+SocialData API (https://socialdata.tools) 経由でバズツイートを検索・取得する。
+Twitter v1.1 互換のレスポンスを返すため、既存の TweetParser がそのまま利用可能。
+
+料金: $0.0002 / ツイート（$0.20 / 1,000ツイート）
+認証: Authorization: Bearer <API_KEY>
+BANリスク: ゼロ（SocialData側インフラで取得するため自アカウントは無関係）
 
 環境変数:
-    SOCIALDATA_API_KEY: SocialData APIキー
+    SOCIALDATA_API_KEY: SocialData API キー
 """
+from __future__ import annotations
+
 import os
-import time
-from datetime import datetime, timedelta
-from zoneinfo import ZoneInfo
+import logging
+from urllib.parse import quote as url_quote
 
 import requests
 
-JST = ZoneInfo("Asia/Tokyo")
+logger = logging.getLogger(__name__)
 
-# SocialData API ベースURL
-BASE_URL = "https://api.socialdata.tools"
-
-# デフォルトの検索パラメータ
-DEFAULT_MIN_LIKES = 500
-DEFAULT_LANG = "en"
-DEFAULT_MAX_RESULTS = 50
+# SocialData API 定数
+_BASE_URL = "https://api.socialdata.tools"
+_SEARCH_ENDPOINT = f"{_BASE_URL}/twitter/search"
+_DEFAULT_TIMEOUT = 30
 
 
 class SocialDataError(Exception):
     """SocialData API エラー"""
 
-    def __init__(self, status_code: int, message: str):
+    def __init__(self, status_code: int, message: str) -> None:
         self.status_code = status_code
         super().__init__(f"SocialData API error {status_code}: {message}")
 
 
 class SocialDataClient:
-    """SocialData API クライアント"""
+    """
+    SocialData API クライアント
 
-    def __init__(self, api_key: str = ""):
+    Twitter v1.1 互換のレスポンスを返すため、既存の TweetParser.from_api_data()
+    で ParsedTweet に変換可能。
+
+    Usage:
+        client = SocialDataClient(api_key="YOUR_KEY")
+        tweets = client.search("AI agent min_faves:500 -filter:replies", search_type="Top")
+        for tweet in tweets:
+            print(tweet["favorite_count"], tweet["full_text"])
+    """
+
+    def __init__(self, api_key: str = "") -> None:
         self.api_key = api_key or os.getenv("SOCIALDATA_API_KEY", "")
         if not self.api_key:
             raise ValueError(
-                "SOCIALDATA_API_KEY が未設定です。"
-                ".env に SOCIALDATA_API_KEY=your_key を追加してください。"
+                "SOCIALDATA_API_KEY が未設定です。\n"
+                "ダッシュボードまたは環境変数に SocialData API キーを設定してください。"
             )
-        self.session = requests.Session()
-        self.session.headers.update({
-            "Authorization": f"Bearer {self.api_key}",
-            "Accept": "application/json",
-        })
 
-    def search_tweets(
+    # ──────────────────────────────────────────────────────────────
+    # Public API
+    # ──────────────────────────────────────────────────────────────
+
+    def search(
         self,
         query: str,
-        max_results: int = DEFAULT_MAX_RESULTS,
-        tweet_type: str = "Latest",
+        *,
+        search_type: str = "Top",
+        max_results: int = 20,
     ) -> list[dict]:
         """
-        ツイートを検索
+        ツイートを検索して Twitter v1.1 互換の dict リストを返す。
 
         Args:
-            query: 検索クエリ（Twitter検索構文）
-            max_results: 最大取得件数
-            tweet_type: "Latest" or "Top"
+            query: Twitter 検索構文のクエリ文字列。
+                   例: "AI agent min_faves:500 lang:en -filter:replies"
+            search_type: "Top"（人気順）または "Latest"（最新順）。
+                         バズツイート収集では "Top" を推奨。
+            max_results: 最大取得件数。1ページ20件のため、20の倍数が効率的。
+                         ページネーションで複数ページを自動取得する。
 
         Returns:
-            ツイートオブジェクトのリスト
+            Twitter v1.1 互換フォーマットの dict リスト。
+            各 dict は以下のキーを含む:
+                - id_str, full_text, favorite_count, retweet_count,
+                  reply_count, quote_count, views_count, bookmark_count,
+                  user.screen_name, user.followers_count, user.verified,
+                  lang, tweet_created_at, in_reply_to_status_id_str
+
+        Raises:
+            SocialDataError: API リクエストが失敗した場合。
         """
-        url = f"{BASE_URL}/twitter/search"
-        params = {
-            "query": query,
-            "type": tweet_type,
-        }
+        all_tweets: list[dict] = []
+        cursor: str | None = None
+        pages_fetched = 0
+        max_pages = max(max_results // 20, 1)
 
-        all_tweets = []
-        cursor = None
-
-        while len(all_tweets) < max_results:
-            if cursor:
-                params["cursor"] = cursor
-
-            resp = self._request("GET", url, params=params)
-            data = resp.json()
-
-            tweets = data.get("tweets", [])
+        while len(all_tweets) < max_results and pages_fetched < max_pages:
+            tweets, cursor = self._fetch_page(query, search_type, cursor)
             if not tweets:
                 break
 
             all_tweets.extend(tweets)
-            cursor = data.get("next_cursor")
-            if not cursor:
-                break
+            pages_fetched += 1
 
-            # レート制限対策: リクエスト間に少し待つ
-            time.sleep(0.5)
+            if cursor is None:
+                break
 
         return all_tweets[:max_results]
 
-    def get_tweet(self, tweet_id: str) -> dict:
-        """
-        ツイートIDから詳細を取得
-
-        Args:
-            tweet_id: ツイートID
-
-        Returns:
-            ツイートオブジェクト
-        """
-        url = f"{BASE_URL}/twitter/statuses/show"
-        params = {"id": tweet_id}
-        resp = self._request("GET", url, params=params)
-        return resp.json()
-
-    def get_user_tweets(
-        self,
-        user_id: str,
-        max_results: int = 20,
-    ) -> list[dict]:
-        """
-        ユーザーの最新ツイートを取得
-
-        Args:
-            user_id: ユーザーID
-            max_results: 最大取得件数
-
-        Returns:
-            ツイートオブジェクトのリスト
-        """
-        url = f"{BASE_URL}/twitter/user/tweets"
-        params = {
-            "user_id": user_id,
-        }
-        resp = self._request("GET", url, params=params)
-        data = resp.json()
-        tweets = data.get("tweets", [])
-        return tweets[:max_results]
-
     def build_search_query(
         self,
-        accounts: list[str] | None = None,
+        *,
         keywords: list[str] | None = None,
-        min_likes: int = DEFAULT_MIN_LIKES,
-        lang: str = DEFAULT_LANG,
+        min_faves: int = 0,
+        min_retweets: int = 0,
+        lang: str = "en",
         exclude_replies: bool = True,
         exclude_retweets: bool = True,
     ) -> str:
         """
-        検索クエリを組み立てる
+        検索クエリを組み立てる。
+
+        SocialData は Twitter の検索構文をそのまま使えるため、
+        min_faves / min_retweets による API レベルのフィルタが可能。
 
         Args:
-            accounts: 監視対象アカウントのユーザー名リスト
-            keywords: キーワードリスト
-            min_likes: 最低いいね数
-            lang: 言語コード
-            exclude_replies: リプライを除外
-            exclude_retweets: RTを除外
+            keywords: キーワードリスト（OR 結合）。
+            min_faves: 最低いいね数。0 の場合はフィルタなし。
+            min_retweets: 最低RT数。0 の場合はフィルタなし。
+            lang: 言語コード。空文字でフィルタなし。
+            exclude_replies: リプライを除外するか。
+            exclude_retweets: RT を除外するか。
 
         Returns:
-            Twitter検索クエリ文字列
+            検索クエリ文字列。
         """
-        parts = []
+        parts: list[str] = []
 
-        # アカウント指定（ORで結合）
-        if accounts:
-            from_parts = [f"from:{u}" for u in accounts]
-            parts.append(f"({' OR '.join(from_parts)})")
-
-        # キーワード（ORで結合）
-        if keywords and not accounts:
+        if keywords:
             kw_parts = [f'"{kw}"' if " " in kw else kw for kw in keywords]
             parts.append(f"({' OR '.join(kw_parts)})")
 
-        # フィルタ
-        if min_likes > 0:
-            parts.append(f"min_faves:{min_likes}")
+        if min_faves > 0:
+            parts.append(f"min_faves:{min_faves}")
+
+        if min_retweets > 0:
+            parts.append(f"min_retweets:{min_retweets}")
 
         if lang:
             parts.append(f"lang:{lang}")
@@ -185,21 +158,63 @@ class SocialDataClient:
 
         return " ".join(parts)
 
-    def _request(self, method: str, url: str, **kwargs) -> requests.Response:
-        """HTTPリクエストを実行（エラーハンドリング付き）"""
+    # ──────────────────────────────────────────────────────────────
+    # Internal
+    # ──────────────────────────────────────────────────────────────
+
+    def _fetch_page(
+        self,
+        query: str,
+        search_type: str,
+        cursor: str | None,
+    ) -> tuple[list[dict], str | None]:
+        """
+        1 ページ分のツイートを取得する。
+
+        Returns:
+            (tweets, next_cursor) のタプル。
+            next_cursor が None の場合、次ページなし。
+        """
+        params: dict[str, str] = {
+            "query": query,
+            "type": search_type,
+        }
+        if cursor:
+            params["cursor"] = cursor
+
+        headers = {
+            "Authorization": f"Bearer {self.api_key}",
+            "Accept": "application/json",
+        }
+
         try:
-            resp = self.session.request(method, url, timeout=30, **kwargs)
-        except requests.RequestException as e:
-            raise SocialDataError(0, f"接続エラー: {e}")
+            resp = requests.get(
+                _SEARCH_ENDPOINT,
+                headers=headers,
+                params=params,
+                timeout=_DEFAULT_TIMEOUT,
+            )
+        except requests.RequestException as exc:
+            raise SocialDataError(0, f"ネットワークエラー: {exc}") from exc
 
-        if resp.status_code == 429:
-            raise SocialDataError(429, "レート制限に達しました。しばらく待ってから再試行してください。")
+        if resp.status_code == 402:
+            raise SocialDataError(402, "クレジット不足です。SocialData ダッシュボードでチャージしてください。")
 
-        if resp.status_code == 401:
-            raise SocialDataError(401, "APIキーが無効です。SOCIALDATA_API_KEY を確認してください。")
+        if resp.status_code == 422:
+            raise SocialDataError(422, f"クエリが不正です: {resp.text[:200]}")
 
-        if resp.status_code >= 400:
-            msg = resp.text[:200] if resp.text else "不明なエラー"
-            raise SocialDataError(resp.status_code, msg)
+        if resp.status_code == 500:
+            raise SocialDataError(500, "SocialData 内部エラー。しばらく待ってから再試行してください。")
 
-        return resp
+        if resp.status_code != 200:
+            raise SocialDataError(resp.status_code, f"API エラー: {resp.text[:200]}")
+
+        try:
+            data = resp.json()
+        except ValueError as exc:
+            raise SocialDataError(0, f"JSON パースエラー: {exc}") from exc
+
+        tweets = data.get("tweets", [])
+        next_cursor = data.get("next_cursor")
+
+        return tweets, next_cursor

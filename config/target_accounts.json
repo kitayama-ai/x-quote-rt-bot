@@ -15,7 +15,7 @@
   ],
   "search_settings": {
     "sort_order": "relevancy",
-    "require_verified": true,
+    "require_verified": false,
     "min_followers": 1000,
     "excluded_terms": ["giveaway", "airdrop", "$", "presale", "whitelist", "token launch", "minting"]
   }
