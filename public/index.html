@@ -2871,6 +2871,28 @@
           </div>
           <div class="save-msg" id="memberMsg" style="display: none"></div>
           <div id="memberList"></div>
+
+          <div style="margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border);">
+            <h4 style="font-size: 14px; margin-bottom: 8px;">🔗 招待リンク発行</h4>
+            <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">
+              クライアントに送信する招待リンクを生成します。リンクから自分でメアド・パスワードを設定できます（24時間有効）。
+            </p>
+            <div style="display: flex; gap: 8px; align-items: center;">
+              <select class="form-input" id="inviteRole" style="width: 140px;">
+                <option value="operator">Operator</option>
+                <option value="viewer">Viewer</option>
+                <option value="admin">Admin</option>
+              </select>
+              <button class="save-btn" id="generateInviteBtn" style="white-space: nowrap;">招待リンクを生成</button>
+            </div>
+            <div id="inviteLinkBox" style="display:none; margin-top: 12px; padding: 12px; background: var(--bg-input); border-radius: 8px; border: 1px solid var(--border);">
+              <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 6px;">👇 このリンクをクライアントに送信してください</div>
+              <div style="display: flex; gap: 8px; align-items: center;">
+                <input type="text" id="inviteLinkInput" readonly class="form-input" style="font-size: 12px; font-family: monospace; flex: 1;" />
+                <button class="save-btn" id="copyInviteBtn" style="white-space: nowrap; padding: 8px 16px;">コピー</button>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- API Keys -->
@@ -3852,6 +3874,61 @@
               if (window.showToast)
                 showToast("追加に失敗しました: " + err.message, "error");
             }
+          });
+        }
+
+        // ============================
+        // Invite Link Generator
+        // ============================
+        const generateInviteBtn = document.getElementById("generateInviteBtn");
+        const inviteLinkBox = document.getElementById("inviteLinkBox");
+        const inviteLinkInput = document.getElementById("inviteLinkInput");
+        const copyInviteBtn = document.getElementById("copyInviteBtn");
+
+        if (generateInviteBtn) {
+          generateInviteBtn.addEventListener("click", async function () {
+            if (!currentUser || !dataUid) return;
+            generateInviteBtn.disabled = true;
+            generateInviteBtn.textContent = "生成中...";
+
+            try {
+              const token = Array.from(crypto.getRandomValues(new Uint8Array(16)))
+                .map(b => b.toString(16).padStart(2, "0")).join("");
+              const role = document.getElementById("inviteRole").value;
+              const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000);
+
+              await db.collection("invites").doc(token).set({
+                data_uid: dataUid,
+                account_id: accountId,
+                role: role,
+                created_by: currentUser.email,
+                created_at: firebase.firestore.FieldValue.serverTimestamp(),
+                expires_at: expiresAt,
+                used: false,
+              });
+
+              const baseUrl = window.location.origin;
+              const inviteUrl = baseUrl + "/register.html?token=" + token;
+              inviteLinkInput.value = inviteUrl;
+              inviteLinkBox.style.display = "block";
+              if (window.showToast) showToast("招待リンクを生成しました", "success");
+            } catch (err) {
+              console.error("Invite error:", err);
+              if (window.showToast) showToast("生成に失敗: " + err.message, "error");
+            }
+            generateInviteBtn.disabled = false;
+            generateInviteBtn.textContent = "招待リンクを生成";
+          });
+        }
+
+        if (copyInviteBtn) {
+          copyInviteBtn.addEventListener("click", function () {
+            inviteLinkInput.select();
+            navigator.clipboard.writeText(inviteLinkInput.value).then(function() {
+              copyInviteBtn.textContent = "✓ コピー";
+              setTimeout(function() { copyInviteBtn.textContent = "コピー"; }, 2000);
+              if (window.showToast) showToast("コピーしました", "success");
+            });
           });
         }
 
