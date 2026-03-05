@@ -1,43 +1,13 @@
 {
-  "updated_at": "2026-03-05T23:12:13.710600",
+  "updated_at": "2026-03-05T23:15:13.299048",
   "stats": {
     "pending": 0,
-    "approved": 473,
+    "approved": 472,
     "skipped": 0,
-    "posted_total": 10,
-    "posted_today": 5
+    "posted_total": 11,
+    "posted_today": 6
   },
   "queue": [
-    {
-      "tweet_id": "2027949698414170532",
-      "author_username": "spaisee_com",
-      "author_name": "spaisee",
-      "text": "AI music just crossed the line from gimmick to obsession.\n\nSuno 2 now has tens of millions of users generating — and actually listening to — AI-made tracks daily.\n\nHere’s why Suno 2 is winning the AI music race 👇🎧\n#Suno2 #LLM #Music #AI \nhttps://t.co/DNxCn5Vixs",
-      "lang": "en",
-      "likes": 0,
-      "retweets": 0,
-      "replies": 0,
-      "quotes": 0,
-      "bookmarks": 0,
-      "url": "https://x.com/spaisee_com/status/2027949698414170532",
-      "collected_at": "2026-03-01T12:35:36.653544+09:00",
-      "source": "x_api_v2",
-      "tags": [],
-      "memo": "",
-      "preference_match_score": 1.0,
-      "matched_topics": [],
-      "matched_keywords": [],
-      "status": "approved",
-      "added_at": "2026-03-01T12:35:36.680351+09:00",
-      "generated_text": "🚨【速報】Suno 2、AI音楽の覇権を獲る！\n\n数千万人が毎日「聴く」レベルへ。もはやギミックではない。🏛️🔥\n・既存音楽産業の構造が劇的に崩壊する。\n・AI×Web3音楽が、新たな「投資」と「収益」を生む🚀\nこの激変を見逃すな。",
-      "template_id": "translate_comment",
-      "score": {
-        "total": 2,
-        "rank": "C"
-      },
-      "skip_reason": "",
-      "feedback_note": ""
-    },
     {
       "tweet_id": "2027949607616188500",
       "author_username": "allenxmarketing",
@@ -13715,6 +13685,38 @@
     }
   ],
   "recent_posted": [
+    {
+      "tweet_id": "2027949698414170532",
+      "author_username": "spaisee_com",
+      "author_name": "spaisee",
+      "text": "AI music just crossed the line from gimmick to obsession.\n\nSuno 2 now has tens of millions of users generating — and actually listening to — AI-made tracks daily.\n\nHere’s why Suno 2 is winning the AI music race 👇🎧\n#Suno2 #LLM #Music #AI \nhttps://t.co/DNxCn5Vixs",
+      "lang": "en",
+      "likes": 0,
+      "retweets": 0,
+      "replies": 0,
+      "quotes": 0,
+      "bookmarks": 0,
+      "url": "https://x.com/spaisee_com/status/2027949698414170532",
+      "collected_at": "2026-03-01T12:35:36.653544+09:00",
+      "source": "x_api_v2",
+      "tags": [],
+      "memo": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "status": "posted",
+      "added_at": "2026-03-01T12:35:36.680351+09:00",
+      "generated_text": "🚨【AI音楽】Suno 2が市場席巻！\n\nギミック超え、AIが「創作」を民主化する。🏛️🎶\n・クリエイター像は「激変」。\n・音楽著作権、ロイヤリティの「再定義」は不可避だ。\n・AI×Web3が生む「無限の機会」を見逃すな。\n\n音楽産業...",
+      "template_id": "translate_comment",
+      "score": {
+        "total": 1,
+        "rank": "C"
+      },
+      "skip_reason": "",
+      "feedback_note": "",
+      "posted_tweet_id": "2029560693561966923",
+      "posted_at": "2026-03-05T23:12:31.646422+09:00"
+    },
     {
       "tweet_id": "2027949989478138067",
       "author_username": "aimeretnoir",
