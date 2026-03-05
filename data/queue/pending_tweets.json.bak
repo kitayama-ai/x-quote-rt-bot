@@ -146,10 +146,10 @@
     "matched_keywords": [],
     "status": "approved",
     "added_at": "2026-03-01T12:35:36.677339+09:00",
-    "generated_text": "🚨【衝撃】AI「有料講座100GB超」無料解禁！ヤバい。💥\n\n稼ぐ力「タダ」解禁。投資家は動け。🏛️✨\n・高額AIスキル習得の壁が消滅。未来の資産は知識だ。\n・今すぐ飛び込め。乗り遅れた者だけが後悔する世界へ。\n\nこのチャンスは二度と...",
-    "template_id": "breaking_news",
+    "generated_text": "💥【速報】有料級AIコースがタダ！未来の「富」掴む最強スキルを獲れ！\n\nAI覇権を握る者だけが勝つ。資金ゼロで最先端を学べ。🏛️📈\n・Google Cloud、Pythonなど100GB超の豪華教材が無料開放。\n・AIスキルはWeb3...",
+    "template_id": "summary_points",
     "score": {
-      "total": 1,
+      "total": 2,
       "rank": "C"
     },
     "skip_reason": "",
@@ -176,10 +176,10 @@
     "matched_keywords": [],
     "status": "approved",
     "added_at": "2026-03-01T12:35:36.680351+09:00",
-    "generated_text": "💥【伝説】Suno 2が「AI音楽」を新時代へ突入させた！\n\n数千万人が毎日生成・聴取。もはや「ギミック」の域を超えた「怪物」へ🏛️✨\n・エンタメ市場の構造激変。投資家は次なる“Suno”を探せ。\n・クリエイターエコノミーの地殻変動が...",
-    "template_id": "legend_moment",
+    "generated_text": "🚨【速報】Suno 2、AI音楽の覇権を獲る！\n\n数千万人が毎日「聴く」レベルへ。もはやギミックではない。🏛️🔥\n・既存音楽産業の構造が劇的に崩壊する。\n・AI×Web3音楽が、新たな「投資」と「収益」を生む🚀\nこの激変を見逃すな。",
+    "template_id": "translate_comment",
     "score": {
-      "total": 1,
+      "total": 2,
       "rank": "C"
     },
     "skip_reason": "",
@@ -210,8 +210,8 @@
     ],
     "status": "approved",
     "added_at": "2026-03-01T12:35:36.683445+09:00",
-    "generated_text": "💥【激震】AIコード効率、ガチで「逆効果」だった！\n\n開発者は20%速く感じるも、出荷は19%も遅延。これはヤバい。🏛️📊\n・AIツールは思考停止を招き、むしろ「サボリ」を助長する。\n・AI過信は市場で通用しない。本物の実装力が問われ...",
-    "template_id": "practice_report",
+    "generated_text": "💥【独占】AIコーディング、マジで速い？「衝撃の裏側」発覚。\n\n開発者は「爆速」と錯覚も、プロジェクトは「激遅」になる事実。🏛️💎📉\n・体感は脅威の20%高速化。\n・しかし、実際の出荷は19%遅延。これは「本質」を見誤るリスク。\n表面...",
+    "template_id": "exclusive_report",
     "score": {
       "total": 5,
       "rank": "B"

@@ -176,10 +176,10 @@
     "matched_keywords": [],
     "status": "approved",
     "added_at": "2026-03-01T12:35:36.680351+09:00",
-    "generated_text": "💥【伝説】Suno 2が「AI音楽」を新時代へ突入させた！\n\n数千万人が毎日生成・聴取。もはや「ギミック」の域を超えた「怪物」へ🏛️✨\n・エンタメ市場の構造激変。投資家は次なる“Suno”を探せ。\n・クリエイターエコノミーの地殻変動が...",
-    "template_id": "legend_moment",
+    "generated_text": "🚨【速報】Suno 2、AI音楽の覇権を獲る！\n\n数千万人が毎日「聴く」レベルへ。もはやギミックではない。🏛️🔥\n・既存音楽産業の構造が劇的に崩壊する。\n・AI×Web3音楽が、新たな「投資」と「収益」を生む🚀\nこの激変を見逃すな。",
+    "template_id": "translate_comment",
     "score": {
-      "total": 1,
+      "total": 2,
       "rank": "C"
     },
     "skip_reason": "",
@@ -210,8 +210,8 @@
     ],
     "status": "approved",
     "added_at": "2026-03-01T12:35:36.683445+09:00",
-    "generated_text": "💥【激震】AIコード効率、ガチで「逆効果」だった！\n\n開発者は20%速く感じるも、出荷は19%も遅延。これはヤバい。🏛️📊\n・AIツールは思考停止を招き、むしろ「サボリ」を助長する。\n・AI過信は市場で通用しない。本物の実装力が問われ...",
-    "template_id": "practice_report",
+    "generated_text": "💥【独占】AIコーディング、マジで速い？「衝撃の裏側」発覚。\n\n開発者は「爆速」と錯覚も、プロジェクトは「激遅」になる事実。🏛️💎📉\n・体感は脅威の20%高速化。\n・しかし、実際の出荷は19%遅延。これは「本質」を見誤るリスク。\n表面...",
+    "template_id": "exclusive_report",
     "score": {
       "total": 5,
       "rank": "B"
@@ -240,9 +240,12 @@
     "matched_keywords": [],
     "status": "approved",
     "added_at": "2026-03-01T12:35:36.686701+09:00",
-    "generated_text": "",
-    "template_id": "",
-    "score": null,
+    "generated_text": "🚨【警告】「AIはCSSに劣る」との声、これガチなのか？\n\nLLMの限界、投資家は知るべき事実だ。🏛️🔥\n・繊細なデザインには人間の感性が不可欠。\n・「完璧」なAIは幻想。最終調整は人の手で。\n\nAI過信は命取り。見極めが未来への分か...",
+    "template_id": "question_prompt",
+    "score": {
+      "total": 2,
+      "rank": "C"
+    },
     "skip_reason": "",
     "feedback_note": ""
   },
