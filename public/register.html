@@ -136,12 +136,12 @@
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 <script>
   const firebaseConfig = {
-    apiKey: "AIzaSyAaZHTqz7yqpGJvYj7RGFMzVDkMwLuq3eo",
+    apiKey: "AIzaSyD5qtQwX6w70KmADqJqLngh4uN8G-aZnv8",
     authDomain: "isai-11f7b.firebaseapp.com",
     projectId: "isai-11f7b",
     storageBucket: "isai-11f7b.firebasestorage.app",
-    messagingSenderId: "432635792498",
-    appId: "1:432635792498:web:e7ed2e2cde048923f5f6fc",
+    messagingSenderId: "457322161967",
+    appId: "1:457322161967:web:132d79d10ac3387b83e3da",
   };
   firebase.initializeApp(firebaseConfig);
   const auth = firebase.auth();
@@ -295,6 +295,7 @@
   function showMsg(text, type) {
     regMsg.textContent = text;
     regMsg.className = "msg " + type;
+    regMsg.style.display = "block";
   }
 </script>
 </body>
