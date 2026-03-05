@@ -47,6 +47,12 @@ class AutoCollector:
         self.target_accounts = data.get("accounts", [])
         self.keywords = data.get("keywords", [])
 
+        # 検索設定（verified, min_followers, スパム除外）
+        ss = data.get("search_settings", {})
+        self.require_verified = ss.get("require_verified", True)
+        self.min_followers = ss.get("min_followers", 1000)
+        self.excluded_terms = ss.get("excluded_terms", [])
+
         # 引用RTルール（バズ閾値）
         rules_path = PROJECT_ROOT / "config" / "quote_rt_rules.json"
         with open(rules_path, "r", encoding="utf-8") as f:
@@ -191,7 +197,7 @@ class AutoCollector:
         lang: str,
         max_tweets: int,
     ) -> list[dict]:
-        """キーワード検索でバズツイートを収集（アカウント監視なし）"""
+        """キーワード検索でバズツイートを収集（sort_order=relevancyで人気順）"""
         all_tweets = []
 
         if not self.keywords:
@@ -216,9 +222,11 @@ class AutoCollector:
             print(f"  🔍 キーワード検索: {query[:80]}...")
 
             try:
+                # relevancy（人気順）で検索
                 tweets = self.client.search_tweets(
                     query=query,
                     max_results=per_chunk,
+                    tweet_type="Top",
                 )
                 all_tweets.extend(tweets)
                 print(f"     → {len(tweets)}件取得")
@@ -242,7 +250,7 @@ class AutoCollector:
         min_likes: int,
         max_age_hours: int,
     ) -> list[dict]:
-        """ツイートをフィルタリング"""
+        """ツイートをフィルタリング（verified + フォロワー数 + スパム除外）"""
         now = datetime.now(JST)
         cutoff = now - timedelta(hours=max_age_hours)
         filtered = []
@@ -268,56 +276,86 @@ class AutoCollector:
         except Exception:
             pass
 
+        # スパム除外ワード（小文字化して比較）
+        excluded_lower = [t.lower() for t in self.excluded_terms]
+
+        skipped_reasons = {"dup": 0, "verified": 0, "followers": 0, "spam": 0, "lang": 0, "reply": 0, "rt": 0, "source": 0, "age": 0}
+
         for tweet in tweets:
             tid = str(tweet.get("id_str", tweet.get("id", "")))
 
             # 既存チェック
             if tid in existing_ids:
+                skipped_reasons["dup"] += 1
                 continue
 
-            # いいね数チェック
-            likes = tweet.get("favorite_count", tweet.get("like_count", 0))
-            if likes < min_likes:
+            user = tweet.get("user", {})
+            username = user.get("screen_name", "")
+            text_lower = tweet.get("full_text", tweet.get("text", "")).lower()
+
+            # ブルーバッジチェック
+            if self.require_verified:
+                verified = user.get("verified", False)
+                if not verified:
+                    skipped_reasons["verified"] += 1
+                    continue
+
+            # フォロワー数チェック
+            followers = user.get("followers_count", 0)
+            if followers < self.min_followers:
+                skipped_reasons["followers"] += 1
                 continue
 
-            # 言語チェック（SocialDataはlangフィールドを返す）
+            # スパムテキスト除外
+            if any(term in text_lower for term in excluded_lower):
+                skipped_reasons["spam"] += 1
+                continue
+
+            # 言語チェック
             lang = tweet.get("lang", "")
             if lang and lang not in ("en", "und"):
+                skipped_reasons["lang"] += 1
                 continue
 
             # リプライ除外
             if tweet.get("in_reply_to_status_id") or tweet.get("in_reply_to_status_id_str"):
+                skipped_reasons["reply"] += 1
                 continue
 
             # RT除外
             if tweet.get("retweeted_status") or str(tweet.get("full_text", "")).startswith("RT @"):
+                skipped_reasons["rt"] += 1
                 continue
 
             # 同一ソース制限（1日1件まで）
-            user = tweet.get("user", {})
-            username = user.get("screen_name", "")
             if username in today_sources:
+                skipped_reasons["source"] += 1
                 continue
 
-            # 経過時間チェック（SocialDataの created_at をパース）
+            # 経過時間チェック
             created_at_str = tweet.get("created_at", "")
             if created_at_str:
                 try:
-                    # "Thu Feb 20 02:14:30 +0000 2026" 形式
                     created_at = datetime.strptime(
                         created_at_str, "%a %b %d %H:%M:%S %z %Y"
                     )
                     if created_at < cutoff:
+                        skipped_reasons["age"] += 1
                         continue
                 except (ValueError, TypeError):
-                    pass  # パースできない場合はスキップせず通す
+                    pass
 
             filtered.append(tweet)
             today_sources.add(username)
 
-        # いいね数の降順でソート
+        # フィルタ理由を表示
+        reasons_str = ", ".join(f"{k}={v}" for k, v in skipped_reasons.items() if v > 0)
+        if reasons_str:
+            print(f"  📊 除外内訳: {reasons_str}")
+
+        # フォロワー数の降順でソート（いいね数が取れないためフォロワー数で代替）
         filtered.sort(
-            key=lambda t: t.get("favorite_count", t.get("like_count", 0)),
+            key=lambda t: t.get("user", {}).get("followers_count", 0),
             reverse=True,
         )
 

@@ -22,7 +22,7 @@ DEFAULT_MAX_RESULTS = 50
 
 # X API v2 JSON レスポンスを SocialData 互換 dict に変換するためのフィールド
 TWEET_FIELDS = ["created_at", "public_metrics", "author_id", "lang", "text"]
-USER_FIELDS = ["username", "name"]
+USER_FIELDS = ["username", "name", "verified", "verified_type", "public_metrics"]
 EXPANSIONS = ["author_id"]
 
 
@@ -64,7 +64,7 @@ class XAPIClient:
         Returns:
             SocialData 互換の dict リスト
         """
-        sort_order = "recency" if tweet_type == "Latest" else "relevancy"
+        sort_order = "relevancy" if tweet_type == "Top" else ("recency" if tweet_type == "Latest" else "relevancy")
 
         # X API v2 は max_results 10-100 の範囲
         per_page = min(max_results, 100)
@@ -111,9 +111,13 @@ class XAPIClient:
         includes = data.get("includes", {})
         users = includes.get("users", [])
         for user in users:
+            um = user.get("public_metrics", {})
             self._user_cache[str(user.get("id"))] = {
                 "username": user.get("username", ""),
                 "name": user.get("name", ""),
+                "verified": user.get("verified", False),
+                "verified_type": user.get("verified_type", ""),
+                "followers_count": um.get("followers_count", 0),
             }
 
         # SocialData 互換形式に変換
@@ -336,6 +340,9 @@ class XAPIClient:
             "user": {
                 "screen_name": username,
                 "name": name,
+                "verified": user_info.get("verified", False),
+                "verified_type": user_info.get("verified_type", ""),
+                "followers_count": user_info.get("followers_count", 0),
             },
             "created_at": created_at_str,
             "favorite_count": metrics.get("like_count", 0),
