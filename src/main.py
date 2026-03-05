@@ -344,8 +344,11 @@ def cmd_curate_pipeline(args):
     print(f"📋 モード: {config.mode} / 最大投稿数: {max_posts}")
 
     # ── Firestore からダッシュボード設定を取得 ──
-    collect_min_likes = 0
-    collect_max_tweets = 30
+    # 注意: X API v2 では public_metrics (いいね数) が常に0で返るため、
+    # min_likes によるフィルタは機能しない。min_likes=0 で全件取得し、
+    # プリファレンススコアとテキスト品質で選別する。
+    collect_min_likes = 0  # API制限のため固定
+    collect_max_tweets = 100
     collect_max_age = 48
     try:
         data_uid = _os.getenv("DATA_UID", "")
@@ -356,10 +359,10 @@ def cmd_curate_pipeline(args):
             prefs = db.collection("selection_preferences").document(data_uid).get()
             if prefs.exists:
                 p = prefs.to_dict()
-                collect_min_likes = int(p.get("min_likes_override", 0))
-                collect_max_tweets = int(p.get("max_tweets_override", 30))
+                collect_max_tweets = int(p.get("max_tweets_override", 100))
                 collect_max_age = int(p.get("max_age_hours_override", 48))
-                print(f"🔧 ダッシュボード設定: min_likes={collect_min_likes}, max_tweets={collect_max_tweets}, max_age={collect_max_age}h")
+                print(f"🔧 ダッシュボード設定: max_tweets={collect_max_tweets}, max_age={collect_max_age}h")
+                print(f"  ℹ️ min_likes=0 固定（X API v2 では public_metrics が取得不可のため）")
     except Exception as e:
         print(f"⚠️ ダッシュボード設定読み込みスキップ: {e}")
 
