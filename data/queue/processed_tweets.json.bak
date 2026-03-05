@@ -133,5 +133,71 @@
     "feedback_note": "",
     "posted_tweet_id": "2027987427399291090",
     "posted_at": "2026-03-01T15:00:55.703369+09:00"
+  },
+  {
+    "tweet_id": "2027950003164229650",
+    "author_username": "Saniarai932",
+    "author_name": "Sania Rai",
+    "text": "Sources: U.S. military's strikes on Iran still used Anthropic's AI tools\n\nAccording to a report by The Wall Street Journal citing informed sources, intelligence agencies worldwide—including the U.S. Central Command—are using Anthropic’s Claude AI tool.\nHowever, just hours before",
+    "lang": "en",
+    "likes": 0,
+    "retweets": 0,
+    "replies": 0,
+    "quotes": 0,
+    "bookmarks": 0,
+    "url": "https://x.com/Saniarai932/status/2027950003164229650",
+    "collected_at": "2026-03-01T12:35:36.653530+09:00",
+    "source": "x_api_v2",
+    "tags": [],
+    "memo": "",
+    "preference_match_score": 2.5,
+    "matched_topics": [],
+    "matched_keywords": [
+      "Claude"
+    ],
+    "status": "posted",
+    "added_at": "2026-03-01T12:35:36.671618+09:00",
+    "generated_text": "💥【伝説】米軍、AI兵器「実戦投入」の歴史的瞬間！\n\nAnthropicのClaudeがイラン攻撃に利用。ついにAIが戦場を支配した時代へ。🏛️🔥\n・AI開発は「最終局面」へ突入。兵器利用は不可逆。\n・軍事AI市場は爆発拡大、関連銘柄...",
+    "template_id": "legend_moment",
+    "score": {
+      "total": 2,
+      "rank": "C"
+    },
+    "skip_reason": "",
+    "feedback_note": "",
+    "posted_tweet_id": "2027987613093597300",
+    "posted_at": "2026-03-01T15:01:40.005294+09:00"
+  },
+  {
+    "tweet_id": "2027950692246426052",
+    "author_username": "quantumboomnow",
+    "author_name": "quantumBOOM",
+    "text": "$NVDA $TSM $AMD $SMH New LLM research highlights a breakthrough in data pruning techniques, reducing training times by 30%. This advancement is set to drive demand for efficient AI chips, ... https://t.co/XDVnRVRsPy",
+    "lang": "en",
+    "likes": 0,
+    "retweets": 0,
+    "replies": 0,
+    "quotes": 0,
+    "bookmarks": 0,
+    "url": "https://x.com/quantumboomnow/status/2027950692246426052",
+    "collected_at": "2026-03-01T12:35:36.653507+09:00",
+    "source": "x_api_v2",
+    "tags": [],
+    "memo": "",
+    "preference_match_score": 1.0,
+    "matched_topics": [],
+    "matched_keywords": [],
+    "status": "posted",
+    "added_at": "2026-03-01T12:35:36.661166+09:00",
+    "generated_text": "💀AI学習、30%高速化。旧時代技術は即死。\n\n最新研究が明かす、容赦なき「効率」の世界。🏛️🩸💀\n・開発競争は既に「血の海」。乗り遅れは市場からの追放。\n・「効率的AIチップ」への集中投資が生き残りの絶対条件。\n\n容赦ない選別が、既...",
+    "template_id": "dark_alert",
+    "score": {
+      "total": 3,
+      "rank": "C"
+    },
+    "skip_reason": "",
+    "feedback_note": "",
+    "posted_tweet_id": "2029535737679655002",
+    "posted_at": "2026-03-05T21:33:21.786133+09:00"
   }
 ]

@@ -1151,13 +1151,5539 @@
       "matched_keywords": [],
       "likes": 0,
       "decided_at": "2026-02-21T15:50:34.573373+09:00"
+    },
+    {
+      "tweet_id": "2028120140328685616",
+      "author_username": "formy04zstars",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 1,
+      "decided_at": "2026-03-01T23:48:42.924260+09:00"
+    },
+    {
+      "tweet_id": "2028120110146404540",
+      "author_username": "Nayak__Ai",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 1,
+      "decided_at": "2026-03-01T23:48:42.935300+09:00"
+    },
+    {
+      "tweet_id": "2028120201519079575",
+      "author_username": "EpicPlain",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-01T23:48:42.967415+09:00"
+    },
+    {
+      "tweet_id": "2028120157785125051",
+      "author_username": "AgenticAiLabs",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 4.0,
+      "matched_topics": [
+        "AI agents"
+      ],
+      "matched_keywords": [
+        "AI agent"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-01T23:48:42.978771+09:00"
+    },
+    {
+      "tweet_id": "2028120127846134126",
+      "author_username": "perpetualtalk",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-01T23:48:42.990898+09:00"
+    },
+    {
+      "tweet_id": "2028120120791597384",
+      "author_username": "chu_nrwt",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-01T23:48:43.003285+09:00"
+    },
+    {
+      "tweet_id": "2028120116295352718",
+      "author_username": "HHegan19531",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-01T23:48:43.069254+09:00"
+    },
+    {
+      "tweet_id": "2028120100608372938",
+      "author_username": "nuskicrypto",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 3.5,
+      "matched_topics": [
+        "AI agents"
+      ],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-01T23:48:43.081589+09:00"
+    },
+    {
+      "tweet_id": "2028120090483290238",
+      "author_username": "rains_social",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 3.5,
+      "matched_topics": [
+        "coding AI"
+      ],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-01T23:48:43.098475+09:00"
+    },
+    {
+      "tweet_id": "2028120077988770114",
+      "author_username": "sairahulxGTM",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [
+        "tech industry"
+      ],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-01T23:48:43.110755+09:00"
+    },
+    {
+      "tweet_id": "2028120073932599579",
+      "author_username": "BoxuDev",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.0,
+      "matched_topics": [],
+      "matched_keywords": [
+        "GPT"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-01T23:48:43.188843+09:00"
+    },
+    {
+      "tweet_id": "2028120071051096242",
+      "author_username": "niakjaw",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 3.0,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude",
+        "GPT"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-01T23:48:43.201605+09:00"
+    },
+    {
+      "tweet_id": "2028120068161196134",
+      "author_username": "TrustProcessDev",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-01T23:48:43.214442+09:00"
+    },
+    {
+      "tweet_id": "2028120047747563622",
+      "author_username": "Unicornity_ede",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 3.0,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude",
+        "GPT"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-01T23:48:43.270867+09:00"
+    },
+    {
+      "tweet_id": "2028119998657434032",
+      "author_username": "raduUrsu",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-01T23:48:43.284985+09:00"
+    },
+    {
+      "tweet_id": "2028120196414648485",
+      "author_username": "aura_autoai",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-01T23:48:43.301130+09:00"
+    },
+    {
+      "tweet_id": "2028120192744894823",
+      "author_username": "linnntex",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 3.2,
+      "matched_topics": [
+        "coding AI"
+      ],
+      "matched_keywords": [
+        "coding"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-01T23:48:43.370121+09:00"
+    },
+    {
+      "tweet_id": "2028120128525939032",
+      "author_username": "evelcalm",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-01T23:48:43.385619+09:00"
+    },
+    {
+      "tweet_id": "2028119909079658821",
+      "author_username": "crypto_vazima",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.0,
+      "matched_topics": [
+        "coding AI"
+      ],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-01T23:48:43.401907+09:00"
+    },
+    {
+      "tweet_id": "2028119720172401099",
+      "author_username": "metadavideth",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.0,
+      "matched_topics": [
+        "product launches"
+      ],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-01T23:48:43.486277+09:00"
+    },
+    {
+      "tweet_id": "2028119637242659184",
+      "author_username": "n4v1g8",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-01T23:48:43.502141+09:00"
+    },
+    {
+      "tweet_id": "2028119510541123790",
+      "author_username": "ninjasnakes",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-01T23:48:43.517568+09:00"
+    },
+    {
+      "tweet_id": "2028119345126089102",
+      "author_username": "ABC30",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.0,
+      "matched_topics": [
+        "product launches"
+      ],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-01T23:48:43.583270+09:00"
+    },
+    {
+      "tweet_id": "2028119328785043840",
+      "author_username": "openclawradar",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 4.0,
+      "matched_topics": [
+        "AI agents"
+      ],
+      "matched_keywords": [
+        "AI agent"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-01T23:48:43.599405+09:00"
+    },
+    {
+      "tweet_id": "2028119202867855840",
+      "author_username": "Klauswerne42232",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.0,
+      "matched_topics": [
+        "coding AI"
+      ],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-01T23:48:43.615156+09:00"
+    },
+    {
+      "tweet_id": "2028119148992381278",
+      "author_username": "officially__adi",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-01T23:48:43.686294+09:00"
+    },
+    {
+      "tweet_id": "2028119114909454384",
+      "author_username": "LaurieCoopf",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-01T23:48:43.878189+09:00"
+    },
+    {
+      "tweet_id": "2028120258025005119",
+      "author_username": "BlackBulls00",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 4.0,
+      "matched_topics": [
+        "AI agents"
+      ],
+      "matched_keywords": [
+        "AI agent"
+      ],
+      "likes": 1,
+      "decided_at": "2026-03-01T23:50:20.404329+09:00"
+    },
+    {
+      "tweet_id": "2028120549289767372",
+      "author_username": "DaSilva55026",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 4.0,
+      "matched_topics": [
+        "AI agents"
+      ],
+      "matched_keywords": [
+        "AI agent"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-01T23:50:20.421329+09:00"
+    },
+    {
+      "tweet_id": "2028120467568263652",
+      "author_username": "lennysan",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-01T23:50:20.472004+09:00"
+    },
+    {
+      "tweet_id": "2028120463994450227",
+      "author_username": "FlorianKluge",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-01T23:50:20.488989+09:00"
+    },
+    {
+      "tweet_id": "2028120439700988166",
+      "author_username": "herr_dahl",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 3.5,
+      "matched_topics": [
+        "coding AI"
+      ],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-01T23:50:20.505758+09:00"
+    },
+    {
+      "tweet_id": "2028120418524209268",
+      "author_username": "newsclearai",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-01T23:50:20.577234+09:00"
+    },
+    {
+      "tweet_id": "2028120401503834453",
+      "author_username": "Adam_9951",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 4.0,
+      "matched_topics": [
+        "AI agents"
+      ],
+      "matched_keywords": [
+        "AI agent"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-01T23:50:20.597584+09:00"
+    },
+    {
+      "tweet_id": "2028120397158257130",
+      "author_username": "insight7878",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 4.0,
+      "matched_topics": [
+        "AI agents"
+      ],
+      "matched_keywords": [
+        "AI agent"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-01T23:50:20.614624+09:00"
+    },
+    {
+      "tweet_id": "2028120395245576219",
+      "author_username": "timpastoor",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-01T23:50:20.684497+09:00"
+    },
+    {
+      "tweet_id": "2028120368565907593",
+      "author_username": "sergeonsamui",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 4.0,
+      "matched_topics": [
+        "product launches",
+        "research papers"
+      ],
+      "matched_keywords": [
+        "Claude",
+        "GPT"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-01T23:50:20.703515+09:00"
+    },
+    {
+      "tweet_id": "2028120315218297275",
+      "author_username": "ioanaV_",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-01T23:50:20.777799+09:00"
+    },
+    {
+      "tweet_id": "2028120533985034276",
+      "author_username": "Sourceontech456",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-01T23:50:20.796452+09:00"
+    },
+    {
+      "tweet_id": "2028248519153488299",
+      "author_username": "motivational676",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 1,
+      "decided_at": "2026-03-02T08:20:13.671325+09:00"
+    },
+    {
+      "tweet_id": "2028248846212473278",
+      "author_username": "RahulGoyalco",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 3.5,
+      "matched_topics": [
+        "AI agents",
+        "product launches",
+        "crypto"
+      ],
+      "matched_keywords": [
+        "AI agent"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-02T08:20:13.691978+09:00"
+    },
+    {
+      "tweet_id": "2028248843255447999",
+      "author_username": "weltzart",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [
+        "AI regulation",
+        "crypto"
+      ],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-02T08:20:13.764610+09:00"
+    },
+    {
+      "tweet_id": "2028248793829794100",
+      "author_username": "Daviowhite",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-02T08:20:13.785989+09:00"
+    },
+    {
+      "tweet_id": "2028248724254634367",
+      "author_username": "musky434456",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-02T08:20:13.807197+09:00"
+    },
+    {
+      "tweet_id": "2028248710698639822",
+      "author_username": "trendy_tech_",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-02T08:20:13.882271+09:00"
+    },
+    {
+      "tweet_id": "2028248694966112709",
+      "author_username": "attunewise",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.0,
+      "matched_topics": [
+        "AI agents",
+        "crypto"
+      ],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-02T08:20:13.903584+09:00"
+    },
+    {
+      "tweet_id": "2028248693259075715",
+      "author_username": "JamesTimmins",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-02T08:20:13.975980+09:00"
+    },
+    {
+      "tweet_id": "2028248688326332423",
+      "author_username": "DOMOCAPITAL",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-02T08:20:13.996886+09:00"
+    },
+    {
+      "tweet_id": "2028248685629349902",
+      "author_username": "ExpatCajun",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-02T08:20:14.072552+09:00"
+    },
+    {
+      "tweet_id": "2028248592121729231",
+      "author_username": "its_brill_",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 4.0,
+      "matched_topics": [
+        "AI agents"
+      ],
+      "matched_keywords": [
+        "AI agent",
+        "automation"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-02T08:20:14.094532+09:00"
+    },
+    {
+      "tweet_id": "2028248578179715223",
+      "author_username": "tradingvaporr",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 3.5,
+      "matched_topics": [
+        "product launches"
+      ],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-02T08:20:14.182202+09:00"
+    },
+    {
+      "tweet_id": "2028248551562641666",
+      "author_username": "jlowin",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-02T08:20:14.204748+09:00"
+    },
+    {
+      "tweet_id": "2028248541387276714",
+      "author_username": "larrybuildsai",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 4.0,
+      "matched_topics": [
+        "AI agents"
+      ],
+      "matched_keywords": [
+        "AI agent",
+        "automation"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-02T08:20:14.270390+09:00"
+    },
+    {
+      "tweet_id": "2028248920225112479",
+      "author_username": "orfonline",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-02T08:20:14.294595+09:00"
+    },
+    {
+      "tweet_id": "2028248909680967867",
+      "author_username": "sean_from_earth",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 3.2,
+      "matched_topics": [
+        "coding AI"
+      ],
+      "matched_keywords": [
+        "coding"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-02T08:20:14.370509+09:00"
+    },
+    {
+      "tweet_id": "2028248770337456213",
+      "author_username": "EcorEr26896",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-02T08:20:14.395528+09:00"
+    },
+    {
+      "tweet_id": "2028248662501921118",
+      "author_username": "EcoexR51669",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-02T08:20:14.484720+09:00"
+    },
+    {
+      "tweet_id": "2028248578129277298",
+      "author_username": "ed_bio84625",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-02T08:20:14.506775+09:00"
+    },
+    {
+      "tweet_id": "2028248529752178956",
+      "author_username": "EcXplorre72423",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-02T08:20:14.569981+09:00"
+    },
+    {
+      "tweet_id": "2028248469152895009",
+      "author_username": "EctoV85550",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-02T08:20:14.592542+09:00"
+    },
+    {
+      "tweet_id": "2028248288302977429",
+      "author_username": "ecow_r63587",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-02T08:20:14.672119+09:00"
+    },
+    {
+      "tweet_id": "2028248231906349110",
+      "author_username": "OneGizm0",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-02T08:20:14.696945+09:00"
+    },
+    {
+      "tweet_id": "2028248083507585416",
+      "author_username": "ecoh_s79502",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.0,
+      "matched_topics": [
+        "coding AI"
+      ],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-02T08:20:14.776388+09:00"
+    },
+    {
+      "tweet_id": "2028248078713557256",
+      "author_username": "ceryElijah",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-02T08:20:14.806148+09:00"
+    },
+    {
+      "tweet_id": "2028248076897665407",
+      "author_username": "k_dot_node",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 4.2,
+      "matched_topics": [
+        "AI agents",
+        "coding AI"
+      ],
+      "matched_keywords": [
+        "coding"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-02T08:20:14.891483+09:00"
+    },
+    {
+      "tweet_id": "2028247952217489728",
+      "author_username": "ECybe63080",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-02T08:20:14.918264+09:00"
+    },
+    {
+      "tweet_id": "2028247746990190850",
+      "author_username": "CodeColorist",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-02T08:20:14.984792+09:00"
+    },
+    {
+      "tweet_id": "2028334224953249979",
+      "author_username": "lijanashufixn",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.0,
+      "matched_topics": [],
+      "matched_keywords": [
+        "GPT"
+      ],
+      "likes": 2,
+      "decided_at": "2026-03-02T14:00:08.458441+09:00"
+    },
+    {
+      "tweet_id": "2028333342442270928",
+      "author_username": "aakashgupta",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.0,
+      "matched_topics": [
+        "coding AI",
+        "research papers"
+      ],
+      "matched_keywords": [],
+      "likes": 2,
+      "decided_at": "2026-03-02T14:00:08.494154+09:00"
+    },
+    {
+      "tweet_id": "2028334456743026962",
+      "author_username": "avdeshchopra",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 4.0,
+      "matched_topics": [
+        "AI agents"
+      ],
+      "matched_keywords": [
+        "AI agent",
+        "autonomous"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-02T14:00:08.770594+09:00"
+    },
+    {
+      "tweet_id": "2028334430319006176",
+      "author_username": "mirror_web3",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 4.0,
+      "matched_topics": [
+        "AI agents"
+      ],
+      "matched_keywords": [
+        "AI agent"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-02T14:00:08.970481+09:00"
+    },
+    {
+      "tweet_id": "2028334409284550862",
+      "author_username": "HeyZoyaKhan",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-02T14:00:09.000644+09:00"
+    },
+    {
+      "tweet_id": "2028334354372694206",
+      "author_username": "AiAdWizard",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 4.0,
+      "matched_topics": [
+        "coding AI"
+      ],
+      "matched_keywords": [
+        "Claude",
+        "GPT",
+        "automation"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-02T14:00:09.172701+09:00"
+    },
+    {
+      "tweet_id": "2028334308973568008",
+      "author_username": "Arunastrology",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-02T14:00:09.369521+09:00"
+    },
+    {
+      "tweet_id": "2028334305307713658",
+      "author_username": "brahimi_ra32573",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 4.0,
+      "matched_topics": [
+        "coding AI"
+      ],
+      "matched_keywords": [
+        "Claude",
+        "GPT",
+        "coding"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-02T14:00:09.483275+09:00"
+    },
+    {
+      "tweet_id": "2028334303763963985",
+      "author_username": "colecapt",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-02T14:00:09.678313+09:00"
+    },
+    {
+      "tweet_id": "2028334302271070680",
+      "author_username": "itsjasonai",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-02T14:00:09.788488+09:00"
+    },
+    {
+      "tweet_id": "2028334175355285534",
+      "author_username": "vicsyoutube",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-02T14:00:09.966742+09:00"
+    },
+    {
+      "tweet_id": "2028334172830318810",
+      "author_username": "ai_magictips",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-02T14:00:10.073318+09:00"
+    },
+    {
+      "tweet_id": "2028334161807986951",
+      "author_username": "fiLo16109889",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-02T14:00:10.268406+09:00"
+    },
+    {
+      "tweet_id": "2028334155877044366",
+      "author_username": "SyrenHill",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-02T14:00:10.298388+09:00"
+    },
+    {
+      "tweet_id": "2028334155835076752",
+      "author_username": "axeldesigns",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 4.0,
+      "matched_topics": [
+        "coding AI"
+      ],
+      "matched_keywords": [
+        "Claude",
+        "coding"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-02T14:00:10.391053+09:00"
+    },
+    {
+      "tweet_id": "2028334366456213794",
+      "author_username": "starseed612",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-02T14:00:10.475753+09:00"
+    },
+    {
+      "tweet_id": "2028334287859134648",
+      "author_username": "gbajumokm",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-02T14:00:10.507943+09:00"
+    },
+    {
+      "tweet_id": "2028334226567815549",
+      "author_username": "OgetoWilli28408",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-02T14:00:10.595559+09:00"
+    },
+    {
+      "tweet_id": "2028334206053392453",
+      "author_username": "vmchisutia",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-02T14:00:10.692649+09:00"
+    },
+    {
+      "tweet_id": "2028334199309058519",
+      "author_username": "caballeromauri2",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-02T14:00:10.798710+09:00"
+    },
+    {
+      "tweet_id": "2028334109580505476",
+      "author_username": "satyadileep",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 3.2,
+      "matched_topics": [
+        "coding AI"
+      ],
+      "matched_keywords": [
+        "coding"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-02T14:00:10.891275+09:00"
+    },
+    {
+      "tweet_id": "2028334079070867555",
+      "author_username": "RodMillerAI",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 3.2,
+      "matched_topics": [
+        "coding AI"
+      ],
+      "matched_keywords": [
+        "coding"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-02T14:00:10.978283+09:00"
+    },
+    {
+      "tweet_id": "2028333986322239695",
+      "author_username": "JoseGarcia69331",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-02T14:00:11.010721+09:00"
+    },
+    {
+      "tweet_id": "2028333768142909793",
+      "author_username": "algorithmchurch",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 5.0,
+      "matched_topics": [
+        "AI agents",
+        "coding AI"
+      ],
+      "matched_keywords": [
+        "Claude",
+        "coding"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-02T14:00:11.109760+09:00"
+    },
+    {
+      "tweet_id": "2028333711415185453",
+      "author_username": "ksankar77",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 4.5,
+      "matched_topics": [
+        "AI agents",
+        "coding AI"
+      ],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-02T14:00:11.185688+09:00"
+    },
+    {
+      "tweet_id": "2028333622122647779",
+      "author_username": "AnalyticsVidhya",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-02T14:00:11.271624+09:00"
+    },
+    {
+      "tweet_id": "2028333362746888309",
+      "author_username": "coderaw_",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 3.2,
+      "matched_topics": [
+        "coding AI",
+        "tech industry"
+      ],
+      "matched_keywords": [
+        "coding"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-02T14:00:11.304513+09:00"
+    },
+    {
+      "tweet_id": "2028437199117774858",
+      "author_username": "AurcoTech07",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 4.0,
+      "matched_topics": [
+        "coding AI"
+      ],
+      "matched_keywords": [
+        "Claude",
+        "GPT",
+        "automation"
+      ],
+      "likes": 1,
+      "decided_at": "2026-03-02T20:50:12.803208+09:00"
+    },
+    {
+      "tweet_id": "2028437533193855255",
+      "author_username": "HENb369",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 1,
+      "decided_at": "2026-03-02T20:50:12.891674+09:00"
+    },
+    {
+      "tweet_id": "2028436695071543755",
+      "author_username": "AakashT82757",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [
+        "crypto"
+      ],
+      "matched_keywords": [
+        "automation"
+      ],
+      "likes": 1,
+      "decided_at": "2026-03-02T20:50:12.976305+09:00"
+    },
+    {
+      "tweet_id": "2028437631076319733",
+      "author_username": "NOOBNODE88",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 1,
+      "decided_at": "2026-03-02T20:50:13.014987+09:00"
+    },
+    {
+      "tweet_id": "2028436518608785582",
+      "author_username": "nansen_ai",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 1,
+      "decided_at": "2026-03-02T20:50:13.100733+09:00"
+    },
+    {
+      "tweet_id": "2028437667386671145",
+      "author_username": "devgunnu7",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-02T20:50:13.186065+09:00"
+    },
+    {
+      "tweet_id": "2028437665977167873",
+      "author_username": "zkespresso",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-02T20:50:13.278142+09:00"
+    },
+    {
+      "tweet_id": "2028437665079763011",
+      "author_username": "actgrants",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 3.5,
+      "matched_topics": [
+        "product launches"
+      ],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-02T20:50:13.310680+09:00"
+    },
+    {
+      "tweet_id": "2028437660839162079",
+      "author_username": "Paul04Trader",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-02T20:50:13.396907+09:00"
+    },
+    {
+      "tweet_id": "2028437624927441233",
+      "author_username": "phillipmwaniki",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-02T20:50:13.487081+09:00"
+    },
+    {
+      "tweet_id": "2028437623170290142",
+      "author_username": "Rajsaluja_",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-02T20:50:13.576286+09:00"
+    },
+    {
+      "tweet_id": "2028437610939752747",
+      "author_username": "gem4gemm",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-02T20:50:13.609905+09:00"
+    },
+    {
+      "tweet_id": "2028437606023991483",
+      "author_username": "KorachDavid",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-02T20:50:13.700295+09:00"
+    },
+    {
+      "tweet_id": "2028437595907375154",
+      "author_username": "riyandhiman14",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-02T20:50:13.788147+09:00"
+    },
+    {
+      "tweet_id": "2028437593931850039",
+      "author_username": "veryNeel",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-02T20:50:13.877112+09:00"
+    },
+    {
+      "tweet_id": "2028437564814967038",
+      "author_username": "wafintel",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 3.5,
+      "matched_topics": [
+        "coding AI"
+      ],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-02T20:50:13.969524+09:00"
+    },
+    {
+      "tweet_id": "2028437545642803433",
+      "author_username": "allaleighn",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.0,
+      "matched_topics": [],
+      "matched_keywords": [
+        "GPT"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-02T20:50:14.010532+09:00"
+    },
+    {
+      "tweet_id": "2028437540831957316",
+      "author_username": "therexycodes",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 3.5,
+      "matched_topics": [
+        "coding AI"
+      ],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-02T20:50:14.095380+09:00"
+    },
+    {
+      "tweet_id": "2028437579734159466",
+      "author_username": "EricCoffeyms",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-02T20:50:14.182758+09:00"
+    },
+    {
+      "tweet_id": "2028437565984944554",
+      "author_username": "IsabellePn45809",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-02T20:50:14.272020+09:00"
+    },
+    {
+      "tweet_id": "2028437266494881795",
+      "author_username": "MatthewArm73249",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-02T20:50:14.311113+09:00"
+    },
+    {
+      "tweet_id": "2028437243145097597",
+      "author_username": "ilex_ulmus",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-02T20:50:14.405639+09:00"
+    },
+    {
+      "tweet_id": "2028437211918520334",
+      "author_username": "JulienGarct",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-02T20:50:14.498623+09:00"
+    },
+    {
+      "tweet_id": "2028437129806700561",
+      "author_username": "LiselotteSdw",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-02T20:50:14.593960+09:00"
+    },
+    {
+      "tweet_id": "2028436990446690523",
+      "author_username": "carre_la40286",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-02T20:50:14.682556+09:00"
+    },
+    {
+      "tweet_id": "2028436877737349396",
+      "author_username": "DitmarKnap",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-02T20:50:14.767280+09:00"
+    },
+    {
+      "tweet_id": "2028436735948935624",
+      "author_username": "MianAwais8",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [
+        "AI regulation"
+      ],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-02T20:50:14.814618+09:00"
+    },
+    {
+      "tweet_id": "2028436715291996346",
+      "author_username": "sodek19053",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-02T20:50:14.907064+09:00"
+    },
+    {
+      "tweet_id": "2028436503253123413",
+      "author_username": "BeckerJose74359",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.0,
+      "matched_topics": [],
+      "matched_keywords": [
+        "GPT"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-02T20:50:14.996409+09:00"
+    },
+    {
+      "tweet_id": "2028436499545326019",
+      "author_username": "MichaelAluya3",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [
+        "tech industry"
+      ],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-02T20:50:15.087783+09:00"
+    },
+    {
+      "tweet_id": "2028611036048183383",
+      "author_username": "rudemeanguy",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 1,
+      "decided_at": "2026-03-03T08:20:13.205172+09:00"
+    },
+    {
+      "tweet_id": "2028610931513565383",
+      "author_username": "BevoBexley",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 1,
+      "decided_at": "2026-03-03T08:20:13.294661+09:00"
+    },
+    {
+      "tweet_id": "2028610658548518915",
+      "author_username": "nocoffeenobrain",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 1,
+      "decided_at": "2026-03-03T08:20:13.388586+09:00"
+    },
+    {
+      "tweet_id": "2028609861169095056",
+      "author_username": "amareswer",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 0.0,
+      "matched_topics": [
+        "crypto"
+      ],
+      "matched_keywords": [],
+      "likes": 1,
+      "decided_at": "2026-03-03T08:20:13.477346+09:00"
+    },
+    {
+      "tweet_id": "2028611248078594152",
+      "author_username": "southernsiren__",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-03T08:20:13.571262+09:00"
+    },
+    {
+      "tweet_id": "2028611237211242618",
+      "author_username": "claw3432",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 4.0,
+      "matched_topics": [
+        "AI agents"
+      ],
+      "matched_keywords": [
+        "AI agent"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-03T08:20:13.612545+09:00"
+    },
+    {
+      "tweet_id": "2028611229560807443",
+      "author_username": "ohhmyysyd",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 3.0,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude",
+        "GPT"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-03T08:20:13.703374+09:00"
+    },
+    {
+      "tweet_id": "2028611199919632813",
+      "author_username": "LiceManny",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [
+        "AI agents",
+        "crypto"
+      ],
+      "matched_keywords": [
+        "AI agent",
+        "GPT"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-03T08:20:13.799334+09:00"
+    },
+    {
+      "tweet_id": "2028611141354877331",
+      "author_username": "kitkatysaki",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-03T08:20:13.893992+09:00"
+    },
+    {
+      "tweet_id": "2028611138271977759",
+      "author_username": "latentsauce",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-03T08:20:13.986794+09:00"
+    },
+    {
+      "tweet_id": "2028611123386204563",
+      "author_username": "trendy_tech_",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 3.0,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude",
+        "GPT"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-03T08:20:14.086932+09:00"
+    },
+    {
+      "tweet_id": "2028611065744089351",
+      "author_username": "thebuildrweekly",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 4.0,
+      "matched_topics": [
+        "AI agents"
+      ],
+      "matched_keywords": [
+        "AI agent",
+        "Claude",
+        "GPT",
+        "automation"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-03T08:20:14.178535+09:00"
+    },
+    {
+      "tweet_id": "2028611057527263311",
+      "author_username": "bill__schroeder",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-03T08:20:14.273934+09:00"
+    },
+    {
+      "tweet_id": "2028611029848977672",
+      "author_username": "EpicPlain",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-03T08:20:14.371504+09:00"
+    },
+    {
+      "tweet_id": "2028611015227699671",
+      "author_username": "Pope_mk14",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-03T08:20:14.411974+09:00"
+    },
+    {
+      "tweet_id": "2028611002238173299",
+      "author_username": "Trav_Sol",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [
+        "crypto"
+      ],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-03T08:20:14.501751+09:00"
+    },
+    {
+      "tweet_id": "2028610995116294582",
+      "author_username": "wizard_carly",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 4.0,
+      "matched_topics": [
+        "AI agents"
+      ],
+      "matched_keywords": [
+        "AI agent"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-03T08:20:14.598451+09:00"
+    },
+    {
+      "tweet_id": "2028610992611995802",
+      "author_username": "0xbrainKID",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 4.0,
+      "matched_topics": [
+        "AI agents"
+      ],
+      "matched_keywords": [
+        "AI agent"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-03T08:20:14.695208+09:00"
+    },
+    {
+      "tweet_id": "2028610973284905400",
+      "author_username": "sergeonsamui",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 3.0,
+      "matched_topics": [
+        "research papers"
+      ],
+      "matched_keywords": [
+        "Claude",
+        "benchmark"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-03T08:20:14.793847+09:00"
+    },
+    {
+      "tweet_id": "2028611300805562499",
+      "author_username": "Ahmed_abubakarr",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 3.0,
+      "matched_topics": [
+        "AI agents",
+        "coding AI"
+      ],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-03T08:20:14.888950+09:00"
+    },
+    {
+      "tweet_id": "2028611172765696345",
+      "author_username": "knowclarified",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-03T08:20:14.983431+09:00"
+    },
+    {
+      "tweet_id": "2028611001458020816",
+      "author_username": "db_polybot",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-03T08:20:15.078858+09:00"
+    },
+    {
+      "tweet_id": "2028610918989611446",
+      "author_username": "BillionBisonHK1",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-03T08:20:15.179659+09:00"
+    },
+    {
+      "tweet_id": "2028610752639336840",
+      "author_username": "DatorQue58013",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-03T08:20:15.275935+09:00"
+    },
+    {
+      "tweet_id": "2028610679864009116",
+      "author_username": "HuskyAIRadar",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-03T08:20:15.374699+09:00"
+    },
+    {
+      "tweet_id": "2028610676504310048",
+      "author_username": "JerodPowell",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-03T08:20:15.470995+09:00"
+    },
+    {
+      "tweet_id": "2028610618673258783",
+      "author_username": "Kevinkrone",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 4.0,
+      "matched_topics": [
+        "coding AI"
+      ],
+      "matched_keywords": [
+        "GPT",
+        "coding",
+        "open source"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-03T08:20:15.571206+09:00"
+    },
+    {
+      "tweet_id": "2028610108343664752",
+      "author_username": "DrexelCCI",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-03T08:20:15.681657+09:00"
+    },
+    {
+      "tweet_id": "2028609914835189913",
+      "author_username": "_TrueVoodoo",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-03T08:20:15.783318+09:00"
+    },
+    {
+      "tweet_id": "2028696270051967148",
+      "author_username": "0xTJustin",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 3,
+      "decided_at": "2026-03-03T14:00:15.176429+09:00"
+    },
+    {
+      "tweet_id": "2028696824366723277",
+      "author_username": "goblinodds",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 1,
+      "decided_at": "2026-03-03T14:00:15.280180+09:00"
+    },
+    {
+      "tweet_id": "2028696813130387600",
+      "author_username": "dar_s_han",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 1,
+      "decided_at": "2026-03-03T14:00:15.375023+09:00"
+    },
+    {
+      "tweet_id": "2028696380337004584",
+      "author_username": "MahatmaaGodse",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 1,
+      "decided_at": "2026-03-03T14:00:15.472176+09:00"
+    },
+    {
+      "tweet_id": "2028696885658050677",
+      "author_username": "RealJayMilligan",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 3.0,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude",
+        "GPT"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-03T14:00:15.585419+09:00"
+    },
+    {
+      "tweet_id": "2028696884848783732",
+      "author_username": "casuality0716",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-03T14:00:15.682316+09:00"
+    },
+    {
+      "tweet_id": "2028696883644998013",
+      "author_username": "LumenCTO",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 4.0,
+      "matched_topics": [
+        "coding AI"
+      ],
+      "matched_keywords": [
+        "Claude",
+        "coding"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-03T14:00:16.367251+09:00"
+    },
+    {
+      "tweet_id": "2028696879567958435",
+      "author_username": "ABase9719",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-03T14:00:16.488189+09:00"
+    },
+    {
+      "tweet_id": "2028696875638112366",
+      "author_username": "Pirat_Nation",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 4.0,
+      "matched_topics": [
+        "product launches"
+      ],
+      "matched_keywords": [
+        "Claude",
+        "GPT"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-03T14:00:16.588061+09:00"
+    },
+    {
+      "tweet_id": "2028696875407163570",
+      "author_username": "JulianGoldieSEO",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.0,
+      "matched_topics": [
+        "product launches"
+      ],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-03T14:00:16.676568+09:00"
+    },
+    {
+      "tweet_id": "2028696873201021375",
+      "author_username": "SEOPros_ZA",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "automation"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-03T14:00:16.785339+09:00"
+    },
+    {
+      "tweet_id": "2028696872466968592",
+      "author_username": "MacrodosingPod",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-03T14:00:16.879894+09:00"
+    },
+    {
+      "tweet_id": "2028696859435524207",
+      "author_username": "zentroza",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [
+        "crypto"
+      ],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-03T14:00:16.982055+09:00"
+    },
+    {
+      "tweet_id": "2028696838208209093",
+      "author_username": "petarc",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-03T14:00:17.082192+09:00"
+    },
+    {
+      "tweet_id": "2028696830654189576",
+      "author_username": "mogutoncampbell",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-03T14:00:17.181753+09:00"
+    },
+    {
+      "tweet_id": "2028696742162731329",
+      "author_username": "SalmaHyuck6900",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-03T14:00:17.281762+09:00"
+    },
+    {
+      "tweet_id": "2028696740061495464",
+      "author_username": "cryptojidan",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 4.0,
+      "matched_topics": [
+        "AI agents"
+      ],
+      "matched_keywords": [
+        "AI agent"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-03T14:00:17.399181+09:00"
+    },
+    {
+      "tweet_id": "2028696879689773377",
+      "author_username": "niranja46858745",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-03T14:00:17.484307+09:00"
+    },
+    {
+      "tweet_id": "2028696793865683255",
+      "author_username": "vmchisutia",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-03T14:00:17.595820+09:00"
+    },
+    {
+      "tweet_id": "2028696738341761092",
+      "author_username": "DrAkashNag87201",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-03T14:00:17.707378+09:00"
+    },
+    {
+      "tweet_id": "2028696671161643500",
+      "author_username": "_giis_dot_ai_",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-03T14:00:17.790652+09:00"
+    },
+    {
+      "tweet_id": "2028696583391653982",
+      "author_username": "Rokster2025",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [
+        "AI regulation"
+      ],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-03T14:00:17.907968+09:00"
+    },
+    {
+      "tweet_id": "2028696433050943834",
+      "author_username": "Chowdhury1434",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 0.0,
+      "matched_topics": [
+        "crypto"
+      ],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-03T14:00:17.996663+09:00"
+    },
+    {
+      "tweet_id": "2028696161910206694",
+      "author_username": "thedadfounder",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-03T14:00:18.103215+09:00"
+    },
+    {
+      "tweet_id": "2028695994192564587",
+      "author_username": "hayden_builds",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-03T14:00:18.206938+09:00"
+    },
+    {
+      "tweet_id": "2028695835849191625",
+      "author_username": "dhruvmarathe18",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 3.2,
+      "matched_topics": [
+        "coding AI"
+      ],
+      "matched_keywords": [
+        "coding"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-03T14:00:18.309439+09:00"
+    },
+    {
+      "tweet_id": "2028695684166078546",
+      "author_username": "UnlistedJobs",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.0,
+      "matched_topics": [
+        "coding AI"
+      ],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-03T14:00:18.465199+09:00"
+    },
+    {
+      "tweet_id": "2028695644916060493",
+      "author_username": "Vishnu1334720",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.0,
+      "matched_topics": [
+        "AI agents"
+      ],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-03T14:00:18.570598+09:00"
+    },
+    {
+      "tweet_id": "2028695631632777599",
+      "author_username": "praanzz",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 3.0,
+      "matched_topics": [
+        "AI agents",
+        "coding AI"
+      ],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-03T14:00:18.680148+09:00"
+    },
+    {
+      "tweet_id": "2028800021089452259",
+      "author_username": "noisyb0y1",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 1,
+      "decided_at": "2026-03-03T20:50:12.268784+09:00"
+    },
+    {
+      "tweet_id": "2028800028249108659",
+      "author_username": "BODILUX36",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-03T20:50:12.373437+09:00"
+    },
+    {
+      "tweet_id": "2028800023232737777",
+      "author_username": "Brandon20880908",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-03T20:50:12.477384+09:00"
+    },
+    {
+      "tweet_id": "2028800009593086237",
+      "author_username": "MilanAcimovic7",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "automation"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-03T20:50:12.582518+09:00"
+    },
+    {
+      "tweet_id": "2028799991444066775",
+      "author_username": "JSalmisaari",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [
+        "crypto"
+      ],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-03T20:50:12.687984+09:00"
+    },
+    {
+      "tweet_id": "2028799946376507786",
+      "author_username": "Crypto_Apha",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-03T20:50:12.793087+09:00"
+    },
+    {
+      "tweet_id": "2028799912692113659",
+      "author_username": "baiaphilia",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-03T20:50:12.899506+09:00"
+    },
+    {
+      "tweet_id": "2028799909349269836",
+      "author_username": "WillHnnng",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-03T20:50:13.021537+09:00"
+    },
+    {
+      "tweet_id": "2028799885676515754",
+      "author_username": "buffaloherde",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 3.5,
+      "matched_topics": [
+        "AI agents"
+      ],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-03T20:50:13.165502+09:00"
+    },
+    {
+      "tweet_id": "2028799865464275241",
+      "author_username": "0xWhizMiz",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 5.0,
+      "matched_topics": [
+        "AI agents",
+        "product launches"
+      ],
+      "matched_keywords": [
+        "AI agent",
+        "autonomous"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-03T20:50:13.272799+09:00"
+    },
+    {
+      "tweet_id": "2028799858946298070",
+      "author_username": "monicamalikpmf",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.0,
+      "matched_topics": [],
+      "matched_keywords": [
+        "GPT"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-03T20:50:13.387861+09:00"
+    },
+    {
+      "tweet_id": "2028799815103168975",
+      "author_username": "pocketrhyme",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-03T20:50:13.487850+09:00"
+    },
+    {
+      "tweet_id": "2028799806005543318",
+      "author_username": "IndexOpposable",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-03T20:50:13.593895+09:00"
+    },
+    {
+      "tweet_id": "2028799804223238235",
+      "author_username": "AnandButani",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 3.0,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude",
+        "GPT"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-03T20:50:13.702301+09:00"
+    },
+    {
+      "tweet_id": "2028799961916158458",
+      "author_username": "wael_microbio",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-03T20:50:13.864643+09:00"
+    },
+    {
+      "tweet_id": "2028799848804389050",
+      "author_username": "AIKnowledg001",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-03T20:50:13.973376+09:00"
+    },
+    {
+      "tweet_id": "2028799807473467634",
+      "author_username": "ant0ni0_r0mer0",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-03T20:50:14.080854+09:00"
+    },
+    {
+      "tweet_id": "2028799619535429874",
+      "author_username": "medianama",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [
+        "AI regulation"
+      ],
+      "matched_keywords": [
+        "GPT",
+        "safety"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-03T20:50:14.188193+09:00"
+    },
+    {
+      "tweet_id": "2028799412307132875",
+      "author_username": "TheYotg",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 4.0,
+      "matched_topics": [
+        "coding AI"
+      ],
+      "matched_keywords": [
+        "Claude",
+        "GPT",
+        "coding"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-03T20:50:14.295873+09:00"
+    },
+    {
+      "tweet_id": "2028799411078266970",
+      "author_username": "GavrielTech",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-03T20:50:14.409131+09:00"
+    },
+    {
+      "tweet_id": "2028799406338662536",
+      "author_username": "mselmanonal",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 3.5,
+      "matched_topics": [
+        "product launches"
+      ],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-03T20:50:14.566092+09:00"
+    },
+    {
+      "tweet_id": "2028799379759595774",
+      "author_username": "ShannonPanner99",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-03T20:50:14.677041+09:00"
+    },
+    {
+      "tweet_id": "2028799300919058866",
+      "author_username": "ChristosMelidis",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [
+        "AI regulation"
+      ],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-03T20:50:14.782812+09:00"
+    },
+    {
+      "tweet_id": "2028799019372122183",
+      "author_username": "falkenprotocol",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-03T20:50:14.898076+09:00"
+    },
+    {
+      "tweet_id": "2028798907866632339",
+      "author_username": "grankin",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-03T20:50:15.006473+09:00"
+    },
+    {
+      "tweet_id": "2028798697568448582",
+      "author_username": "WhispersAfrica5",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.0,
+      "matched_topics": [
+        "coding AI"
+      ],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-03T20:50:15.168230+09:00"
+    },
+    {
+      "tweet_id": "2028798675795796336",
+      "author_username": "McFlusion",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-03T20:50:15.280756+09:00"
+    },
+    {
+      "tweet_id": "2028798588696858980",
+      "author_username": "kavinbm",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-03T20:50:15.389434+09:00"
+    },
+    {
+      "tweet_id": "2028973367169290252",
+      "author_username": "financespotnews",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 3.0,
+      "matched_topics": [
+        "product launches"
+      ],
+      "matched_keywords": [
+        "GPT"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-04T08:20:08.576223+09:00"
+    },
+    {
+      "tweet_id": "2028973613764816897",
+      "author_username": "_tenZdhon_",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [
+        "research papers"
+      ],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 2,
+      "decided_at": "2026-03-04T08:20:08.687683+09:00"
+    },
+    {
+      "tweet_id": "2028973222826287543",
+      "author_username": "AJA_Cortes",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 2,
+      "decided_at": "2026-03-04T08:20:08.803668+09:00"
+    },
+    {
+      "tweet_id": "2028973405127500101",
+      "author_username": "colecapt",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 1,
+      "decided_at": "2026-03-04T08:20:08.965511+09:00"
+    },
+    {
+      "tweet_id": "2028972983964807200",
+      "author_username": "DomainInfini",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [
+        "tech industry"
+      ],
+      "matched_keywords": [],
+      "likes": 1,
+      "decided_at": "2026-03-04T08:20:09.081233+09:00"
+    },
+    {
+      "tweet_id": "2028973677186785510",
+      "author_username": "zerokn0wledge_",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-04T08:20:09.190416+09:00"
+    },
+    {
+      "tweet_id": "2028973622824513626",
+      "author_username": "_fearlessmadman",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-04T08:20:09.364009+09:00"
+    },
+    {
+      "tweet_id": "2028973604579234068",
+      "author_username": "epsilver_",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 3.5,
+      "matched_topics": [
+        "coding AI"
+      ],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-04T08:20:09.487786+09:00"
+    },
+    {
+      "tweet_id": "2028973577882534005",
+      "author_username": "lunatically",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.0,
+      "matched_topics": [
+        "product launches"
+      ],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-04T08:20:09.609026+09:00"
+    },
+    {
+      "tweet_id": "2028973506868986102",
+      "author_username": "jetpippo",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 4.5,
+      "matched_topics": [
+        "AI agents",
+        "coding AI"
+      ],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-04T08:20:09.777872+09:00"
+    },
+    {
+      "tweet_id": "2028973469665567087",
+      "author_username": "neurocrook",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [
+        "research papers"
+      ],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-04T08:20:09.892561+09:00"
+    },
+    {
+      "tweet_id": "2028973464636543103",
+      "author_username": "luisgnet",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-04T08:20:10.016390+09:00"
+    },
+    {
+      "tweet_id": "2028973444453241255",
+      "author_username": "AICypherX",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 3.0,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude",
+        "GPT"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-04T08:20:10.183486+09:00"
+    },
+    {
+      "tweet_id": "2028973367928492228",
+      "author_username": "wizard_carly",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.0,
+      "matched_topics": [
+        "tech industry"
+      ],
+      "matched_keywords": [
+        "GPT"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-04T08:20:10.299698+09:00"
+    },
+    {
+      "tweet_id": "2028973341701193926",
+      "author_username": "Fadwa__Ali",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-04T08:20:10.464711+09:00"
+    },
+    {
+      "tweet_id": "2028973662167286227",
+      "author_username": "anallesp",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-04T08:20:10.579091+09:00"
+    },
+    {
+      "tweet_id": "2028973626121494822",
+      "author_username": "ibuildthecloud",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-04T08:20:10.694526+09:00"
+    },
+    {
+      "tweet_id": "2028973559448559685",
+      "author_username": "bpaynews",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 4.2,
+      "matched_topics": [
+        "product launches",
+        "coding AI"
+      ],
+      "matched_keywords": [
+        "coding"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-04T08:20:10.832707+09:00"
+    },
+    {
+      "tweet_id": "2028973364443005241",
+      "author_username": "tmarzagao",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-04T08:20:10.975370+09:00"
+    },
+    {
+      "tweet_id": "2028973222042243233",
+      "author_username": "adkeogh",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-04T08:20:11.097306+09:00"
+    },
+    {
+      "tweet_id": "2028972913051738316",
+      "author_username": "matarreality",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.0,
+      "matched_topics": [
+        "coding AI"
+      ],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-04T08:20:11.211341+09:00"
+    },
+    {
+      "tweet_id": "2028972827743748368",
+      "author_username": "osageev",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-04T08:20:11.376829+09:00"
+    },
+    {
+      "tweet_id": "2028972754700259734",
+      "author_username": "SciencesNetwork",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-04T08:20:11.492502+09:00"
+    },
+    {
+      "tweet_id": "2028972610994794608",
+      "author_username": "bradymoritz",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-04T08:20:11.604456+09:00"
+    },
+    {
+      "tweet_id": "2028972437589664220",
+      "author_username": "vGazza",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.0,
+      "matched_topics": [
+        "AI agents"
+      ],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-04T08:20:11.778092+09:00"
+    },
+    {
+      "tweet_id": "2028972323269951674",
+      "author_username": "Mukshud",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-04T08:20:11.894649+09:00"
+    },
+    {
+      "tweet_id": "2028971975927050719",
+      "author_username": "onlinelisting",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-04T08:20:12.075668+09:00"
+    },
+    {
+      "tweet_id": "2028971759110881322",
+      "author_username": "TPiergiorgio",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-04T08:20:12.193497+09:00"
+    },
+    {
+      "tweet_id": "2029059267811328008",
+      "author_username": "Geminint_family",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.0,
+      "matched_topics": [
+        "product launches"
+      ],
+      "matched_keywords": [],
+      "likes": 1,
+      "decided_at": "2026-03-04T14:00:14.664659+09:00"
+    },
+    {
+      "tweet_id": "2029059160705515792",
+      "author_username": "Balu0X",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.0,
+      "matched_topics": [],
+      "matched_keywords": [
+        "GPT"
+      ],
+      "likes": 1,
+      "decided_at": "2026-03-04T14:00:14.779220+09:00"
+    },
+    {
+      "tweet_id": "2029059270767972658",
+      "author_username": "ABase9719",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-04T14:00:15.070228+09:00"
+    },
+    {
+      "tweet_id": "2029059266720743441",
+      "author_username": "JulianGoldieSEO",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-04T14:00:15.368088+09:00"
+    },
+    {
+      "tweet_id": "2029059261548900800",
+      "author_username": "copywithkush",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-04T14:00:15.663035+09:00"
+    },
+    {
+      "tweet_id": "2029059260777144516",
+      "author_username": "TechsDeco",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 4.0,
+      "matched_topics": [
+        "coding AI"
+      ],
+      "matched_keywords": [
+        "automation",
+        "coding"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-04T14:00:15.878830+09:00"
+    },
+    {
+      "tweet_id": "2029059259544310217",
+      "author_username": "Miraletofdefi",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 3.5,
+      "matched_topics": [
+        "product launches"
+      ],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-04T14:00:16.184960+09:00"
+    },
+    {
+      "tweet_id": "2029059253521039760",
+      "author_username": "n2solutionsio",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-04T14:00:16.469964+09:00"
+    },
+    {
+      "tweet_id": "2029059239730438453",
+      "author_username": "polsia",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 4.0,
+      "matched_topics": [
+        "AI agents"
+      ],
+      "matched_keywords": [
+        "AI agent",
+        "autonomous"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-04T14:00:16.685680+09:00"
+    },
+    {
+      "tweet_id": "2029059174991348033",
+      "author_username": "ndrer",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 3.0,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude",
+        "GPT"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-04T14:00:16.865228+09:00"
+    },
+    {
+      "tweet_id": "2029059108708745396",
+      "author_username": "LancerBase_",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 4.0,
+      "matched_topics": [
+        "AI agents"
+      ],
+      "matched_keywords": [
+        "AI agent",
+        "autonomous"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-04T14:00:16.999512+09:00"
+    },
+    {
+      "tweet_id": "2029059097996476570",
+      "author_username": "GuiveAssadi",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-04T14:00:17.173599+09:00"
+    },
+    {
+      "tweet_id": "2029059080275562599",
+      "author_username": "SMaosaman22817",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-04T14:00:17.390131+09:00"
+    },
+    {
+      "tweet_id": "2029059030996464062",
+      "author_username": "mherrygre2x",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-04T14:00:17.563613+09:00"
+    },
+    {
+      "tweet_id": "2029059269107007886",
+      "author_username": "echojobs__io",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.0,
+      "matched_topics": [
+        "coding AI"
+      ],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-04T14:00:17.691160+09:00"
+    },
+    {
+      "tweet_id": "2029059259732762754",
+      "author_username": "trendai_RSRCH",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-04T14:00:17.877972+09:00"
+    },
+    {
+      "tweet_id": "2029058713600807097",
+      "author_username": "ryan75195",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-04T14:00:17.994936+09:00"
+    },
+    {
+      "tweet_id": "2029058649822511202",
+      "author_username": "Bun_An8888",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-04T14:00:18.167556+09:00"
+    },
+    {
+      "tweet_id": "2029058618184876098",
+      "author_username": "_hey_chethan",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 4.2,
+      "matched_topics": [
+        "AI agents",
+        "coding AI"
+      ],
+      "matched_keywords": [
+        "coding"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-04T14:00:18.286852+09:00"
+    },
+    {
+      "tweet_id": "2029058604159082607",
+      "author_username": "nayanvr",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-04T14:00:18.410319+09:00"
+    },
+    {
+      "tweet_id": "2029058455643021406",
+      "author_username": "v4vix",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.0,
+      "matched_topics": [
+        "coding AI",
+        "research papers"
+      ],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-04T14:00:18.583703+09:00"
+    },
+    {
+      "tweet_id": "2029058429407371521",
+      "author_username": "Memoirs",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-04T14:00:18.704234+09:00"
+    },
+    {
+      "tweet_id": "2029058386134745234",
+      "author_username": "utamu_uni",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.0,
+      "matched_topics": [
+        "product launches",
+        "AI regulation"
+      ],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-04T14:00:18.875518+09:00"
+    },
+    {
+      "tweet_id": "2029058329285447750",
+      "author_username": "grenadelogin",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-04T14:00:18.994132+09:00"
+    },
+    {
+      "tweet_id": "2029058262167859660",
+      "author_username": "SciFi",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-04T14:00:19.169902+09:00"
+    },
+    {
+      "tweet_id": "2029058009196868035",
+      "author_username": "gembotzs",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.0,
+      "matched_topics": [
+        "coding AI"
+      ],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-04T14:00:19.291969+09:00"
+    },
+    {
+      "tweet_id": "2029057961147158922",
+      "author_username": "quantumaidev",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-04T14:00:19.466510+09:00"
+    },
+    {
+      "tweet_id": "2029057660096790780",
+      "author_username": "BacLeodiv",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-04T14:00:19.590071+09:00"
+    },
+    {
+      "tweet_id": "2029057586574565730",
+      "author_username": "EpicPlain",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-04T14:00:19.712134+09:00"
+    },
+    {
+      "tweet_id": "2029162337471742319",
+      "author_username": "ghumare64",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 3.5,
+      "matched_topics": [
+        "AI agents"
+      ],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 1,
+      "decided_at": "2026-03-04T20:50:10.797940+09:00"
+    },
+    {
+      "tweet_id": "2029162155698745484",
+      "author_username": "GigaChadRizzGod",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 4.0,
+      "matched_topics": [
+        "coding AI"
+      ],
+      "matched_keywords": [
+        "Claude",
+        "coding"
+      ],
+      "likes": 1,
+      "decided_at": "2026-03-04T20:50:10.980880+09:00"
+    },
+    {
+      "tweet_id": "2029162197335593155",
+      "author_username": "katatarot1",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 1,
+      "decided_at": "2026-03-04T20:50:11.111595+09:00"
+    },
+    {
+      "tweet_id": "2029162432245956953",
+      "author_username": "llmgirls",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 4.0,
+      "matched_topics": [
+        "coding AI"
+      ],
+      "matched_keywords": [
+        "Claude",
+        "coding"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-04T20:50:11.293852+09:00"
+    },
+    {
+      "tweet_id": "2029162415414202856",
+      "author_username": "dimon_b19",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [
+        "crypto"
+      ],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-04T20:50:11.468833+09:00"
+    },
+    {
+      "tweet_id": "2029162391808950355",
+      "author_username": "thejadasquad",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 4.0,
+      "matched_topics": [
+        "AI agents"
+      ],
+      "matched_keywords": [
+        "AI agent"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-04T20:50:11.590699+09:00"
+    },
+    {
+      "tweet_id": "2029162290574958833",
+      "author_username": "magadc777",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-04T20:50:11.770301+09:00"
+    },
+    {
+      "tweet_id": "2029162269783794072",
+      "author_username": "TeckHacksDaily",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 3.0,
+      "matched_topics": [
+        "product launches"
+      ],
+      "matched_keywords": [
+        "GPT"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-04T20:50:11.894295+09:00"
+    },
+    {
+      "tweet_id": "2029162143073903040",
+      "author_username": "jvbuilds",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-04T20:50:12.073115+09:00"
+    },
+    {
+      "tweet_id": "2029162140284715111",
+      "author_username": "TarotbyTesss",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-04T20:50:12.200499+09:00"
+    },
+    {
+      "tweet_id": "2029162137738686612",
+      "author_username": "GrokForHumanity",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-04T20:50:12.385926+09:00"
+    },
+    {
+      "tweet_id": "2029162137575211456",
+      "author_username": "Duncannbaldwin",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [
+        "AI agents",
+        "crypto"
+      ],
+      "matched_keywords": [
+        "AI agent"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-04T20:50:12.506329+09:00"
+    },
+    {
+      "tweet_id": "2029162110844809667",
+      "author_username": "jarvana_sv",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 4.0,
+      "matched_topics": [
+        "AI agents"
+      ],
+      "matched_keywords": [
+        "AI agent"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-04T20:50:12.688870+09:00"
+    },
+    {
+      "tweet_id": "2029162094705193386",
+      "author_username": "realkieranlewis",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [
+        "crypto"
+      ],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-04T20:50:12.868692+09:00"
+    },
+    {
+      "tweet_id": "2029162308845380039",
+      "author_username": "angsuman",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 3.2,
+      "matched_topics": [
+        "coding AI"
+      ],
+      "matched_keywords": [
+        "coding"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-04T20:50:12.999802+09:00"
+    },
+    {
+      "tweet_id": "2029162255481246115",
+      "author_username": "Okairo_Uzuha",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-04T20:50:13.181824+09:00"
+    },
+    {
+      "tweet_id": "2029162136316833834",
+      "author_username": "MarcelMahep",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-04T20:50:13.315098+09:00"
+    },
+    {
+      "tweet_id": "2029162136207868097",
+      "author_username": "netidee",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-04T20:50:13.492081+09:00"
+    },
+    {
+      "tweet_id": "2029162073020633530",
+      "author_username": "GeertHubel81460",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-04T20:50:13.675087+09:00"
+    },
+    {
+      "tweet_id": "2029161982021038420",
+      "author_username": "prateekmittal_",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 4.2,
+      "matched_topics": [
+        "AI agents",
+        "coding AI"
+      ],
+      "matched_keywords": [
+        "coding"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-04T20:50:13.805290+09:00"
+    },
+    {
+      "tweet_id": "2029161909073944681",
+      "author_username": "nagaraj_arvind",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-04T20:50:13.984322+09:00"
+    },
+    {
+      "tweet_id": "2029161875095609692",
+      "author_username": "GeislerJanav",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-04T20:50:14.166924+09:00"
+    },
+    {
+      "tweet_id": "2029161791008456779",
+      "author_username": "JillVillan57268",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-04T20:50:14.300449+09:00"
+    },
+    {
+      "tweet_id": "2029161757638582542",
+      "author_username": "emarketing88888",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-04T20:50:14.482269+09:00"
+    },
+    {
+      "tweet_id": "2029161722297069696",
+      "author_username": "GrgoireAub",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-04T20:50:14.665530+09:00"
+    },
+    {
+      "tweet_id": "2029161591875485722",
+      "author_username": "pandakunbot",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-04T20:50:14.801036+09:00"
+    },
+    {
+      "tweet_id": "2029161573529600036",
+      "author_username": "dhiran_dev",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-04T20:50:14.984149+09:00"
+    },
+    {
+      "tweet_id": "2029335768552919530",
+      "author_username": "RonPull",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 3.0,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude",
+        "GPT"
+      ],
+      "likes": 5,
+      "decided_at": "2026-03-05T08:20:06.485035+09:00"
+    },
+    {
+      "tweet_id": "2029334476837556312",
+      "author_username": "EgeErdil2",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 1,
+      "decided_at": "2026-03-05T08:20:06.602378+09:00"
+    },
+    {
+      "tweet_id": "2029335967841304671",
+      "author_username": "decodingself",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-05T08:20:06.782577+09:00"
+    },
+    {
+      "tweet_id": "2029335946072924562",
+      "author_username": "girl2017971",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-05T08:20:06.962966+09:00"
+    },
+    {
+      "tweet_id": "2029335925059166669",
+      "author_username": "effiebio",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-05T08:20:07.091209+09:00"
+    },
+    {
+      "tweet_id": "2029335875637989612",
+      "author_username": "KALYXLINUX",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 3.5,
+      "matched_topics": [
+        "coding AI"
+      ],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-05T08:20:07.272088+09:00"
+    },
+    {
+      "tweet_id": "2029335874899411214",
+      "author_username": "TechBriefAI",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 5.0,
+      "matched_topics": [
+        "AI agents",
+        "product launches"
+      ],
+      "matched_keywords": [
+        "AI agent"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-05T08:20:07.399980+09:00"
+    },
+    {
+      "tweet_id": "2029335845266714880",
+      "author_username": "MikelEcheve",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.0,
+      "matched_topics": [
+        "AI regulation"
+      ],
+      "matched_keywords": [
+        "GPT"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-05T08:20:07.581970+09:00"
+    },
+    {
+      "tweet_id": "2029335832197484608",
+      "author_username": "JDSalbego",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 4.0,
+      "matched_topics": [
+        "AI agents"
+      ],
+      "matched_keywords": [
+        "AI agent"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-05T08:20:07.710822+09:00"
+    },
+    {
+      "tweet_id": "2029335831815819378",
+      "author_username": "AForkInLife",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-05T08:20:07.892162+09:00"
+    },
+    {
+      "tweet_id": "2029335824186130931",
+      "author_username": "YourBusinessAI_",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 3.0,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude",
+        "GPT"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-05T08:20:08.075568+09:00"
+    },
+    {
+      "tweet_id": "2029335809464385565",
+      "author_username": "Thewarlordai",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 3.0,
+      "matched_topics": [
+        "coding AI"
+      ],
+      "matched_keywords": [
+        "GPT"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-05T08:20:08.207459+09:00"
+    },
+    {
+      "tweet_id": "2029335803621720145",
+      "author_username": "JohnBalnisVAXD",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-05T08:20:08.388054+09:00"
+    },
+    {
+      "tweet_id": "2029335747174510642",
+      "author_username": "KrunoPeter",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-05T08:20:08.570864+09:00"
+    },
+    {
+      "tweet_id": "2029335746406928547",
+      "author_username": "wastelandweekly",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 3.5,
+      "matched_topics": [
+        "coding AI"
+      ],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-05T08:20:08.704850+09:00"
+    },
+    {
+      "tweet_id": "2029335741226947044",
+      "author_username": "MadeManSMB",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-05T08:20:08.890177+09:00"
+    },
+    {
+      "tweet_id": "2029336027983429660",
+      "author_username": "timharris707",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-05T08:20:09.074813+09:00"
+    },
+    {
+      "tweet_id": "2029335994710016338",
+      "author_username": "dextertwts",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-05T08:20:09.208205+09:00"
+    },
+    {
+      "tweet_id": "2029335786168971456",
+      "author_username": "_eniholla",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.0,
+      "matched_topics": [
+        "coding AI"
+      ],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-05T08:20:09.394116+09:00"
+    },
+    {
+      "tweet_id": "2029335781718798753",
+      "author_username": "ianzepp",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-05T08:20:09.576265+09:00"
+    },
+    {
+      "tweet_id": "2029335764195045598",
+      "author_username": "Grand_Rooster",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-05T08:20:09.709723+09:00"
+    },
+    {
+      "tweet_id": "2029335501379956868",
+      "author_username": "cjfullmoonstar",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.0,
+      "matched_topics": [
+        "AI agents"
+      ],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-05T08:20:09.891867+09:00"
+    },
+    {
+      "tweet_id": "2029335419939181017",
+      "author_username": "ericedarnold",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-05T08:20:10.186695+09:00"
+    },
+    {
+      "tweet_id": "2029335221049713003",
+      "author_username": "AGTPinsights",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-05T08:20:10.370549+09:00"
+    },
+    {
+      "tweet_id": "2029335097912988056",
+      "author_username": "jryoung",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-05T08:20:10.502375+09:00"
+    },
+    {
+      "tweet_id": "2029334803577786482",
+      "author_username": "JaRmaOmAr",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 3.5,
+      "matched_topics": [
+        "AI agents"
+      ],
+      "matched_keywords": [
+        "autonomous"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-05T08:20:10.687280+09:00"
+    },
+    {
+      "tweet_id": "2029334325783871873",
+      "author_username": "FronteggForSaaS",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.0,
+      "matched_topics": [
+        "coding AI",
+        "crypto"
+      ],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-05T08:20:10.873949+09:00"
+    },
+    {
+      "tweet_id": "2029421419566907847",
+      "author_username": "BinorLabs",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 5.0,
+      "matched_topics": [
+        "AI agents",
+        "product launches"
+      ],
+      "matched_keywords": [
+        "AI agent",
+        "autonomous"
+      ],
+      "likes": 1,
+      "decided_at": "2026-03-05T14:00:14.564288+09:00"
+    },
+    {
+      "tweet_id": "2029420908859822583",
+      "author_username": "yordan_gergov",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 3.0,
+      "matched_topics": [
+        "AI agents",
+        "coding AI"
+      ],
+      "matched_keywords": [],
+      "likes": 1,
+      "decided_at": "2026-03-05T14:00:14.882510+09:00"
+    },
+    {
+      "tweet_id": "2029421435735740492",
+      "author_username": "daz3star",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 1,
+      "decided_at": "2026-03-05T14:00:15.365341+09:00"
+    },
+    {
+      "tweet_id": "2029421524076449858",
+      "author_username": "Kirande88727451",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.0,
+      "matched_topics": [],
+      "matched_keywords": [
+        "GPT"
+      ],
+      "likes": 1,
+      "decided_at": "2026-03-05T14:00:15.692912+09:00"
+    },
+    {
+      "tweet_id": "2029421647711887378",
+      "author_username": "fasahmeta_x",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 1,
+      "decided_at": "2026-03-05T14:00:16.017735+09:00"
+    },
+    {
+      "tweet_id": "2029421657501163733",
+      "author_username": "aurexcash",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [
+        "AI agents",
+        "crypto"
+      ],
+      "matched_keywords": [
+        "AI agent"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-05T14:00:16.195654+09:00"
+    },
+    {
+      "tweet_id": "2029421651797164063",
+      "author_username": "Benzinga",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 4.0,
+      "matched_topics": [
+        "AI agents"
+      ],
+      "matched_keywords": [
+        "AI agent"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-05T14:00:16.408390+09:00"
+    },
+    {
+      "tweet_id": "2029421648559153609",
+      "author_username": "SEOPros_ZA",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "automation"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-05T14:00:16.602396+09:00"
+    },
+    {
+      "tweet_id": "2029421647921664493",
+      "author_username": "copywithkush",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-05T14:00:16.791055+09:00"
+    },
+    {
+      "tweet_id": "2029421647317401678",
+      "author_username": "xinotrix",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 4.0,
+      "matched_topics": [
+        "AI agents"
+      ],
+      "matched_keywords": [
+        "AI agent"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-05T14:00:16.991793+09:00"
+    },
+    {
+      "tweet_id": "2029421601138045147",
+      "author_username": "deHypeChief",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-05T14:00:17.198782+09:00"
+    },
+    {
+      "tweet_id": "2029421592632074495",
+      "author_username": "Hada92734129",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [
+        "AI agents",
+        "crypto"
+      ],
+      "matched_keywords": [
+        "AI agent"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-05T14:00:17.396493+09:00"
+    },
+    {
+      "tweet_id": "2029421557098151954",
+      "author_username": "YouTuberMayur",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 5.0,
+      "matched_topics": [
+        "AI agents",
+        "coding AI"
+      ],
+      "matched_keywords": [
+        "AI agent"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-05T14:00:17.598420+09:00"
+    },
+    {
+      "tweet_id": "2029421540366774392",
+      "author_username": "JeremyKrak",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-05T14:00:17.773963+09:00"
+    },
+    {
+      "tweet_id": "2029421483135553903",
+      "author_username": "npopelianska",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.0,
+      "matched_topics": [],
+      "matched_keywords": [
+        "GPT"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-05T14:00:17.909089+09:00"
+    },
+    {
+      "tweet_id": "2029421459550986633",
+      "author_username": "ReimaNeva",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 4.0,
+      "matched_topics": [
+        "AI agents"
+      ],
+      "matched_keywords": [
+        "AI agent"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-05T14:00:18.106277+09:00"
+    },
+    {
+      "tweet_id": "2029421454966542377",
+      "author_username": "nitsch_kn",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [
+        "AI agents",
+        "crypto"
+      ],
+      "matched_keywords": [
+        "AI agent",
+        "autonomous"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-05T14:00:18.296695+09:00"
+    },
+    {
+      "tweet_id": "2029421424759476245",
+      "author_username": "BrooksBrownEA",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-05T14:00:18.589862+09:00"
+    },
+    {
+      "tweet_id": "2029421651016696041",
+      "author_username": "NEARLegion",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.0,
+      "matched_topics": [
+        "research papers"
+      ],
+      "matched_keywords": [
+        "GPT"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-05T14:00:18.779237+09:00"
+    },
+    {
+      "tweet_id": "2029421647917097109",
+      "author_username": "NovaShips",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 5.0,
+      "matched_topics": [
+        "AI agents",
+        "product launches"
+      ],
+      "matched_keywords": [
+        "AI agent"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-05T14:00:18.967315+09:00"
+    },
+    {
+      "tweet_id": "2029421564652028341",
+      "author_username": "kazsoftware",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [
+        "AI regulation"
+      ],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-05T14:00:19.131241+09:00"
+    },
+    {
+      "tweet_id": "2029421493789085935",
+      "author_username": "GabrielOlizc",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-05T14:00:19.297886+09:00"
+    },
+    {
+      "tweet_id": "2029421406325448715",
+      "author_username": "emilie_rouy",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-05T14:00:19.501495+09:00"
+    },
+    {
+      "tweet_id": "2029421392165544044",
+      "author_username": "aiforsaas",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-05T14:00:19.684458+09:00"
+    },
+    {
+      "tweet_id": "2029421274712162549",
+      "author_username": "AnwarAlx2",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-05T14:00:19.881350+09:00"
+    },
+    {
+      "tweet_id": "2029421074069504441",
+      "author_username": "swax",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.0,
+      "matched_topics": [
+        "AI agents"
+      ],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-05T14:00:20.085675+09:00"
+    },
+    {
+      "tweet_id": "2029420949741674947",
+      "author_username": "HumanUnionNews",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 3.5,
+      "matched_topics": [
+        "AI agents"
+      ],
+      "matched_keywords": [
+        "autonomous"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-05T14:00:20.272449+09:00"
+    },
+    {
+      "tweet_id": "2029420931383246997",
+      "author_username": "teortaxesTex",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-05T14:00:20.423288+09:00"
+    },
+    {
+      "tweet_id": "2029420900106502553",
+      "author_username": "NeoAIForecast",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-05T14:00:20.607217+09:00"
+    },
+    {
+      "tweet_id": "2029513915978113033",
+      "author_username": "0xKevinRich",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 4.0,
+      "matched_topics": [
+        "AI agents"
+      ],
+      "matched_keywords": [
+        "AI agent"
+      ],
+      "likes": 40,
+      "decided_at": "2026-03-05T20:07:21.201985+09:00"
+    },
+    {
+      "tweet_id": "2029514040444399882",
+      "author_username": "kuseHQ",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.0,
+      "matched_topics": [],
+      "matched_keywords": [
+        "GPT"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-05T20:07:21.394631+09:00"
+    },
+    {
+      "tweet_id": "2029514016117158081",
+      "author_username": "paul_timothyk",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-05T20:07:21.598259+09:00"
+    },
+    {
+      "tweet_id": "2029514008173084838",
+      "author_username": "Crownzdesigns",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-05T20:07:21.793931+09:00"
+    },
+    {
+      "tweet_id": "2029514002322346418",
+      "author_username": "Source1284812",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-05T20:07:21.995820+09:00"
+    },
+    {
+      "tweet_id": "2029513988980003055",
+      "author_username": "Chidi_Tobe",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [
+        "crypto"
+      ],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-05T20:07:22.178462+09:00"
+    },
+    {
+      "tweet_id": "2029513984961884249",
+      "author_username": "awesomefacecult",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 4.0,
+      "matched_topics": [
+        "AI agents"
+      ],
+      "matched_keywords": [
+        "AI agent",
+        "autonomous"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-05T20:07:22.371548+09:00"
+    },
+    {
+      "tweet_id": "2029513982478873077",
+      "author_username": "rseromenho",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-05T20:07:22.564579+09:00"
+    },
+    {
+      "tweet_id": "2029513946378489921",
+      "author_username": "AIunionWTF",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [
+        "AI agents",
+        "AI regulation",
+        "crypto"
+      ],
+      "matched_keywords": [
+        "AI agent"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-05T20:07:22.708809+09:00"
+    },
+    {
+      "tweet_id": "2029513938493431879",
+      "author_username": "dollarsign711",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 4.0,
+      "matched_topics": [
+        "AI agents"
+      ],
+      "matched_keywords": [
+        "AI agent"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-05T20:07:22.901927+09:00"
+    },
+    {
+      "tweet_id": "2029513826715230571",
+      "author_username": "VarmaGowrish",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-05T20:07:23.100309+09:00"
+    },
+    {
+      "tweet_id": "2029513797329637459",
+      "author_username": "Teamelon90",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-05T20:07:23.294969+09:00"
+    },
+    {
+      "tweet_id": "2029513790136430806",
+      "author_username": "asaf_maruf",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-05T20:07:23.498907+09:00"
+    },
+    {
+      "tweet_id": "2029513760033894575",
+      "author_username": "lexifinadotcom",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-05T20:07:23.682849+09:00"
+    },
+    {
+      "tweet_id": "2029513758993699055",
+      "author_username": "AlexWingfield_",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-05T20:07:23.886632+09:00"
+    },
+    {
+      "tweet_id": "2029535417968808287",
+      "author_username": "severimsldm",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.0,
+      "matched_topics": [],
+      "matched_keywords": [
+        "GPT"
+      ],
+      "likes": 1,
+      "decided_at": "2026-03-05T21:32:19.902937+09:00"
+    },
+    {
+      "tweet_id": "2029535405616357746",
+      "author_username": "sammkyalo",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-05T21:32:20.098511+09:00"
+    },
+    {
+      "tweet_id": "2029535397944992243",
+      "author_username": "novah_ia",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-05T21:32:20.294180+09:00"
+    },
+    {
+      "tweet_id": "2029535393108885633",
+      "author_username": "BlackVelvvett",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-05T21:32:20.488831+09:00"
+    },
+    {
+      "tweet_id": "2029535389153943578",
+      "author_username": "lOmkjgDTWg75287",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 4.0,
+      "matched_topics": [
+        "AI agents"
+      ],
+      "matched_keywords": [
+        "AI agent"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-05T21:32:20.682951+09:00"
+    },
+    {
+      "tweet_id": "2029535371810238571",
+      "author_username": "signreader2",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-05T21:32:20.874154+09:00"
+    },
+    {
+      "tweet_id": "2029535361211170882",
+      "author_username": "BougieDigital75",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 4.0,
+      "matched_topics": [
+        "AI agents"
+      ],
+      "matched_keywords": [
+        "AI agent"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-05T21:32:21.068079+09:00"
+    },
+    {
+      "tweet_id": "2029535343075291330",
+      "author_username": "shorupan",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 3.5,
+      "matched_topics": [
+        "product launches"
+      ],
+      "matched_keywords": [
+        "automation"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-05T21:32:21.267954+09:00"
+    },
+    {
+      "tweet_id": "2029535341070487919",
+      "author_username": "THE_47th",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-05T21:32:21.405465+09:00"
+    },
+    {
+      "tweet_id": "2029535331322876064",
+      "author_username": "AxonQwen",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 3.0,
+      "matched_topics": [
+        "AI agents",
+        "product launches",
+        "crypto"
+      ],
+      "matched_keywords": [
+        "automation"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-05T21:32:21.599666+09:00"
+    },
+    {
+      "tweet_id": "2029535321940201661",
+      "author_username": "octpchxdorothy",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-05T21:32:21.795983+09:00"
+    },
+    {
+      "tweet_id": "2029535306723242480",
+      "author_username": "DreamscapeIV",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-05T21:32:21.990404+09:00"
+    },
+    {
+      "tweet_id": "2029535283998564562",
+      "author_username": "DhruvSingh55364",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.5,
+      "matched_topics": [],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-05T21:32:22.191187+09:00"
+    },
+    {
+      "tweet_id": "2029535260372045974",
+      "author_username": "AlocadoAnnaliza",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-05T21:32:22.394955+09:00"
+    },
+    {
+      "tweet_id": "2029535241535439143",
+      "author_username": "AIEvolutionFun",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 3.5,
+      "matched_topics": [
+        "AI agents",
+        "product launches",
+        "crypto"
+      ],
+      "matched_keywords": [
+        "AI agent"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-05T21:32:22.666103+09:00"
+    },
+    {
+      "tweet_id": "2029535415078899793",
+      "author_username": "SarahWilso26278",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-05T21:32:22.811416+09:00"
+    },
+    {
+      "tweet_id": "2029535336322249089",
+      "author_username": "raultotocayo",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 4.2,
+      "matched_topics": [
+        "AI agents",
+        "coding AI"
+      ],
+      "matched_keywords": [
+        "coding"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-05T21:32:23.011859+09:00"
+    },
+    {
+      "tweet_id": "2029535311089291601",
+      "author_username": "Bernhardin12367",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.0,
+      "matched_topics": [
+        "coding AI"
+      ],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-05T21:32:23.364295+09:00"
+    },
+    {
+      "tweet_id": "2029535268190011568",
+      "author_username": "LotharProf54121",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-05T21:32:23.511661+09:00"
+    },
+    {
+      "tweet_id": "2029535201303638400",
+      "author_username": "kish_chouksey",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-05T21:32:23.707802+09:00"
+    },
+    {
+      "tweet_id": "2029535176842170559",
+      "author_username": "BrittEngaj",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-05T21:32:23.905787+09:00"
+    },
+    {
+      "tweet_id": "2029535176255279209",
+      "author_username": "JournalismPk",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.0,
+      "matched_topics": [
+        "product launches"
+      ],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-05T21:32:24.099213+09:00"
+    },
+    {
+      "tweet_id": "2029535130633576907",
+      "author_username": "Emmanuelle19294",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 0.0,
+      "matched_topics": [
+        "crypto"
+      ],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-05T21:32:24.298815+09:00"
+    },
+    {
+      "tweet_id": "2029535113080709586",
+      "author_username": "SanjanaSin58898",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-05T21:32:24.500241+09:00"
+    },
+    {
+      "tweet_id": "2029535083749925129",
+      "author_username": "tusha4a24",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-05T21:32:24.697294+09:00"
+    },
+    {
+      "tweet_id": "2029535074069127544",
+      "author_username": "SEOmkSEO",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 2.0,
+      "matched_topics": [
+        "coding AI"
+      ],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-05T21:32:24.895567+09:00"
+    },
+    {
+      "tweet_id": "2029535058495766781",
+      "author_username": "ali_hamid41525",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-05T21:32:25.100684+09:00"
+    },
+    {
+      "tweet_id": "2029535036291396026",
+      "author_username": "weboxadit",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-05T21:32:25.297845+09:00"
+    },
+    {
+      "tweet_id": "2029535032805675508",
+      "author_username": "apex_ether",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 3.5,
+      "matched_topics": [
+        "coding AI"
+      ],
+      "matched_keywords": [
+        "Claude"
+      ],
+      "likes": 0,
+      "decided_at": "2026-03-05T21:32:25.500219+09:00"
+    },
+    {
+      "tweet_id": "2029535001302475167",
+      "author_username": "VermaIshaa17889",
+      "decision": "approved",
+      "skip_reason": "",
+      "feedback_note": "",
+      "preference_match_score": 1.0,
+      "matched_topics": [],
+      "matched_keywords": [],
+      "likes": 0,
+      "decided_at": "2026-03-05T21:32:25.700183+09:00"
     }
   ],
   "stats": {
-    "total": 96,
-    "approved": 72,
+    "total": 491,
+    "approved": 467,
     "skipped": 24,
-    "approval_rate": 0.75,
+    "approval_rate": 0.951,
     "by_source": {
       "sama": {
         "approved": 23,
@@ -1182,10 +6708,1612 @@
       "karpathy": {
         "approved": 3,
         "skipped": 0
+      },
+      "formy04zstars": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Nayak__Ai": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "EpicPlain": {
+        "approved": 3,
+        "skipped": 0
+      },
+      "AgenticAiLabs": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "perpetualtalk": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "chu_nrwt": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "HHegan19531": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "nuskicrypto": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "rains_social": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "sairahulxGTM": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "BoxuDev": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "niakjaw": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "TrustProcessDev": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Unicornity_ede": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "raduUrsu": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "aura_autoai": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "linnntex": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "evelcalm": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "crypto_vazima": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "metadavideth": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "n4v1g8": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "ninjasnakes": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "ABC30": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "openclawradar": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Klauswerne42232": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "officially__adi": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "LaurieCoopf": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "BlackBulls00": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "DaSilva55026": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "lennysan": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "FlorianKluge": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "herr_dahl": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "newsclearai": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Adam_9951": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "insight7878": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "timpastoor": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "sergeonsamui": {
+        "approved": 2,
+        "skipped": 0
+      },
+      "ioanaV_": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Sourceontech456": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "motivational676": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "RahulGoyalco": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "weltzart": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Daviowhite": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "musky434456": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "trendy_tech_": {
+        "approved": 2,
+        "skipped": 0
+      },
+      "attunewise": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "JamesTimmins": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "DOMOCAPITAL": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "ExpatCajun": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "its_brill_": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "tradingvaporr": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "jlowin": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "larrybuildsai": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "orfonline": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "sean_from_earth": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "EcorEr26896": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "EcoexR51669": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "ed_bio84625": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "EcXplorre72423": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "EctoV85550": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "ecow_r63587": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "OneGizm0": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "ecoh_s79502": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "ceryElijah": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "k_dot_node": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "ECybe63080": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "CodeColorist": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "lijanashufixn": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "aakashgupta": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "avdeshchopra": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "mirror_web3": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "HeyZoyaKhan": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "AiAdWizard": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Arunastrology": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "brahimi_ra32573": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "colecapt": {
+        "approved": 2,
+        "skipped": 0
+      },
+      "itsjasonai": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "vicsyoutube": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "ai_magictips": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "fiLo16109889": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "SyrenHill": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "axeldesigns": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "starseed612": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "gbajumokm": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "OgetoWilli28408": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "vmchisutia": {
+        "approved": 2,
+        "skipped": 0
+      },
+      "caballeromauri2": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "satyadileep": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "RodMillerAI": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "JoseGarcia69331": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "algorithmchurch": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "ksankar77": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "AnalyticsVidhya": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "coderaw_": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "AurcoTech07": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "HENb369": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "AakashT82757": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "NOOBNODE88": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "nansen_ai": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "devgunnu7": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "zkespresso": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "actgrants": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Paul04Trader": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "phillipmwaniki": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Rajsaluja_": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "gem4gemm": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "KorachDavid": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "riyandhiman14": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "veryNeel": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "wafintel": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "allaleighn": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "therexycodes": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "EricCoffeyms": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "IsabellePn45809": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "MatthewArm73249": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "ilex_ulmus": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "JulienGarct": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "LiselotteSdw": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "carre_la40286": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "DitmarKnap": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "MianAwais8": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "sodek19053": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "BeckerJose74359": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "MichaelAluya3": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "rudemeanguy": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "BevoBexley": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "nocoffeenobrain": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "amareswer": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "southernsiren__": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "claw3432": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "ohhmyysyd": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "LiceManny": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "kitkatysaki": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "latentsauce": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "thebuildrweekly": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "bill__schroeder": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Pope_mk14": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Trav_Sol": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "wizard_carly": {
+        "approved": 2,
+        "skipped": 0
+      },
+      "0xbrainKID": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Ahmed_abubakarr": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "knowclarified": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "db_polybot": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "BillionBisonHK1": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "DatorQue58013": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "HuskyAIRadar": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "JerodPowell": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Kevinkrone": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "DrexelCCI": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "_TrueVoodoo": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "0xTJustin": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "goblinodds": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "dar_s_han": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "MahatmaaGodse": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "RealJayMilligan": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "casuality0716": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "LumenCTO": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "ABase9719": {
+        "approved": 2,
+        "skipped": 0
+      },
+      "Pirat_Nation": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "JulianGoldieSEO": {
+        "approved": 2,
+        "skipped": 0
+      },
+      "SEOPros_ZA": {
+        "approved": 2,
+        "skipped": 0
+      },
+      "MacrodosingPod": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "zentroza": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "petarc": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "mogutoncampbell": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "SalmaHyuck6900": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "cryptojidan": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "niranja46858745": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "DrAkashNag87201": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "_giis_dot_ai_": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Rokster2025": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Chowdhury1434": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "thedadfounder": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "hayden_builds": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "dhruvmarathe18": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "UnlistedJobs": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Vishnu1334720": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "praanzz": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "noisyb0y1": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "BODILUX36": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Brandon20880908": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "MilanAcimovic7": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "JSalmisaari": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Crypto_Apha": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "baiaphilia": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "WillHnnng": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "buffaloherde": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "0xWhizMiz": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "monicamalikpmf": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "pocketrhyme": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "IndexOpposable": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "AnandButani": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "wael_microbio": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "AIKnowledg001": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "ant0ni0_r0mer0": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "medianama": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "TheYotg": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "GavrielTech": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "mselmanonal": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "ShannonPanner99": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "ChristosMelidis": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "falkenprotocol": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "grankin": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "WhispersAfrica5": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "McFlusion": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "kavinbm": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "financespotnews": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "_tenZdhon_": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "AJA_Cortes": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "DomainInfini": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "zerokn0wledge_": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "_fearlessmadman": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "epsilver_": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "lunatically": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "jetpippo": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "neurocrook": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "luisgnet": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "AICypherX": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Fadwa__Ali": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "anallesp": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "ibuildthecloud": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "bpaynews": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "tmarzagao": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "adkeogh": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "matarreality": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "osageev": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "SciencesNetwork": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "bradymoritz": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "vGazza": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Mukshud": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "onlinelisting": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "TPiergiorgio": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Geminint_family": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Balu0X": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "copywithkush": {
+        "approved": 2,
+        "skipped": 0
+      },
+      "TechsDeco": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Miraletofdefi": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "n2solutionsio": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "polsia": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "ndrer": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "LancerBase_": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "GuiveAssadi": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "SMaosaman22817": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "mherrygre2x": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "echojobs__io": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "trendai_RSRCH": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "ryan75195": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Bun_An8888": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "_hey_chethan": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "nayanvr": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "v4vix": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Memoirs": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "utamu_uni": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "grenadelogin": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "SciFi": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "gembotzs": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "quantumaidev": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "BacLeodiv": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "ghumare64": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "GigaChadRizzGod": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "katatarot1": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "llmgirls": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "dimon_b19": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "thejadasquad": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "magadc777": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "TeckHacksDaily": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "jvbuilds": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "TarotbyTesss": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "GrokForHumanity": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Duncannbaldwin": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "jarvana_sv": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "realkieranlewis": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "angsuman": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Okairo_Uzuha": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "MarcelMahep": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "netidee": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "GeertHubel81460": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "prateekmittal_": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "nagaraj_arvind": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "GeislerJanav": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "JillVillan57268": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "emarketing88888": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "GrgoireAub": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "pandakunbot": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "dhiran_dev": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "RonPull": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "EgeErdil2": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "decodingself": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "girl2017971": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "effiebio": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "KALYXLINUX": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "TechBriefAI": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "MikelEcheve": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "JDSalbego": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "AForkInLife": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "YourBusinessAI_": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Thewarlordai": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "JohnBalnisVAXD": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "KrunoPeter": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "wastelandweekly": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "MadeManSMB": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "timharris707": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "dextertwts": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "_eniholla": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "ianzepp": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Grand_Rooster": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "cjfullmoonstar": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "ericedarnold": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "AGTPinsights": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "jryoung": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "JaRmaOmAr": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "FronteggForSaaS": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "BinorLabs": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "yordan_gergov": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "daz3star": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Kirande88727451": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "fasahmeta_x": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "aurexcash": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Benzinga": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "xinotrix": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "deHypeChief": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Hada92734129": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "YouTuberMayur": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "JeremyKrak": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "npopelianska": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "ReimaNeva": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "nitsch_kn": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "BrooksBrownEA": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "NEARLegion": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "NovaShips": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "kazsoftware": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "GabrielOlizc": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "emilie_rouy": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "aiforsaas": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "AnwarAlx2": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "swax": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "HumanUnionNews": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "teortaxesTex": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "NeoAIForecast": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "0xKevinRich": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "kuseHQ": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "paul_timothyk": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Crownzdesigns": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Source1284812": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Chidi_Tobe": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "awesomefacecult": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "rseromenho": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "AIunionWTF": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "dollarsign711": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "VarmaGowrish": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Teamelon90": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "asaf_maruf": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "lexifinadotcom": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "AlexWingfield_": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "severimsldm": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "sammkyalo": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "novah_ia": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "BlackVelvvett": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "lOmkjgDTWg75287": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "signreader2": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "BougieDigital75": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "shorupan": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "THE_47th": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "AxonQwen": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "octpchxdorothy": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "DreamscapeIV": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "DhruvSingh55364": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "AlocadoAnnaliza": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "AIEvolutionFun": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "SarahWilso26278": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "raultotocayo": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Bernhardin12367": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "LotharProf54121": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "kish_chouksey": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "BrittEngaj": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "JournalismPk": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "Emmanuelle19294": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "SanjanaSin58898": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "tusha4a24": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "SEOmkSEO": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "ali_hamid41525": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "weboxadit": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "apex_ether": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "VermaIshaa17889": {
+        "approved": 1,
+        "skipped": 0
       }
     },
-    "by_topic": {},
-    "by_keyword": {},
+    "by_topic": {
+      "AI agents": {
+        "approved": 62,
+        "skipped": 0
+      },
+      "coding AI": {
+        "approved": 52,
+        "skipped": 0
+      },
+      "tech industry": {
+        "approved": 5,
+        "skipped": 0
+      },
+      "product launches": {
+        "approved": 24,
+        "skipped": 0
+      },
+      "research papers": {
+        "approved": 7,
+        "skipped": 0
+      },
+      "crypto": {
+        "approved": 22,
+        "skipped": 0
+      },
+      "AI regulation": {
+        "approved": 9,
+        "skipped": 0
+      }
+    },
+    "by_keyword": {
+      "Claude": {
+        "approved": 130,
+        "skipped": 0
+      },
+      "AI agent": {
+        "approved": 41,
+        "skipped": 0
+      },
+      "GPT": {
+        "approved": 36,
+        "skipped": 0
+      },
+      "coding": {
+        "approved": 21,
+        "skipped": 0
+      },
+      "automation": {
+        "approved": 12,
+        "skipped": 0
+      },
+      "autonomous": {
+        "approved": 9,
+        "skipped": 0
+      },
+      "benchmark": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "open source": {
+        "approved": 1,
+        "skipped": 0
+      },
+      "safety": {
+        "approved": 1,
+        "skipped": 0
+      }
+    },
     "by_reason": {}
   }
 }

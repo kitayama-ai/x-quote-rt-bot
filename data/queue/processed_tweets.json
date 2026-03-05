@@ -167,5 +167,71 @@
     "feedback_note": "",
     "posted_tweet_id": "2027987613093597300",
     "posted_at": "2026-03-01T15:01:40.005294+09:00"
+  },
+  {
+    "tweet_id": "2027950692246426052",
+    "author_username": "quantumboomnow",
+    "author_name": "quantumBOOM",
+    "text": "$NVDA $TSM $AMD $SMH New LLM research highlights a breakthrough in data pruning techniques, reducing training times by 30%. This advancement is set to drive demand for efficient AI chips, ... https://t.co/XDVnRVRsPy",
+    "lang": "en",
+    "likes": 0,
+    "retweets": 0,
+    "replies": 0,
+    "quotes": 0,
+    "bookmarks": 0,
+    "url": "https://x.com/quantumboomnow/status/2027950692246426052",
+    "collected_at": "2026-03-01T12:35:36.653507+09:00",
+    "source": "x_api_v2",
+    "tags": [],
+    "memo": "",
+    "preference_match_score": 1.0,
+    "matched_topics": [],
+    "matched_keywords": [],
+    "status": "posted",
+    "added_at": "2026-03-01T12:35:36.661166+09:00",
+    "generated_text": "💀AI学習、30%高速化。旧時代技術は即死。\n\n最新研究が明かす、容赦なき「効率」の世界。🏛️🩸💀\n・開発競争は既に「血の海」。乗り遅れは市場からの追放。\n・「効率的AIチップ」への集中投資が生き残りの絶対条件。\n\n容赦ない選別が、既...",
+    "template_id": "dark_alert",
+    "score": {
+      "total": 3,
+      "rank": "C"
+    },
+    "skip_reason": "",
+    "feedback_note": "",
+    "posted_tweet_id": "2029535737679655002",
+    "posted_at": "2026-03-05T21:33:21.786133+09:00"
+  },
+  {
+    "tweet_id": "2027950689822134485",
+    "author_username": "thorryyyy_",
+    "author_name": "Thory☄️",
+    "text": "claude really made a game changer feature \n\nyou can now stwich between different LLM without losing anything https://t.co/RwXeOoXkw9 https://t.co/zN7p0ZhDch",
+    "lang": "en",
+    "likes": 0,
+    "retweets": 0,
+    "replies": 0,
+    "quotes": 0,
+    "bookmarks": 0,
+    "url": "https://x.com/thorryyyy_/status/2027950689822134485",
+    "collected_at": "2026-03-01T12:35:36.653511+09:00",
+    "source": "x_api_v2",
+    "tags": [],
+    "memo": "",
+    "preference_match_score": 2.5,
+    "matched_topics": [],
+    "matched_keywords": [
+      "Claude"
+    ],
+    "status": "posted",
+    "added_at": "2026-03-01T12:35:36.663626+09:00",
+    "generated_text": "🚨【警告】Claude、LLM切り替え機能でAI市場を破壊。\n\n既存モデルは淘汰へ。AI投資の常識激変。🏛️🔥\n・ユーザーはLLMを自由選択。単一モデル優位性は崩壊。\n・AIプラットフォーム投資が「勝ち筋」。\n\nAI覇権は「統合」が握る。",
+    "template_id": "question_prompt",
+    "score": {
+      "total": 3,
+      "rank": "C"
+    },
+    "skip_reason": "",
+    "feedback_note": "",
+    "posted_tweet_id": "2029535929304769003",
+    "posted_at": "2026-03-05T21:34:07.503765+09:00"
   }
 ]
