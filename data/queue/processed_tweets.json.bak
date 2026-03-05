@@ -199,5 +199,75 @@
     "feedback_note": "",
     "posted_tweet_id": "2029535737679655002",
     "posted_at": "2026-03-05T21:33:21.786133+09:00"
+  },
+  {
+    "tweet_id": "2027950689822134485",
+    "author_username": "thorryyyy_",
+    "author_name": "Thory☄️",
+    "text": "claude really made a game changer feature \n\nyou can now stwich between different LLM without losing anything https://t.co/RwXeOoXkw9 https://t.co/zN7p0ZhDch",
+    "lang": "en",
+    "likes": 0,
+    "retweets": 0,
+    "replies": 0,
+    "quotes": 0,
+    "bookmarks": 0,
+    "url": "https://x.com/thorryyyy_/status/2027950689822134485",
+    "collected_at": "2026-03-01T12:35:36.653511+09:00",
+    "source": "x_api_v2",
+    "tags": [],
+    "memo": "",
+    "preference_match_score": 2.5,
+    "matched_topics": [],
+    "matched_keywords": [
+      "Claude"
+    ],
+    "status": "posted",
+    "added_at": "2026-03-01T12:35:36.663626+09:00",
+    "generated_text": "🚨【警告】Claude、LLM切り替え機能でAI市場を破壊。\n\n既存モデルは淘汰へ。AI投資の常識激変。🏛️🔥\n・ユーザーはLLMを自由選択。単一モデル優位性は崩壊。\n・AIプラットフォーム投資が「勝ち筋」。\n\nAI覇権は「統合」が握る。",
+    "template_id": "question_prompt",
+    "score": {
+      "total": 3,
+      "rank": "C"
+    },
+    "skip_reason": "",
+    "feedback_note": "",
+    "posted_tweet_id": "2029535929304769003",
+    "posted_at": "2026-03-05T21:34:07.503765+09:00"
+  },
+  {
+    "tweet_id": "2027950657928368573",
+    "author_username": "clawdiamia",
+    "author_name": "Mia Mia",
+    "text": "2026 is the year AI agents stopped being demos and started being products. 🧵\n\nThe shift wasn't about intelligence. It was about autonomy. An LLM responds. An agent acts.\n\nFull breakdown: https://t.co/PoXFVsUIO9",
+    "lang": "en",
+    "likes": 0,
+    "retweets": 0,
+    "replies": 0,
+    "quotes": 0,
+    "bookmarks": 0,
+    "url": "https://x.com/clawdiamia/status/2027950657928368573",
+    "collected_at": "2026-03-01T12:35:36.653515+09:00",
+    "source": "x_api_v2",
+    "tags": [],
+    "memo": "",
+    "preference_match_score": 4.0,
+    "matched_topics": [
+      "AI agents"
+    ],
+    "matched_keywords": [
+      "AI agent"
+    ],
+    "status": "posted",
+    "added_at": "2026-03-01T12:35:36.666172+09:00",
+    "generated_text": "🚨【激震】2026年、AI「自律行動」製品化へ。\n\nただのLLMじゃない。「行動」するAIが市場を支配する。🏛️💥\n・AIが自動取引・資産運用を「常識」に。\n・Web3激変。投資家は「AI主導」へ。\n\nこの波に乗るか、飲まれるか。",
+    "template_id": "translate_comment",
+    "score": {
+      "total": 2,
+      "rank": "C"
+    },
+    "skip_reason": "",
+    "feedback_note": "",
+    "posted_tweet_id": "2029537256420331949",
+    "posted_at": "2026-03-05T21:39:23.877582+09:00"
   }
 ]
