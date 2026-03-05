@@ -102,9 +102,43 @@ service cloud.firestore {
     match /account_access/{email} {
       // 自分のアクセス情報のみ読み取り可
       allow read: if request.auth != null && request.auth.token.email == email;
-      // admin のみ他人のアクセスを管理可
+      // admin は他人のアクセスを管理可
       allow create, update, delete: if request.auth != null
         && getAccess().data.role == 'admin';
+      // 自分自身のドキュメントの作成は許可（新規登録時に必要）
+      allow create: if request.auth != null && request.auth.token.email == email;
+    }
+
+    // ============================
+    // Invites — 招待リンク管理
+    // ============================
+    match /invites/{tokenId} {
+      // 誰でも読み取り可（トークン検証用。トークンIDが秘密鍵の役割）
+      allow read: if true;
+      // admin のみ作成可
+      allow create: if request.auth != null
+        && getAccess().data.role == 'admin';
+      // 認証済みユーザーが使用済みに更新可
+      allow update: if request.auth != null;
+      allow delete: if false;
+    }
+
+    // ============================
+    // Search Settings — 検索キーワード設定
+    // ============================
+    match /search_settings/{docId} {
+      allow read: if hasAccess(docId);
+      allow create, update: if hasRole(docId, ['admin', 'operator']);
+      allow delete: if false;
+    }
+
+    // ============================
+    // Queue Updates — 投稿スケジュール更新
+    // ============================
+    match /queue_updates/{docId} {
+      allow read: if hasAccess(docId);
+      allow create, update: if hasRole(docId, ['admin', 'operator']);
+      allow delete: if false;
     }
 
     // デフォルト: 全て拒否
