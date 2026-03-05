@@ -398,26 +398,38 @@ class AutoCollector:
         filtered: list[dict] = []
 
         for tweet in tweets:
-            tid = str(tweet.get("id_str", tweet.get("id", "")))
+            tid = str(tweet.get("id_str") or tweet.get("id") or "")
+            if not tid:
+                continue
 
             # 1. 重複チェック
             if tid in existing_ids:
                 stats["dup"] += 1
                 continue
 
-            user = tweet.get("user", {})
-            username = user.get("screen_name", "")
-            full_text = tweet.get("full_text", tweet.get("text", ""))
+            user = tweet.get("user") or tweet.get("author") or {}
+            username = str(user.get("screen_name") or user.get("username") or "")
+            full_text = str(tweet.get("full_text") or tweet.get("text") or "")
             text_lower = full_text.lower()
 
-            # 2. いいね数チェック（SocialData 使用時のみ意味がある）
-            likes = tweet.get("favorite_count", 0)
-            if self._use_socialdata and likes < min_likes:
+            # 2. いいね数チェック (極めて厳格に)
+            # favorite_count (v1.1) または like_count (v2) を取得
+            likes = tweet.get("favorite_count")
+            if likes is None:
+                likes = tweet.get("public_metrics", {}).get("like_count")
+            if likes is None:
+                likes = 0
+            
+            # SocialData 使用時はいいね数が取れないツイートはバズ判定不能として除外
+            if self._use_socialdata and int(likes) < min_likes:
                 stats["likes"] += 1
+                # デバッグ用に、一定以上のいいねがあるものだけログに理由を出す
+                if int(likes) > 0:
+                    logger.debug(f"Skipped {tid}: likes={likes} < {min_likes}")
                 continue
 
             # 3. フォロワー数チェック
-            followers = user.get("followers_count", 0)
+            followers = int(user.get("followers_count") or user.get("follower_count") or 0)
             if followers < self.min_followers:
                 stats["followers"] += 1
                 continue
@@ -434,13 +446,12 @@ class AutoCollector:
                 continue
 
             # 6. リプライ除外
-            if (tweet.get("in_reply_to_status_id")
-                    or tweet.get("in_reply_to_status_id_str")):
+            if (tweet.get("in_reply_to_status_id") or tweet.get("in_reply_to_status_id_str")):
                 stats["reply"] += 1
                 continue
 
             # 7. RT 除外
-            if tweet.get("retweeted_status") or full_text.startswith("RT @"):
+            if (tweet.get("retweeted_status") or tweet.get("quoted_status_id") or full_text.startswith("RT @")):
                 stats["rt"] += 1
                 continue
 
@@ -449,16 +460,25 @@ class AutoCollector:
                 stats["source"] += 1
                 continue
 
-            # 9. 経過時間チェック
+            # 9. 経過時間チェック (厳格化: パース失敗なら安全のため除外)
             created_at_str = (
-                tweet.get("tweet_created_at", "")         # SocialData 形式
-                or tweet.get("created_at", "")             # X API v2 形式
+                tweet.get("tweet_created_at") or 
+                tweet.get("created_at")
             )
-            if created_at_str:
-                created_at = self._parse_created_at(created_at_str)
-                if created_at is not None and created_at < cutoff:
-                    stats["age"] += 1
-                    continue
+            if not created_at_str:
+                stats["age"] += 1
+                continue
+
+            created_at = self._parse_created_at(str(created_at_str))
+            if created_at is None:
+                print(f"  ⚠️ 日付パース失敗のため除外: {created_at_str}")
+                stats["age"] += 1
+                continue
+            
+            if created_at < cutoff:
+                # 3月1日のツイートなどはここで確実に落とされる
+                stats["age"] += 1
+                continue
 
             filtered.append(tweet)
             today_sources.add(username)
@@ -507,26 +527,47 @@ class AutoCollector:
         return fallback
 
     @staticmethod
-    def _parse_created_at(value: str) -> datetime | None:
+    def _parse_created_at(value: str | None) -> datetime | None:
         """ツイートの作成日時をパースする。
 
         SocialData 形式: "2026-03-05T12:34:56.000000Z"
         X API v2 形式:   "Thu Mar 05 12:34:56 +0000 2026"
         """
-        # SocialData 形式（ISO 8601）
-        for fmt in (
-            "%Y-%m-%dT%H:%M:%S.%fZ",    # SocialData
-            "%Y-%m-%dT%H:%M:%SZ",        # SocialData (秒なし)
-            "%a %b %d %H:%M:%S %z %Y",   # X API v2 互換
-        ):
+        if not value:
+            return None
+        
+        # SocialData / X API 形式のバリエーション
+        formats = (
+            "%Y-%m-%dT%H:%M:%S.%fZ",     # SocialData (ISO with microseconds and Z)
+            "%Y-%m-%dT%H:%M:%S%z",       # ISO with offset (+0000)
+            "%Y-%m-%dT%H:%M:%SZ",       # ISO with Z
+            "%a %b %d %H:%M:%S %z %Y",    # X API v1.1 / v2 compatible
+        )
+        
+        clean_value = str(value).strip()
+        
+        for fmt in formats:
             try:
-                dt = datetime.strptime(value, fmt)
+                dt = datetime.strptime(clean_value, fmt)
                 if dt.tzinfo is None:
                     from datetime import timezone
                     dt = dt.replace(tzinfo=timezone.utc)
                 return dt
             except ValueError:
                 continue
+        
+        # fallback: fromisoformat (Python 3.7+)
+        try:
+            # "Z" を "+00:00" に置換して fromisoformat で読めるようにする
+            iso_val = clean_value.replace("Z", "+00:00")
+            dt = datetime.fromisoformat(iso_val)
+            if dt.tzinfo is None:
+                from datetime import timezone
+                dt = dt.replace(tzinfo=timezone.utc)
+            return dt
+        except (ValueError, TypeError):
+            pass
+
         return None
 
     @staticmethod
