@@ -1,37 +1,5 @@
 [
   {
-    "tweet_id": "2028966502662382074",
-    "author_username": "gudanglifehack",
-    "author_name": "Tips Excel",
-    "text": "🚨BREAKING: Claude can now build a complete YouTube growth strategy that takes channels from 0 to monetization in 90 days.\n\n7 prompts to go from unknown creator to trusted authority in your niche:\n\n(Save this before it goes viral)￼ https://t.co/EZTF08pv8H",
-    "lang": "en",
-    "likes": 27780,
-    "retweets": 3023,
-    "replies": 188,
-    "quotes": 219,
-    "bookmarks": 53940,
-    "url": "https://x.com/gudanglifehack/status/2028966502662382074",
-    "collected_at": "2026-03-05T23:18:54.029191+09:00",
-    "source": "socialdata",
-    "tags": [],
-    "memo": "",
-    "preference_match_score": 2.5,
-    "matched_topics": [],
-    "matched_keywords": [
-      "Claude"
-    ],
-    "status": "approved",
-    "added_at": "2026-03-05T23:18:54.030015+09:00",
-    "generated_text": "🚨【警告】ClaudeがYouTubeを90日で「爆速収益化」！\n\nAIがコンテンツ市場の常識を破壊。あなたの収益が激変する。🏛️🔥\n・プロンプト一つでチャンネル成長戦略を自動生成。\n・AI活用できないクリエイターは「死ぬ」時代。\n\n...",
-    "template_id": "question_prompt",
-    "score": {
-      "total": 2,
-      "rank": "C"
-    },
-    "skip_reason": "",
-    "feedback_note": ""
-  },
-  {
     "tweet_id": "2029343629878165544",
     "author_username": "klara_sjo",
     "author_name": "Klara",
@@ -200,6 +168,44 @@
     "generated_text": "",
     "template_id": "",
     "score": null,
+    "skip_reason": "",
+    "feedback_note": ""
+  },
+  {
+    "tweet_id": "2029620619743219811",
+    "author_username": "OpenAI",
+    "author_name": "OpenAI",
+    "text": "GPT-5.4 Thinking and GPT-5.4 Pro are rolling out now in ChatGPT.\n\nGPT-5.4 is also now available in the API and Codex.\n\nGPT-5.4 brings our advances in reasoning, coding, and agentic workflows into one frontier model. https://t.co/1hy6xXLAmJ",
+    "lang": "en",
+    "likes": 20384,
+    "retweets": 2905,
+    "replies": 1286,
+    "quotes": 1715,
+    "bookmarks": 2868,
+    "url": "https://x.com/OpenAI/status/2029620619743219811",
+    "collected_at": "2026-03-06T14:00:35.055261+09:00",
+    "source": "socialdata",
+    "tags": [],
+    "memo": "",
+    "image_urls": [
+      "https://pbs.twimg.com/media/HCqogsobgAAAo2U.png",
+      "https://pbs.twimg.com/media/HCqogsobgAAAo2U.png"
+    ],
+    "preference_match_score": 5.0,
+    "matched_topics": [
+      "AI agents",
+      "coding AI"
+    ],
+    "matched_keywords": [
+      "GPT",
+      "coding"
+    ],
+    "status": "pending",
+    "added_at": "2026-03-06T14:00:35.056455+09:00",
+    "generated_text": "",
+    "template_id": "",
+    "score": null,
+    "scheduled_at": "2026-03-06T15:00:35.056455+09:00",
     "skip_reason": "",
     "feedback_note": ""
   }

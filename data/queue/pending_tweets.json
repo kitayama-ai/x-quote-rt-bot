@@ -170,5 +170,43 @@
     "score": null,
     "skip_reason": "",
     "feedback_note": ""
+  },
+  {
+    "tweet_id": "2029620619743219811",
+    "author_username": "OpenAI",
+    "author_name": "OpenAI",
+    "text": "GPT-5.4 Thinking and GPT-5.4 Pro are rolling out now in ChatGPT.\n\nGPT-5.4 is also now available in the API and Codex.\n\nGPT-5.4 brings our advances in reasoning, coding, and agentic workflows into one frontier model. https://t.co/1hy6xXLAmJ",
+    "lang": "en",
+    "likes": 20384,
+    "retweets": 2905,
+    "replies": 1286,
+    "quotes": 1715,
+    "bookmarks": 2868,
+    "url": "https://x.com/OpenAI/status/2029620619743219811",
+    "collected_at": "2026-03-06T14:00:35.055261+09:00",
+    "source": "socialdata",
+    "tags": [],
+    "memo": "",
+    "image_urls": [
+      "https://pbs.twimg.com/media/HCqogsobgAAAo2U.png",
+      "https://pbs.twimg.com/media/HCqogsobgAAAo2U.png"
+    ],
+    "preference_match_score": 5.0,
+    "matched_topics": [
+      "AI agents",
+      "coding AI"
+    ],
+    "matched_keywords": [
+      "GPT",
+      "coding"
+    ],
+    "status": "approved",
+    "added_at": "2026-03-06T14:00:35.056455+09:00",
+    "generated_text": "",
+    "template_id": "",
+    "score": null,
+    "scheduled_at": "2026-03-06T15:00:35.056455+09:00",
+    "skip_reason": "",
+    "feedback_note": ""
   }
 ]
