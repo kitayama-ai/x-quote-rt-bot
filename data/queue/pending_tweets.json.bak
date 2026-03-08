@@ -231,12 +231,48 @@
     "matched_keywords": [
       "Claude"
     ],
-    "status": "pending",
+    "status": "approved",
     "added_at": "2026-03-07T14:00:40.242099+09:00",
     "generated_text": "",
     "template_id": "",
     "score": null,
     "scheduled_at": "2026-03-07T15:00:40.242099+09:00",
+    "skip_reason": "",
+    "feedback_note": ""
+  },
+  {
+    "tweet_id": "2029999626926076179",
+    "author_username": "claudeai",
+    "author_name": "Claude",
+    "text": "We're launching Claude Community Ambassadors. Lead local meetups, bring builders together, and partner with our team.\n\nOpen to any background, anywhere in the world.\n\nApply: https://t.co/DTQBAzgQug https://t.co/hjjmqT9w2m",
+    "lang": "en",
+    "likes": 24361,
+    "retweets": 2878,
+    "replies": 1569,
+    "quotes": 1214,
+    "bookmarks": 15665,
+    "url": "https://x.com/claudeai/status/2029999626926076179",
+    "collected_at": "2026-03-08T14:00:36.921296+09:00",
+    "source": "socialdata",
+    "tags": [],
+    "memo": "",
+    "image_urls": [
+      "https://pbs.twimg.com/media/HCv_q-SaUAEZeOb.png",
+      "https://pbs.twimg.com/media/HCv_q-SaUAEZeOb.png"
+    ],
+    "preference_match_score": 3.5,
+    "matched_topics": [
+      "product launches"
+    ],
+    "matched_keywords": [
+      "Claude"
+    ],
+    "status": "pending",
+    "added_at": "2026-03-08T14:00:36.922572+09:00",
+    "generated_text": "",
+    "template_id": "",
+    "score": null,
+    "scheduled_at": "2026-03-08T15:00:36.922572+09:00",
     "skip_reason": "",
     "feedback_note": ""
   }
