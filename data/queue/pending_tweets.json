@@ -275,5 +275,41 @@
     "scheduled_at": "2026-03-08T15:00:36.922572+09:00",
     "skip_reason": "",
     "feedback_note": ""
+  },
+  {
+    "tweet_id": "2030316525010489525",
+    "author_username": "sukh_saroy",
+    "author_name": "Sukh Sroay",
+    "text": "🚨BREAKING: If you've used ChatGPT for writing or brainstorming in the last 6 months, your creative ability may already be permanently damaged.\n\nA controlled experiment just proved the effect doesn't reverse when you stop using it.\n\n3,302 creative ideas. 61 people. 30 days of tracking.\n\nResearchers split students into two groups. Half used ChatGPT for creative tasks. Half worked alone. For five days, the ChatGPT group outperformed on every metric. Higher scores. More ideas. Better output. AI was making them better.\n\nThen day 7. ChatGPT removed. Every creativity gain vanished overnight. Crashed to baseline. Zero lasting improvement.\n\nBut that's not the bad part.\n\nChatGPT users' ideas became increasingly identical to each other over time. Same content. Same structure. Same phrasing. The researchers called it homogenization. Everyone using ChatGPT started producing the same ideas wearing different clothes.\n\nWhen ChatGPT was removed, the creativity boost disappeared -- but the homogenization stayed. 30 days later, same result. Their creative range had been permanently compressed.\n\nFive days of use. Permanent damage 30 days later.\n\nA separate trial confirmed it. 120 students. 45-day surprise test. ChatGPT users scored 57.5%. Traditional learners scored 68.5%. AI reduces cognitive effort. Less effort means weaker encoding. Weaker encoding means less creative raw material.\n\nYou're not renting a productivity boost. You're financing it with your originality.\n\nThe interest rate is permanent.",
+    "lang": "en",
+    "likes": 15506,
+    "retweets": 4140,
+    "replies": 890,
+    "quotes": 889,
+    "bookmarks": 9703,
+    "url": "https://x.com/sukh_saroy/status/2030316525010489525",
+    "collected_at": "2026-03-09T14:00:40.550632+09:00",
+    "source": "socialdata",
+    "tags": [],
+    "memo": "",
+    "image_urls": [
+      "https://pbs.twimg.com/media/HC0iHguaAAA-0jG.jpg"
+    ],
+    "preference_match_score": 4.0,
+    "matched_topics": [
+      "coding AI"
+    ],
+    "matched_keywords": [
+      "GPT",
+      "coding"
+    ],
+    "status": "approved",
+    "added_at": "2026-03-09T14:00:40.551993+09:00",
+    "generated_text": "",
+    "template_id": "",
+    "score": null,
+    "scheduled_at": "2026-03-09T15:00:40.551993+09:00",
+    "skip_reason": "",
+    "feedback_note": ""
   }
 ]
