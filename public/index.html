@@ -567,62 +567,6 @@
       }
 
       /* ===========================================
-   METRICS PANEL
-   =========================================== */
-      .metrics-chart-area {
-        background: var(--bg-card);
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
-        padding: 24px;
-        margin-bottom: 20px;
-        box-shadow: var(--shadow-sm);
-      }
-
-      .metrics-chart-area h3 {
-        font-size: 14px;
-        font-weight: 600;
-        margin-bottom: 20px;
-      }
-
-      .chart-container {
-        position: relative;
-        height: 260px;
-      }
-
-      .metric-row {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 14px;
-        margin-bottom: 20px;
-      }
-
-      .metric-item {
-        background: var(--bg-card);
-        border: 1px solid var(--border);
-        border-radius: var(--radius-sm);
-        padding: 18px 20px;
-        transition: border-color var(--transition-fast);
-      }
-
-      .metric-item:hover {
-        border-color: var(--border-hover);
-      }
-
-      .metric-item-label {
-        font-size: 12px;
-        color: var(--text-secondary);
-        margin-bottom: 6px;
-        font-weight: 500;
-      }
-
-      .metric-item-value {
-        font-size: 24px;
-        font-weight: 700;
-        font-family: var(--font-mono);
-        font-variant-numeric: tabular-nums;
-      }
-
-      /* ===========================================
    EMPTY STATE
    =========================================== */
       .empty-state {
@@ -1690,131 +1634,6 @@
         line-height: 1.6;
       }
 
-      /* ===========================================
-   PDCA ANALYSIS TAB
-   =========================================== */
-      .pdca-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 16px;
-        margin-bottom: 24px;
-      }
-
-      .pdca-card {
-        background: var(--bg-card);
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
-        padding: 22px 24px;
-      }
-
-      .pdca-card h4 {
-        font-size: 13px;
-        font-weight: 600;
-        color: var(--text-secondary);
-        margin-bottom: 14px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-
-      .approval-rate-big {
-        font-size: 48px;
-        font-weight: 700;
-        font-family: var(--font-mono);
-        letter-spacing: -0.03em;
-        line-height: 1.1;
-      }
-
-      .approval-rate-big.good {
-        color: var(--accent-green);
-      }
-      .approval-rate-big.ok {
-        color: var(--accent-amber);
-      }
-      .approval-rate-big.bad {
-        color: var(--accent-red);
-      }
-
-      .pdca-list {
-        list-style: none;
-      }
-
-      .pdca-list li {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 8px 0;
-        border-bottom: 1px solid var(--border);
-        font-size: 13px;
-      }
-
-      .pdca-list li:last-child {
-        border-bottom: none;
-      }
-
-      .pdca-list .account {
-        font-weight: 500;
-        color: var(--text-primary);
-      }
-
-      .pdca-list .rate {
-        font-family: var(--font-mono);
-        font-size: 12px;
-      }
-
-      .pdca-list .rate.high {
-        color: var(--accent-green);
-      }
-      .pdca-list .rate.low {
-        color: var(--accent-red);
-      }
-
-      .reason-bar {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin-bottom: 8px;
-      }
-
-      .reason-bar-label {
-        font-size: 12px;
-        color: var(--text-secondary);
-        min-width: 100px;
-        flex-shrink: 0;
-      }
-
-      .reason-bar-fill {
-        height: 20px;
-        border-radius: 4px;
-        background: var(--accent-blue);
-        transition: width var(--transition-base);
-        min-width: 2px;
-      }
-
-      .reason-bar-count {
-        font-size: 11px;
-        color: var(--text-muted);
-        font-family: var(--font-mono);
-        flex-shrink: 0;
-      }
-
-      .adjustment-item {
-        font-size: 13px;
-        padding: 10px 14px;
-        background: var(--bg-input);
-        border-radius: 8px;
-        margin-bottom: 8px;
-        color: var(--text-secondary);
-        line-height: 1.5;
-        border-left: 3px solid var(--accent-blue);
-      }
-
-      .adjustment-item.promote {
-        border-left-color: var(--accent-green);
-      }
-      .adjustment-item.demote {
-        border-left-color: var(--accent-red);
-      }
     </style>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -2023,9 +1842,7 @@
       <nav class="tabs" id="tabNav">
         <button class="tab active" data-tab="queue">キュー一覧</button>
         <button class="tab" data-tab="posted">投稿履歴</button>
-        <button class="tab" data-tab="metrics">メトリクス</button>
         <button class="tab" data-tab="preferences">選定設定</button>
-        <button class="tab" data-tab="pdca">PDCA分析</button>
         <button class="tab" data-tab="operations">操作</button>
         <button class="tab" data-tab="settings">設定</button>
         <button class="tab" data-tab="guide">📖 使い方</button>
@@ -2253,17 +2070,6 @@
       <!-- ===== TAB: POSTED ===== -->
       <div class="tab-panel" id="panel-posted">
         <div id="postedList"></div>
-      </div>
-
-      <!-- ===== TAB: METRICS ===== -->
-      <div class="tab-panel" id="panel-metrics">
-        <div class="metrics-chart-area">
-          <h3>直近7日間の投稿数推移</h3>
-          <div class="chart-container">
-            <canvas id="metricsChart"></canvas>
-          </div>
-        </div>
-        <div class="metric-row" id="metricCards"></div>
       </div>
 
       <!-- ===== TAB: PREFERENCES (選定設定) ===== -->
@@ -2706,96 +2512,6 @@
           選定設定を保存
         </button>
         <div class="save-msg" id="prefSaveMsg"></div>
-      </div>
-
-      <!-- ===== TAB: PDCA ANALYSIS (PDCA分析) ===== -->
-      <div class="tab-panel" id="panel-pdca">
-        <div class="pdca-grid">
-          <!-- 承認率 -->
-          <div class="pdca-card">
-            <h4>📊 承認率</h4>
-            <div class="approval-rate-big" id="pdcaApprovalRate">—</div>
-            <div
-              style="
-                font-size: 12px;
-                color: var(--text-muted);
-                margin-top: 8px;
-                font-family: var(--font-mono);
-              "
-            >
-              <span id="pdcaTotalDecisions">0</span> 件の判断
-            </div>
-          </div>
-
-          <!-- 承認/スキップ内訳 -->
-          <div class="pdca-card">
-            <h4>✅ 判断内訳</h4>
-            <div style="display: flex; gap: 24px; margin-top: 8px">
-              <div>
-                <div style="font-size: 11px; color: var(--text-muted)">
-                  承認
-                </div>
-                <div
-                  style="
-                    font-size: 28px;
-                    font-weight: 700;
-                    font-family: var(--font-mono);
-                    color: var(--accent-green);
-                  "
-                  id="pdcaApprovedCount"
-                >
-                  0
-                </div>
-              </div>
-              <div>
-                <div style="font-size: 11px; color: var(--text-muted)">
-                  スキップ
-                </div>
-                <div
-                  style="
-                    font-size: 28px;
-                    font-weight: 700;
-                    font-family: var(--font-mono);
-                    color: var(--accent-red);
-                  "
-                  id="pdcaSkippedCount"
-                >
-                  0
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- ソース別承認率 -->
-        <div class="pdca-card" style="margin-bottom: 16px">
-          <h4>👤 ソース別承認率</h4>
-          <div id="pdcaSourceList">
-            <div style="color: var(--text-muted); font-size: 13px">
-              データなし
-            </div>
-          </div>
-        </div>
-
-        <!-- スキップ理由分布 -->
-        <div class="pdca-card" style="margin-bottom: 16px">
-          <h4>📋 スキップ理由の分布</h4>
-          <div id="pdcaReasonBars">
-            <div style="color: var(--text-muted); font-size: 13px">
-              データなし
-            </div>
-          </div>
-        </div>
-
-        <!-- 最新の自動調整 -->
-        <div class="pdca-card" style="margin-bottom: 16px">
-          <h4>🔄 最新の自動調整アクション</h4>
-          <div id="pdcaAdjustments">
-            <div style="color: var(--text-muted); font-size: 13px">
-              自動調整履歴なし
-            </div>
-          </div>
-        </div>
       </div>
 
       <!-- ===== TAB: SETTINGS ===== -->
@@ -3554,9 +3270,6 @@
         </div>
       </div>
     </div>
-
-    <!-- Chart.js CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 
     <!-- ===== FIREBASE AUTH + FIRESTORE ===== -->
     <script>
@@ -4407,7 +4120,6 @@
       const DATA_URL_FALLBACK = "./dashboard-data.json";
       let currentFilter = "all";
       let dashboardData = null;
-      let metricsChartInstance = null;
       let dashboardInitialized = false;
 
       // --- Init (called by auth after login) ---
@@ -4505,9 +4217,7 @@
         renderKPI();
         renderQueue();
         renderPosted();
-        renderMetrics();
         renderPreferences();
-        renderPDCA();
         renderUpdatedTime();
         renderPostOneList();
       }
@@ -4879,197 +4589,6 @@
           .join("");
       }
 
-      // --- Metrics ---
-      function renderMetrics() {
-        const metrics = dashboardData.metrics;
-
-        // Metric summary cards
-        const container = document.getElementById("metricCards");
-        if (!metrics || metrics.length === 0) {
-          container.innerHTML =
-            '<div class="empty-state" style="grid-column:1/-1;"><svg class="empty-state-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"/></svg><h3>メトリクスデータがありません</h3><p>metricsコマンドで収集できます</p></div>';
-          renderEmptyChart();
-          return;
-        }
-
-        // Aggregate latest metrics
-        const latest = metrics[0] || {};
-        const summary = latest.summary || latest;
-
-        const cards = [
-          {
-            label: "いいね合計",
-            value: summary.total_likes ?? summary.likes ?? "-",
-            color: "var(--accent-red)",
-          },
-          {
-            label: "RT合計",
-            value: summary.total_retweets ?? summary.retweets ?? "-",
-            color: "var(--accent-green)",
-          },
-          {
-            label: "インプレッション",
-            value: summary.total_impressions ?? summary.impressions ?? "-",
-            color: "var(--accent-blue)",
-          },
-          {
-            label: "平均エンゲージメント率",
-            value:
-              summary.avg_engagement_rate != null
-                ? (summary.avg_engagement_rate * 100).toFixed(2) + "%"
-                : "-",
-            color: "var(--accent-purple)",
-          },
-        ];
-
-        container.innerHTML = cards
-          .map(
-            (c) => `
-    <div class="metric-item">
-      <div class="metric-item-label">${c.label}</div>
-      <div class="metric-item-value" style="color:${c.color}">${typeof c.value === "number" ? formatNum(c.value) : c.value}</div>
-    </div>
-  `,
-          )
-          .join("");
-
-        // Chart
-        renderChart(metrics);
-      }
-
-      function renderChart(metrics) {
-        const ctx = document.getElementById("metricsChart");
-        if (!ctx) return;
-
-        if (metricsChartInstance) {
-          metricsChartInstance.destroy();
-        }
-
-        const labels = metrics
-          .map((m) => {
-            const d = m.date || m.collected_at || "";
-            return d.substring(5, 10); // MM-DD
-          })
-          .reverse();
-
-        const postCounts = metrics
-          .map((m) => {
-            const s = m.summary || m;
-            return s.tweet_count ?? s.post_count ?? 0;
-          })
-          .reverse();
-
-        const likeCounts = metrics
-          .map((m) => {
-            const s = m.summary || m;
-            return s.total_likes ?? s.likes ?? 0;
-          })
-          .reverse();
-
-        metricsChartInstance = new Chart(ctx, {
-          type: "bar",
-          data: {
-            labels,
-            datasets: [
-              {
-                label: "投稿数",
-                data: postCounts,
-                backgroundColor: "rgba(29,161,242,0.6)",
-                borderColor: "rgba(29,161,242,1)",
-                borderWidth: 1,
-                borderRadius: 4,
-                yAxisID: "y",
-              },
-              {
-                label: "いいね数",
-                data: likeCounts,
-                type: "line",
-                borderColor: "rgba(239,68,68,0.8)",
-                backgroundColor: "rgba(239,68,68,0.1)",
-                borderWidth: 2,
-                pointRadius: 3,
-                fill: true,
-                tension: 0.3,
-                yAxisID: "y1",
-              },
-            ],
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            interaction: { mode: "index", intersect: false },
-            plugins: {
-              legend: {
-                labels: { color: "#8888a0", font: { size: 11 } },
-              },
-            },
-            scales: {
-              x: {
-                ticks: { color: "#5a5a70", font: { size: 11 } },
-                grid: { color: "rgba(42,42,58,0.5)" },
-              },
-              y: {
-                position: "left",
-                ticks: { color: "#5a5a70", font: { size: 11 }, stepSize: 1 },
-                grid: { color: "rgba(42,42,58,0.5)" },
-                title: {
-                  display: true,
-                  text: "投稿数",
-                  color: "#8888a0",
-                  font: { size: 11 },
-                },
-              },
-              y1: {
-                position: "right",
-                ticks: { color: "#5a5a70", font: { size: 11 } },
-                grid: { drawOnChartArea: false },
-                title: {
-                  display: true,
-                  text: "いいね",
-                  color: "#8888a0",
-                  font: { size: 11 },
-                },
-              },
-            },
-          },
-        });
-      }
-
-      function renderEmptyChart() {
-        const ctx = document.getElementById("metricsChart");
-        if (!ctx) return;
-        if (metricsChartInstance) metricsChartInstance.destroy();
-
-        metricsChartInstance = new Chart(ctx, {
-          type: "bar",
-          data: {
-            labels: ["---"],
-            datasets: [
-              {
-                label: "投稿数",
-                data: [0],
-                backgroundColor: "rgba(29,161,242,0.3)",
-              },
-            ],
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { display: false } },
-            scales: {
-              x: {
-                ticks: { color: "#5a5a70" },
-                grid: { color: "rgba(42,42,58,0.5)" },
-              },
-              y: {
-                ticks: { color: "#5a5a70" },
-                grid: { color: "rgba(42,42,58,0.5)" },
-              },
-            },
-          },
-        });
-      }
-
       // --- Queue actions ---
       function toggleSkipMenu(btn) {
         // Close all other dropdowns
@@ -5383,110 +4902,6 @@
           btn.disabled = false;
         });
       })();
-
-      // --- PDCA Analysis rendering ---
-      function renderPDCA() {
-        const insights = dashboardData.pdca_insights;
-        if (!insights || insights.total === 0) {
-          document.getElementById("pdcaApprovalRate").textContent = "—";
-          return;
-        }
-
-        // Approval rate
-        const rate = insights.approval_rate ?? 0;
-        const ratePercent = (rate * 100).toFixed(1) + "%";
-        const rateEl = document.getElementById("pdcaApprovalRate");
-        rateEl.textContent = ratePercent;
-        rateEl.className =
-          "approval-rate-big " +
-          (rate >= 0.7 ? "good" : rate >= 0.4 ? "ok" : "bad");
-
-        document.getElementById("pdcaTotalDecisions").textContent =
-          insights.total ?? 0;
-        document.getElementById("pdcaApprovedCount").textContent =
-          insights.approved ?? 0;
-        document.getElementById("pdcaSkippedCount").textContent =
-          insights.skipped ?? 0;
-
-        // Source-level stats
-        const sourceList = document.getElementById("pdcaSourceList");
-        const bySource = insights.by_source || {};
-        const sourceEntries = Object.entries(bySource);
-        if (sourceEntries.length > 0) {
-          const sorted = sourceEntries
-            .map(([username, s]) => {
-              const total = (s.approved || 0) + (s.skipped || 0);
-              const r = total > 0 ? (s.approved || 0) / total : 0;
-              return { username, rate: r, total, approved: s.approved || 0 };
-            })
-            .sort((a, b) => b.total - a.total)
-            .slice(0, 10);
-
-          sourceList.innerHTML =
-            '<ul class="pdca-list">' +
-            sorted
-              .map((s) => {
-                const rClass =
-                  s.rate >= 0.7 ? "high" : s.rate <= 0.3 ? "low" : "";
-                return `<li>
-        <span class="account">@${escapeHtml(s.username)}</span>
-        <span>
-          <span class="rate ${rClass}">${(s.rate * 100).toFixed(0)}%</span>
-          <span style="font-size:11px;color:var(--text-muted);margin-left:6px;">(${s.total}件)</span>
-        </span>
-      </li>`;
-              })
-              .join("") +
-            "</ul>";
-        }
-
-        // Skip reasons
-        const reasonBars = document.getElementById("pdcaReasonBars");
-        const byReason = insights.by_reason || {};
-        const reasonEntries = Object.entries(byReason);
-        if (reasonEntries.length > 0) {
-          const maxCount = Math.max(...reasonEntries.map(([, c]) => c), 1);
-          const reasonLabels = {
-            topic_mismatch: "トピック不一致",
-            source_untrusted: "ソース不適切",
-            too_old: "古すぎる",
-            low_quality: "品質不足",
-            off_brand: "ブランド不適合",
-            other: "その他",
-          };
-
-          reasonBars.innerHTML = reasonEntries
-            .sort((a, b) => b[1] - a[1])
-            .map(([reason, count]) => {
-              const pct = ((count / maxCount) * 100).toFixed(0);
-              const label = reasonLabels[reason] || reason;
-              return `<div class="reason-bar">
-          <span class="reason-bar-label">${label}</span>
-          <div style="flex:1;background:var(--bg-input);border-radius:4px;overflow:hidden;">
-            <div class="reason-bar-fill" style="width:${pct}%;"></div>
-          </div>
-          <span class="reason-bar-count">${count}</span>
-        </div>`;
-            })
-            .join("");
-        }
-
-        // Adjustments (from pdca_insights.adjustments if available)
-        const adjustEl = document.getElementById("pdcaAdjustments");
-        const adjustments = insights.adjustments || [];
-        if (adjustments.length > 0) {
-          adjustEl.innerHTML = adjustments
-            .map((a) => {
-              const cls =
-                a.includes("優先追加") ||
-                (a.includes("weight:") && a.includes("→"))
-                  ? "promote"
-                  : "demote";
-              return `<div class="adjustment-item ${cls}">${escapeHtml(a)}</div>`;
-            })
-            .join("");
-        }
-      }
 
       // --- Updated time ---
       function renderUpdatedTime() {
